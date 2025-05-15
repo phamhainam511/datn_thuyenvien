@@ -1,15 +1,16 @@
 'use strict';
+
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('chucvu', {
             id_chucvu: {
-                type: Sequelize.INTEGER,
-                autoIncrement: true,
                 allowNull: false,
-                primaryKey: true
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
             },
             tenchucvu: {
-                type: Sequelize.STRING(30),
+                type: Sequelize.STRING,
                 allowNull: false,
                 unique: true
             },
@@ -21,11 +22,12 @@ module.exports = {
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
-                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
+                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             }
         });
     },
-    down: async (queryInterface, Sequelize) => {
+
+    async down(queryInterface, Sequelize) {
         await queryInterface.dropTable('chucvu');
     }
 };

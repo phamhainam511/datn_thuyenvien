@@ -1,11 +1,18 @@
 'use strict';
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    const ThuyenVien = sequelize.define('thuyenvien', {
+    class Thuyenvien extends Model {
+        static associate(models) {
+            
+        }
+    }
+
+    Thuyenvien.init({
         id_thuyenvien: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         anh: {
             type: DataTypes.STRING(100),
@@ -48,8 +55,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        tableName: 'thuyenvien',
-        timestamps: true
+        sequelize,
+        modelName: 'Thuyenvien',
+        freezeTableName: true,
+        charset: 'utf8mb4',
+        collate: 'utf8mb4_0900_ai_ci',
+        tableName: 'thuyenvien'
     });
-    return ThuyenVien;
+
+    return Thuyenvien;
 };

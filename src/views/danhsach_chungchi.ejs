@@ -202,7 +202,8 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title text-primary" id="modalLabelThem">Thêm chứng chỉ mới</h5>
+                                                <h5 class="modal-title text-primary" id="modalLabelThem">Thêm chứng chỉ
+                                                    mới</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -211,12 +212,14 @@
                                             <div class="modal-body">
                                                 <form id="formThemChungChi" action="/post-chungchi" method="POST">
                                                     <div class="form-group">
-                                                        <label for="tenChungChi" class="text-primary">Tên chứng chỉ</label>
+                                                        <label for="tenChungChi" class="text-primary">Tên chứng
+                                                            chỉ</label>
                                                         <input type="text" class="form-control" id="tenChungChi"
                                                             name="tenchungchi" required>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="tieuChuanApDung" class="text-primary">Tiêu chuẩn áp dụng</label>
+                                                        <label for="tieuChuanApDung" class="text-primary">Tiêu chuẩn áp
+                                                            dụng</label>
                                                         <input type="text" class="form-control" id="tieuChuanApDung"
                                                             name="tieuchuanapdung" required>
                                                     </div>
@@ -243,21 +246,55 @@
                                         </tr>
                                     </thead>
                                     <tbody id="danhSach">
-                                        <% data.forEach(function(item) { %>
+                                        <% for(let i = 0; i<dataTable.length; i++){ %>
                                         <tr onclick="chonDong(this, event)">
-                                            <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td><%= item.id_chungchi %></td>
-                                            <td class="ten"><%= item.tenchungchi %></td>
-                                            <td class="ten"><%= item.tieuchuanapdung %></td>
+                                            <td><input type="checkbox" class="row-checkbox" data-id="<%= dataTable[i].id_chungchi %>"></td>
+                                            <td><%= dataTable[i].id_chungchi %></td>
+                                            <td class="ten"><%= dataTable[i].tenchungchi %></td>
+                                            <td class="ten"><%= dataTable[i].tieuchuanapdung %></td>
                                             <td>
                                                 <button class="btn btn-warning btn-sm"
-                                                    onclick="suaChucDanh(this)">Sửa</button>
+                                                    onclick="openEditModal('<%= dataTable[i].id_chungchi %>', '<%= dataTable[i].tenchungchi %>', '<%= dataTable[i].tieuchuanapdung %>')">
+                                                    Sửa
+                                                </button>
                                             </td>
                                         </tr>
-
-                                        <% }); %>
+                                        <% } %>
                                     </tbody>
                                 </table>
+                                <!-- Modal edit -->
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <form id="editChungChiForm" action="/put-chungchi" method="POST">
+                                            
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sửa chứng chỉ</h5>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="editId" name="id_chungchi">
+                                                    <div class="form-group">
+                                                        <label>Tên chứng chỉ</label>
+                                                        <input type="text" class="form-control" id="editTenChungChi" name="tenchungchi" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Tiêu chuẩn áp dụng</label>
+                                                        <input type="text" class="form-control" id="editTieuChuanApDung" name="tieuchuanapdung" required>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -306,8 +343,52 @@
         function moPopupThem() {
             $('#modalThemChungChi').modal('show');
         }
+
+        function openEditModal(id, ten, tieuchuan) {
+            document.getElementById('editId').value = id;
+            document.getElementById('editTenChungChi').value = ten;
+            document.getElementById('editTieuChuanApDung').value = tieuchuan;
+            $('#editModal').modal('show');
+        }
+
+        function xoaChon() {
+            // lấy tất cả checkbox đang check
+            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+            if (ids.length === 0) {
+                alert('Vui lòng chọn ít nhất một chứng chỉ để xóa!');
+                return;
+            }
+
+            // xác nhận
+            if (!confirm('Bạn có chắc muốn xóa các chứng chỉ đã chọn?')) {
+                return;
+            }
+
+            // gửi danh sách id bằng POST request
+            fetch('/delete-chungchi', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ id: ids }) // id là mảng
+            })
+            .then(res => {
+                if (res.redirected) {
+                    window.location.href = res.url;
+                } else {
+                    return res.json();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert('Có lỗi xảy ra khi xóa.');
+            });
+        }
     </script>
-    
+
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

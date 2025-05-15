@@ -72,15 +72,6 @@ CREATE TABLE `tau` (
   CONSTRAINT `tau_loaitau` FOREIGN KEY (`loaitau_id`) REFERENCES `loaitau` (`id_loaitau`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE `chuyentau` (
-  `id_chuyentau` int NOT NULL,
-  `tau_id` int NOT NULL,
-  `ngaydukien` date NOT NULL,
-  PRIMARY KEY (`id_chuyentau`),
-  KEY `chuyentau_tau_idx` (`tau_id`),
-  CONSTRAINT `chuyentau_tau` FOREIGN KEY (`tau_id`) REFERENCES `tau` (`id_tau`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 CREATE TABLE `bangluong` (
   `id_bangluong` int NOT NULL AUTO_INCREMENT,
   `thuyenvien_id` int NOT NULL,
@@ -122,21 +113,19 @@ CREATE TABLE `lichsuditau` (
   `id_lichsuditau` int NOT NULL AUTO_INCREMENT,
   `thuyenvien_id` int NOT NULL,
   `chucvu_id` int NOT NULL,
-  `chuyentau_id` int NOT NULL,
-  `time_xuatcanh` DATETIME NULL, 
-  `time_lentau` DATETIME NULL, 
-  `time_xuattau` DATETIME NULL, 
-  `cang_roitau` varchar(50) NULL,
-  `hoanthanh` TINYINT(1) NOT NULL DEFAULT 0,
+  `tau_id` int NOT NULL,
+  `timexuatcanh` datetime NOT NULL,
+  `timelentau` datetime NOT NULL,
+  `ngayroitau` date DEFAULT NULL,
+  `cangroitau` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_lichsuditau`),
-  KEY `lichsuditau_thuyenvien_idx` (`thuyenvien_id`),
-  KEY `lichsuditau_chucvu_idx` (`chucvu_id`),
-  KEY `lichsuditau_chuyentau_idx` (`chuyentau_id`),
-  CONSTRAINT `lichsuditau_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`),
+  KEY `thuyenvien_chuyentau_idx` (`thuyenvien_id`),
+  KEY `chuyentau_chucvu_idx` (`chucvu_id`),
+  KEY `lichsuditau_tau_idx` (`tau_id`),
   CONSTRAINT `lichsuditau_chucvu` FOREIGN KEY (`chucvu_id`) REFERENCES `chucvu` (`id_chucvu`),
-  CONSTRAINT `lichsuditau_chuyentau` FOREIGN KEY (`chuyentau_id`) REFERENCES `chuyentau` (`id_chuyentau`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+  CONSTRAINT `lichsuditau_tau` FOREIGN KEY (`tau_id`) REFERENCES `tau` (`id_tau`),
+  CONSTRAINT `lichsuditau_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
+)
 
 CREATE TABLE `thuyenvien_chungchi` (
   `id_thuyenvien_chungchi` int NOT NULL AUTO_INCREMENT,
@@ -172,12 +161,12 @@ CREATE TABLE `thuyenvien_hopdong` (
 CREATE TABLE `thuyenvien_trangthai` (
   `thuyenvien_id` int NOT NULL,
   `trangthai_id` int NOT NULL,
-  `thoigian` datetime DEFAULT NULL,
+  `thoigian` date DEFAULT NULL,
   PRIMARY KEY (`thuyenvien_id`),
   KEY `chitiet_trangthai_idx` (`trangthai_id`),
   CONSTRAINT `tvtt_thuyenvieni` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`),
   CONSTRAINT `tvtt_trangthai` FOREIGN KEY (`trangthai_id`) REFERENCES `trangthai` (`id_trangthai`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)
 
 CREATE TABLE `chucvu_chungchi` (
   `id_chungchi_chucvu` int NOT NULL AUTO_INCREMENT,

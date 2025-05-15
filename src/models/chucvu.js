@@ -1,20 +1,25 @@
 'use strict';
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-    const ChucVu = sequelize.define('chucvu', {
+    class Chucvu extends Model {
+        static associate(models) {
+            
+        }
+    }
+
+    Chucvu.init({
         id_chucvu: {
             type: DataTypes.INTEGER,
-            autoIncrement: true,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,          
+            autoIncrement: true        
         },
-        tenchucvu: {
-            type: DataTypes.STRING(30),
-            allowNull: false,
-            unique: true
-        }
+        tenchucvu: DataTypes.STRING,
     }, {
-        tableName: 'chucvu',
-        timestamps: true
+        sequelize,
+        modelName: 'chucvu',      
+        freezeTableName: true      
     });
-    return ChucVu;
+
+    return Chucvu;
 };

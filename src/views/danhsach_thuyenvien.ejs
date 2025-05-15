@@ -262,18 +262,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% data.forEach(function(item) { %>
+                                        <% for(let i = 0; i<dataTable.length; i++){ %>
                                         <tr>
                                             <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td><%= item.id_thuyenvien %></td>
+                                            <td><%= dataTable[i].id_thuyenvien %></td>
                                             <td onclick="window.location.href='/crew-personal-info'"
-                                                style="cursor: pointer;"><%= item.hoten %></td>
-                                            <td><%= item.sodienthoai %></td>
-                                            <td><%= item.email %></td>
+                                                style="cursor: pointer;"><%= dataTable[i].hoten %></td>
+                                            <td><%= dataTable[i].sodienthoai %></td>
+                                            <td><%= dataTable[i].email %></td>
                                             <td><span class="badge badge-primary">Đang làm việc trên tàu</span></td>
                                             <td><span class="">--</span></td>
                                         </tr>
-                                        <% }); %>
+                                        <% } %>
                                     </tbody>
                                 </table>
 

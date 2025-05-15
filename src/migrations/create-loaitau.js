@@ -2,20 +2,15 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('chungchi', {
-            id_chungchi: {
+        await queryInterface.createTable('loaitau', {
+            id_loaitau: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            tenchungchi: {
-                type: Sequelize.STRING,
-                allowNull: false,
-                unique: true
-            },
-            tieuchuanapdung: {
-                type: Sequelize.STRING,
+            tenloaitau: {
+                type: Sequelize.STRING(30),
                 allowNull: false
             },
             createdAt: {
@@ -31,7 +26,7 @@ module.exports = {
         });
     },
 
-    async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('chungchi');
+    down: async (queryInterface, Sequelize) => {
+        await queryInterface.dropTable('loaitau');
     }
 };

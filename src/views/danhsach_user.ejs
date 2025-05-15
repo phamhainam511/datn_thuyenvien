@@ -217,30 +217,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <% for(let i = 0; i<dataTable.length; i++){ %>
                                         <tr>
                                             <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td onclick="window.location.href='/users-update'" style="cursor: pointer;">Nguyễn Văn A</td>
-                                            <td>Nhân sự</td>
-                                            <td>0987654321</td>
-                                            <td>nguyenvana@example.com</td>
-                                            <td>Ngô Gia Tự, Hải Phòng</td>
-                                            <td>nguyenvana</td>
+                                            <td onclick="window.location.href='/users-update'" style="cursor: pointer;"><%= dataTable[i].hoten %></td>
+                                            <td><%= dataTable[i].phanquyen ? dataTable[i].phanquyen.tenphanquyen : '' %></td>
+                                            <td><%= dataTable[i].sdt %></td>
+                                            <td><%= dataTable[i].email %></td>
+                                            <td><%= dataTable[i].diachi %></td>
+                                            <td><%= dataTable[i].taikhoan %></td>
                                             <td>
                                                 <button class="btn btn-warning btn-sm">Reset Mật Khẩu</button>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td onclick="window.location.href='/users-update'" style="cursor: pointer;">Trần Thị B</td>
-                                            <td>Kế toán</td>
-                                            <td>0912345678</td>
-                                            <td>tranthib@example.com</td>
-                                            <td>Kiến An, Hải Phòng</td>
-                                            <td>tranthib</td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm">Reset Mật Khẩu</button>
-                                            </td>
-                                        </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>

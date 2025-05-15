@@ -2,8 +2,9 @@ const {
     Sequelize
 } = require('sequelize');
 
-const sequelize = new Sequelize('database', 'root', null, {
+const sequelize = new Sequelize('database', 'root', 'root', {
     host: 'localhost',
+    port: 3320,
     dialect: 'mysql',
     logging: false
 });
@@ -17,4 +18,4 @@ let connectDB = async () => {
     }
 };
 
-module.exports = { sequelize, connectDB };
+module.exports = connectDB;

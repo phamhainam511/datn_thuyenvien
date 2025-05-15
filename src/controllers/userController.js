@@ -1,33 +1,18 @@
+import db from '../models';
+import UserServices from "../services/UserServices";
 
-let getUserPage = async (req, res) => {
-    try{
-        return res.render('danhsach_user.ejs');
-    }catch(e){
-        console.log(e);
+let getAllUser = async (req, res) => {
+    try {
+        let data = await UserServices.getAllUser();
+        return res.render('danhsach_user.ejs', {
+            dataTable: data
+        });
+    } catch (e) {
+        console.error(e);
+        return res.status(500).send('Lỗi khi lấy dữ liệu');
     }
-}
-let getUserAddPage = async (req, res) => {
-    try{
-        return res.render('thêm_user.ejs');
-    }catch(e){
-        console.log(e);
-    }
-}
-let getUserUpdatePage = async (req, res) => {
-    try{
-        return res.render('capnhat_user.ejs');
-    }catch(e){
-        console.log(e);
-    }
-}
+};
 
-
-//object: {
-//    key: '',
-//    value: ''
-// }
 module.exports = {
-    getUserPage: getUserPage,
-    getUserAddPage: getUserAddPage,
-    getUserUpdatePage: getUserUpdatePage
+    getAllUser : getAllUser,
 }

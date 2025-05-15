@@ -2,25 +2,31 @@
 
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.bulkInsert('chucvu', [{
-                tenchucvu: 'Giám đốc',
-                createdAt: new Date(),
-                updatedAt: new Date()
+        return queryInterface.bulkInsert('chucvu', [{
+                tenchucvu: 'Thuyền trưởng'
             },
             {
-                tenchucvu: 'Trưởng phòng',
-                createdAt: new Date(),
-                updatedAt: new Date()
+                tenchucvu: 'Sỹ quan boong'
             },
             {
-                tenchucvu: 'Nhân viên',
-                createdAt: new Date(),
-                updatedAt: new Date()
+                tenchucvu: 'Máy trưởng'
+            },
+            {
+                tenchucvu: 'Thợ máy'
+            },
+            {
+                tenchucvu: 'Thủy thủ'
+            },
+            {
+                tenchucvu: 'Điện viên'
+            },
+            {
+                tenchucvu: 'Bếp trưởng'
             }
         ], {});
     },
 
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.bulkDelete('chucvu', null, {});
+        return queryInterface.bulkDelete('chucvu', null, {});
     }
 };
