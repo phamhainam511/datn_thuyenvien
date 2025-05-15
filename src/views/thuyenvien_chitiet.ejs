@@ -11,12 +11,12 @@
 
     <title>PITSCO Crew Management System - Users</title>
 
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -27,7 +27,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon logo">
-                    <img src="img/logo.png" alt="PITSCO Logo" style="height: 40px;">
+                    <img src="/img/logo.png" alt="PITSCO Logo" style="height: 40px;">
                 </div>
             </a>
 
@@ -157,7 +157,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -226,9 +226,9 @@
                                 <div class="row">
                                     <!-- Ảnh thuyền viên & trạng thái -->
                                     <div class="col-md-3 text-center">
-                                        <img src="img/crew_test1.jpg" alt="Ảnh thuyền viên" class="crew-photo mb-2">
-                                        <h5 class="fw-bold">Nguyễn Văn A</h5>
-                                        <p class="text-muted">Chức vụ: Thuyền trưởng</p>
+                                        <img src="/img/crew_test1.jpg" alt="Ảnh thuyền viên" class="crew-photo mb-2">
+                                        <h5 class="fw-bold"><%= thuyenvieninfo.hoten %></h5>
+                                        <p class="text-muted">Chức vụ: test</p>
                                         <p class="status active">Đang trên tàu</p>
                                         <!-- Nút cập nhật -->
                                         <div class="text-center mt-4">
@@ -360,27 +360,27 @@
                                         </a>
                                         <ul class="list-group mb-3">
                                             <li class="list-group-item"><strong>Họ và tên:</strong> <span
-                                                    id="fullName">Nguyễn Văn A</span></li>
+                                                    id="fullName"><%= thuyenvieninfo.hoten %></span></li>
                                             <li class="list-group-item"><strong>Ngày sinh:</strong> <span
-                                                    id="dob">15/08/1985</span></li>
+                                                    id="dob"><%= thuyenvieninfo.ngaysinh %></span></li>
                                             <li class="list-group-item"><strong>CCCD:</strong> <span
-                                                    id="idNumber">012345678901</span></li>
+                                                    id="idNumber"><%= thuyenvieninfo.cccd %></span></li>
                                             <li class="list-group-item"><strong>Chiều cao:</strong> <span
-                                                    id="height">1m75</span></li>
+                                                    id="height"><%= thuyenvieninfo.chieucao %> cm</span></li>
                                             <li class="list-group-item"><strong>Cân nặng:</strong> <span
-                                                    id="weight">70kg</span></li>
+                                                    id="weight"><%= thuyenvieninfo.cannang %> kg</span></li>
                                             <li class="list-group-item"><strong>Nhóm máu:</strong> <span
-                                                    id="bloodType">O</span></li>
+                                                    id="bloodType"><%= thuyenvieninfo.nhommau %></span></li>
                                             <li class="list-group-item"><strong>Size giày:</strong> <span
-                                                    id="shoeSize">42</span></li>
+                                                    id="shoeSize"><%= thuyenvieninfo.sizegiay %></span></li>
                                             <li class="list-group-item"><strong>Size giày bảo hộ:</strong> <span
-                                                    id="safetyShoeSize">42</span></li>
+                                                    id="safetyShoeSize"><%= thuyenvieninfo.sizegiaybaoho %></span></li>
                                             <li class="list-group-item"><strong>Email:</strong> <span
-                                                    id="email">nguyenvana@example.com</span></li>
+                                                    id="email"><%= thuyenvieninfo.email %></span></li>
                                             <li class="list-group-item"><strong>Số điện thoại:</strong> <span
-                                                    id="phone">+84 912345678</span></li>
+                                                    id="phone"><%= thuyenvieninfo.sodienthoai %></span></li>
                                             <li class="list-group-item"><strong>Tình trạng hôn nhân:</strong> <span
-                                                    id="maritalStatus">Đã kết hôn</span></li>
+                                                    id="maritalStatus"><%= thuyenvieninfo.tinhtranghonnhan %></span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -400,11 +400,11 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="updateForm">
+                                    <form id="updateForm" action="/cap-nhat-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <div class="form-group text-center">
                                             <label>Ảnh đại diện:</label>
                                             <br>
-                                            <img id="previewImage" src="img/crew_test1.jpg" class="img-thumbnail mb-2"
+                                            <img id="previewImage" src="/img/crew_test1.jpg" class="img-thumbnail mb-2"
                                                 width="150">
                                             <input type="file" class="form-control-file" id="inputPhoto"
                                                 accept="image/*">
@@ -412,27 +412,27 @@
 
                                         <div class="form-group">
                                             <label>Họ và tên:</label>
-                                            <input type="text" class="form-control" id="inputFullName">
+                                            <input type="text" class="form-control" id="inputFullName" name="hoten" value="<%= thuyenvieninfo.hoten %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày sinh:</label>
-                                            <input type="date" class="form-control" id="inputDob">
+                                            <input type="date" class="form-control" id="inputDob" name="ngaysinh" value="<%= thuyenvieninfo.ngaysinh %>">
                                         </div>
                                         <div class="form-group">
                                             <label>CCCD:</label>
-                                            <input type="text" class="form-control" id="inputIdNumber">
+                                            <input type="text" class="form-control" id="inputIdNumber" name="cccd" value="<%= thuyenvieninfo.cccd %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Chiều cao:</label>
-                                            <input type="text" class="form-control" id="inputHeight">
+                                            <input type="text" class="form-control" id="inputHeight" name="chieucao" value="<%= thuyenvieninfo.chieucao %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Cân nặng:</label>
-                                            <input type="text" class="form-control" id="inputWeight">
+                                            <input type="text" class="form-control" id="inputWeight" name="cannang" value="<%= thuyenvieninfo.cannang %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Nhóm máu:</label>
-                                            <select class="form-control" id="inputBloodType">
+                                            <select class="form-control" id="inputBloodType" name="nhommau" value="<%= thuyenvieninfo.nhommau %>">
                                                 <option value="A">A</option>
                                                 <option value="B">B</option>
                                                 <option value="AB">AB</option>
@@ -441,23 +441,23 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Size giày:</label>
-                                            <input type="text" class="form-control" id="inputShoeSize">
+                                            <input type="text" class="form-control" id="inputShoeSize" name="sizegiay" value="<%= thuyenvieninfo.sizegiay %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Size giày bảo hộ:</label>
-                                            <input type="text" class="form-control" id="inputSafetyShoeSize">
+                                            <input type="text" class="form-control" id="inputSafetyShoeSize" name="sizegiaybaoho" value="<%= thuyenvieninfo.sizegiaybaoho %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Email:</label>
-                                            <input type="email" class="form-control" id="inputEmail">
+                                            <input type="email" class="form-control" id="inputEmail" name="email" value="<%= thuyenvieninfo.email %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại:</label>
-                                            <input type="text" class="form-control" id="inputPhone">
+                                            <input type="text" class="form-control" id="inputPhone" name="sodienthoai" value="<%= thuyenvieninfo.sodienthoai %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Tình trạng hôn nhân:</label>
-                                            <select class="form-control" id="inputMaritalStatus">
+                                            <select class="form-control" id="inputMaritalStatus" name="tinhtranghonnhan" value="<%= thuyenvieninfo.tinhtranghonnhan %>">
                                                 <option value="Độc thân">Độc thân</option>
                                                 <option value="Đã kết hôn">Đã kết hôn</option>
                                             </select>
@@ -466,7 +466,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="button" class="btn btn-primary" id="saveChanges">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" id="saveChanges" form="updateForm">Lưu thay đổi</button>
                                 </div>
                             </div>
                         </div>
@@ -532,17 +532,17 @@
             }
         });
     </script>
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <script src="js/style.js"></script>
+    <script src="/js/style.js"></script>
 
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/datatables-demo.js"></script>
 
 </body>
 

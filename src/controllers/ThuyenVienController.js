@@ -24,8 +24,8 @@ let getEditThuyenVien = async (req, res) => {
 let putThuyenVien = async(req, res) => {
     try {
         let data = req.body;
-        await ThuyenVienServices.updateThuyenVienData (data);
-        return res.redirect('/danh-sach-thuyen-vien'); 
+        await ThuyenVienServices.updateThuyenVienData(req.params.id, data);
+        return res.redirect('/danh-sach-thuyen-vien');
     } catch (error) {
         res.send('Lỗi: ' + error.message);
     }
@@ -44,10 +44,25 @@ let deleteThuyenVien = async (req, res) => {
     return res.redirect('/danh-sach-thuyen-vien');
 };
 
+let getThuyenVienById = async (req, res) => {
+    let thuyenvien_id = req.params.id;
+    if(thuyenvien_id){
+        let thuyenvien_data = await ThuyenVienServices.getThuyenVienId(thuyenvien_id);
+
+        return res.render('thuyenvien_chitiet.ejs', {
+            thuyenvieninfo : thuyenvien_data
+        });
+    }
+    else{
+        return res.send('Không tìm thấy thuyền viên');
+    }
+}
+
 module.exports = {
     getAllThuyenVien : getAllThuyenVien,
     postThuyenVien: postThuyenVien,
     getEditThuyenVien: getEditThuyenVien,
     putThuyenVien: putThuyenVien,
-    deleteThuyenVien: deleteThuyenVien
+    deleteThuyenVien: deleteThuyenVien,
+    getThuyenVienById: getThuyenVienById
 }

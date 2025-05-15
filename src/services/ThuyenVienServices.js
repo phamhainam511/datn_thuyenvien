@@ -31,7 +31,7 @@ let getThuyenVienId = (thuyenvien_id) => {
     return new Promise (async(resolve, reject) => {
         try {
             let thuyenvien = await db.Thuyenvien.findOne({
-                where : {id : thuyenvien_id}
+                where : {id_thuyenvien : thuyenvien_id}
             })
             if (thuyenvien){
                 resolve (thuyenvien);
@@ -44,16 +44,13 @@ let getThuyenVienId = (thuyenvien_id) => {
     })
 }
 
-let updateThuyenVienData = (data) => {
+let updateThuyenVienData = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
             await db.Thuyenvien.update(
+                data,
                 {
-                    tenthuyenvien: data.tenthuyenvien,
-                    tieuchuanapdung: data.tieuchuanapdung
-                },
-                {
-                    where: { id_thuyenvien: data.id_thuyenvien }
+                    where: { id_thuyenvien: id }
                 }
             );
             resolve('Cập nhật thành công!');

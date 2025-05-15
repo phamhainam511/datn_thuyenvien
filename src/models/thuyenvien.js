@@ -53,7 +53,15 @@ module.exports = (sequelize, DataTypes) => {
         tinhtranghonnhan: {
             type: DataTypes.STRING(20),
             allowNull: false
-        }
+        },
+        ngaysinh: {
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        sizegiaybaoho: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     }, {
         sequelize,
         modelName: 'Thuyenvien',

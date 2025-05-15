@@ -8,6 +8,8 @@ const initWebRoutes = (app) => {
 
     //thuyền viên ở đây
     router.get('/danh-sach-thuyen-vien', ThuyenVienController.getAllThuyenVien);
+    router.get('/danh-sach-thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
+    router.post('/cap-nhat-thuyen-vien/:id', ThuyenVienController.putThuyenVien);
     // user ở đây
     router.get('/danh-sach-user', UserController.getAllUser);
     
