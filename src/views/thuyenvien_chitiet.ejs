@@ -195,194 +195,157 @@
                     </div>
 
                     <!-- Tabs -->
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" id="crewTabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/crew-personal-info">Thông tin cá nhân</a>
+                            <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal-info" role="tab">Thông tin cá nhân</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-family-info">Thông tin gia đình</a>
+                            <a class="nav-link" id="family-tab" data-toggle="tab" href="#family-info" role="tab">Thông tin gia đình</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-education-info">Học vấn</a>
+                            <a class="nav-link" id="education-tab" data-toggle="tab" href="#education-info" role="tab">Học vấn</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-language-certificates">Chứng chỉ ngoại ngữ</a>
+                            <a class="nav-link" id="language-tab" data-toggle="tab" href="#language-certificates" role="tab">Chứng chỉ ngoại ngữ</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-certificates">Chứng chỉ thuyền viên</a>
+                            <a class="nav-link" id="certificates-tab" data-toggle="tab" href="#crew-certificates" role="tab">Chứng chỉ thuyền viên</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-sailing-history">Lịch sử đi tàu</a>
+                            <a class="nav-link" id="history-tab" data-toggle="tab" href="#sailing-history" role="tab">Lịch sử đi tàu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/crew-attachments">Tài liệu đính kèm</a>
+                            <a class="nav-link" id="attachments-tab" data-toggle="tab" href="#crew-attachments" role="tab">Tài liệu đính kèm</a>
                         </li>
                     </ul>
 
                     <!-- Nội dung tab sẽ được load vào đây -->
                     <div class="tab-content mt-3">
-                        <div id="tab-content" class="card shadow mb-4">
-                            <div class="card-body">
-                                <div class="row">
-                                    <!-- Ảnh thuyền viên & trạng thái -->
-                                    <div class="col-md-3 text-center">
-                                        <img src="/img/crew_test1.jpg" alt="Ảnh thuyền viên" class="crew-photo mb-2">
-                                        <h5 class="fw-bold"><%= thuyenvieninfo.hoten %></h5>
-                                        <p class="text-muted">Chức vụ: test</p>
-                                        <p class="status active">Đang trên tàu</p>
-                                        <!-- Nút cập nhật -->
-                                        <div class="text-center mt-4">
-                                            <button type="button" class="btn btn-primary btn-lg" id="btnUpdate"
-                                                data-toggle="modal" data-target="#updateModal">
-                                                Cập nhật trạng thái
-                                            </button>
-                                        </div>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog"
-                                            aria-labelledby="updateModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <form id="statusForm">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="updateModalLabel">Cập nhật trạng
-                                                                thái</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Đóng">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-
-                                                        <div class="modal-body">
-                                                            <!-- Trạng thái -->
-                                                            <div class="form-group">
-                                                                <label for="status">Trạng thái:</label>
-                                                                <select class="form-control" id="status" name="status"
-                                                                    required>
-                                                                    <option value="">-- Chọn trạng thái --</option>
-                                                                    <option value="Đang làm việc trên tàu">Đang làm việc
-                                                                        trên tàu</option>
-                                                                    <option value="Đang chờ tàu">Đang chờ tàu</option>
-                                                                    <option value="Đang trên bờ">Đang trên bờ</option>
-                                                                </select>
-                                                            </div>
-
-                                                            <!-- Nếu "Đang chờ tàu" -->
-                                                            <div class="form-group" id="waitingFields"
-                                                                style="display: none;">
-                                                                <label for="expectedTime">Thời gian lên tàu dự
-                                                                    kiến:</label>
-                                                                <input type="date" class="form-control"
-                                                                    id="expectedTime" name="expectedTime">
-                                                                    <div class="form-group">
-                                                                        <label for="offboardDate">Thời gian xuống
-                                                                            tàu:</label>
-                                                                        <input type="date" class="form-control"
-                                                                            id="offboardDate" name="offboardDate">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="departurePort">Cảng xuất cảnh:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="departurePort" name="departurePort">
-                                                                    </div>
-                                                                    <div class="form-group">
-                                                                        <label for="crewNationality">Quốc tịch thuyền viên
-                                                                            trên tàu:</label>
-                                                                        <input type="text" class="form-control"
-                                                                            id="crewNationality" name="crewNationality">
-                                                                    </div>
-                                                            </div>
-
-                                                            <!-- Nếu "Đang làm việc trên tàu" -->
-                                                            <div id="workingFields" style="display: none;">
-                                                                <div class="form-group">
-                                                                    <label for="shipName">Tên tàu:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="shipName" name="shipName">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="position">Chức vụ:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="position" name="position">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="onboardDate">Ngày lên tàu:</label>
-                                                                    <input type="date" class="form-control"
-                                                                        id="onboardDate" name="onboardDate">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="onboardTime">Giờ lên tàu:</label>
-                                                                    <input type="time" class="form-control"
-                                                                        id="onboardTime" name="onboardTime">
-                                                                </div>
-                                                            </div>
-
-                                                            <!-- Nếu "Đang trên bờ" -->
-                                                            <div id="ashoreFields" style="display: none;">
-                                                                <div class="form-group">
-                                                                    <label for="offboardDate">Thời gian xuống
-                                                                        tàu:</label>
-                                                                    <input type="date" class="form-control"
-                                                                        id="offboardDate" name="offboardDate">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="departurePort">Cảng xuất cảnh:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="departurePort" name="departurePort">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="crewNationality">Quốc tịch thuyền viên
-                                                                        trên tàu:</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="crewNationality" name="crewNationality">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Hủy</button>
-                                                            <button type="submit" class="btn btn-primary">Lưu thay
-                                                                đổi</button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                        <!-- Personal Info Tab -->
+                        <div class="tab-pane fade show active" id="personal-info" role="tabpanel" aria-labelledby="personal-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <!-- Ảnh thuyền viên & trạng thái -->
+                                        <div class="col-md-3 text-center">
+                                            <img src="/img/crew_test1.jpg" alt="Ảnh thuyền viên" class="crew-photo mb-2">
+                                            <h5 class="fw-bold"><%= thuyenvieninfo.hoten %></h5>
+                                            <p class="text-muted">Chức vụ: test</p>
+                                            <p class="status active">Đang trên tàu</p>
+                                            <!-- Nút cập nhật -->
+                                            <div class="text-center mt-4">
+                                                <button type="button" class="btn btn-primary btn-lg" id="btnUpdate"
+                                                    data-toggle="modal" data-target="#updateModal">
+                                                    Cập nhật trạng thái
+                                                </button>
                                             </div>
                                         </div>
 
+                                        <!-- Thông tin cá nhân -->
+                                        <div class="col-md-9">
+                                            <h5 class="text-primary d-inline-block">Thông tin cá nhân</h5>
+                                            <a href="#" class="ml-2" data-toggle="modal" data-target="#editModal">
+                                                <i class="fas fa-edit text-primary" style="font-size: 20px;"></i>
+                                            </a>
+                                            <ul class="list-group mb-3">
+                                                <li class="list-group-item"><strong>Họ và tên:</strong> <span
+                                                        id="fullName"><%= thuyenvieninfo.hoten %></span></li>
+                                                <li class="list-group-item"><strong>Ngày sinh:</strong> <span
+                                                        id="dob"><%= thuyenvieninfo.ngaysinh %></span></li>
+                                                <li class="list-group-item"><strong>CCCD:</strong> <span
+                                                        id="idNumber"><%= thuyenvieninfo.cccd %></span></li>
+                                                <li class="list-group-item"><strong>Chiều cao:</strong> <span
+                                                        id="height"><%= thuyenvieninfo.chieucao %> cm</span></li>
+                                                <li class="list-group-item"><strong>Cân nặng:</strong> <span
+                                                        id="weight"><%= thuyenvieninfo.cannang %> kg</span></li>
+                                                <li class="list-group-item"><strong>Nhóm máu:</strong> <span
+                                                        id="bloodType"><%= thuyenvieninfo.nhommau %></span></li>
+                                                <li class="list-group-item"><strong>Size giày:</strong> <span
+                                                        id="shoeSize"><%= thuyenvieninfo.sizegiay %></span></li>
+                                                <li class="list-group-item"><strong>Size giày bảo hộ:</strong> <span
+                                                        id="safetyShoeSize"><%= thuyenvieninfo.sizegiaybaoho %></span></li>
+                                                <li class="list-group-item"><strong>Email:</strong> <span
+                                                        id="email"><%= thuyenvieninfo.email %></span></li>
+                                                <li class="list-group-item"><strong>Số điện thoại:</strong> <span
+                                                        id="phone"><%= thuyenvieninfo.sodienthoai %></span></li>
+                                                <li class="list-group-item"><strong>Tình trạng hôn nhân:</strong> <span
+                                                        id="maritalStatus"><%= thuyenvieninfo.tinhtranghonnhan %></span></li>
+                                            </ul>
+                                        </div>
                                     </div>
-
-                                    <!-- Thông tin cá nhân -->
-                                    <div class="col-md-9">
-                                        <h5 class="text-primary d-inline-block">Thông tin cá nhân</h5>
-                                        <a href="#" class="ml-2" data-toggle="modal" data-target="#editModal">
-                                            <i class="fas fa-edit text-primary" style="font-size: 20px;"></i>
-                                        </a>
-                                        <ul class="list-group mb-3">
-                                            <li class="list-group-item"><strong>Họ và tên:</strong> <span
-                                                    id="fullName"><%= thuyenvieninfo.hoten %></span></li>
-                                            <li class="list-group-item"><strong>Ngày sinh:</strong> <span
-                                                    id="dob"><%= thuyenvieninfo.ngaysinh %></span></li>
-                                            <li class="list-group-item"><strong>CCCD:</strong> <span
-                                                    id="idNumber"><%= thuyenvieninfo.cccd %></span></li>
-                                            <li class="list-group-item"><strong>Chiều cao:</strong> <span
-                                                    id="height"><%= thuyenvieninfo.chieucao %> cm</span></li>
-                                            <li class="list-group-item"><strong>Cân nặng:</strong> <span
-                                                    id="weight"><%= thuyenvieninfo.cannang %> kg</span></li>
-                                            <li class="list-group-item"><strong>Nhóm máu:</strong> <span
-                                                    id="bloodType"><%= thuyenvieninfo.nhommau %></span></li>
-                                            <li class="list-group-item"><strong>Size giày:</strong> <span
-                                                    id="shoeSize"><%= thuyenvieninfo.sizegiay %></span></li>
-                                            <li class="list-group-item"><strong>Size giày bảo hộ:</strong> <span
-                                                    id="safetyShoeSize"><%= thuyenvieninfo.sizegiaybaoho %></span></li>
-                                            <li class="list-group-item"><strong>Email:</strong> <span
-                                                    id="email"><%= thuyenvieninfo.email %></span></li>
-                                            <li class="list-group-item"><strong>Số điện thoại:</strong> <span
-                                                    id="phone"><%= thuyenvieninfo.sodienthoai %></span></li>
-                                            <li class="list-group-item"><strong>Tình trạng hôn nhân:</strong> <span
-                                                    id="maritalStatus"><%= thuyenvieninfo.tinhtranghonnhan %></span></li>
-                                        </ul>
-                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Family Info Tab -->
+                        <div class="tab-pane fade" id="family-info" role="tabpanel" aria-labelledby="family-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary d-inline-block">Thông tin gia đình</h5>
+                                    <a href="#" class="ml-2" data-toggle="modal" data-target="#editFamilyModal">
+                                        <i class="fas fa-edit text-primary" style="font-size: 20px;"></i>
+                                    </a>
+                                    <ul class="list-group mb-3">
+                                        <li class="list-group-item"><strong>Họ tên bố:</strong> <span><%= nhanthanthuyenvieninfo.hotenbo %></span></li>
+                                        <li class="list-group-item"><strong>Số điện thoại bố:</strong> <span><%= nhanthanthuyenvieninfo.sdtbo %></span></li>
+                                        <li class="list-group-item"><strong>Họ tên mẹ:</strong> <span><%= nhanthanthuyenvieninfo.hotenme %></span></li>
+                                        <li class="list-group-item"><strong>Số điện thoại mẹ:</strong> <span><%= nhanthanthuyenvieninfo.sdtme %></span></li>
+                                        <li class="list-group-item"><strong>Họ tên vợ:</strong> <span><%= nhanthanthuyenvieninfo.hotenvo %></span></li>
+                                        <li class="list-group-item"><strong>Số điện thoại vợ:</strong> <span><%= nhanthanthuyenvieninfo.sdtvo %></span></li>
+                                        <li class="list-group-item"><strong>Họ tên người giám hộ:</strong> <span><%= nhanthanthuyenvieninfo.nguoigiamho %></span></li>
+                                        <li class="list-group-item"><strong>Số điện thoại người giám hộ:</strong> <span><%= nhanthanthuyenvieninfo.sdtgiamho %></span></li>
+                                        <li class="list-group-item"><strong>Địa chỉ:</strong> <span><%= nhanthanthuyenvieninfo.diachi %></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Education Info Tab -->
+                        <div class="tab-pane fade" id="education-info" role="tabpanel" aria-labelledby="education-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary">Thông tin học vấn</h5>
+                                    <p class="text-muted">Nội dung thông tin học vấn sẽ được hiển thị ở đây.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Language Certificates Tab -->
+                        <div class="tab-pane fade" id="language-certificates" role="tabpanel" aria-labelledby="language-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary">Chứng chỉ ngoại ngữ</h5>
+                                    <p class="text-muted">Nội dung chứng chỉ ngoại ngữ sẽ được hiển thị ở đây.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Crew Certificates Tab -->
+                        <div class="tab-pane fade" id="crew-certificates" role="tabpanel" aria-labelledby="certificates-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary">Chứng chỉ thuyền viên</h5>
+                                    <p class="text-muted">Nội dung chứng chỉ thuyền viên sẽ được hiển thị ở đây.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sailing History Tab -->
+                        <div class="tab-pane fade" id="sailing-history" role="tabpanel" aria-labelledby="history-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary">Lịch sử đi tàu</h5>
+                                    <p class="text-muted">Nội dung lịch sử đi tàu sẽ được hiển thị ở đây.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Attachments Tab -->
+                        <div class="tab-pane fade" id="crew-attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                            <div class="card shadow mb-4">
+                                <div class="card-body">
+                                    <h5 class="text-primary">Tài liệu đính kèm</h5>
+                                    <p class="text-muted">Nội dung tài liệu đính kèm sẽ được hiển thị ở đây.</p>
                                 </div>
                             </div>
                         </div>
@@ -472,6 +435,66 @@
                         </div>
                     </div>
 
+                    <!-- MODAL POPUP CẬP NHẬT THÔNG TIN GIA ĐÌNH -->
+                    <div class="modal fade" id="editFamilyModal" tabindex="-1" role="dialog" aria-labelledby="editFamilyModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editFamilyModalLabel">Cập nhật thông tin gia đình</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="updateFamilyForm" action="/cap-nhat-than-nhan/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
+                                        <div class="form-group">
+                                            <label>Họ tên bố:</label>
+                                            <input type="text" class="form-control" id="inputFatherName" name="hotenbo" value="<%= nhanthanthuyenvieninfo.hotenbo %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số điện thoại bố:</label>
+                                            <input type="text" class="form-control" id="inputFatherPhone" name="sdtbo" value="<%= nhanthanthuyenvieninfo.sdtbo %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Họ tên mẹ:</label>
+                                            <input type="text" class="form-control" id="inputMotherName" name="hotenme" value="<%= nhanthanthuyenvieninfo.hotenme %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số điện thoại mẹ:</label>
+                                            <input type="text" class="form-control" id="inputMotherPhone" name="sdtme" value="<%= nhanthanthuyenvieninfo.sdtme %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Họ tên vợ/chồng:</label>
+                                            <input type="text" class="form-control" id="inputSpouseName" name="hotenvo" value="<%= nhanthanthuyenvieninfo.hotenvo %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số điện thoại vợ/chồng:</label>
+                                            <input type="text" class="form-control" id="inputSpousePhone" name="sdtvo" value="<%= nhanthanthuyenvieninfo.sdtvo %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Họ tên người giám hộ:</label>
+                                            <input type="text" class="form-control" id="inputGuardianName" name="nguoigiamho" value="<%= nhanthanthuyenvieninfo.nguoigiamho %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Số điện thoại người giám hộ:</label>
+                                            <input type="text" class="form-control" id="inputGuardianPhone" name="sdtgiamho" value="<%= nhanthanthuyenvieninfo.sdtgiamho %>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Địa chỉ:</label>
+                                            <textarea class="form-control" id="inputAddress" name="diachi" rows="3"><%= nhanthanthuyenvieninfo.diachi %></textarea>
+                                        </div>
+                                        <input type="hidden" name="thuyenvien_id" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="submit" class="btn btn-primary" id="saveFamilyChanges" form="updateFamilyForm">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 
@@ -544,6 +567,34 @@
 
     <script src="/js/demo/datatables-demo.js"></script>
 
+    <script>
+        // Tab functionality
+        $(document).ready(function() {
+            // Enable Bootstrap tabs
+            $('#crewTabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+            
+            // Load tab content via AJAX if needed
+            $('#crewTabs a').on('shown.bs.tab', function (e) {
+                var targetId = $(e.target).attr('href');
+                console.log('Tab switched to: ' + targetId);
+                
+                // Here you can add AJAX calls to load content dynamically if needed
+                // Example:
+                // if (targetId === '#sailing-history') {
+                //     $.ajax({
+                //         url: '/api/crew-sailing-history/' + crewId,
+                //         success: function(data) {
+                //             $(targetId).html(data);
+                //         }
+                //     });
+                // }
+            });
+        });
+    </script>
 </body>
 
 </html>
+``` 

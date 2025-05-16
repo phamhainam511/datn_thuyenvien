@@ -75,10 +75,60 @@ let deleteThuyenVien = (thuyenvien_id) => {
         }
     })
 }
+
+let getNhanThanThuyenVien = (thuyenvien_id) => {
+    return new Promise (async(resolve, reject) => {
+        try {
+            let nhanthanthuyenvien = await db.Thannhan.findOne({
+                where : {thuyenvien_id : thuyenvien_id}
+            })
+            if (nhanthanthuyenvien){
+                resolve (nhanthanthuyenvien);
+            }else {
+                resolve ({});
+            }
+        }catch(e){
+            reject(e);
+        }
+    })
+}
+
+let updateThanNhanData = (thuyenvien_id, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // First check if a record exists
+            let existingRecord = await db.Thannhan.findOne({
+                where: { thuyenvien_id: thuyenvien_id }
+            });
+            
+            if (existingRecord) {
+                // Update existing record
+                await db.Thannhan.update(
+                    data,
+                    {
+                        where: { thuyenvien_id: thuyenvien_id }
+                    }
+                );
+            } else {
+                // Create new record if doesn't exist
+                data.thuyenvien_id = thuyenvien_id;
+                await db.Thannhan.create(data);
+            }
+            
+            resolve('Cập nhật thông tin gia đình thành công!');
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
+}
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
     getThuyenVienId : getThuyenVienId,
     updateThuyenVienData: updateThuyenVienData,
-    deleteThuyenVien: deleteThuyenVien
+    deleteThuyenVien: deleteThuyenVien,
+    getNhanThanThuyenVien: getNhanThanThuyenVien,
+    updateThanNhanData: updateThanNhanData
 }

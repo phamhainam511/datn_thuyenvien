@@ -10,6 +10,11 @@ const initWebRoutes = (app) => {
     router.get('/danh-sach-thuyen-vien', ThuyenVienController.getAllThuyenVien);
     router.get('/danh-sach-thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
     router.post('/cap-nhat-thuyen-vien/:id', ThuyenVienController.putThuyenVien);
+    router.post('/cap-nhat-than-nhan/:id', ThuyenVienController.updateThanNhan);
+    
+    // Correct the route for viewing crew details
+    router.get('/thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
+    
     // user ở đây
     router.get('/danh-sach-user', UserController.getAllUser);
     
