@@ -123,6 +123,78 @@ let updateThanNhanData = (thuyenvien_id, data) => {
     });
 }
 
+let getLichSuDiTau = (thuyenvien_id) => {
+    return new Promise (async(resolve, reject) => {
+        try {
+            let lichsuditau = await db.Lichsuditau.findAll({
+                where : {thuyenvien_id : thuyenvien_id}
+            })
+            if (lichsuditau){
+                resolve (lichsuditau);
+            }else {
+                resolve ([]);
+            }
+        }catch(e){
+            reject(e);
+        }
+    })
+}
+
+let updateLichSuDiTauData = (historyId, data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Create update object with IDs directly from form
+            let hour = parseInt(data.timelentau.split(':')[0]) + 7;
+            if (hour >= 24) {
+                hour -= 24;
+            }
+            let minute = data.timelentau.split(':')[1];
+            const updateData = {
+                tau_id: data.tau_id,
+                chucvu_id: data.chucvu_id,
+                timexuatcanh: data.timexuatcanh,
+                timelentau: `2025-01-01 ${hour}:${minute}:00`,
+                ngayroitau: data.ngayroitau,
+                cangroitau: data.cangroitau
+            };
+            
+            await db.Lichsuditau.update(
+                updateData,
+                {
+                    where: { id_lichsuditau: historyId }
+                }
+            );
+            
+            resolve('Cập nhật lịch sử đi tàu thành công!');
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
+};
+
+let getAllTau = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let tau = await db.Tau.findAll();
+            resolve(tau);
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
+let getAllChucVu = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let vitri = await db.Chucvu.findAll();
+            resolve(vitri);
+        } catch (e) {
+            reject(e);
+        }
+    });
+}
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -130,5 +202,9 @@ module.exports = {
     updateThuyenVienData: updateThuyenVienData,
     deleteThuyenVien: deleteThuyenVien,
     getNhanThanThuyenVien: getNhanThanThuyenVien,
-    updateThanNhanData: updateThanNhanData
+    updateThanNhanData: updateThanNhanData,
+    getLichSuDiTau: getLichSuDiTau,
+    updateLichSuDiTauData: updateLichSuDiTauData,
+    getAllTau: getAllTau,
+    getAllChucVu: getAllChucVu
 }

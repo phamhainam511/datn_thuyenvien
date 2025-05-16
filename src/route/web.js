@@ -7,6 +7,7 @@ const router = express.Router();
 const initWebRoutes = (app) => {
 
     //thuyền viên ở đây
+    router.post('/cap-nhat-lich-su-di-tau', ThuyenVienController.updateLichSuDiTau);
     router.get('/danh-sach-thuyen-vien', ThuyenVienController.getAllThuyenVien);
     router.get('/danh-sach-thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
     router.post('/cap-nhat-thuyen-vien/:id', ThuyenVienController.putThuyenVien);

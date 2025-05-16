@@ -42,6 +42,22 @@ let updateThanNhan = async(req, res) => {
     }
 }
 
+let updateLichSuDiTau = async(req, res) => {
+    try {
+        let data = req.body;
+        let id_lichsuditau = data.id_lichsuditau;
+        let thuyenvien_id = data.thuyenvien_id;
+        delete data.thuyenvien_id;
+        delete data.id_lichsuditau;
+        
+        await ThuyenVienServices.updateLichSuDiTauData(id_lichsuditau, data);
+        
+        return res.redirect('/danh-sach-thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
 let deleteThuyenVien = async (req, res) => {
     let ids = req.body.id; // => mảng id
     if (!Array.isArray(ids)) {
@@ -60,10 +76,16 @@ let getThuyenVienById = async (req, res) => {
     if(thuyenvien_id){
         let thuyenvien_data = await ThuyenVienServices.getThuyenVienId(thuyenvien_id);
         let nhanthanthuyenvien_data = await ThuyenVienServices.getNhanThanThuyenVien(thuyenvien_id);
+        let lichsuditau_data = await ThuyenVienServices.getLichSuDiTau(thuyenvien_id);
+        let chucvu_data = await ThuyenVienServices.getAllChucVu();
+        let tau_data = await ThuyenVienServices.getAllTau();
 
         return res.render('thuyenvien_chitiet.ejs', {
             thuyenvieninfo : thuyenvien_data,
-            nhanthanthuyenvieninfo : nhanthanthuyenvien_data
+            nhanthanthuyenvieninfo : nhanthanthuyenvien_data,
+            lichsuditauinfo : lichsuditau_data,
+            chucvuinfo : chucvu_data,
+            tauinfo : tau_data
         });
     }
     else{
@@ -78,5 +100,6 @@ module.exports = {
     putThuyenVien: putThuyenVien,
     deleteThuyenVien: deleteThuyenVien,
     getThuyenVienById: getThuyenVienById,
-    updateThanNhan: updateThanNhan
+    updateThanNhan: updateThanNhan,
+    updateLichSuDiTau: updateLichSuDiTau
 }

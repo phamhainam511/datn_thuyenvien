@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
         tenchucvu: DataTypes.STRING,
     }, {
         sequelize,
-        modelName: 'chucvu',      
-        freezeTableName: true      
+        modelName: 'Chucvu',
+        freezeTableName: true
     });
 
     return Chucvu;
