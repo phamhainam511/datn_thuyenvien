@@ -433,8 +433,7 @@
                                                 <td><%= lichsuditauinfo[i].cangroitau %></td>
                                                 <td class="text-center">
                                                     <button 
-                                                        id="editShipHistoryBtn"
-                                                        class="btn btn-sm btn-warning"
+                                                        class="btn btn-sm btn-warning editShipHistoryBtn"
                                                         data-history-id="<%= lichsuditauinfo[i].id_lichsuditau %>"
                                                         data-ship-id="<%= lichsuditauinfo[i].tau_id %>"
                                                         data-position-id="<%= lichsuditauinfo[i].chucvu_id %>"
@@ -649,45 +648,50 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addShipHistoryForm">
+                                    <form id="addShipHistoryForm" action="/them-lich-su-di-tau" method="POST">
+                                        <input type="hidden" name="thuyenvien_id" value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Tên tàu:</label>
-                                            <input type="text" class="form-control" id="newShipName" required>
+                                            <select class="form-control" id="newShipName" name="tau_id" required>
+                                                <% tauinfo.forEach(function(tau) { %>
+                                                <option value="<%= tau.id_tau %>"><%= tau.tentau %></option>
+                                                <% }); %>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Vị trí:</label>
-                                            <input type="text" class="form-control" id="newPosition" required>
+                                            <select class="form-control" id="newPosition" name="chucvu_id" required>
+                                                <% chucvuinfo.forEach(function(chucvu) { %>
+                                                <option value="<%= chucvu.id_chucvu %>"><%= chucvu.tenchucvu %></option>
+                                                <% }); %>
+                                            </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày lên tàu:</label>
-                                            <input type="date" class="form-control" id="newOnboardDate" required>
+                                            <input type="date" class="form-control" id="newOnboardDate" name="timexuatcanh" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Giờ lên tàu:</label>
-                                            <input type="time" class="form-control" id="newOnboardTime" required>
+                                            <input type="time" class="form-control" id="newOnboardTime" name="timelentau" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày rời tàu:</label>
-                                            <input type="date" class="form-control" id="newOffboardDate" required>
+                                            <input type="date" class="form-control" id="newOffboardDate" name="ngayroitau">
                                         </div>
                                         <div class="form-group">
                                             <label>Cảng xuống tàu:</label>
-                                            <input type="text" class="form-control" id="newPort" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Đi tàu với thuyền viên quốc tịch:</label>
-                                            <input type="text" class="form-control" id="newCrewNationality" required>
+                                            <input type="text" class="form-control" id="newPort" name="cangroitau">
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="button" class="btn btn-success" id="saveNewShipHistory">Thêm lịch
-                                        sử</button>
+                                    <button type="submit" class="btn btn-success" form="addShipHistoryForm">Thêm lịch sử</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- MODAL CHỈNH SỬA LỊCH SỬ ĐI TÀU -->
                     <div class="modal fade" id="editShipHistoryModal" tabindex="-1" role="dialog"
                         aria-labelledby="editShipHistoryModalLabel" aria-hidden="true">
@@ -706,7 +710,6 @@
                                         <div class="form-group">
                                             <label>Tên tàu:</label>
                                             <select class="form-control" id="editShipName" name="tau_id" required>
-                                                <option value="">-- Chọn tàu --</option>
                                                 <% tauinfo.forEach(function(tau) { %>
                                                 <option value="<%= tau.id_tau %>"><%= tau.tentau %></option>
                                                 <% }); %>
@@ -715,7 +718,6 @@
                                         <div class="form-group">
                                             <label>Vị trí:</label>
                                             <select class="form-control" id="editPosition" name="chucvu_id" required>
-                                                <option value="">-- Chọn chức vụ --</option>
                                                 <% chucvuinfo.forEach(function(chucvu) { %>
                                                 <option value="<%= chucvu.id_chucvu %>"><%= chucvu.tenchucvu %></option>
                                                 <% }); %>
@@ -845,7 +847,7 @@
             });
 
             // Ship History Edit Button Click
-            $('#editShipHistoryBtn').on('click', function() {
+            $('.editShipHistoryBtn').on('click', function() {
                 // Get the row data
                 const row = $(this).closest('tr');
                 const columns = row.find('td');

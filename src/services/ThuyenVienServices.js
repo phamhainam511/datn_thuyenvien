@@ -140,6 +140,33 @@ let getLichSuDiTau = (thuyenvien_id) => {
     })
 }
 
+let createLichSuDiTau = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let hour = parseInt(data.timelentau.split(':')[0]) + 7;
+            if (hour >= 24) {
+                hour -= 24;
+            }
+            let minute = data.timelentau.split(':')[1];
+            // Create new lichsuditau record
+            const result = await db.Lichsuditau.create({
+                thuyenvien_id: data.thuyenvien_id,
+                tau_id: data.tau_id,
+                chucvu_id: data.chucvu_id,
+                timexuatcanh: data.timexuatcanh,
+                timelentau: `2025-01-01 ${hour}:${minute}:00`,
+                ngayroitau: data.ngayroitau || null,
+                cangroitau: data.cangroitau || null
+            });
+            
+            resolve('Thêm lịch sử đi tàu thành công!');
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
+};
+
 let updateLichSuDiTauData = (historyId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -204,6 +231,7 @@ module.exports = {
     getNhanThanThuyenVien: getNhanThanThuyenVien,
     updateThanNhanData: updateThanNhanData,
     getLichSuDiTau: getLichSuDiTau,
+    createLichSuDiTau: createLichSuDiTau,
     updateLichSuDiTauData: updateLichSuDiTauData,
     getAllTau: getAllTau,
     getAllChucVu: getAllChucVu

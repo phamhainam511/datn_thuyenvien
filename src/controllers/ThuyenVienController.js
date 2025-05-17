@@ -1,15 +1,18 @@
 import db from '../models';  
 import ThuyenVienServices from "../services/ThuyenVienServices";
+
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     return res.render('danhsach_thuyenvien.ejs', {
         dataTable : data
     });
 };
+
 let postThuyenVien = async (req, res) => {
     let message = await ThuyenVienServices.createNewThuyenVien(req.body);
     res.redirect('/danh-sach-thuyen-vien');
 }
+
 let getEditThuyenVien = async (req, res) => {
     let ThuyenVien_id = req.query.id;
     if(ThuyenVien_id){
@@ -58,6 +61,19 @@ let updateLichSuDiTau = async(req, res) => {
     }
 };
 
+let createLichSuDiTau = async(req, res) => {
+    try {
+        let data = req.body;
+        let thuyenvien_id = data.thuyenvien_id;
+        
+        await ThuyenVienServices.createLichSuDiTau(data);
+        
+        return res.redirect('/thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
 let deleteThuyenVien = async (req, res) => {
     let ids = req.body.id; // => mảng id
     if (!Array.isArray(ids)) {
@@ -94,12 +110,13 @@ let getThuyenVienById = async (req, res) => {
 }
 
 module.exports = {
-    getAllThuyenVien : getAllThuyenVien,
+    getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
     getEditThuyenVien: getEditThuyenVien,
     putThuyenVien: putThuyenVien,
     deleteThuyenVien: deleteThuyenVien,
     getThuyenVienById: getThuyenVienById,
     updateThanNhan: updateThanNhan,
-    updateLichSuDiTau: updateLichSuDiTau
+    updateLichSuDiTau: updateLichSuDiTau,
+    createLichSuDiTau: createLichSuDiTau
 }
