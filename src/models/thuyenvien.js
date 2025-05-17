@@ -87,7 +87,7 @@ module.exports = (sequelize, DataTypes) => {
         trangthai: {
             type: DataTypes.STRING(20),
             allowNull: false,
-            defaultValue: 'Đang trên bờ',
+            defaultValue: 'Đang chờ tàu',
             validate: {
                 isIn: [['Đang chờ tàu', 'Đang trên tàu', 'Đang trên bờ']]
             }

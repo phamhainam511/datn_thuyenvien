@@ -215,7 +215,7 @@ const uploadNewCrewFiles = multer({
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     return res.render('danhsach_thuyenvien.ejs', {
-        dataTable : data
+        allThuyenVien : data
     });
 };
 

@@ -35,76 +35,48 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Danh sách thuyền viên</h1>
-                        <div>
+                        <!-- <div>
                             <a href="/them-thuyen-vien" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2">
                                 <i class="fas fa-user-plus fa-sm text-white-50"></i> Thêm thuyền viên
                             </a>
                             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                 <i class="fas fa-file-export fa-sm text-white-50"></i> Xuất danh sách
                             </a>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="themThuyenVien()">➕ Thêm Thuyền
-                                    viên</button>
+                                <a href="/them-thuyen-vien" class="d-none d-sm-inline-block btn btn-success btn-sm me-2 shadow-sm mr-2">
+                                    <i class="fas fa-user-plus fa-sm text-white-50"></i> Thêm thuyền viên
+                                </a>
                                 <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">🗑 Xóa Thuyền
                                     viên</button>
                             </div>
                         </div>
 
                         <div class="card-body">
-                            <div class="d-flex justify-content-between mb-3">
-                                <label>Hiển thị
-                                    <select id="entries" class="form-control form-control-sm d-inline-block"
-                                        style="width: auto;">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> mục
-                                </label>
-                            </div>
                             <div class="table-responsive">
                                 <!-- Bộ lọc tìm kiếm -->
                                 <div class="row mb-3">
                                     <div class="col-md-3">
-                                        <label for="searchBox">Tìm kiếm:</label>
+                                        <label for="searchBox">Tìm kiếm theo tên:</label>
                                         <input type="text" id="searchBox" class="form-control"
                                             placeholder="Nhập từ khóa">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="positionFilter">Chọn chức vụ:</label>
-                                        <select id="positionFilter" class="form-control">
-                                            <option value="">Tất cả</option>
-                                            <option value="Thuyền trưởng">Thuyền trưởng</option>
-                                            <option value="Máy trưởng">Máy trưởng</option>
-                                            <option value="Thủy thủ">Thủy thủ</option>
-                                        </select>
                                     </div>
                                     <!-- Trạng thái -->
                                     <div class="col-md-3">
                                         <label for="statusFilter">Trạng thái:</label>
                                         <select id="statusFilter" class="form-control">
                                             <option value="">Tất cả</option>
-                                            <option value="Đang làm việc trên tàu">Đang làm việc trên tàu</option>
+                                            <option value="Đang làm việc trên tàu">Đang trên tàu</option>
                                             <option value="Đang chờ tàu">Đang chờ tàu</option>
                                             <option value="Đang trên bờ">Đang trên bờ</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="timeFilter">Thời gian chờ tàu:</label>
-                                        <select id="timeFilter" class="form-control">
-                                            <option value="">Tất cả</option>
-                                            <option value="1 tháng">Dưới 30 ngày</option>
-                                            <option value="2 tháng">Từ 30 đến 90 ngày</option>
-                                            <option value="trên 2 tháng">Trên 90 ngày</option>
-                                        </select>
-                                    </div>
                                 </div>
-                                <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                                <table class="table table-bordered text-center" id="dataAllThuyenVienTable" width="100%" cellspacing="0">
                                     <thead class="table-secondary">
                                         <tr>
                                             <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)"></th>
@@ -113,38 +85,23 @@
                                             <th>Số Điện Thoại</th>
                                             <th>Email</th>
                                             <th>Trạng thái</th>
-                                            <th>Thời gian</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% for(let i = 0; i<dataTable.length; i++){ %>
+                                        <% for(let i = 0; i<allThuyenVien.length; i++){ %>
                                         <tr>
                                             <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td><%= dataTable[i].id_thuyenvien %></td>
-                                            <td onclick="window.location.href='/danh-sach-thuyen-vien/<%= dataTable[i].id_thuyenvien %>'"
-                                                style="cursor: pointer;"><%= dataTable[i].hoten %></td>
-                                            <td><%= dataTable[i].sodienthoai %></td>
-                                            <td><%= dataTable[i].email %></td>
-                                            <td><span class="badge badge-primary">Đang làm việc trên tàu</span></td>
-                                            <td><span class="">--</span></td>
+                                            <td><%= allThuyenVien[i].id_thuyenvien %></td>
+                                            <td onclick="window.location.href='/danh-sach-thuyen-vien/<%= allThuyenVien[i].id_thuyenvien %>'"
+                                                style="cursor: pointer;"><%= allThuyenVien[i].hoten %></td>
+                                            <td><%= allThuyenVien[i].sodienthoai %></td>
+                                            <td><%= allThuyenVien[i].email %></td>
+                                            <td><span class="badge badge-primary"><%= allThuyenVien[i].trangthai %></span></td>
                                         </tr>
                                         <% } %>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span>Hiển thị 1 đến 10 của 50 thuyền viên</span>
-                                <nav>
-                                    <ul class="pagination mb-0">
-                                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">Tiếp</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-
                         </div>
                     </div>
 
@@ -162,7 +119,7 @@
     </a>
 
     <%- include('partials/logout-modal') %>
-    <%- include('partials/scripts', { baseUrl: '' }) %>
+    <%- include('partials/scripts') %>
 
     <script>
         function themThuyenVien() {
@@ -188,6 +145,95 @@
                 alert('Đã xóa ' + checkboxes.length + ' thuyền viên');
             }
         }
+
+        // Prevent DataTables reinitialization
+        $(document).ready(function() {
+            // Destroy existing DataTable instance if it exists
+            if ($.fn.DataTable.isDataTable('#dataAllThuyenVienTable')) {
+                $('#dataAllThuyenVienTable').DataTable().destroy();
+            }
+
+            // Initialize DataTables with Vietnamese localization
+            var table = $('#dataAllThuyenVienTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "dom": 'lrtip', // Hide default search box
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                    "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Sau",
+                        "previous": "Trước"
+                    }
+                }
+            });
+
+            // Custom search functionality
+            $('#searchBox').keyup(function() {
+                let selectedStatus = $(this).val();
+                
+                // Remove any existing custom filters first
+                $.fn.dataTable.ext.search.pop();
+                
+                // Only add filter if a status is selected
+                if (selectedStatus) {
+                    // Custom filtering function for the status column
+                    $.fn.dataTable.ext.search.push(
+                        function(settings, data, dataIndex) {
+                            // Status is in column 5 (index 5)
+                            let rowStatus = data[2]; // Extract text from HTML
+
+
+                            // Check if the row status contains the selected status
+                            return rowStatus.includes(selectedStatus);
+                        }
+                    );
+                }
+                
+                // Apply the filter
+                table.draw();
+            });
+            
+            // Status filter functionality
+            $('#statusFilter').change(function() {
+                let selectedStatus = $(this).val();
+                
+                // Remove any existing custom filters first
+                $.fn.dataTable.ext.search.pop();
+                
+                // Only add filter if a status is selected
+                if (selectedStatus) {
+                    // Custom filtering function for the status column
+                    $.fn.dataTable.ext.search.push(
+                        function(settings, data, dataIndex) {
+                            // Status is in column 5 (index 5)
+                            let rowStatus = data[5]; // Extract text from HTML
+
+
+                            // Check if the row status contains the selected status
+                            return rowStatus === selectedStatus;
+                        }
+                    );
+                }
+                
+                // Apply the filter
+                table.draw();
+            });
+
+            // Set the entries dropdown to control page length
+            $('#entries').on('change', function() {
+                table.page.len($(this).val()).draw();
+            });
+        });
     </script>
 </body>
 
