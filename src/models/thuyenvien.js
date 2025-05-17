@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id_thuyenvien',
                 as: 'ngoaingu'
             });
+            
+            // Add relationship with ThuyenvienChungchi
+            Thuyenvien.hasMany(models.ThuyenvienChungchi, {
+                foreignKey: 'id_thuyenvien',
+                as: 'chungchi'
+            });
         }
     }
 

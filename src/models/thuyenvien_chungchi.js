@@ -4,18 +4,28 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class ThuyenvienChungchi extends Model {
         static associate(models) {
-            // Định nghĩa quan hệ với các bảng khác
+            // Định nghĩa quan hệ với bảng thuyenvien
+            ThuyenvienChungchi.belongsTo(models.Thuyenvien, {
+                foreignKey: 'id_thuyenvien',
+                as: 'thuyenvien'
+            });
             
+            // Removed belongsTo relationship with Chungchi since we're using tenchungchi directly
         }
     }
 
     ThuyenvienChungchi.init({
-        thuyenvien_id: {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        id_thuyenvien: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        chungchi_id: {
-            type: DataTypes.INTEGER,
+        tenchungchi: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
         sohieuchungchi: {
@@ -28,22 +38,24 @@ module.exports = (sequelize, DataTypes) => {
         },
         ngayhethan: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         noicap: {
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        hangbangcap: {
+        xeploai: {
             type: DataTypes.STRING(30),
-            allowNull: false
+            allowNull: true
+        },
+        file: {
+            type: DataTypes.STRING(255),
+            allowNull: true
         }
     }, {
         sequelize,
         modelName: 'ThuyenvienChungchi',
         freezeTableName: true,
-        charset: 'utf8mb4',
-        collate: 'utf8mb4_0900_ai_ci',
         tableName: 'thuyenvien_chungchi'
     });
 

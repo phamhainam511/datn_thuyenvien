@@ -38,6 +38,11 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-ngoai-ngu', ThuyenVienController.updateNgoaiNgu);
     router.get('/xoa-ngoai-ngu/:id/:thuyenvien_id', ThuyenVienController.deleteNgoaiNgu);
     
+    // Crew certificate routes
+    router.post('/them-chung-chi', ThuyenVienController.createChungChi);
+    router.post('/cap-nhat-chung-chi', ThuyenVienController.updateChungChi);
+    router.get('/xoa-chung-chi/:id/:thuyenvien_id', ThuyenVienController.deleteChungChi);
+    
     app.use("/", router);
 };
 

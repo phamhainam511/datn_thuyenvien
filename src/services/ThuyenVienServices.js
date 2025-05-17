@@ -403,6 +403,117 @@ let getNgoaiNguById = (id) => {
     });
 };
 
+let getChungChiThuyenVien = (thuyenvien_id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let chungchi = await db.ThuyenvienChungchi.findAll({
+                where: { id_thuyenvien: thuyenvien_id }
+                // Removed include since we no longer need to join with Chungchi table
+            });
+            
+            if (chungchi && chungchi.length > 0) {
+                resolve(chungchi);
+            } else {
+                resolve([]);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getAllChungChi = () => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let chungchi = await db.Chungchi.findAll();
+            resolve(chungchi);
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let createChungChi = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const result = await db.ThuyenvienChungchi.create({
+                id_thuyenvien: data.id_thuyenvien,
+                tenchungchi: data.tenchungchi, // Changed from chungchi_id
+                sohieuchungchi: data.sohieuchungchi,
+                ngaycap: data.ngaycap,
+                ngayhethan: data.ngayhethan,
+                noicap: data.noicap,
+                xeploai: data.xeploai,
+                file: data.file
+            });
+            resolve('Thêm chứng chỉ thuyền viên thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let updateChungChi = (id, data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let updateData = {
+                tenchungchi: data.tenchungchi, // Changed from chungchi_id
+                sohieuchungchi: data.sohieuchungchi,
+                ngaycap: data.ngaycap,
+                ngayhethan: data.ngayhethan,
+                noicap: data.noicap,
+                xeploai: data.xeploai
+            };
+            
+            // Only update file if a new one is provided
+            if (data.file) {
+                updateData.file = data.file;
+            }
+            
+            await db.ThuyenvienChungchi.update(
+                updateData,
+                {
+                    where: { id: id }
+                }
+            );
+            resolve('Cập nhật chứng chỉ thuyền viên thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let deleteChungChi = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await db.ThuyenvienChungchi.destroy({
+                where: { id: id }
+            });
+            resolve('Xóa chứng chỉ thuyền viên thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getChungChiById = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let chungchi = await db.ThuyenvienChungchi.findOne({
+                where: { id: id }
+            });
+            
+            if (chungchi) {
+                resolve(chungchi);
+            } else {
+                resolve(null);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -424,5 +535,11 @@ module.exports = {
     createNgoaiNgu: createNgoaiNgu,
     updateNgoaiNgu: updateNgoaiNgu,
     deleteNgoaiNgu: deleteNgoaiNgu,
-    getNgoaiNguById: getNgoaiNguById
+    getNgoaiNguById: getNgoaiNguById,
+    getChungChiThuyenVien: getChungChiThuyenVien,
+    getAllChungChi: getAllChungChi,
+    createChungChi: createChungChi,
+    updateChungChi: updateChungChi,
+    deleteChungChi: deleteChungChi,
+    getChungChiById: getChungChiById
 }
