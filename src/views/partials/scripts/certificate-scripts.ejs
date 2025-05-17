@@ -1,0 +1,107 @@
+<script>
+    $(document).ready(function() {
+        // Handle Edit button clicks
+        $(document).on('click', '.btn-primary:contains("Cập Nhật")', function() {
+            var row = $(this).closest('tr');
+            var id = row.find('td:first').text();
+            var certificateName = row.find('td:nth-child(2)').text();
+            var crewMember = row.find('td:nth-child(3)').text();
+            var issueDate = row.find('td:nth-child(4)').text();
+            var expiryDate = row.find('td:nth-child(5)').text();
+            
+            // Convert dates from DD/MM/YYYY to YYYY-MM-DD for input fields
+            var issueDateParts = issueDate.split('/');
+            var expiryDateParts = expiryDate.split('/');
+            
+            var formattedIssueDate = issueDateParts[2] + '-' + issueDateParts[1] + '-' + issueDateParts[0];
+            var formattedExpiryDate = expiryDateParts[2] + '-' + expiryDateParts[1] + '-' + expiryDateParts[0];
+            
+            $('#editCertificateId').val(id);
+            $('#editCertificateName').val(certificateName);
+            $('#editCrewMember').val(crewMember);
+            $('#editIssueDate').val(formattedIssueDate);
+            $('#editExpiryDate').val(formattedExpiryDate);
+            
+            $('#editCertificateModal').modal('show');
+        });
+
+        // Handle Delete button clicks
+        $(document).on('click', '.btn-danger:contains("Xóa")', function() {
+            var row = $(this).closest('tr');
+            var id = row.find('td:first').text();
+            $('#deleteCertificateId').val(id);
+            $('#deleteCertificateModal').modal('show');
+        });
+
+        // Handle form submissions (these would connect to your backend)
+        $('#addCertificateForm').on('submit', function(e) {
+            e.preventDefault();
+            // Here you would make an AJAX request to create a new certificate
+            alert('Đã thêm chứng chỉ thành công!');
+            $('#addCertificateModal').modal('hide');
+            // Reload the page or update the table
+            // location.reload();
+        });
+
+        $('#editCertificateForm').on('submit', function(e) {
+            e.preventDefault();
+            // Here you would make an AJAX request to update the certificate
+            alert('Đã cập nhật chứng chỉ thành công!');
+            $('#editCertificateModal').modal('hide');
+            // Reload the page or update the table
+            // location.reload();
+        });
+
+        $('#confirmDeleteBtn').on('click', function() {
+            // Here you would make an AJAX request to delete the certificate
+            alert('Đã xóa chứng chỉ thành công!');
+            $('#deleteCertificateModal').modal('hide');
+            // Reload the page or update the table
+            // location.reload();
+        });
+
+        // Fetch certificate and crew data for dropdowns
+        // These would be actual AJAX calls to your backend
+        function loadCertificateOptions() {
+            // Sample data - replace with actual API call
+            var certificates = [
+                { id: 1, name: 'CCNA' },
+                { id: 2, name: 'PMP' },
+                { id: 3, name: 'STCW' }
+            ];
+            
+            var certificateSelect = $('#addCertificateName, #editCertificateName');
+            certificateSelect.find('option:not(:first)').remove();
+            
+            certificates.forEach(function(cert) {
+                certificateSelect.append($('<option>', {
+                    value: cert.id,
+                    text: cert.name
+                }));
+            });
+        }
+        
+        function loadCrewOptions() {
+            // Sample data - replace with actual API call
+            var crewMembers = [
+                { id: 1, name: 'Nguyễn Văn A' },
+                { id: 2, name: 'Trần Thị B' },
+                { id: 3, name: 'Lê Văn C' }
+            ];
+            
+            var crewSelect = $('#addCrewMember, #editCrewMember');
+            crewSelect.find('option:not(:first)').remove();
+            
+            crewMembers.forEach(function(crew) {
+                crewSelect.append($('<option>', {
+                    value: crew.id,
+                    text: crew.name
+                }));
+            });
+        }
+        
+        // Initialize dropdowns
+        loadCertificateOptions();
+        loadCrewOptions();
+    });
+</script>

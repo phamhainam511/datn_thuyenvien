@@ -22,172 +22,16 @@
 
 <body id="page-top">
 
+    <%- include('partials/header', { title: 'Danh sách thuyền viên', baseUrl: '' }) %>
+
     <div id="wrapper">
-
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-                <div class="sidebar-brand-icon logo">
-                    <img src="img/logo.png" alt="PITSCO Logo" style="height: 40px;">
-                </div>
-            </a>
-
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-home"></i>
-                    <span>Bảng điều khiển</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/users">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Danh sách tài khoản</span></a>
-            </li>
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item active">
-                <a class="nav-link" href="/crews">
-                    <i class="fas fa-users"></i>
-                    <span>Danh sách thuyền viên</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-file-alt"></i>
-                    <span>Hồ sơ chứng chỉ</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/cer-expiring">Sắp đến hạn</a>
-                        <a class="collapse-item" href="/cer-expired">Đã quá hạn</a>
-                    </div>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Hợp đồng</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/con-list">Danh sách hợp đồng</a>
-                        <a class="collapse-item" href="/con-expiring">Sắp đến hạn</a>
-                        <a class="collapse-item" href="/con-expired">Đã quá hạn</a>
-                    </div>
-                </div>
-            </li>
-            <hr class="sidebar-divider my-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/payroll">
-                    <i class="fas fa-money-bill-wave"></i>
-                    <span>Bảng lương</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-archive"></i>
-                    <span>Danh mục tài liệu</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/list-job">Danh sách chức danh</a>
-                        <a class="collapse-item" href="/list-ship">Danh sách tàu</a>
-                        <a class="collapse-item" href="/list-cer">Danh sách chứng chỉ</a>
-                    </div>
-                </div>
-            </li>
-
-            <hr class="sidebar-divider d-none d-md-block">
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-        </ul>
+        <%- include('partials/sidebar', { activeMenu: 'danh-sach-thuyen-vien', baseUrl: '' }) %>
 
         <div id="content-wrapper" class="d-flex flex-column">
-
             <div id="content">
-
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <span class="badge badge-danger badge-counter">2+</span>
-                            </a>
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Thông báo
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">19/3/2025</div>
-                                        <span class="font-weight-bold">Có 1 hợp đồng sắp hết hạn</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">19/3/2024</div>
-                                        Có 1 chứng chỉ sắp hết hạn
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user-lock mr-2 text-gray-400"></i>
-                                    Quản trị viên
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Tài khoản
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Cài đặt
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Đăng xuất
-                                </a>
-                            </div>
-                        </li>
-
-                    </ul>
-
-                </nav>
+                <%- include('partials/topbar', { baseUrl: '' }) %>
 
                 <div class="container-fluid">
-
                     <h1 class="h3 mb-2 text-gray-800">Danh sách thuyền viên</h1>
 
                     <div class="card shadow mb-4">
@@ -240,8 +84,8 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="statusFilter">Thời gian chờ tàu:</label>
-                                        <select id="statusFilter" class="form-control">
+                                        <label for="timeFilter">Thời gian chờ tàu:</label>
+                                        <select id="timeFilter" class="form-control">
                                             <option value="">Tất cả</option>
                                             <option value="1 tháng">Dưới 30 ngày</option>
                                             <option value="2 tháng">Từ 30 đến 90 ngày</option>
@@ -276,9 +120,6 @@
                                         <% } %>
                                     </tbody>
                                 </table>
-
-
-
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>Hiển thị 1 đến 10 của 50 thuyền viên</span>
@@ -301,59 +142,42 @@
 
             </div>
 
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; PITSCO Crew Management System 2025 </span>
-                    </div>
-                </div>
-            </footer>
-
+            <%- include('partials/footer') %>
         </div>
-
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắc muốn rời đi?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn sẵn sàng kết thúc phiên hiện tại của mình.
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
-                    <a class="btn btn-primary" href="/login">Đăng xuất</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%- include('partials/logout-modal') %>
+    <%- include('partials/scripts', { baseUrl: '' }) %>
+
     <script>
         function themThuyenVien() {
             window.location.href = '/crew-add';
         }
+        
+        function chonTatCa(source) {
+            var checkboxes = document.querySelectorAll('.row-checkbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+        
+        function xoaTatCaThuyenVien() {
+            var checkboxes = document.querySelectorAll('.row-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('Vui lòng chọn ít nhất một thuyền viên để xóa');
+                return;
+            }
+            
+            if (confirm('Bạn có chắc chắn muốn xóa các thuyền viên đã chọn?')) {
+                // Xử lý xóa dữ liệu (sẽ được thêm sau)
+                alert('Đã xóa ' + checkboxes.length + ' thuyền viên');
+            }
+        }
     </script>
-
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <script src="js/style.js"></script>
-
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <script src="js/demo/datatables-demo.js"></script>
-
 </body>
 
 </html>

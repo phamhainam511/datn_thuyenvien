@@ -1,0 +1,80 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+        <div class="sidebar-brand-icon logo">
+            <img src="img/logo.png" alt="PITSCO Logo" style="height: 40px;">
+        </div>
+    </a>
+            
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item <%= activeMenu === 'dashboard' ? 'active' : '' %>">
+        <a class="nav-link" href="/dashboard">
+            <i class="fas fa-home"></i>
+            <span>Bảng điều khiển</span></a>
+    </li>
+    <li class="nav-item <%= activeMenu === 'users' ? 'active' : '' %>">
+        <a class="nav-link" href="/users">
+            <i class="fas fa-user-shield"></i>
+            <span>Danh sách tài khoản</span></a>
+    </li>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item <%= activeMenu === 'danh-sach-thuyen-vien' ? 'active' : '' %>">
+        <a class="nav-link" href="/danh-sach-thuyen-vien">
+            <i class="fas fa-users"></i>
+            <span>Danh sách thuyền viên</span></a>
+    </li>
+
+    <li class="nav-item <%= activeMenu === 'certificates' ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            aria-expanded="<%= activeMenu === 'certificates' ? 'true' : 'false' %>" aria-controls="collapseUtilities">
+            <i class="fas fa-file-alt"></i>
+            <span>Hồ sơ chứng chỉ</span>
+        </a>
+        <div id="collapseUtilities" class="collapse <%= activeMenu === 'certificates' ? 'show' : '' %>" aria-labelledby="headingUtilities"
+            data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item " href="/cer-expiring">Sắp đến hạn</a>
+                <a class="collapse-item " href="/cer-expired">Đã quá hạn</a>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item <%= activeMenu === 'contracts' ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+            aria-expanded="<%= activeMenu === 'contracts' ? 'true' : 'false' %>" aria-controls="collapsePages">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Hợp đồng</span>
+        </a>
+        <div id="collapsePages" class="collapse <%= activeMenu === 'contracts' ? 'show' : '' %>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/con-list">Danh sách hợp đồng</a>
+                <a class="collapse-item" href="/con-expiring">Sắp đến hạn</a>
+                <a class="collapse-item" href="/con-expired">Đã quá hạn</a>
+            </div>
+        </div>
+    </li>
+    <hr class="sidebar-divider my-0">
+    <li class="nav-item <%= activeMenu === 'payroll' ? 'active' : '' %>">
+        <a class="nav-link" href="/payroll">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>Bảng lương</span></a>
+    </li>
+    <li class="nav-item <%= activeMenu === 'documents' ? 'active' : '' %>">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="<%= activeMenu === 'documents' ? 'true' : 'false' %>" aria-controls="collapseTwo">
+            <i class="fas fa-archive"></i>
+            <span>Danh mục tài liệu</span>
+        </a>
+        <div id="collapseTwo" class="collapse <%= activeMenu === 'documents' ? 'show' : '' %>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="/list-job">Danh sách chức danh</a>
+                <a class="collapse-item" href="/list-ship">Danh sách tàu</a>
+                <a class="collapse-item" href="/list-cer">Danh sách chứng chỉ</a>
+            </div>
+        </div>
+    </li>
+
+    <hr class="sidebar-divider d-none d-md-block">
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>

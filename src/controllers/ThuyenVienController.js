@@ -522,6 +522,68 @@ let deleteTaiLieuFile = async(req, res) => {
     }
 };
 
+let getExpiringCertificates = async (req, res) => {
+    try {
+        // Get the days parameter from query, default to 90 days if not provided
+        const days = req.query.days ? parseInt(req.query.days) : 90;
+        
+        // Get only professional certificates
+        const expiringCertificates = await ThuyenVienServices.getExpiringCertificates(days);
+        
+        // Calculate days remaining for each certificate
+        const processedCertificates = expiringCertificates.map(cert => {
+            const today = new Date();
+            const expiryDate = new Date(cert.ngayhethan);
+            const daysRemaining = Math.ceil((expiryDate - today) / (1000 * 60 * 60 * 24));
+            
+            return {
+                ...cert.toJSON(),
+                daysRemaining
+            };
+        });
+        
+        // Sort by days remaining
+        processedCertificates.sort((a, b) => a.daysRemaining - b.daysRemaining);
+        
+        return res.render('chungchi_saphethan.ejs', {
+            certificates: processedCertificates,
+            dayRange: days
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Server error: ' + error.message);
+    }
+};
+
+let getExpiredCertificates = async (req, res) => {
+    try {
+        // Get only professional certificates
+        const expiredCertificates = await ThuyenVienServices.getExpiredCertificates();
+        
+        // Calculate days overdue for each certificate
+        const processedCertificates = expiredCertificates.map(cert => {
+            const today = new Date();
+            const expiryDate = new Date(cert.ngayhethan);
+            const daysOverdue = Math.ceil((today - expiryDate) / (1000 * 60 * 60 * 24));
+            
+            return {
+                ...cert.toJSON(),
+                daysOverdue
+            };
+        });
+        
+        // Sort by days overdue (most overdue first)
+        processedCertificates.sort((a, b) => b.daysOverdue - a.daysOverdue);
+        
+        return res.render('chungchi_hethan.ejs', {
+            certificates: processedCertificates
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Server error: ' + error.message);
+    }
+};
+
 module.exports = {
     getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
@@ -542,5 +604,7 @@ module.exports = {
     updateChungChi: updateChungChi,
     deleteChungChi: deleteChungChi,
     uploadTaiLieu: uploadTaiLieu,
-    deleteTaiLieuFile: deleteTaiLieuFile
+    deleteTaiLieuFile: deleteTaiLieuFile,
+    getExpiringCertificates: getExpiringCertificates,
+    getExpiredCertificates: getExpiredCertificates
 }

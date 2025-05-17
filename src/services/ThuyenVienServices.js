@@ -585,6 +585,70 @@ let deleteTaiLieu = (id) => {
     });
 };
 
+let getExpiringCertificates = (days = 90) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Calculate the date range for expiring certificates
+            const today = new Date();
+            const expiryDate = new Date();
+            expiryDate.setDate(today.getDate() + days);
+            
+            // Find certificates expiring within the specified period
+            let certificates = await db.ThuyenvienChungchi.findAll({
+                where: {
+                    ngayhethan: {
+                        [db.Sequelize.Op.between]: [today, expiryDate]
+                    }
+                },
+                include: [
+                    {
+                        model: db.Thuyenvien,
+                        as: 'thuyenvien',
+                        attributes: ['id_thuyenvien', 'hoten']
+                    }
+                ],
+                order: [['ngayhethan', 'ASC']]
+            });
+            
+            resolve(certificates);
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getExpiredCertificates = () => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Calculate today's date for comparison
+            const today = new Date();
+            
+            // Find certificates that have already expired
+            let certificates = await db.ThuyenvienChungchi.findAll({
+                where: {
+                    ngayhethan: {
+                        [db.Sequelize.Op.lt]: today
+                    }
+                },
+                include: [
+                    {
+                        model: db.Thuyenvien,
+                        as: 'thuyenvien',
+                        attributes: ['id_thuyenvien', 'hoten']
+                    }
+                ],
+                order: [['ngayhethan', 'ASC']]
+            });
+            
+            resolve(certificates);
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+// ...existing code...
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -616,5 +680,7 @@ module.exports = {
     getTaiLieuThuyenVien: getTaiLieuThuyenVien,
     createOrUpdateTaiLieu: createOrUpdateTaiLieu,
     getTaiLieuById: getTaiLieuById,
-    deleteTaiLieu: deleteTaiLieu
+    deleteTaiLieu: deleteTaiLieu,
+    getExpiringCertificates: getExpiringCertificates,
+    getExpiredCertificates: getExpiredCertificates
 }

@@ -47,6 +47,10 @@ const initWebRoutes = (app) => {
     router.post('/upload-tai-lieu/:id', ThuyenVienController.uploadTaiLieu);
     router.get('/xoa-tai-lieu/:id/:field', ThuyenVienController.deleteTaiLieuFile);
     
+    // Certificate expiration routes
+    router.get('/cer-expiring', ThuyenVienController.getExpiringCertificates);
+    router.get('/cer-expired', ThuyenVienController.getExpiredCertificates);
+    
     app.use("/", router);
 };
 

@@ -1,0 +1,117 @@
+<%
+const title = 'Danh sách thuyền viên';
+const activeMenu = 'crews';
+const baseUrl = '';
+
+let content = `
+    <h1 class="h3 mb-2 text-gray-800">Danh sách thuyền viên</h1>
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <div>
+                <button class="btn btn-success btn-sm me-2" onclick="themThuyenVien()">➕ Thêm Thuyền viên</button>
+                <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">🗑 Xóa Thuyền viên</button>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-3">
+                <label>Hiển thị
+                    <select id="entries" class="form-control form-control-sm d-inline-block" style="width: auto;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> mục
+                </label>
+            </div>
+            <div class="table-responsive">
+                <!-- Bộ lọc tìm kiếm -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="searchBox">Tìm kiếm:</label>
+                        <input type="text" id="searchBox" class="form-control" placeholder="Nhập từ khóa">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="positionFilter">Chọn chức vụ:</label>
+                        <select id="positionFilter" class="form-control">
+                            <option value="">Tất cả</option>
+                            <option value="Thuyền trưởng">Thuyền trưởng</option>
+                            <option value="Máy trưởng">Máy trưởng</option>
+                            <option value="Thủy thủ">Thủy thủ</option>
+                        </select>
+                    </div>
+                    <!-- Trạng thái -->
+                    <div class="col-md-3">
+                        <label for="statusFilter">Trạng thái:</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">Tất cả</option>
+                            <option value="Đang làm việc trên tàu">Đang làm việc trên tàu</option>
+                            <option value="Đang chờ tàu">Đang chờ tàu</option>
+                            <option value="Đang trên bờ">Đang trên bờ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="statusFilter">Thời gian chờ tàu:</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="">Tất cả</option>
+                            <option value="1 tháng">Dưới 30 ngày</option>
+                            <option value="2 tháng">Từ 30 đến 90 ngày</option>
+                            <option value="trên 2 tháng">Trên 90 ngày</option>
+                        </select>
+                    </div>
+                </div>
+                <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)"></th>
+                            <th>Mã TV</th>
+                            <th>Họ Tên</th>
+                            <th>Số Điện Thoại</th>
+                            <th>Email</th>
+                            <th>Trạng thái</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i<dataTable.length; i++){ %>
+                        <tr>
+                            <td><input type="checkbox" class="row-checkbox"></td>
+                            <td><%= dataTable[i].id_thuyenvien %></td>
+                            <td onclick="window.location.href='/danh-sach-thuyen-vien/<%= dataTable[i].id_thuyenvien %>'"
+                                style="cursor: pointer;"><%= dataTable[i].hoten %></td>
+                            <td><%= dataTable[i].sodienthoai %></td>
+                            <td><%= dataTable[i].email %></td>
+                            <td><span class="badge badge-primary">Đang làm việc trên tàu</span></td>
+                            <td><span class="">--</span></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span>Hiển thị 1 đến 10 của 50 thuyền viên</span>
+                <nav>
+                    <ul class="pagination mb-0">
+                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Tiếp</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+`;
+
+let additionalScripts = `
+    <script>
+        function themThuyenVien() {
+            window.location.href = '/crew-add';
+        }
+    </script>
+`;
+%>
+
+<%- include('layouts/main', { title, activeMenu, baseUrl, content, additionalScripts }) %>

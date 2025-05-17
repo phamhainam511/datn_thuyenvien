@@ -187,7 +187,6 @@
                 </nav>
 
                 <div class="container-fluid">
-
                     <h1 class="h3 mb-2 text-gray-800">Chứng chỉ sắp hết hạn</h1>
                     <div class="card shadow mb-4">
                         <div class="card-body">
@@ -202,25 +201,25 @@
                                     </select> mục
                                 </label>
                             </div>
-                            <div class="table-responsive">
-                                <!-- Bộ lọc tìm kiếm -->
-                                <div class="row mb-3">
-                                    <div class="col-md-3">
-                                        <label for="searchBox">Tìm kiếm:</label>
-                                        <input type="text" id="searchBox" class="form-control"
-                                            placeholder="Nhập từ khóa">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="statusFilter">Thời gian còn lại:</label>
-                                        <select id="statusFilter" class="form-control">
-                                            <option value="">Tất cả</option>
-                                            <option value="1 tháng">Dưới 30 ngày</option>
-                                            <option value="2 tháng">Từ 30 đến 90 ngày</option>
-                                            <option value="trên 2 tháng">Trên 90 ngày</option>
-                                        </select>
-                                    </div>
+                            <!-- Bộ lọc tìm kiếm -->
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="searchBox">Tìm kiếm:</label>
+                                    <input type="text" id="searchBox" class="form-control"
+                                        placeholder="Nhập từ khóa">
                                 </div>
-                                <table class="table table-bordered text-center" width="100%" cellspacing="0">
+                                <div class="col-md-3">
+                                    <label for="statusFilter">Thời gian còn lại:</label>
+                                    <select id="statusFilter" class="form-control">
+                                        <option value="">Tất cả</option>
+                                        <option value="30" <%= dayRange === 30 ? 'selected' : '' %>>Dưới 30 ngày</option>
+                                        <option value="90" <%= dayRange === 90 ? 'selected' : '' %>>Từ 30 đến 90 ngày</option>
+                                        <option value="180" <%= dayRange === 180 ? 'selected' : '' %>>Trên 90 ngày</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Stt</th>
@@ -233,30 +232,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>CCNA</td>
-                                            <td>Nguyễn Văn A</td>
-                                            <td>01/01/2021</td>
-                                            <td>01/01/2024</td>
-                                            <td class="text-warning font-weight-bold">Còn 60 ngày</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm">Cập Nhật</button>
-                                                <button class="btn btn-danger btn-sm">Xóa</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>PMP</td>
-                                            <td>Trần Thị B</td>
-                                            <td>15/06/2020</td>
-                                            <td>15/06/2023</td>
-                                            <td class="text-danger font-weight-bold">Còn 30 ngày</td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm">Cập Nhật</button>
-                                                <button class="btn btn-danger btn-sm">Xóa</button>
-                                            </td>
-                                        </tr>
+                                        <% if(certificates && certificates.length > 0) { %>
+                                            <% certificates.forEach((cert, index) => { %>
+                                                <tr>
+                                                    <td><%= index + 1 %></td>
+                                                    <td><%= cert.tenchungchi %></td>
+                                                    <td>
+                                                        <a href="/thuyen-vien/<%= cert.thuyenvien ? cert.thuyenvien.id_thuyenvien : cert.id_thuyenvien %>">
+                                                            <%= cert.thuyenvien ? cert.thuyenvien.hoten : 'N/A' %> <!-- Change from tenthuyenvien to hoten -->
+                                                        </a>
+                                                    </td>
+                                                    <td><%= new Date(cert.ngaycap).toLocaleDateString('vi-VN') %></td>
+                                                    <td><%= new Date(cert.ngayhethan).toLocaleDateString('vi-VN') %></td>
+                                                    <td class="<%= cert.daysRemaining <= 30 ? 'text-danger' : 'text-warning' %> font-weight-bold">
+                                                        Còn <%= cert.daysRemaining %> ngày
+                                                    </td>
+                                                    <td>
+                                                        <a href="/thuyen-vien/<%= cert.thuyenvien ? cert.thuyenvien.id_thuyenvien : cert.id_thuyenvien %>" 
+                                                           class="btn btn-primary btn-sm">
+                                                            Cập Nhật
+                                                        </a>
+                                                        <a href="/xoa-chung-chi/<%= cert.id %>/<%= cert.thuyenvien ? cert.thuyenvien.id_thuyenvien : cert.id_thuyenvien %>" 
+                                                           class="btn btn-danger btn-sm"
+                                                           onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
+                                                            Xóa
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="7" class="text-center">Không có chứng chỉ nào sắp hết hạn</td>
+                                            </tr>
+                                        <% } %>
                                     </tbody>
                                 </table>
                             </div>
@@ -278,6 +286,115 @@
 
         </div>
 
+    </div>
+
+    <!-- Add Certificate Modal -->
+    <div class="modal fade" id="addCertificateModal" tabindex="-1" role="dialog" aria-labelledby="addCertificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCertificateModalLabel">Thêm Chứng Chỉ Mới</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form id="addCertificateForm">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="addCertificateName">Tên Chứng Chỉ</label>
+                            <select class="form-control" id="addCertificateName" required>
+                                <option value="">Chọn chứng chỉ</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addCrewMember">Thuyền Viên</label>
+                            <select class="form-control" id="addCrewMember" required>
+                                <option value="">Chọn thuyền viên</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addIssueDate">Ngày Cấp</label>
+                            <input type="date" class="form-control" id="addIssueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addExpiryDate">Ngày Hết Hạn</label>
+                            <input type="date" class="form-control" id="addExpiryDate" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Thêm Chứng Chỉ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Certificate Modal -->
+    <div class="modal fade" id="editCertificateModal" tabindex="-1" role="dialog" aria-labelledby="editCertificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCertificateModalLabel">Cập Nhật Chứng Chỉ</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form id="editCertificateForm">
+                    <input type="hidden" id="editCertificateId">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="editCertificateName">Tên Chứng Chỉ</label>
+                            <select class="form-control" id="editCertificateName" required>
+                                <option value="">Chọn chứng chỉ</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCrewMember">Thuyền Viên</label>
+                            <select class="form-control" id="editCrewMember" required>
+                                <option value="">Chọn thuyền viên</option>
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editIssueDate">Ngày Cấp</label>
+                            <input type="date" class="form-control" id="editIssueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editExpiryDate">Ngày Hết Hạn</label>
+                            <input type="date" class="form-control" id="editExpiryDate" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                        <button type="submit" class="btn btn-primary">Cập Nhật</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Certificate Modal -->
+    <div class="modal fade" id="deleteCertificateModal" tabindex="-1" role="dialog" aria-labelledby="deleteCertificateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteCertificateModalLabel">Xác Nhận Xóa</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Bạn có chắc chắn muốn xóa chứng chỉ này không?</div>
+                <div class="modal-footer">
+                    <input type="hidden" id="deleteCertificateId">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <button id="confirmDeleteBtn" class="btn btn-danger">Xóa</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <a class="scroll-to-top rounded" href="#page-top">
@@ -314,6 +431,137 @@
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <script src="js/demo/datatables-demo.js"></script>
+
+    <!-- Add Button to open the Add Certificate Modal -->
+    <script>
+        $(document).ready(function() {
+            // Remove the code that adds the button
+            // $('.card-body .d-flex.justify-content-between.mb-3').append(
+            //     '<button class="btn btn-primary" data-toggle="modal" data-target="#addCertificateModal">' +
+            //     '<i class="fas fa-plus"></i> Thêm Chứng Chỉ</button>'
+            // );
+
+            // Handle Edit button clicks
+            $(document).on('click', '.btn-primary:contains("Cập Nhật")', function() {
+                var row = $(this).closest('tr');
+                var id = row.find('td:first').text();
+                var certificateName = row.find('td:nth-child(2)').text();
+                var crewMember = row.find('td:nth-child(3)').text();
+                var issueDate = row.find('td:nth-child(4)').text();
+                var expiryDate = row.find('td:nth-child(5)').text();
+                
+                // Convert dates from DD/MM/YYYY to YYYY-MM-DD for input fields
+                var issueDateParts = issueDate.split('/');
+                var expiryDateParts = expiryDate.split('/');
+                
+                var formattedIssueDate = issueDateParts[2] + '-' + issueDateParts[1] + '-' + issueDateParts[0];
+                var formattedExpiryDate = expiryDateParts[2] + '-' + expiryDateParts[1] + '-' + expiryDateParts[0];
+                
+                $('#editCertificateId').val(id);
+                $('#editCertificateName').val(certificateName);
+                $('#editCrewMember').val(crewMember);
+                $('#editIssueDate').val(formattedIssueDate);
+                $('#editExpiryDate').val(formattedExpiryDate);
+                
+                $('#editCertificateModal').modal('show');
+            });
+
+            // Handle Delete button clicks
+            $(document).on('click', '.btn-danger:contains("Xóa")', function() {
+                var row = $(this).closest('tr');
+                var id = row.find('td:first').text();
+                $('#deleteCertificateId').val(id);
+                $('#deleteCertificateModal').modal('show');
+            });
+
+            // Handle form submissions (these would connect to your backend)
+            $('#addCertificateForm').on('submit', function(e) {
+                e.preventDefault();
+                // Here you would make an AJAX request to create a new certificate
+                alert('Đã thêm chứng chỉ thành công!');
+                $('#addCertificateModal').modal('hide');
+                // Reload the page or update the table
+                // location.reload();
+            });
+
+            $('#editCertificateForm').on('submit', function(e) {
+                e.preventDefault();
+                // Here you would make an AJAX request to update the certificate
+                alert('Đã cập nhật chứng chỉ thành công!');
+                $('#editCertificateModal').modal('hide');
+                // Reload the page or update the table
+                // location.reload();
+            });
+
+            $('#confirmDeleteBtn').on('click', function() {
+                // Here you would make an AJAX request to delete the certificate
+                alert('Đã xóa chứng chỉ thành công!');
+                $('#deleteCertificateModal').modal('hide');
+                // Reload the page or update the table
+                // location.reload();
+            });
+
+            // Fetch certificate and crew data for dropdowns
+            // These would be actual AJAX calls to your backend
+            function loadCertificateOptions() {
+                // Sample data - replace with actual API call
+                var certificates = [
+                    { id: 1, name: 'CCNA' },
+                    { id: 2, name: 'PMP' },
+                    { id: 3, name: 'STCW' }
+                ];
+                
+                var certificateSelect = $('#addCertificateName, #editCertificateName');
+                certificateSelect.find('option:not(:first)').remove();
+                
+                certificates.forEach(function(cert) {
+                    certificateSelect.append($('<option>', {
+                        value: cert.id,
+                        text: cert.name
+                    }));
+                });
+            }
+            
+            function loadCrewOptions() {
+                // Sample data - replace with actual API call
+                var crewMembers = [
+                    { id: 1, name: 'Nguyễn Văn A' },
+                    { id: 2, name: 'Trần Thị B' },
+                    { id: 3, name: 'Lê Văn C' }
+                ];
+                
+                var crewSelect = $('#addCrewMember, #editCrewMember');
+                crewSelect.find('option:not(:first)').remove();
+                
+                crewMembers.forEach(function(crew) {
+                    crewSelect.append($('<option>', {
+                        value: crew.id,
+                        text: crew.name
+                    }));
+                });
+            }
+            
+            // Initialize dropdowns
+            loadCertificateOptions();
+            loadCrewOptions();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Filter by days remaining
+            $('#statusFilter').change(function() {
+                const days = $(this).val();
+                if (days) {
+                    window.location.href = '/cer-expiring?days=' + days;
+                } else {
+                    window.location.href = '/cer-expiring';
+                }
+            });
+            
+            // ...existing code...
+        });
+    </script>
 
 </body>
 
