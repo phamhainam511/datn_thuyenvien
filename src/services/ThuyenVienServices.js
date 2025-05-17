@@ -590,14 +590,12 @@ let getExpiringCertificates = (days = 90) => {
         try {
             // Calculate the date range for expiring certificates
             const today = new Date();
-            const expiryDate = new Date();
-            expiryDate.setDate(today.getDate() + days);
             
             // Find certificates expiring within the specified period
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: {
                     ngayhethan: {
-                        [db.Sequelize.Op.between]: [today, expiryDate]
+                        [db.Sequelize.Op.gt]: today
                     }
                 },
                 include: [
