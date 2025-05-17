@@ -729,14 +729,6 @@
                                     <form id="updateForm"
                                         action="/cap-nhat-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>"
                                         method="POST">
-                                        <div class="form-group text-center">
-                                            <label>Ảnh đại diện:</label>
-                                            <br>
-                                            <img id="previewImage" src="/img/crew_test1.jpg" class="img-thumbnail mb-2"
-                                                width="150">
-                                            <input type="file" class="form-control-file" id="inputPhoto"
-                                                accept="image/*">
-                                        </div>
 
                                         <div class="form-group">
                                             <label>Họ và tên:</label>
@@ -1443,8 +1435,89 @@
                     $('#editYear').val(year);
                 });
                 
+                // Language Certificate Edit Button Click
+                $('.editLanguageBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const language = $(this).data('language');
+                    const certificate = $(this).data('certificate');
+                    const score = $(this).data('score');
+                    const issued = $(this).data('issued');
+                    const expired = $(this).data('expired');
+                    const file = $(this).data('file');
+                    
+                    // Populate form fields with current data
+                    $('#editLanguageId').val(id);
+                    $('#editLanguage').val(language);
+                    $('#editCertificate').val(certificate);
+                    $('#editScore').val(score);
+                    $('#editIssued').val(issued);
+                    $('#editExpired').val(expired);
+                    
+                    // Update file info section
+                    if (file && file !== '') {
+                        $('#currentFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
+                    } else {
+                        $('#currentFileName').text('No file attached');
+                    }
+                });
+                
+                // Crew Certificate Edit Button Click
+                $('.editCrewCertBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const certName = $(this).data('cert-name');
+                    const certNumber = $(this).data('cert-number');
+                    const issued = $(this).data('issued');
+                    const expired = $(this).data('expired');
+                    const issuer = $(this).data('issuer');
+                    const rank = $(this).data('rank');
+                    const file = $(this).data('file');
+                    
+                    // Populate form fields with current data
+                    $('#editCrewCertId').val(id);
+                    $('#editCrewCertName').val(certName);
+                    $('#editCrewCertNumber').val(certNumber);
+                    $('#editCrewCertIssued').val(issued);
+                    $('#editCrewCertExpired').val(expired);
+                    $('#editCrewCertIssuer').val(issuer);
+                    $('#editCrewCertRank').val(rank);
+                    
+                    // Update file info section
+                    if (file && file !== '') {
+                        $('#currentCrewCertFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
+                    } else {
+                        $('#currentCrewCertFileName').text('No file attached');
+                    }
+                });
+                
+                // Ship History Edit Button Click
+                $('.editShipHistoryBtn').on('click', function() {
+                    // Get data from button attributes
+                    const historyId = $(this).data('history-id');
+                    const shipId = $(this).data('ship-id');
+                    const positionId = $(this).data('position-id');
+                    const thuyenvienId = $(this).data('thuyenvien-id');
+                    
+                    // Find the corresponding row to get other data
+                    const row = $(this).closest('tr');
+                    const onboardDate = row.find('td:eq(2)').text(); // Date format: YYYY-MM-DD
+                    const onboardTime = row.find('td:eq(3)').text(); // Time format: HH:MM:SS
+                    const offboardDate = row.find('td:eq(4)').text();
+                    const port = row.find('td:eq(5)').text();
+                    
+                    // Populate form fields with current data
+                    $('#editHistoryId').val(historyId);
+                    $('#editThuyenVienId').val(thuyenvienId);
+                    $('#editShipName').val(shipId);
+                    $('#editPosition').val(positionId);
+                    $('#editOnboardDate').val(onboardDate);
+                    $('#editOnboardTime').val(onboardTime.substring(0, 5)); // Extract HH:MM from HH:MM:SS
+                    $('#editOffboardDate').val(offboardDate);
+                    $('#editPort').val(port);
+                });
+                
                 // Additional event handlers...
-                // ...existing code...
             });
         </script>
     </body>
