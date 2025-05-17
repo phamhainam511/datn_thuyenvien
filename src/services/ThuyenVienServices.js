@@ -306,6 +306,103 @@ let deleteHocVan = (id) => {
     });
 };
 
+let getNgoaiNguThuyenVien = (thuyenvien_id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let ngoaingu = await db.ThuyenvienNgoaingu.findAll({
+                where: { id_thuyenvien: thuyenvien_id }
+            });
+            
+            if (ngoaingu && ngoaingu.length > 0) {
+                resolve(ngoaingu);
+            } else {
+                resolve([]);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let createNgoaiNgu = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            const result = await db.ThuyenvienNgoaingu.create({
+                id_thuyenvien: data.id_thuyenvien,
+                ngonngu: data.ngonngu,
+                tenchungchi: data.tenchungchi,
+                diemso: data.diemso,
+                ngaycap: data.ngaycap,
+                ngayhethan: data.ngayhethan,
+                file: data.file
+            });
+            resolve('Thêm chứng chỉ ngoại ngữ thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let updateNgoaiNgu = (id, data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let updateData = {
+                ngonngu: data.ngonngu,
+                tenchungchi: data.tenchungchi,
+                diemso: data.diemso,
+                ngaycap: data.ngaycap,
+                ngayhethan: data.ngayhethan
+            };
+            
+            // Only update file if a new one is provided
+            if (data.file) {
+                updateData.file = data.file;
+            }
+            
+            await db.ThuyenvienNgoaingu.update(
+                updateData,
+                {
+                    where: { id: id }
+                }
+            );
+            resolve('Cập nhật chứng chỉ ngoại ngữ thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let deleteNgoaiNgu = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await db.ThuyenvienNgoaingu.destroy({
+                where: { id: id }
+            });
+            resolve('Xóa chứng chỉ ngoại ngữ thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getNgoaiNguById = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let ngoaingu = await db.ThuyenvienNgoaingu.findOne({
+                where: { id: id }
+            });
+            
+            if (ngoaingu) {
+                resolve(ngoaingu);
+            } else {
+                resolve(null);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -322,5 +419,10 @@ module.exports = {
     getHocVanThuyenVien: getHocVanThuyenVien,
     createHocVan: createHocVan,
     updateHocVan: updateHocVan,
-    deleteHocVan: deleteHocVan
+    deleteHocVan: deleteHocVan,
+    getNgoaiNguThuyenVien: getNgoaiNguThuyenVien,
+    createNgoaiNgu: createNgoaiNgu,
+    updateNgoaiNgu: updateNgoaiNgu,
+    deleteNgoaiNgu: deleteNgoaiNgu,
+    getNgoaiNguById: getNgoaiNguById
 }

@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id_thuyenvien',
                 as: 'hocvan'
             });
+            
+            // Add relationship with ThuyenvienNgoaingu
+            Thuyenvien.hasMany(models.ThuyenvienNgoaingu, {
+                foreignKey: 'id_thuyenvien',
+                as: 'ngoaingu'
+            });
         }
     }
 

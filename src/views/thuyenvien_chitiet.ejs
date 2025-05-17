@@ -395,8 +395,108 @@
                             aria-labelledby="language-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
-                                    <h5 class="text-primary">Chứng chỉ ngoại ngữ</h5>
-                                    <p class="text-muted">Nội dung chứng chỉ ngoại ngữ sẽ được hiển thị ở đây.</p>
+                                    <h5 class="text-primary d-inline-block">Chứng chỉ ngoại ngữ</h5>
+                                    <a href="#" class="ml-2" data-toggle="modal" data-target="#addLanguageModal">
+                                        <i class="fas fa-plus-circle text-success" style="font-size: 20px;"></i>
+                                    </a>
+                                    
+                                    <% if (!ngoainguinfo || ngoainguinfo.length === 0) { %>
+                                        <div class="alert alert-info mt-3">
+                                            <p class="mb-0">Chưa có chứng chỉ ngoại ngữ. Vui lòng thêm chứng chỉ ngoại ngữ cho thuyền viên.</p>
+                                        </div>
+                                    <% } else { %>
+                                        <div class="table-responsive mt-3">
+                                            <table class="table table-bordered">
+                                                <thead class="table-secondary">
+                                                    <tr>
+                                                        <th>Ngôn ngữ</th>
+                                                        <th>Tên chứng chỉ</th>
+                                                        <th>Điểm số</th>
+                                                        <th>Ngày cấp</th>
+                                                        <th>Ngày hết hạn</th>
+                                                        <th>File đính kèm</th>
+                                                        <th>Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <% for (let i = 0; i < ngoainguinfo.length; i++) { %>
+                                                        <tr>
+                                                            <td><%= ngoainguinfo[i].ngonngu %></td>
+                                                            <td><%= ngoainguinfo[i].tenchungchi %></td>
+                                                            <td><%= ngoainguinfo[i].diemso %></td>
+                                                            <td>
+                                                                <% if (ngoainguinfo[i].ngaycap) { %>
+                                                                    <% 
+                                                                    // Safely format the date regardless of type
+                                                                    let ngaycap = ngoainguinfo[i].ngaycap;
+                                                                    let formattedDate;
+                                                                    if (typeof ngaycap === 'string') {
+                                                                        formattedDate = ngaycap.split('T')[0];
+                                                                    } else if (ngaycap instanceof Date) {
+                                                                        formattedDate = ngaycap.toISOString().split('T')[0];
+                                                                    } else {
+                                                                        formattedDate = ngaycap;
+                                                                    }
+                                                                    %>
+                                                                    <%= formattedDate %>
+                                                                <% } else { %>
+                                                                    N/A
+                                                                <% } %>
+                                                            </td>
+                                                            <td>
+                                                                <% if (ngoainguinfo[i].ngayhethan) { %>
+                                                                    <% 
+                                                                    // Safely format the date regardless of type
+                                                                    let ngayhethan = ngoainguinfo[i].ngayhethan;
+                                                                    let formattedDate;
+                                                                    if (typeof ngayhethan === 'string') {
+                                                                        formattedDate = ngayhethan.split('T')[0];
+                                                                    } else if (ngayhethan instanceof Date) {
+                                                                        formattedDate = ngayhethan.toISOString().split('T')[0];
+                                                                    } else {
+                                                                        formattedDate = ngayhethan;
+                                                                    }
+                                                                    %>
+                                                                    <%= formattedDate %>
+                                                                <% } else { %>
+                                                                    N/A
+                                                                <% } %>
+                                                            </td>
+                                                            <td>
+                                                                <% if (ngoainguinfo[i].file) { %>
+                                                                    <a href="<%= ngoainguinfo[i].file %>" target="_blank" class="btn btn-sm btn-info">
+                                                                        <i class="fas fa-file-download"></i> Xem
+                                                                    </a>
+                                                                <% } else { %>
+                                                                    Không có file
+                                                                <% } %>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <button 
+                                                                    class="btn btn-sm btn-warning editLanguageBtn"
+                                                                    data-id="<%= ngoainguinfo[i].id %>"
+                                                                    data-language="<%= ngoainguinfo[i].ngonngu %>"
+                                                                    data-certificate="<%= ngoainguinfo[i].tenchungchi %>"
+                                                                    data-score="<%= ngoainguinfo[i].diemso %>"
+                                                                    data-issued="<%= ngoainguinfo[i].ngaycap ? (typeof ngoainguinfo[i].ngaycap === 'string' ? ngoainguinfo[i].ngaycap.split('T')[0] : (ngoainguinfo[i].ngaycap instanceof Date ? ngoainguinfo[i].ngaycap.toISOString().split('T')[0] : ngoainguinfo[i].ngaycap)) : '' %>"
+                                                                    data-expired="<%= ngoainguinfo[i].ngayhethan ? (typeof ngoainguinfo[i].ngayhethan === 'string' ? ngoainguinfo[i].ngayhethan.split('T')[0] : (ngoainguinfo[i].ngayhethan instanceof Date ? ngoainguinfo[i].ngayhethan.toISOString().split('T')[0] : ngoainguinfo[i].ngayhethan)) : '' %>"
+                                                                    data-file="<%= ngoainguinfo[i].file %>"
+                                                                    data-toggle="modal"
+                                                                    data-target="#editLanguageModal">
+                                                                    <i class="fas fa-edit"></i>
+                                                                </button>
+                                                                <a href="/xoa-ngoai-ngu/<%= ngoainguinfo[i].id %>/<%= thuyenvieninfo.id_thuyenvien %>" 
+                                                                   class="btn btn-sm btn-danger" 
+                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    <% } %>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    <% } %>
                                 </div>
                             </div>
                         </div>
@@ -857,6 +957,119 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- MODAL THÊM CHỨNG CHỈ NGOẠI NGỮ -->
+                    <div class="modal fade" id="addLanguageModal" tabindex="-1" role="dialog" aria-labelledby="addLanguageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Thêm chứng chỉ ngoại ngữ</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="addLanguageForm" action="/them-ngoai-ngu" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <div class="form-group">
+                                            <label>Ngôn ngữ:</label>
+                                            <select class="form-control" name="ngonngu" required>
+                                                <option value="Tiếng Anh">Tiếng Anh</option>
+                                                <option value="Tiếng Nhật">Tiếng Nhật</option>
+                                                <option value="Tiếng Hàn">Tiếng Hàn</option>
+                                                <option value="Tiếng Trung">Tiếng Trung</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tên chứng chỉ:</label>
+                                            <input type="text" class="form-control" name="tenchungchi" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Điểm số:</label>
+                                            <input type="number" step="0.1" class="form-control" name="diemso" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày cấp:</label>
+                                            <input type="date" class="form-control" name="ngaycap" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày hết hạn:</label>
+                                            <input type="date" class="form-control" name="ngayhethan">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>File chứng chỉ:</label>
+                                            <input type="file" class="form-control-file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="submit" class="btn btn-success" form="addLanguageForm">Thêm chứng chỉ</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MODAL CHỈNH SỬA CHỨNG CHỈ NGOẠI NGỮ -->
+                    <div class="modal fade" id="editLanguageModal" tabindex="-1" role="dialog" aria-labelledby="editLanguageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Chỉnh sửa chứng chỉ ngoại ngữ</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editLanguageForm" action="/cap-nhat-ngoai-ngu" method="POST" enctype="multipart/form-data">
+                                        <input type="hidden" id="editLanguageId" name="id" value="">
+                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <div class="form-group">
+                                            <label>Ngôn ngữ:</label>
+                                            <select class="form-control" id="editLanguage" name="ngonngu" required>
+                                                <option value="Tiếng Anh">Tiếng Anh</option>
+                                                <option value="Tiếng Nhật">Tiếng Nhật</option>
+                                                <option value="Tiếng Hàn">Tiếng Hàn</option>
+                                                <option value="Tiếng Trung">Tiếng Trung</option>
+                                                <option value="Khác">Khác</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tên chứng chỉ:</label>
+                                            <input type="text" class="form-control" id="editCertificate" name="tenchungchi" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Điểm số:</label>
+                                            <input type="number" step="0.1" class="form-control" id="editScore" name="diemso" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày cấp:</label>
+                                            <input type="date" class="form-control" id="editIssued" name="ngaycap" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ngày hết hạn:</label>
+                                            <input type="date" class="form-control" id="editExpired" name="ngayhethan">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>File hiện tại:</label>
+                                            <div id="currentFileInfo" class="mb-2">
+                                                <span id="currentFileName">Không có file</span>
+                                            </div>
+                                            <label>Tải lên file mới (nếu cần):</label>
+                                            <input type="file" class="form-control-file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="submit" class="btn btn-primary" form="editLanguageForm">Lưu thay đổi</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -1025,6 +1238,36 @@
                 $('#editSchool').val(school);
                 $('#editProgram').val(program);
                 $('#editYear').val(year);
+            });
+
+            // Language certificate edit button functionality
+            $(document).ready(function() {
+                $('.editLanguageBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const language = $(this).data('language');
+                    const certificate = $(this).data('certificate');
+                    const score = $(this).data('score');
+                    const issued = $(this).data('issued');
+                    const expired = $(this).data('expired');
+                    const file = $(this).data('file');
+                    
+                    // Populate form fields with current data
+                    $('#editLanguageId').val(id);
+                    $('#editLanguage').val(language);
+                    $('#editCertificate').val(certificate);
+                    $('#editScore').val(score);
+                    $('#editIssued').val(issued);
+                    $('#editExpired').val(expired);
+                    
+                    // Update file information
+                    if (file) {
+                        const fileName = file.split('/').pop();
+                        $('#currentFileName').html(`<a href="${file}" target="_blank">${fileName}</a>`);
+                    } else {
+                        $('#currentFileName').text('Không có file');
+                    }
+                });
             });
         });
     </script>

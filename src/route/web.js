@@ -33,6 +33,11 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-hoc-van', ThuyenVienController.updateHocVan);
     router.get('/xoa-hoc-van/:id/:thuyenvien_id', ThuyenVienController.deleteHocVan);
     
+    // Language certificate routes
+    router.post('/them-ngoai-ngu', ThuyenVienController.createNgoaiNgu);
+    router.post('/cap-nhat-ngoai-ngu', ThuyenVienController.updateNgoaiNgu);
+    router.get('/xoa-ngoai-ngu/:id/:thuyenvien_id', ThuyenVienController.deleteNgoaiNgu);
+    
     app.use("/", router);
 };
 
