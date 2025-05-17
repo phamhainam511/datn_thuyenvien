@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id_thuyenvien',
                 as: 'chungchi'
             });
+            
+            // Add relationship with ThuyenvienTailieu
+            Thuyenvien.hasOne(models.ThuyenvienTailieu, {
+                foreignKey: 'id_thuyenvien',
+                as: 'tailieu'
+            });
         }
     }
 

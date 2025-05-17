@@ -43,6 +43,10 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-chung-chi', ThuyenVienController.updateChungChi);
     router.get('/xoa-chung-chi/:id/:thuyenvien_id', ThuyenVienController.deleteChungChi);
     
+    // Document routes
+    router.post('/upload-tai-lieu/:id', ThuyenVienController.uploadTaiLieu);
+    router.get('/xoa-tai-lieu/:id/:field', ThuyenVienController.deleteTaiLieuFile);
+    
     app.use("/", router);
 };
 

@@ -64,6 +64,61 @@ const uploadCertificate = multer({
     }
 }).single('crew_certificate_file');
 
+// Configure multer for document file uploads
+const documentStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        // Determine the correct destination based on file type
+        let uploadFolder;
+        const fieldname = file.fieldname;
+        
+        switch(fieldname) {
+            case 'cccd_mattruoc':
+            case 'cccd_matsau':
+                uploadFolder = 'id_cards';
+                break;
+            case 'phieutiemvacxin':
+                uploadFolder = 'vaccination';
+                break;
+            case 'chungnhanvangda':
+                uploadFolder = 'yellow_fever';
+                break;
+            default:
+                uploadFolder = 'other_documents';
+        }
+        
+        const uploadPath = path.join(__dirname, `../public/uploads/documents/${uploadFolder}`);
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
+    },
+    filename: function(req, file, cb) {
+        const fieldname = file.fieldname;
+        cb(null, `${fieldname}_${req.params.id}_${Date.now()}${path.extname(file.originalname)}`);
+    }
+});
+
+const uploadDocuments = multer({ 
+    storage: documentStorage,
+    fileFilter: function(req, file, cb) {
+        const filetypes = /jpeg|jpg|png|pdf/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+        }
+    }
+}).fields([
+    { name: 'cccd_mattruoc', maxCount: 1 },
+    { name: 'cccd_matsau', maxCount: 1 },
+    { name: 'phieutiemvacxin', maxCount: 1 },
+    { name: 'chungnhanvangda', maxCount: 1 }
+]);
+
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     return res.render('danhsach_thuyenvien.ejs', {
@@ -198,6 +253,7 @@ let getThuyenVienById = async (req, res) => {
         let hocvan_data = await ThuyenVienServices.getHocVanThuyenVien(thuyenvien_id);
         let ngoaingu_data = await ThuyenVienServices.getNgoaiNguThuyenVien(thuyenvien_id);
         let chungchi_data = await ThuyenVienServices.getChungChiThuyenVien(thuyenvien_id);
+        let tailieu_data = await ThuyenVienServices.getTaiLieuThuyenVien(thuyenvien_id);
 
         return res.render('thuyenvien_chitiet.ejs', {
             thuyenvieninfo : thuyenvien_data,
@@ -207,7 +263,8 @@ let getThuyenVienById = async (req, res) => {
             tauinfo : tau_data,
             hocvaninfo: hocvan_data,
             ngoainguinfo: ngoaingu_data,
-            chungchiinfo: chungchi_data
+            chungchiinfo: chungchi_data,
+            tailieuinfo: tailieu_data
         });
     }
     else{
@@ -379,6 +436,92 @@ let deleteChungChi = async(req, res) => {
     }
 };
 
+let uploadTaiLieu = async(req, res) => {
+    uploadDocuments(req, res, async function(err) {
+        if (err) {
+            return res.send('Lỗi khi tải lên file: ' + err);
+        }
+        
+        try {
+            const thuyenvien_id = req.params.id;
+            let data = {};
+            
+            // Process each uploaded file and add to data object
+            if (req.files) {
+                if (req.files.cccd_mattruoc) {
+                    data.cccd_mattruoc = '/uploads/documents/id_cards/' + req.files.cccd_mattruoc[0].filename;
+                }
+                
+                if (req.files.cccd_matsau) {
+                    data.cccd_matsau = '/uploads/documents/id_cards/' + req.files.cccd_matsau[0].filename;
+                }
+                
+                if (req.files.phieutiemvacxin) {
+                    data.phieutiemvacxin = '/uploads/documents/vaccination/' + req.files.phieutiemvacxin[0].filename;
+                }
+                
+                if (req.files.chungnhanvangda) {
+                    data.chungnhanvangda = '/uploads/documents/yellow_fever/' + req.files.chungnhanvangda[0].filename;
+                }
+            }
+            
+            // Check if we have any files to update
+            if (Object.keys(data).length > 0) {
+                // Get existing record to check if there are old files to delete
+                const existingRecord = await ThuyenVienServices.getTaiLieuThuyenVien(thuyenvien_id);
+                
+                if (existingRecord) {
+                    // Delete old files if they are being replaced
+                    for (const field in data) {
+                        if (existingRecord[field]) {
+                            const oldFilePath = path.join(__dirname, '../public', existingRecord[field]);
+                            // Delete old file if it exists
+                            if (fs.existsSync(oldFilePath)) {
+                                fs.unlinkSync(oldFilePath);
+                            }
+                        }
+                    }
+                }
+                
+                await ThuyenVienServices.createOrUpdateTaiLieu(thuyenvien_id, data);
+            }
+            
+            return res.redirect('/thuyen-vien/' + thuyenvien_id);
+        } catch (error) {
+            res.send('Lỗi: ' + error.message);
+        }
+    });
+};
+
+let deleteTaiLieuFile = async(req, res) => {
+    try {
+        const thuyenvien_id = req.params.id;
+        const fieldName = req.params.field;
+        
+        // Get the existing record
+        const record = await ThuyenVienServices.getTaiLieuThuyenVien(thuyenvien_id);
+        
+        if (!record || !record[fieldName]) {
+            return res.send('Không tìm thấy tài liệu');
+        }
+        
+        // Delete the file
+        const filePath = path.join(__dirname, '../public', record[fieldName]);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+        
+        // Update the database record
+        let updateData = {};
+        updateData[fieldName] = null;
+        await ThuyenVienServices.createOrUpdateTaiLieu(thuyenvien_id, updateData);
+        
+        return res.redirect('/thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
 module.exports = {
     getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
@@ -397,5 +540,7 @@ module.exports = {
     deleteNgoaiNgu: deleteNgoaiNgu,
     createChungChi: createChungChi,
     updateChungChi: updateChungChi,
-    deleteChungChi: deleteChungChi
+    deleteChungChi: deleteChungChi,
+    uploadTaiLieu: uploadTaiLieu,
+    deleteTaiLieuFile: deleteTaiLieuFile
 }

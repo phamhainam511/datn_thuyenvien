@@ -514,6 +514,77 @@ let getChungChiById = (id) => {
     });
 };
 
+let getTaiLieuThuyenVien = (thuyenvien_id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let tailieu = await db.ThuyenvienTailieu.findOne({
+                where: { id_thuyenvien: thuyenvien_id }
+            });
+            
+            if (tailieu) {
+                resolve(tailieu);
+            } else {
+                resolve(null);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let createOrUpdateTaiLieu = (thuyenvien_id, data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Check if a record already exists
+            const existingRecord = await db.ThuyenvienTailieu.findOne({
+                where: { id_thuyenvien: thuyenvien_id }
+            });
+            
+            if (existingRecord) {
+                // Update existing record
+                await existingRecord.update(data);
+                resolve('Cập nhật tài liệu thành công!');
+            } else {
+                // Create new record
+                data.id_thuyenvien = thuyenvien_id;
+                await db.ThuyenvienTailieu.create(data);
+                resolve('Thêm tài liệu thành công!');
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getTaiLieuById = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            let tailieu = await db.ThuyenvienTailieu.findByPk(id);
+            
+            if (tailieu) {
+                resolve(tailieu);
+            } else {
+                resolve(null);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let deleteTaiLieu = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await db.ThuyenvienTailieu.destroy({
+                where: { id: id }
+            });
+            resolve('Xóa tài liệu thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -541,5 +612,9 @@ module.exports = {
     createChungChi: createChungChi,
     updateChungChi: updateChungChi,
     deleteChungChi: deleteChungChi,
-    getChungChiById: getChungChiById
+    getChungChiById: getChungChiById,
+    getTaiLieuThuyenVien: getTaiLieuThuyenVien,
+    createOrUpdateTaiLieu: createOrUpdateTaiLieu,
+    getTaiLieuById: getTaiLieuById,
+    deleteTaiLieu: deleteTaiLieu
 }
