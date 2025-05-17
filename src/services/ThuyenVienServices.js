@@ -712,6 +712,21 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
     }
 };
 
+let updateThuyenVienStatus = (id, newStatus) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            await db.Thuyenvien.update(
+                { trangthai: newStatus },
+                { where: { id_thuyenvien: id } }
+            );
+            resolve('Cập nhật trạng thái thành công!');
+        } catch (e) {
+            console.log(e);
+            reject(e);
+        }
+    });
+}
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien: getAllThuyenVien,
@@ -746,5 +761,6 @@ module.exports = {
     deleteTaiLieu: deleteTaiLieu,
     getExpiringCertificates: getExpiringCertificates,
     getExpiredCertificates: getExpiredCertificates,
-    createNewThuyenVienFull: createNewThuyenVienFull
+    createNewThuyenVienFull: createNewThuyenVienFull,
+    updateThuyenVienStatus: updateThuyenVienStatus,
 }

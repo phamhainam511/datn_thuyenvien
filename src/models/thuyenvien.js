@@ -84,6 +84,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        trangthai: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            defaultValue: 'Đang trên bờ',
+            validate: {
+                isIn: [['Đang chờ tàu', 'Đang trên tàu', 'Đang trên bờ']]
+            }
+        },
     }, {
         sequelize,
         modelName: 'Thuyenvien',

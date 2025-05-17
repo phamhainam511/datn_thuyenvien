@@ -53,6 +53,12 @@ const initWebRoutes = (app) => {
     router.get('/cer-expiring', ThuyenVienController.getExpiringCertificates);
     router.get('/cer-expired', ThuyenVienController.getExpiredCertificates);
     
+    // Add status update route
+    router.post('/cap-nhat-trang-thai/:id', ThuyenVienController.updateThuyenVienStatus);
+    
+    // Add photo upload route
+    router.post('/upload-anh-thuyen-vien/:id', ThuyenVienController.uploadThuyenVienPhoto);
+    
     app.use("/", router);
 };
 

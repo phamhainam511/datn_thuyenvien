@@ -861,6 +861,59 @@ let createNewThuyenVien = async (req, res) => {
     });
 };
 
+let updateThuyenVienStatus = async (req, res) => {
+    try {
+        const thuyenvien_id = req.params.id;
+        const status = req.body.trangthai; // Assuming status is sent in the request body
+        
+        await ThuyenVienServices.updateThuyenVienStatus(thuyenvien_id, status);
+        
+        return res.redirect('/thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        console.error('Error updating status:', error);
+        return res.status(500).send('Server error: ' + error.message);
+    }
+}
+
+let uploadThuyenVienPhoto = async(req, res) => {
+    uploadCrewPhoto(req, res, async function(err) {
+        if (err) {
+            return res.status(400).send('Error uploading photo: ' + err);
+        }
+        
+        try {
+            const thuyenvien_id = req.params.id;
+            
+            // If file was uploaded, update the database with the file path
+            if (req.file) {
+                // Get existing record to check if there's an old photo to delete
+                const existingRecord = await ThuyenVienServices.getThuyenVienId(thuyenvien_id);
+                
+                if (existingRecord && existingRecord.anh) {
+                    const oldFilePath = path.join(__dirname, '../public', existingRecord.anh);
+                    // Delete old file if it exists
+                    if (fs.existsSync(oldFilePath)) {
+                        fs.unlinkSync(oldFilePath);
+                    }
+                }
+                
+                // Store relative path for database
+                const photoPath = '/uploads/crew_photos/' + req.file.filename;
+                
+                // Update the thuyenvien record with the new photo path
+                await ThuyenVienServices.updateThuyenVienData(thuyenvien_id, { anh: photoPath });
+                
+                return res.redirect('/thuyen-vien/' + thuyenvien_id);
+            } else {
+                return res.status(400).send('No file was uploaded');
+            }
+        } catch (error) {
+            console.error('Error updating photo:', error);
+            return res.status(500).send('Server error: ' + error.message);
+        }
+    });
+};
+
 module.exports = {
     getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
@@ -885,5 +938,7 @@ module.exports = {
     getExpiringCertificates: getExpiringCertificates,
     getExpiredCertificates: getExpiredCertificates,
     getAddThuyenVienForm: getAddThuyenVienForm,
-    createNewThuyenVien: createNewThuyenVien
+    createNewThuyenVien: createNewThuyenVien,
+    updateThuyenVienStatus: updateThuyenVienStatus,
+    uploadThuyenVienPhoto: uploadThuyenVienPhoto,
 }
