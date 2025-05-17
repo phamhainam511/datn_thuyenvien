@@ -119,6 +119,99 @@ const uploadDocuments = multer({
     { name: 'chungnhanvangda', maxCount: 1 }
 ]);
 
+// Configure multer for crew member photo upload
+const crewPhotoStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        const uploadPath = path.join(__dirname, '../public/uploads/crew_photos');
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
+    },
+    filename: function(req, file, cb) {
+        cb(null, 'crew_photo_' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const uploadCrewPhoto = multer({ 
+    storage: crewPhotoStorage,
+    fileFilter: function(req, file, cb) {
+        const filetypes = /jpeg|jpg|png/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+        }
+    }
+}).single('crew_photo');
+
+// Configure multer for multiple file uploads in the add new crew member form
+const newCrewStorage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        let uploadFolder;
+        
+        // Determine the correct destination based on field name
+        if (file.fieldname === 'crew_photo') {
+            uploadFolder = 'crew_photos';
+        } else if (file.fieldname.startsWith('certificate_file')) {
+            uploadFolder = 'language_certificates';
+        } else if (file.fieldname.startsWith('crew_certificate_file')) {
+            uploadFolder = 'crew_certificates';
+        } else if (file.fieldname === 'cccd_mattruoc' || file.fieldname === 'cccd_matsau') {
+            uploadFolder = 'documents/id_cards';
+        } else if (file.fieldname === 'phieutiemvacxin') {
+            uploadFolder = 'documents/vaccination';
+        } else if (file.fieldname === 'chungnhanvangda') {
+            uploadFolder = 'documents/yellow_fever';
+        } else {
+            uploadFolder = 'documents/other_documents';
+        }
+        
+        const uploadPath = path.join(__dirname, `../public/uploads/${uploadFolder}`);
+        // Create directory if it doesn't exist
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath, { recursive: true });
+        }
+        cb(null, uploadPath);
+    },
+    filename: function(req, file, cb) {
+        const prefix = 
+            file.fieldname === 'crew_photo' ? 'crew_photo_' :
+            file.fieldname.startsWith('certificate_file') ? 'lang_cert_' :
+            file.fieldname.startsWith('crew_certificate_file') ? 'crew_cert_' :
+            file.fieldname;
+            
+        cb(null, `${prefix}_${Date.now()}${path.extname(file.originalname)}`);
+    }
+});
+
+const uploadNewCrewFiles = multer({ 
+    storage: newCrewStorage,
+    fileFilter: function(req, file, cb) {
+        const filetypes = /jpeg|jpg|png|pdf/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+        
+        if (mimetype && extname) {
+            return cb(null, true);
+        } else {
+            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+        }
+    }
+}).fields([
+    { name: 'crew_photo', maxCount: 1 },
+    { name: 'certificate_file[]', maxCount: 10 },
+    { name: 'crew_certificate_file[]', maxCount: 10 },
+    { name: 'cccd_mattruoc', maxCount: 1 },
+    { name: 'cccd_matsau', maxCount: 1 },
+    { name: 'phieutiemvacxin', maxCount: 1 },
+    { name: 'chungnhanvangda', maxCount: 1 }
+]);
+
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     return res.render('danhsach_thuyenvien.ejs', {
@@ -584,6 +677,190 @@ let getExpiredCertificates = async (req, res) => {
     }
 };
 
+// Render the add new crew member form
+let getAddThuyenVienForm = async (req, res) => {
+    try {
+        // Get necessary data for dropdowns
+        let chucvu_data = await ThuyenVienServices.getAllChucVu();
+        let tau_data = await ThuyenVienServices.getAllTau();
+        let chungchi_data = await ThuyenVienServices.getAllChungChi();
+        
+        return res.render('thuyenvien_themmoi.ejs', {
+            chucvuinfo: chucvu_data,
+            tauinfo: tau_data,
+            chungchiinfo: chungchi_data
+        });
+    } catch (error) {
+        console.error('Error loading form data:', error);
+        return res.status(500).send('Server error: ' + error.message);
+    }
+};
+
+// Process the new crew member form submission
+let createNewThuyenVien = async (req, res) => {
+    uploadNewCrewFiles(req, res, async function(err) {
+        if (err) {
+            return res.status(400).send('Error uploading files: ' + err);
+        }
+        
+        try {
+            // Extract basic crew info from request body
+            const crewData = {
+                hoten: req.body.hoten,
+                ngaysinh: req.body.ngaysinh,
+                cccd: req.body.cccd,
+                chieucao: req.body.chieucao,
+                cannang: req.body.cannang,
+                nhommau: req.body.nhommau,
+                sizegiay: req.body.sizegiay,
+                sizegiaybaoho: req.body.sizegiaybaoho,
+                email: req.body.email,
+                sodienthoai: req.body.sodienthoai,
+                tinhtranghonnhan: req.body.tinhtranghonnhan
+            };
+            
+            // Add crew photo path if uploaded
+            if (req.files && req.files.crew_photo) {
+                crewData.photo = '/uploads/crew_photos/' + req.files.crew_photo[0].filename;
+            }
+            
+            // Prepare family info
+            const familyData = {
+                hotenbo: req.body.hotenbo,
+                sdtbo: req.body.sdtbo,
+                hotenme: req.body.hotenme,
+                sdtme: req.body.sdtme,
+                hotenvo: req.body.hotenvo,
+                sdtvo: req.body.sdtvo,
+                nguoigiamho: req.body.nguoigiamho,
+                sdtgiamho: req.body.sdtgiamho,
+                diachi: req.body.diachi
+            };
+            
+            // Prepare education info
+            const educationData = {
+                truongdaotao: req.body.truongdaotao,
+                hedaotao: req.body.hedaotao,
+                namtotnghiep: req.body.namtotnghiep
+            };
+            
+            // Prepare language certificates
+            let languageCertificates = [];
+
+            if (Array.isArray(req.body['ngonngu'])) {
+                for (let i = 0; i < req.body['ngonngu'].length; i++) {
+                    const certData = {
+                        ngonngu: req.body['ngonngu'][i],
+                        tenchungchi: req.body['tenchungchi_nn'][i],
+                        diemso: req.body['diemso'][i],
+                        ngaycap: req.body['ngaycap_nn'][i] || null,
+                        ngayhethan: req.body['ngayhethan_nn'][i] || null
+                    };
+                    
+                    // Add file path if available
+                    if (req.files && req.files['certificate_file[]'] && req.files['certificate_file[]'][i]) {
+                        certData.file = '/uploads/language_certificates/' + req.files['certificate_file[]'][i].filename;
+                    }
+                    
+                    languageCertificates.push(certData);
+                }
+            } else if (req.body['ngonngu']) {
+                // Handle single language certificate
+                const certData = {
+                    ngonngu: req.body['ngonngu'],
+                    tenchungchi: req.body['tenchungchi_nn'],
+                    diemso: req.body['diemso'],
+                    ngaycap: req.body['ngaycap_nn'] || null,
+                    ngayhethan: req.body['ngayhethan_nn'] || null
+                };
+                
+                // Add file path if available
+                if (req.files && req.files['certificate_file[]']) {
+                    certData.file = '/uploads/language_certificates/' + req.files['certificate_file[]'][0].filename;
+                }
+                
+                languageCertificates.push(certData);
+            }
+            
+            // Prepare crew certificates
+            let crewCertificates = [];
+            if (Array.isArray(req.body['tenchungchi_tv'])) {
+                for (let i = 0; i < req.body['tenchungchi_tv'].length; i++) {
+                    const certData = {
+                        tenchungchi: req.body['tenchungchi_tv'][i],
+                        sohieuchungchi: req.body['sohieuchungchi'][i],
+                        ngaycap: req.body['ngaycap_tv'][i] || null,
+                        ngayhethan: req.body['ngayhethan_tv'][i] || null,
+                        noicap: req.body['noicap'][i],
+                        xeploai: req.body['xeploai'][i]
+                    };
+                    
+                    // Add file path if available
+                    if (req.files && req.files['crew_certificate_file[]'] && req.files['crew_certificate_file[]'][i]) {
+                        certData.file = '/uploads/crew_certificates/' + req.files['crew_certificate_file[]'][i].filename;
+                    }
+                    
+                    crewCertificates.push(certData);
+                }
+            } else if (req.body['tenchungchi_tv']) {
+                // Handle single crew certificate
+                const certData = {
+                    tenchungchi: req.body['tenchungchi_tv'],
+                    sohieuchungchi: req.body['sohieuchungchi'],
+                    ngaycap: req.body['ngaycap_tv'] || null,
+                    ngayhethan: req.body['ngayhethan_tv'] || null,
+                    noicap: req.body['noicap'],
+                    xeploai: req.body['xeploai']
+                };
+                
+                // Add file path if available
+                if (req.files && req.files['crew_certificate_file[]']) {
+                    certData.file = '/uploads/crew_certificates/' + req.files['crew_certificate_file[]'][0].filename;
+                }
+                
+                crewCertificates.push(certData);
+            }
+            
+            // Prepare document attachments
+            const documentData = {};
+            
+            if (req.files) {
+                if (req.files.cccd_mattruoc) {
+                    documentData.cccd_mattruoc = '/uploads/documents/id_cards/' + req.files.cccd_mattruoc[0].filename;
+                }
+                
+                if (req.files.cccd_matsau) {
+                    documentData.cccd_matsau = '/uploads/documents/id_cards/' + req.files.cccd_matsau[0].filename;
+                }
+                
+                if (req.files.phieutiemvacxin) {
+                    documentData.phieutiemvacxin = '/uploads/documents/vaccination/' + req.files.phieutiemvacxin[0].filename;
+                }
+                
+                if (req.files.chungnhanvangda) {
+                    documentData.chungnhanvangda = '/uploads/documents/yellow_fever/' + req.files.chungnhanvangda[0].filename;
+                }
+            }
+
+            // Submit all data to service
+            const result = await ThuyenVienServices.createNewThuyenVienFull(
+                crewData,
+                familyData,
+                educationData,
+                languageCertificates,
+                crewCertificates,
+                documentData
+            );
+            
+            // Redirect to the crew list page after successful creation
+            return res.redirect('/danh-sach-thuyen-vien');
+        } catch (error) {
+            console.error('Error creating crew member:', error);
+            return res.status(500).send('Server error: ' + error.message);
+        }
+    });
+};
+
 module.exports = {
     getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
@@ -606,5 +883,7 @@ module.exports = {
     uploadTaiLieu: uploadTaiLieu,
     deleteTaiLieuFile: deleteTaiLieuFile,
     getExpiringCertificates: getExpiringCertificates,
-    getExpiredCertificates: getExpiredCertificates
+    getExpiredCertificates: getExpiredCertificates,
+    getAddThuyenVienForm: getAddThuyenVienForm,
+    createNewThuyenVien: createNewThuyenVien
 }

@@ -645,12 +645,77 @@ let getExpiredCertificates = () => {
     });
 };
 
-// ...existing code...
+let createNewThuyenVienFull = async (crewData, familyData, educationData, languageCertificates, crewCertificates, documentData) => {
+    let transaction;
+    
+    try {
+        // Start transaction to ensure data consistency
+        transaction = await db.sequelize.transaction();
+        
+        // 1. Create the main thuyenvien record
+        const newCrewMember = await db.Thuyenvien.create(crewData, { transaction });
+        const thuyenvien_id = newCrewMember.id_thuyenvien;
+        
+        // 2. Create family info if provided
+        if (Object.values(familyData).some(val => val)) {
+            familyData.thuyenvien_id = thuyenvien_id;
+            await db.Thannhan.create(familyData, { transaction });
+        }
+        
+        // 3. Create education info if provided
+        if (educationData.truongdaotao) {
+            educationData.id_thuyenvien = thuyenvien_id;
+            await db.ThuyenvienHocvan.create(educationData, { transaction });
+        }
+        
+        // 4. Create language certificates if provided
+        if (languageCertificates && languageCertificates.length > 0) {
+            for (const certData of languageCertificates) {
+                // Skip empty certificates
+                if (!certData.ngonngu && !certData.tenchungchi) continue;
+                
+                certData.id_thuyenvien = thuyenvien_id;
+                await db.ThuyenvienNgoaingu.create(certData, { transaction });
+            }
+        }
+        
+        // 5. Create crew certificates if provided
+        if (crewCertificates && crewCertificates.length > 0) {
+            for (const certData of crewCertificates) {
+                // Skip empty certificates
+                if (!certData.tenchungchi) continue;
+                
+                certData.id_thuyenvien = thuyenvien_id;
+                await db.ThuyenvienChungchi.create(certData, { transaction });
+            }
+        }
+        
+        // 6. Create document attachments if provided
+        if (Object.keys(documentData).length > 0) {
+            documentData.id_thuyenvien = thuyenvien_id;
+            await db.ThuyenvienTailieu.create(documentData, { transaction });
+        }
+        
+        // Commit transaction if all operations succeed
+        await transaction.commit();
+        
+        return {
+            success: true,
+            message: 'Thêm thuyền viên thành công',
+            thuyenvienId: thuyenvien_id
+        };
+    } catch (error) {
+        // Rollback transaction if any operation fails
+        if (transaction) await transaction.rollback();
+        console.error('Error creating crew member:', error);
+        throw error;
+    }
+};
 
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
-    getAllThuyenVien : getAllThuyenVien,
-    getThuyenVienId : getThuyenVienId,
+    getAllThuyenVien: getAllThuyenVien,
+    getThuyenVienId: getThuyenVienId,
     updateThuyenVienData: updateThuyenVienData,
     deleteThuyenVien: deleteThuyenVien,
     getNhanThanThuyenVien: getNhanThanThuyenVien,
@@ -680,5 +745,6 @@ module.exports = {
     getTaiLieuById: getTaiLieuById,
     deleteTaiLieu: deleteTaiLieu,
     getExpiringCertificates: getExpiringCertificates,
-    getExpiredCertificates: getExpiredCertificates
+    getExpiredCertificates: getExpiredCertificates,
+    createNewThuyenVienFull: createNewThuyenVienFull
 }

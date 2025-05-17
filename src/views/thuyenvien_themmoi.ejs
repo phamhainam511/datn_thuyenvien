@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PITSCO Crew Management System - Thêm thuyền viên mới</title>
+
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="/css/style.css" rel="stylesheet">
+
+    <!-- Include header partial -->
+    <%- include('partials/header', { title: 'Thêm thuyền viên mới', baseUrl: '/' }) %>
+
+    <style>
+        /* Remove form section hiding */
+        .form-section {
+            display: block; /* Show all sections instead of hiding them */
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        
+        /* Remove the .active class since we don't need it anymore */
+        .form-section.active {
+            display: block;
+        }
+        
+        /* Add section heading styles */
+        .section-heading {
+            background-color: #f8f9fc;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4e73df;
+        }
+        
+        .crew-photo-upload {
+            width: 150px;
+            height: 180px;
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            margin: 0 auto 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .crew-photo-upload img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .crew-photo-upload .upload-icon {
+            font-size: 40px;
+            color: #ccc;
+        }
+        .photo-upload-btn {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.6);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .photo-upload-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+        #photoInput {
+            display: none;
+        }
+        .step-indicator {
+            margin-bottom: 20px;
+        }
+        .step-indicator .step {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            margin: 0 5px;
+            background: #f8f9fc;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            color: #888;
+            position: relative;
+        }
+        .step-indicator .step.active {
+            background: #4e73df;
+            border-color: #4e73df;
+            color: white;
+        }
+        .step-indicator .step-label {
+            display: block;
+            text-align: center;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+        .step-indicator .step.active .step-label {
+            color: #4e73df;
+            font-weight: bold;
+        }
+        .form-navigation {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .field-required::after {
+            content: " *";
+            color: red;
+        }
+        .certificate-row {
+            background-color: #f8f9fc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .remove-certificate {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: #e74a3b;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Include sidebar partial -->
+        <%- include('partials/sidebar', { activeMenu: 'crews', baseUrl: '/' }) %>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <!-- Include topbar partial -->
+                <%- include('partials/topbar', { baseUrl: '/' }) %>
+                
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Thêm thuyền viên mới</h1>
+                    </div>
+
+                    <!-- Form Navigation -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Nhập thông tin thuyền viên</h6>
+                        </div>
+                        <div class="card-body">
+                            <!-- Remove step indicator since we're showing all sections -->
+                            
+                            <!-- Form Wrapper -->
+                            <form id="crewForm" action="/them-thuyen-vien" method="POST" enctype="multipart/form-data">
+                                
+                                <!-- Section 1: Personal Information -->
+                                <div class="form-section" id="section1">
+                                    <h5 class="text-primary mb-4 section-heading">1. Thông tin cá nhân</h5>
+
+                                    <div class="row">
+                                        <div class="col-md-3 text-center">
+                                            <div class="crew-photo-upload" id="photoPreviewContainer">
+                                                <div class="upload-icon">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <div class="photo-upload-btn">
+                                                    <i class="fas fa-camera"></i> Chọn ảnh
+                                                </div>
+                                                <input type="file" id="photoInput" name="crew_photo" accept="image/*">
+                                            </div>
+                                            <small class="text-muted">Tải lên ảnh thuyền viên</small>
+                                        </div>
+
+                                        <div class="col-md-9">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="field-required">Họ và tên:</label>
+                                                        <input type="text" class="form-control" name="hoten" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="field-required">Ngày sinh:</label>
+                                                        <input type="date" class="form-control" name="ngaysinh" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="field-required">CCCD:</label>
+                                                        <input type="text" class="form-control" name="cccd" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Chiều cao (cm):</label>
+                                                        <input type="number" class="form-control" name="chieucao">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Cân nặng (kg):</label>
+                                                        <input type="number" class="form-control" name="cannang">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Nhóm máu:</label>
+                                                        <select class="form-control" name="nhommau">
+                                                            <option value="">-- Chọn --</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="AB">AB</option>
+                                                            <option value="O">O</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Size giày:</label>
+                                                        <input type="text" class="form-control" name="sizegiay">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Size giày bảo hộ:</label>
+                                                        <input type="text" class="form-control" name="sizegiaybaoho">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="field-required">Email:</label>
+                                                        <input type="email" class="form-control" name="email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="field-required">Số điện thoại:</label>
+                                                        <input type="text" class="form-control" name="sodienthoai" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Tình trạng hôn nhân:</label>
+                                                        <select class="form-control" name="tinhtranghonnhan">
+                                                            <option value="Độc thân">Độc thân</option>
+                                                            <option value="Đã kết hôn">Đã kết hôn</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 2: Family Information -->
+                                <div class="form-section" id="section2">
+                                    <h5 class="text-primary mb-4 section-heading">2. Thông tin gia đình</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Họ tên bố:</label>
+                                                <input type="text" class="form-control" name="hotenbo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Số điện thoại bố:</label>
+                                                <input type="text" class="form-control" name="sdtbo">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Họ tên mẹ:</label>
+                                                <input type="text" class="form-control" name="hotenme">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Số điện thoại mẹ:</label>
+                                                <input type="text" class="form-control" name="sdtme">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Họ tên vợ/chồng:</label>
+                                                <input type="text" class="form-control" name="hotenvo">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Số điện thoại vợ/chồng:</label>
+                                                <input type="text" class="form-control" name="sdtvo">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Họ tên người giám hộ:</label>
+                                                <input type="text" class="form-control" name="nguoigiamho">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Số điện thoại người giám hộ:</label>
+                                                <input type="text" class="form-control" name="sdtgiamho">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Địa chỉ:</label>
+                                                <textarea class="form-control" name="diachi" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 3: Education -->
+                                <div class="form-section" id="section3">
+                                    <h5 class="text-primary mb-4 section-heading">3. Học vấn</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="field-required">Trường đào tạo:</label>
+                                                <input type="text" class="form-control" name="truongdaotao" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="field-required">Hệ đào tạo:</label>
+                                                <select class="form-control" name="hedaotao" required>
+                                                    <option value="">-- Chọn --</option>
+                                                    <option value="Trung cấp">Trung cấp</option>
+                                                    <option value="Cao đẳng">Cao đẳng</option>
+                                                    <option value="Đại học">Đại học</option>
+                                                    <option value="Sau đại học">Sau đại học</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="field-required">Năm tốt nghiệp:</label>
+                                                <input type="number" class="form-control" name="namtotnghiep" min="1980" max="2030" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section 4: Language Certificates -->
+                                <div class="form-section" id="section4">
+                                    <h5 class="text-primary mb-4 section-heading">4. Chứng chỉ ngoại ngữ</h5>
+                                    
+                                    <div id="languageCertificates">
+                                        <div class="certificate-row" id="languageCert0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Ngôn ngữ:</label>
+                                                        <select class="form-control" name="ngonngu[]">
+                                                            <option value="Tiếng Anh">Tiếng Anh</option>
+                                                            <option value="Tiếng Nhật">Tiếng Nhật</option>
+                                                            <option value="Tiếng Hàn">Tiếng Hàn</option>
+                                                            <option value="Tiếng Trung">Tiếng Trung</option>
+                                                            <option value="Khác">Khác</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Tên chứng chỉ:</label>
+                                                        <input type="text" class="form-control" name="tenchungchi_nn[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Điểm số:</label>
+                                                        <input type="number" step="0.1" class="form-control" name="diemso[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Ngày cấp:</label>
+                                                        <input type="date" class="form-control" name="ngaycap_nn[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label>Ngày hết hạn:</label>
+                                                        <input type="date" class="form-control" name="ngayhethan_nn[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>File chứng chỉ:</label>
+                                                        <input type="file" class="form-control-file" name="certificate_file[]" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-3">
+                                        <button type="button" class="btn btn-success" id="addLanguageCert">
+                                            <i class="fas fa-plus"></i> Thêm chứng chỉ ngoại ngữ
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Section 5: Crew Certificates -->
+                                <div class="form-section" id="section5">
+                                    <h5 class="text-primary mb-4 section-heading">5. Chứng chỉ thuyền viên</h5>
+                                    
+                                    <div id="crewCertificates">
+                                        <div class="certificate-row" id="crewCert0">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Tên chứng chỉ:</label>
+                                                        <input type="text" class="form-control" name="tenchungchi_tv[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Số hiệu chứng chỉ:</label>
+                                                        <input type="text" class="form-control" name="sohieuchungchi[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Ngày cấp:</label>
+                                                        <input type="date" class="form-control" name="ngaycap_tv[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Ngày hết hạn:</label>
+                                                        <input type="date" class="form-control" name="ngayhethan_tv[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Nơi cấp:</label>
+                                                        <input type="text" class="form-control" name="noicap[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label>Xếp loại:</label>
+                                                        <input type="text" class="form-control" name="xeploai[]">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label>File chứng chỉ:</label>
+                                                        <input type="file" class="form-control-file" name="crew_certificate_file[]" accept=".pdf,.jpg,.jpeg,.png">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center mt-3">
+                                        <button type="button" class="btn btn-success" id="addCrewCert">
+                                            <i class="fas fa-plus"></i> Thêm chứng chỉ thuyền viên
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Section 6: Attachments -->
+                                <div class="form-section" id="section6">
+                                    <h5 class="text-primary mb-4 section-heading">6. Tài liệu đính kèm</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="mb-0">CCCD Mặt Trước</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" name="cccd_mattruoc" accept=".jpg,.jpeg,.png,.pdf">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="mb-0">CCCD Mặt Sau</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" name="cccd_matsau" accept=".jpg,.jpeg,.png,.pdf">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="mb-0">Phiếu Tiêm Vắc Xin</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" name="phieutiemvacxin" accept=".jpg,.jpeg,.png,.pdf">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-light">
+                                                    <h6 class="mb-0">Chứng Nhận Vàng Da</h6>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                        <input type="file" class="form-control-file" name="chungnhanvangda" accept=".jpg,.jpeg,.png,.pdf">
+                                                        <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Replace form navigation buttons with a single submit button -->
+                                <div class="text-center mt-5">
+                                    <button type="submit" class="btn btn-success btn-lg">
+                                        <i class="fas fa-save"></i> Lưu thông tin
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; PITSCO Crew Management System 2025</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắc muốn rời đi?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn sẵn sàng kết thúc phiên hiện tại của mình.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                    <a class="btn btn-primary" href="/login">Đăng xuất</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/style.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Keep the photo upload functionality
+            $('#photoPreviewContainer').click(function() {
+                $('#photoInput').click();
+            });
+            
+            $('#photoInput').change(function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#photoPreviewContainer').html(`
+                            <img src="${e.target.result}" alt="Ảnh thuyền viên">
+                            <div class="photo-upload-btn">
+                                <i class="fas fa-camera"></i> Đổi ảnh
+                            </div>
+                        `);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Remove step navigation code since we're showing all sections at once
+            
+            // Add language certificate functionality
+            let languageCertCount = 0;
+            
+            $('#addLanguageCert').click(function() {
+                languageCertCount++;
+                const newCert = $('#languageCert0').clone();
+                newCert.attr('id', `languageCert${languageCertCount}`);
+                
+                // Clear input values
+                newCert.find('input[type="text"], input[type="number"], input[type="date"]').val('');
+                newCert.find('input[type="file"]').val('');
+                
+                // Add remove button
+                newCert.append(`
+                    <span class="remove-certificate" data-target="languageCert${languageCertCount}">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                `);
+                
+                $('#languageCertificates').append(newCert);
+            });
+            
+            // Add crew certificate functionality
+            let crewCertCount = 0;
+            
+            $('#addCrewCert').click(function() {
+                crewCertCount++;
+                const newCert = $('#crewCert0').clone();
+                newCert.attr('id', `crewCert${crewCertCount}`);
+                
+                // Clear input values
+                newCert.find('input[type="text"], input[type="number"], input[type="date"]').val('');
+                newCert.find('input[type="file"]').val('');
+                
+                // Add remove button
+                newCert.append(`
+                    <span class="remove-certificate" data-target="crewCert${crewCertCount}">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                `);
+                
+                $('#crewCertificates').append(newCert);
+            });
+            
+            // Remove certificate
+            $(document).on('click', '.remove-certificate', function() {
+                const targetId = $(this).data('target');
+                $(`#${targetId}`).remove();
+            });
+            
+            // Form submission with overall validation
+            $('#crewForm').on('submit', function(e) {
+                // Check for required fields
+                let isValid = true;
+                $(this).find('[required]').each(function() {
+                    if (!$(this).val()) {
+                        $(this).addClass('is-invalid');
+                        isValid = false;
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Vui lòng điền đầy đủ các trường bắt buộc!');
+                    // Scroll to the first invalid field
+                    $('html, body').animate({
+                        scrollTop: $('.is-invalid:first').offset().top - 100
+                    }, 500);
+                    return false;
+                }
+                
+                return true;
+            });
+        });
+    </script>
+</body>
+
+</html>

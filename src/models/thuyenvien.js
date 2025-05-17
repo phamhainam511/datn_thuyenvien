@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         anh: {
             type: DataTypes.STRING(100),
-            allowNull: false
+            allowNull: true
         },
         hoten: {
             type: DataTypes.STRING(45),
