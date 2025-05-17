@@ -4,7 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Thuyenvien extends Model {
         static associate(models) {
-            
+            // Change from hasMany to hasOne for one-to-one relationship
+            Thuyenvien.hasOne(models.ThuyenvienHocvan, {
+                foreignKey: 'id_thuyenvien',
+                as: 'hocvan'
+            });
         }
     }
 

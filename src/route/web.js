@@ -27,6 +27,12 @@ const initWebRoutes = (app) => {
     router.post('/edit-chungchi', ChungChiController.getEditChungChi);
     router.post('/put-chungchi', ChungChiController.putChungChi);
     router.post('/delete-chungchi', ChungChiController.deleteChungChi);
+    
+    // Education routes
+    router.post('/them-hoc-van', ThuyenVienController.createHocVan);
+    router.post('/cap-nhat-hoc-van', ThuyenVienController.updateHocVan);
+    router.get('/xoa-hoc-van/:id/:thuyenvien_id', ThuyenVienController.deleteHocVan);
+    
     app.use("/", router);
 };
 

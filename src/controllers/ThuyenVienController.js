@@ -74,6 +74,43 @@ let createLichSuDiTau = async(req, res) => {
     }
 };
 
+let createHocVan = async(req, res) => {
+    try {
+        let data = req.body;
+        await ThuyenVienServices.createHocVan(data);
+        return res.redirect('/thuyen-vien/' + data.id_thuyenvien);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
+let updateHocVan = async(req, res) => {
+    try {
+        let data = req.body;
+        let id = data.id;
+        let thuyenvien_id = data.id_thuyenvien;
+        
+        await ThuyenVienServices.updateHocVan(id, data);
+        
+        return res.redirect('/thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
+let deleteHocVan = async(req, res) => {
+    try {
+        let id = req.params.id;
+        let thuyenvien_id = req.params.thuyenvien_id;
+        
+        await ThuyenVienServices.deleteHocVan(id);
+        
+        return res.redirect('/thuyen-vien/' + thuyenvien_id);
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
+    }
+};
+
 let deleteThuyenVien = async (req, res) => {
     let ids = req.body.id; // => mảng id
     if (!Array.isArray(ids)) {
@@ -95,13 +132,15 @@ let getThuyenVienById = async (req, res) => {
         let lichsuditau_data = await ThuyenVienServices.getLichSuDiTau(thuyenvien_id);
         let chucvu_data = await ThuyenVienServices.getAllChucVu();
         let tau_data = await ThuyenVienServices.getAllTau();
+        let hocvan_data = await ThuyenVienServices.getHocVanThuyenVien(thuyenvien_id);
 
         return res.render('thuyenvien_chitiet.ejs', {
             thuyenvieninfo : thuyenvien_data,
             nhanthanthuyenvieninfo : nhanthanthuyenvien_data,
             lichsuditauinfo : lichsuditau_data,
             chucvuinfo : chucvu_data,
-            tauinfo : tau_data
+            tauinfo : tau_data,
+            hocvaninfo: hocvan_data
         });
     }
     else{
@@ -118,5 +157,8 @@ module.exports = {
     getThuyenVienById: getThuyenVienById,
     updateThanNhan: updateThanNhan,
     updateLichSuDiTau: updateLichSuDiTau,
-    createLichSuDiTau: createLichSuDiTau
+    createLichSuDiTau: createLichSuDiTau,
+    createHocVan: createHocVan,
+    updateHocVan: updateHocVan,
+    deleteHocVan: deleteHocVan
 }

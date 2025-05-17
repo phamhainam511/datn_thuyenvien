@@ -222,6 +222,90 @@ let getAllChucVu = () => {
     });
 }
 
+let getHocVanThuyenVien = (thuyenvien_id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Change to findOne instead of findAll
+            let hocvan = await db.ThuyenvienHocvan.findOne({
+                where: { id_thuyenvien: thuyenvien_id }
+            });
+            
+            if (hocvan) {
+                resolve(hocvan);
+            } else {
+                resolve(null);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let createHocVan = (data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Check if a record already exists
+            const existingRecord = await db.ThuyenvienHocvan.findOne({
+                where: { id_thuyenvien: data.id_thuyenvien }
+            });
+            
+            if (existingRecord) {
+                // Update existing record
+                await existingRecord.update({
+                    truongdaotao: data.truongdaotao,
+                    hedaotao: data.hedaotao,
+                    namtotnghiep: data.namtotnghiep
+                });
+                resolve('Cập nhật thông tin học vấn thành công!');
+            } else {
+                // Create new record
+                const result = await db.ThuyenvienHocvan.create({
+                    id_thuyenvien: data.id_thuyenvien,
+                    truongdaotao: data.truongdaotao,
+                    hedaotao: data.hedaotao,
+                    namtotnghiep: data.namtotnghiep
+                });
+                resolve('Thêm thông tin học vấn thành công!');
+            }
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let updateHocVan = (id, data) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await db.ThuyenvienHocvan.update(
+                {
+                    truongdaotao: data.truongdaotao,
+                    hedaotao: data.hedaotao,
+                    namtotnghiep: data.namtotnghiep
+                },
+                {
+                    where: { id: id }
+                }
+            );
+            resolve('Cập nhật thông tin học vấn thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let deleteHocVan = (id) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            await db.ThuyenvienHocvan.destroy({
+                where: { id: id }
+            });
+            resolve('Xóa thông tin học vấn thành công!');
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien : getAllThuyenVien,
@@ -234,5 +318,9 @@ module.exports = {
     createLichSuDiTau: createLichSuDiTau,
     updateLichSuDiTauData: updateLichSuDiTauData,
     getAllTau: getAllTau,
-    getAllChucVu: getAllChucVu
+    getAllChucVu: getAllChucVu,
+    getHocVanThuyenVien: getHocVanThuyenVien,
+    createHocVan: createHocVan,
+    updateHocVan: updateHocVan,
+    deleteHocVan: deleteHocVan
 }
