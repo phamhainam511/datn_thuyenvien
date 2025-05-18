@@ -44,20 +44,26 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    <%= typeof user !== 'undefined' && user ? user.hoten : 'Khách' %>
+                </span>
                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user-lock mr-2 text-gray-400"></i>
-                    Quản trị viên
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Tài khoản
-                </a>
+                <% if (typeof user !== 'undefined' && user) { %>
+                    <% if (user.phanquyen && user.phanquyen.tenphanquyen) { %>
+                        <a class="dropdown-item" href="#">
+                            <i class="fas fa-user-lock mr-2 text-gray-400"></i>
+                            <%= user.phanquyen.tenphanquyen %>
+                        </a>
+                    <% } %>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Tài khoản: <%= user.taikhoan %>
+                    </a>
+                <% } %>
                 <a class="dropdown-item" href="#">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     Cài đặt
