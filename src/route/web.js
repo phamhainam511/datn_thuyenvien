@@ -9,6 +9,7 @@ import BangLuongController from '../controllers/BangLuongController';
 import ThuyenVienLuongController from '../controllers/ThuyenVienLuongController';
 import ChucVuController from '../controllers/ChucVuController';
 import TauController from '../controllers/TauController';
+import { index as DashBoardController } from '../controllers/DashBoardController';
 
 const router = express.Router();
 
@@ -37,12 +38,14 @@ const initWebRoutes = (app) => {
     });
     
     // Dashboard route
-    router.get('/', AuthMiddleware.checkPermission, (req, res) => {
-        res.render('trangchu.ejs', { 
-            activeMenu: 'dashboard',
-            user: req.session.user
-        });
-    });
+    //router.get('/', AuthMiddleware.checkPermission, (req, res) => {
+    //    res.render('trangchu.ejs', { 
+    //        activeMenu: 'dashboard',
+    //        user: req.session.user
+    //    });
+    //});
+
+    router.get('/', AuthMiddleware.checkPermission, DashBoardController);
     
     // Apply permission check to all other routes
     router.use((req, res, next) => {

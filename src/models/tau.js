@@ -4,12 +4,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Tau extends Model {
         static associate(models) {
-            // Định nghĩa quan hệ với bảng loaitau
-            // Một tàu thuộc về một loại tàu
-            // Tau.belongsTo(models.LoaiTau, {
-            //     foreignKey: 'loaitau_id',
-            //     as: 'loaitau'
-            // });
+            this.belongsTo(models.Loaitau, {
+                foreignKey: 'loaitau_id',
+                as: 'loaitau'
+            });
         }
     }
 

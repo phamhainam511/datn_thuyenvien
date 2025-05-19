@@ -4,7 +4,15 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class ThuyenvienTrangthai extends Model {
         static associate(models) {
-            
+            ThuyenvienTrangthai.belongsTo(models.Thuyenvien, {
+                foreignKey: 'thuyenvien_id',
+                as: 'thuyenvien'
+            });
+
+            ThuyenvienTrangthai.belongsTo(models.Trangthai, {
+                foreignKey: 'trangthai_id',
+                as: 'trangthai'
+            });
         }
     }
 

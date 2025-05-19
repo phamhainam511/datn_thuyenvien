@@ -4,12 +4,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Loaitau extends Model {
         static associate(models) {
-            // Định nghĩa các quan hệ nếu cần thiết
-            // Một loại tàu có nhiều tàu
-            // models.LoaiTau.hasMany(models.Tau, {
-            //     foreignKey: 'loaitau_id',
-            //     as: 'ds_tau'
-            // });
+            this.hasMany(models.Tau, {
+                foreignKey: 'loaitau_id',
+                as: 'tau'
+            });
         }
     }
 

@@ -4,7 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Trangthai extends Model {
         static associate(models) {
-            // Định nghĩa các quan hệ nếu cần thiết
+            Trangthai.hasMany(models.ThuyenvienTrangthai, {
+                foreignKey: 'trangthai_id',
+                as: 'dsThuyenVienTrangThai'
+            });
+
         }
     }
 

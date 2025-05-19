@@ -1,37 +1,270 @@
-<% 
-const layout = 'layouts/main';
-const title = 'Danh sách tàu';
-const activeMenu = 'documents';
-const baseUrl = '';
+<html lang="en">
 
-let content = `
-<h1 class="h3 mb-2 text-gray-800">Danh sách tàu</h1>
-<div class="card shadow mt-3">
-    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-        <h5 class="m-0">Tàu</h5>
-        <div>
-            <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
-            <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PITSCO Crew Management System - Tau</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+    <%- include('partials/header', { title: 'Danh sách tàu' , baseUrl: '' }) %>
+
+
+        <div id="wrapper">
+            <%- include('partials/sidebar', { activeMenu: 'documents' , baseUrl: '' }) %>
+
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include('partials/topbar', { baseUrl: '' }) %>
+                            <div class="container-fluid">
+                                <h1 class="h3 mb-2 text-gray-800">Danh sách tàu</h1>
+                                <div class="card shadow mt-3">
+                                    <div
+                                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="m-0">Tàu</h5>
+                                        <div>
+                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
+                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
+                                            <!-- Modal Thêm tàu -->
+                                            <div class="modal fade" id="modalThemTau" tabindex="-1" role="dialog"
+                                                aria-labelledby="modalLabelThem" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-primary" id="modalLabelThem">
+                                                                Thêm tàu
+                                                                mới</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="formThemTau" action="/post-tau" method="POST">
+                                                                <div class="form-group">
+                                                                    <label for="tenTau" class="text-primary">Tên
+                                                                        tàu</label>
+                                                                    <input type="text" class="form-control" id="tenTau"
+                                                                        name="tentau" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="quocTich" class="text-primary">Quốc
+                                                                        tịch</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="quocTich" name="quoctich" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="loaiTauId" class="text-primary">Tên loại
+                                                                        tàu</label>
+                                                                    <select class="form-control" id="loaiTauId"
+                                                                        name="loaitau_id" required>
+                                                                        <% for(let i=0; i<dataLoaiTau.length; i++){ %>
+                                                                            <option
+                                                                                value="<%= dataLoaiTau[i].id_loaitau %>">
+                                                                                <%= dataLoaiTau[i].tenloaitau %>
+                                                                            </option>
+                                                                            <% } %>
+                                                                    </select>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Lưu</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable1">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 5%;"><input type="checkbox" id="checkAll"
+                                                                onclick="chonTatCa(this)"></th>
+                                                        <th style="width: 10%;">STT</th>
+                                                        <th>Tên tàu</th>
+                                                        <th>Quốc tịch</th>
+                                                        <th>Loại tàu</th>
+                                                        <th style="width: 20%;">Hành động</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="danhSach">
+                                                    <% for(let i=0; i<dataTable.length; i++){ %>
+                                                        <tr onclick="chonDong(this, event)">
+                                                            <td><input type="checkbox" class="row-checkbox"
+                                                                    data-id="<%= dataTable[i].id_tau %>"></td>
+                                                            <td>
+                                                                <%= dataTable[i].id_tau %>
+                                                            </td>
+                                                            <td class="ten">
+                                                                <%= dataTable[i].tentau %>
+                                                            </td>
+                                                            <td class="ten">
+                                                                <%= dataTable[i].quoctich %>
+                                                            </td>
+                                                            <td class="ten">
+                                                                <%= dataTable[i].loaitau?.tenloaitau %>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-warning btn-sm"
+                                                                    onclick="openEditModal('<%= dataTable[i].id_tau %>', '<%= dataTable[i].tentau %>', '<%= dataTable[i].quoctich %>', '<%= dataTable[i].loaitau_id %>')">
+                                                                    Sửa
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                            <!-- Modal edit -->
+                                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <form id="editTauForm" action="/put-tau" method="POST">
+
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Sửa tàu</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" id="editId" name="id_tau">
+                                                                <div class="form-group">
+                                                                    <label>Tên tàu</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="editTenTau" name="tentau" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Quốc tịch</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="editQuocTich" name="quoctich" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Loại tàu</label>
+                                                                    <select class="form-control" id="editLoaiTauId"
+                                                                        name="loaitau_id" required>
+                                                                        <% for(let i=0; i<dataLoaiTau.length; i++){ %>
+                                                                            <option
+                                                                                value="<%= dataLoaiTau[i].id_loaitau %>">
+                                                                                <%= dataLoaiTau[i].tenloaitau %>
+                                                                            </option>
+                                                                            <% } %>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Lưu</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Đóng</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <%- include('partials/footer') %>
+                            </div>
+                    </div>
+
+                    <a class="scroll-to-top rounded" href="#page-top">
+                        <i class="fas fa-angle-up"></i>
+                    </a>
+
+                    <%- include('partials/logout-modal') %>
+                        <%- include('partials/scripts', { baseUrl: '' }) %>
+                            <script>
+                                function moPopupThem() {
+                                    $('#modalThemTau').modal('show');
+                                }
+
+                                function openEditModal(id, ten, quoctich, loaitau) {
+                                    document.getElementById('editId').value = id;
+                                    document.getElementById('editTenTau').value = ten;
+                                    document.getElementById('editQuocTich').value = quoctich;
+                                    document.getElementById('editLoaiTauId').value = loaitau;
+                                    $('#editModal').modal('show');
+                                }
+
+                                function xoaChon() {
+                                    // lấy tất cả checkbox đang check
+                                    const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+                                    const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+                                    if (ids.length === 0) {
+                                        alert('Vui lòng chọn ít nhất một tàu để xóa!');
+                                        return;
+                                    }
+
+                                    // xác nhận
+                                    if (!confirm('Bạn có chắc muốn xóa các tàu đã chọn?')) {
+                                        return;
+                                    }
+
+                                    // gửi danh sách id bằng POST request
+                                    fetch('/delete-tau', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Accept': 'application/json'
+                                        },
+                                        body: JSON.stringify({ id: ids }) // id là mảng
+                                    })
+                                        .then(res => {
+                                            if (res.redirected) {
+                                                window.location.href = res.url;
+                                            } else {
+                                                return res.json();
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error(err);
+                                            alert('Có lỗi xảy ra khi xóa.');
+                                        });
+                                }
+                                $('#dataTable1').DataTable({
+                                    "paging": true,
+                                    "lengthChange": true,
+                                    "searching": true,
+                                    "ordering": true,
+                                    "info": true,
+                                    "autoWidth": false,
+                                    "responsive": true,
+                                    // "dom": 'lrtip', // Hide default search box
+                                    "language": {
+                                        "search": "Tìm kiếm:",
+                                        "lengthMenu": "Hiển thị _MENU_ mục",
+                                        "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                                        "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                                        "paginate": {
+                                            "first": "Đầu",
+                                            "last": "Cuối",
+                                            "next": "Sau",
+                                            "previous": "Trước"
+                                        }
+                                    }
+                                });
+                            </script>
+
+                </div>
         </div>
-    </div>
-    <div class="card-body">
-        <!-- Table content -->
-    </div>
-</div>
-`;
 
-let additionalScripts = `
-<script>
-    function moPopupThem() {
-        $('#modalThemTau').modal('show');
-    }
+</body>
 
-    function xoaChon() {
-        // Delete functionality
-    }
-</script>
-`;
-
-%>
-
-<%- include(layout, { title, activeMenu, baseUrl, content, additionalScripts }); %>
+</html>

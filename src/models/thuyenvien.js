@@ -9,19 +9,19 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id_thuyenvien',
                 as: 'hocvan'
             });
-            
+
             // Add relationship with ThuyenvienNgoaingu
             Thuyenvien.hasMany(models.ThuyenvienNgoaingu, {
                 foreignKey: 'id_thuyenvien',
                 as: 'ngoaingu'
             });
-            
+
             // Add relationship with ThuyenvienChungchi
             Thuyenvien.hasMany(models.ThuyenvienChungchi, {
                 foreignKey: 'id_thuyenvien',
                 as: 'chungchi'
             });
-            
+
             // Add relationship with ThuyenvienTailieu
             Thuyenvien.hasOne(models.ThuyenvienTailieu, {
                 foreignKey: 'id_thuyenvien',
@@ -33,6 +33,13 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'thuyenvien_id',
                 as: 'hopdongs'
             });
+
+            //Một thuyền viên có nhiều trạng thái
+            Thuyenvien.hasMany(models.ThuyenvienTrangthai, {
+                foreignKey: 'thuyenvien_id',
+                as: 'dsTrangThai'
+            });
+
         }
     }
 
