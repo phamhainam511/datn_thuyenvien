@@ -33,3 +33,5 @@ app.listen(port, () => {
     //callback
     console.log("Backend Nodejs is runing on the port : " + port)
 })
+
+app.use('/uploads', express.static('uploads'));

@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'id_thuyenvien',
                 as: 'tailieu'
             });
+
+            // Một thuyền viên có nhiều hợp đồng
+            Thuyenvien.hasMany(models.Hopdong, {
+                foreignKey: 'thuyenvien_id',
+                as: 'hopdongs'
+            });
         }
     }
 

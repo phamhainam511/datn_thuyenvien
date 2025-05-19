@@ -12,7 +12,7 @@
             <span>Bảng điều khiển</span></a>
     </li>
     <li class="nav-item <%= activeMenu === 'users' ? 'active' : '' %>">
-        <a class="nav-link" href="/users">
+        <a class="nav-link" href="/danh-sach-user">
             <i class="fas fa-user-shield"></i>
             <span>Danh sách tài khoản</span></a>
     </li>
@@ -46,9 +46,9 @@
         </a>
         <div id="collapsePages" class="collapse <%= activeMenu === 'contracts' ? 'show' : '' %>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="/con-list">Danh sách hợp đồng</a>
-                <a class="collapse-item" href="/con-expiring">Sắp đến hạn</a>
-                <a class="collapse-item" href="/con-expired">Đã quá hạn</a>
+                <a class="collapse-item" href="/danh-sach-hop-dong">Hợp đồng có hiệu lực</a>
+                <a class="collapse-item" href="/hop-dong-cho-thanh-ly">Hợp đồng chờ thanh lý</a>
+                <a class="collapse-item" href="/hop-dong-da-thanh-ly">Hợp đồng đã thanh lý</a>
             </div>
         </div>
     </li>

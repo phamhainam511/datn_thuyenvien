@@ -27,12 +27,20 @@ module.exports = {
                 type: Sequelize.DECIMAL(10, 0),
                 allowNull: false
             },
+            socong: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            thoigian: {
+                type: Sequelize.DATEONLY,
+                allowNull: false
+            },
             phuongthuc: {
                 type: Sequelize.STRING(45),
                 allowNull: false
             },
-            thoigian: {
-                type: Sequelize.DATEONLY, // Sử dụng DATEONLY nếu chỉ cần lưu ngày
+            tinhtrang: {
+                type: Sequelize.STRING(45),
                 allowNull: false
             },
             createdAt: {

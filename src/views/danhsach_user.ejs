@@ -30,7 +30,7 @@
                     <img src="img/logo.png" alt="PITSCO Logo" style="height: 40px;">
                 </div>
             </a>
-                    
+
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
@@ -157,8 +157,7 @@
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -193,17 +192,88 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex justify-content-between align-items-center">
                             <h6 class="m-0 font-weight-bold text-primary">Tài khoản người dùng</h6>
-                            
+
                             <!-- Bọc 2 nút trong một div để căn phải -->
                             <div>
-                                <button class="btn btn-success btn-sm me-2" onclick="themTaiKhoan()">➕ Thêm Tài Khoản</button>
-                                <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">🗑 Xóa Tài Khoản</button>
+                                <button class="btn btn-success btn-sm me-2" onclick="themTaiKhoan()">➕ Thêm Tài
+                                    Khoản</button>
+                                <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">🗑 Xóa Tài
+                                    Khoản</button>
+                                <!-- Modal Thêm user -->
+                                <div class="modal fade" id="modalThemUser" tabindex="-1" role="dialog"
+                                    aria-labelledby="modalLabelThem" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-primary" id="modalLabelThem">Thêm user
+                                                    mới</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="formThemUser" action="/post-user" method="POST">
+                                                    <div class="form-group">
+                                                        <label for="taiKhoan" class="text-primary">Tài khoản</label>
+                                                        <input type="text" class="form-control" id="taiKhoan"
+                                                            name="taikhoan" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="matKhau" class="text-primary">Mật khẩu</label>
+                                                        <input type="text" class="form-control" id="matKhau"
+                                                            name="matkhau" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hoTen" class="text-primary">Họ tên</label>
+                                                        <input type="text" class="form-control" id="hoTen" name="hoten"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phongBan" class="text-primary">Phòng ban</label>
+                                                        <input type="text" class="form-control" id="phongBan"
+                                                            name="phongban" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="SDT" class="text-primary">Số điện thoại</label>
+                                                        <input type="text" class="form-control" id="SDT" name="sdt"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="email" class="text-primary">Email</label>
+                                                        <input type="text" class="form-control" id="email" name="email"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="diaChi" class="text-primary">Địa chỉ</label>
+                                                        <input type="text" class="form-control" id="diaChi"
+                                                            name="diachi" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phanquyenId" class="text-primary">Tên phân
+                                                            quyền</label>
+                                                        <select class="form-control" id="phanQuyenId"
+                                                            name="phanquyen_id" required>
+                                                            <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
+                                                                <option value="<%= dataPhanQuyen[i].id_phanquyen %>">
+                                                                    <%= dataPhanQuyen[i].tenphanquyen %>
+                                                                </option>
+                                                                <% } %>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        
+
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+                                <table class="table table-bordered text-center" id="dataTable" width="100%"
+                                    cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)"></th>
@@ -213,30 +283,114 @@
                                             <th>Email</th>
                                             <th>Địa Chỉ</th>
                                             <th>Tài Khoản</th>
+                                            <th>Phân Quyền</th>
                                             <th>Thao Tác</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <% for(let i = 0; i<dataTable.length; i++){ %>
-                                        <tr>
-                                            <td><input type="checkbox" class="row-checkbox"></td>
-                                            <td onclick="window.location.href='/users-update'" style="cursor: pointer;"><%= dataTable[i].hoten %></td>
-                                            <td><%= dataTable[i].phanquyen ? dataTable[i].phanquyen.tenphanquyen : '' %></td>
-                                            <td><%= dataTable[i].sdt %></td>
-                                            <td><%= dataTable[i].email %></td>
-                                            <td><%= dataTable[i].diachi %></td>
-                                            <td><%= dataTable[i].taikhoan %></td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm">Reset Mật Khẩu</button>
-                                            </td>
-                                        </tr>
-                                        <% } %>
+                                    <tbody id="danhSach">
+                                        <% for(let i=0; i<dataTable.length; i++){ %>
+                                            <tr onclick="chonDong(this, event)">
+                                                <td><input type="checkbox" class="row-checkbox"
+                                                        data-id="<%= dataTable[i].taikhoan %>"></td>
+                                                <td>
+                                                    <%= dataTable[i].hoten %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].phongban %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].sdt %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].email %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].diachi %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].taikhoan %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].phanquyen?.tenphanquyen %>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary btn-sm"
+                                                        onclick="openEditModal('<%= dataTable[i].taikhoan %>', '<%= dataTable[i].hoten %>', '<%= dataTable[i].phongban %>', '<%= dataTable[i].sdt %>', '<%= dataTable[i].diachi %>', '<%= dataTable[i].email %>', '<%= dataTable[i].phanquyen_id %>')">
+                                                        Sửa
+                                                    </button>
+                                                    <button class="btn btn-warning btn-sm"
+                                                        onclick="resetPassword('<%= dataTable[i].taikhoan %>')">
+                                                        Reset
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <% } %>
                                     </tbody>
                                 </table>
+                                <!-- Modal edit -->
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <form id="editUserForm" action="/put-user" method="POST">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sửa user</h5>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="editId" name="taikhoan">
+                                                    <div class="form-group">
+                                                        <label>Họ tên</label>
+                                                        <input type="text" class="form-control" id="editHoTen"
+                                                            name="hoten" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Phòng ban</label>
+                                                        <input type="text" class="form-control" id="editPhongBan"
+                                                            name="phongban" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Số điện thoại</label>
+                                                        <input type="text" class="form-control" id="editSDT" name="sdt"
+                                                            required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Địa chỉ</label>
+                                                        <input type="text" class="form-control" id="editDiaChi"
+                                                            name="diachi" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        <input type="text" class="form-control" id="editEmail"
+                                                            name="email" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Phân quyền</label>
+                                                        <select class="form-control" id="editPhanQuyenId"
+                                                            name="phanquyen_id" required>
+                                                            <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
+                                                                <option value="<%= dataPhanQuyen[i].id_phanquyen %>">
+                                                                    <%= dataPhanQuyen[i].tenphanquyen %>
+                                                                </option>
+                                                                <% } %>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                
+
                 </div>
 
             </div>
@@ -267,7 +421,8 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn sẵn sàng kết thúc phiên hiện tại của mình.</div>
+                <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn sẵn sàng kết thúc phiên hiện tại của mình.
+                </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
                     <a class="btn btn-primary" href="/login">Đăng xuất</a>
@@ -277,7 +432,81 @@
     </div>
     <script>
         function themTaiKhoan() {
-            window.location.href = '/users-add';
+            $('#modalThemUser').modal('show');
+        }
+
+        function openEditModal(taikhoan, hoten, phongban, sdt, diachi, email, phanquyen) {
+            document.getElementById('editId').value = taikhoan;
+            document.getElementById('editHoTen').value = hoten;
+            document.getElementById('editPhongBan').value = phongban;
+            document.getElementById('editSDT').value = sdt;
+            document.getElementById('editDiaChi').value = diachi;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editPhanQuyenId').value = phanquyen;
+            $('#editModal').modal('show');
+        }
+
+        function resetPassword(taikhoan) {
+            if (!confirm('Bạn có chắc muốn reset mật khẩu không?')) {
+                return;
+            }
+
+            fetch('/reset-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ id: taikhoan })
+            })
+                .then(res => {
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    } else {
+                        return res.json();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Có lỗi xảy ra khi reset.' + err);
+                });
+        }
+
+        function xoaTatCaThuyenVien() {
+            // lấy tất cả checkbox đang check
+            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+            if (ids.length === 0) {
+                alert('Vui lòng chọn ít nhất một user để xóa!');
+                return;
+            }
+
+            // xác nhận
+            if (!confirm('Bạn có chắc muốn xóa các user đã chọn?')) {
+                return;
+            }
+
+            // gửi danh sách id bằng POST request
+            fetch('/delete-user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ id: ids }) // id là mảng
+            })
+                .then(res => {
+                    if (res.redirected) {
+                        window.location.href = res.url;
+                    } else {
+                        return res.json();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Có lỗi xảy ra khi xóa.');
+                });
         }
     </script>
     <script src="/vendor/jquery/jquery.min.js"></script>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PITSCO Crew Management System - Users</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <%- include('partials/header', { title: 'Danh sách hợp đồng', baseUrl: '' }) %>
+    <div id="wrapper">
+
+        <%- include('partials/sidebar', { activeMenu: 'contracts', baseUrl: '' }) %>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <%- include('partials/topbar', { baseUrl: '' }) %>
+                <div class="container-fluid">
+
+                    <h1 class="h3 mb-2 text-gray-800">Danh sách hợp đồng</h1>
+                    <div class="card shadow mt-3">
+                        <div
+                            class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="m-0">Hợp đồng đã thanh lý</h5>
+                            <div>
+                                <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable1">
+                                    <thead>
+
+                                        <tr>
+                                            <th style="width: 5%;"><input type="checkbox" id="checkAll"
+                                                    onclick="chonTatCa(this)"></th>
+                                            <th style="width: 12%;">Mã thuyền viên</th>
+                                            <th>Tên thuyền viên</th>
+                                            <th>Số hợp đồng</th>
+                                            <th>Ngày kí</th>
+                                            <th>Ngày hết hạn</th>
+                                            <th>Ngày thanh lý</th>
+                                            <th>Trạng thái hợp đồng</th>
+                                            <th>Hình ảnh</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody id="danhSach">
+                                        <%
+                                        function formatDateDisplay(dateString) {
+                                            if (!dateString) return '';
+                                            const date = new Date(dateString);
+                                            if (isNaN(date.getTime())) return '';
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const year = date.getFullYear();
+                                            return `${day}/${month}/${year}`;
+                                        }
+
+                                        function formatDateISO(dateString) {
+                                            if (!dateString) return '';
+                                            const date = new Date(dateString);
+                                            if (isNaN(date.getTime())) return '';
+                                            return date.toISOString().split('T')[0];
+                                        }
+                                        %>
+                                        <% for (let i = 0; i < dataTable.length; i++) { %>
+                                        <tr onclick="chonDong(this, event)">
+                                            <td><input type="checkbox" class="row-checkbox"
+                                                    data-id="<%= dataTable[i].id_hopdong %>"></td>
+                                            <td><%= dataTable[i].thuyenvien.id_thuyenvien %></td>
+                                            <td><%= dataTable[i].thuyenvien.hoten %></td>
+                                            <td><%= dataTable[i].id_hopdong %></td>
+                                            <td><%= formatDateDisplay(dataTable[i].ngayky) %></td>
+                                            <td><%= formatDateDisplay(dataTable[i].ngayhethan) %></td>
+                                            <td><%= formatDateDisplay(dataTable[i].ngaythanhly) %></td>
+                                            <td><%= dataTable[i].trangthaihopdong %></td>
+                                            <td>
+                                                <% if (dataTable[i].hinhanh) { %>
+                                                <a href="<%= dataTable[i].hinhanh %>" target="_blank"
+                                                    class="btn btn-sm btn-info">
+                                                    <i class="fas fa-file-download"></i> Xem
+                                                </a>
+                                                <% } else { %>
+                                                Không có file
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <%- include('partials/footer') %>
+
+        </div>
+
+    </div>
+
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <%- include('partials/logout-modal') %>
+    <%- include('partials/scripts') %>
+    <script>
+        // Kích hoạt flatpickr cho cả 2 ô ngày
+        flatpickr("#ngayKi", {
+            dateFormat: "d/m/Y", // định dạng dd/MM/yyyy
+            allowInput: true
+        });
+
+        flatpickr("#ngayHetHan", {
+            dateFormat: "d/m/Y",
+            allowInput: true
+        });
+    </script>
+
+    <script>
+        function xoaChon() {
+            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+            if (ids.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn chứng chỉ nào!',
+                    text: 'Vui lòng chọn ít nhất một chứng chỉ để xóa.',
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Bạn chắc chắn?',
+                text: `Xóa ${ids.length} chứng chỉ đã chọn? Hành động này không thể hoàn tác!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xoá'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/delete-hop-dong', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: ids
+                            })
+                        })
+                        .then(async res => {
+                            if (res.redirected) {
+                                window.location.href = res.url;
+                            } else {
+                                if (!res.ok) {
+                                    // lỗi HTTP (400, 500...)
+                                    const errData = await res.json();
+                                    throw new Error(errData.message || 'Lỗi server');
+                                }
+                                return res.json();
+                            }
+                        })
+                        .then(data => {
+                            Swal.fire({
+                                title: 'Kết quả',
+                                text: data.message || 'Xoá thành công.',
+                                icon: 'success'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: err.message || 'Đã xảy ra lỗi khi xoá chứng chỉ.'
+                            });
+                        });
+                }
+            });
+        }
+        $('#dataTable1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            // "dom": 'lrtip', // Hide default search box
+            "language": {
+                "search": "Tìm kiếm:",
+                "lengthMenu": "Hiển thị _MENU_ mục",
+                "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

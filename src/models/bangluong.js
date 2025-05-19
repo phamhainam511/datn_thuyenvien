@@ -2,56 +2,58 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Hopdong extends Model {
+    class Bangluong extends Model {
         static associate(models) {
-            // Quan hệ: hợp đồng thuộc về 1 thuyền viên
-            Hopdong.belongsTo(models.Thuyenvien, {
+            this.belongsTo(models.Thuyenvien, {
                 foreignKey: 'thuyenvien_id',
-                targetKey: 'id_thuyenvien',
                 as: 'thuyenvien'
             });
         }
     }
 
-    Hopdong.init({
-        id_hopdong: {
+    Bangluong.init({
+        id_bangluong: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
+            autoIncrement: true,
+            allowNull: false
         },
         thuyenvien_id: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        ngayky: {
-            type: DataTypes.DATE,
+        luongcb: {
+            type: DataTypes.DECIMAL(10, 0),
             allowNull: false
         },
-        ngayhethan: {
-            type: DataTypes.DATE,
+        tigia: {
+            type: DataTypes.DECIMAL(10, 0),
             allowNull: false
         },
-        ngaythanhly: {
-            type: DataTypes.DATE,
-            allowNull: true
+        socong: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         },
-        trangthaihopdong: {
+        thoigian: {
+            type: DataTypes.DATEONLY,
+            allowNull: false
+        },
+        phuongthuc: {
             type: DataTypes.STRING(45),
             allowNull: false
         },
-        hinhanh: {
-            type: DataTypes.STRING(100),
+        tinhtrang: {
+            type: DataTypes.STRING(45),
             allowNull: false
-        }
+        },
     }, {
         sequelize,
-        modelName: 'Hopdong',
+        modelName: 'Bangluong',
         freezeTableName: true,
-        tableName: 'hopdong',
         charset: 'utf8mb4',
         collate: 'utf8mb4_0900_ai_ci',
-        timestamps: false
+        tableName: 'bangluong'
     });
 
-    return Hopdong;
+    return Bangluong;
 };

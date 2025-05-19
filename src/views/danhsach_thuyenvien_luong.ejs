@@ -190,32 +190,24 @@
                     <div class="row align-items-end justify-content-between mb-4">
                         <!-- Cột chọn tháng -->
                         <div class="col-md-4">
-                            <label for="filterMonth" class="form-label fw-semibold text-primary">📅 Chọn
-                                tháng:</label>
-                            <select id="filterMonth" class="form-select shadow-sm border-primary"
-                                onchange="filterByMonth()">
-                                <% for(let i=0; i<dataTime.length; i++){ %>
-                                    <option>
-                                        <%= dataTime[i] %>
-                                    </option>
-                                    <% } %>
-                            </select>
+                            <label for="filterMonth" class="form-label fw-semibold text-primary">📅 Tháng:</label>
+                            <label id="filterMonth" class="form-select shadow-sm border-primary">
+                                <%= formatTime(new Date()) %>
+                            </label>
                         </div>
-
-                        <!-- Cột chứa nút -->
                     </div>
 
                     <!-- Tab nút -->
                     <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="crew-tab" data-bs-toggle="tab" data-bs-target="#crew"
+                            <button class="nav-link active" id="crew-tab" data-bs-toggle="tab" data-bs-target="#crew"
                                 type="button" role="tab">
                                 🧭 Thuyền viên đang trên tàu
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="salary-tab" data-bs-toggle="tab"
-                                data-bs-target="#salary" type="button" role="tab">
+                            <button class="nav-link " id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary"
+                                type="button" role="tab">
                                 💰 Bảng lương
                             </button>
                         </li>
@@ -229,62 +221,41 @@
                                 <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                     <h6 class="m-0 font-weight-bold text-primary">Danh sách bảng lương</h6>
 
-                                    <!-- Bọc 2 nút trong một div để căn phải -->
-                                    <div>
-                                        <button class="btn btn-success btn-sm me-2" onclick="themBangLuong()">Xuất
-                                            bảng
-                                            lương</button>
-                                        <button class="btn btn-danger btn-sm" onclick="xoaBangLuong()">Xoá
-                                            bảng
-                                            lương</button>
-                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-bordered text-center" id="dataTable">
                                             <thead class="table-dark">
                                                 <tr>
-                                                    <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)">
-                                                    </th>
                                                     <th>Mã thuyền viên</th>
                                                     <th>Họ Tên</th>
-                                                    <th>Số ngày công</th>
-                                                    <th>Lương Cơ Bản</th>
-                                                    <th>Hệ số quy đổi</th>
-                                                    <th>Tổng Lương (VND)</th>
-                                                    <th>Tháng</th>
+                                                    <th>Ngày xuất cảnh</th>
+                                                    <th>Ngày lên tàu</th>
+                                                    <th>Ngày xuống tàu</th>
                                                     <th>Thao Tác</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="salaryTable">
                                                 <% for(let i=0; i<dataTable.length; i++){ %>
-                                                    <tr onclick="chonDong(this, event)">
-                                                        <td><input type="checkbox" class="row-checkbox"
-                                                                data-id="<%= dataTable[i].id_bangluong %>"></td>
+                                                    <tr>
                                                         <td>
-                                                            <%= dataTable[i].thuyenvien_id %>
+                                                            <%= dataTable[i].id_thuyenvien %>
+                                                        </td>
+                                                        <td>
+                                                            <%= dataTable[i].hoten %>
                                                         </td>
                                                         <td class="ten">
-                                                            <%= dataTable[i].thuyenvien?.hoten %>
+                                                            <%= dataTable[i].lichsuditau?.timexuatcanh %>
                                                         </td>
                                                         <td class="ten">
-                                                            <%= dataTable[i].socong %>
+                                                            <%= dataTable[i].lichsuditau?.timelentau %>
                                                         </td>
                                                         <td class="ten">
-                                                            <%= dataTable[i].luongcb %> USD
-                                                        </td>
-                                                        <td class="ten">
-                                                            <%= dataTable[i].tigia %>
-                                                        </td>
-                                                        <td class="ten">
-                                                            <%= dataTable[i].luongcb * dataTable[i].tigia %> VNĐ
-                                                        </td>
-                                                        <td class="ten">
-                                                            <%= formatTime(dataTable[i].thoigian) %>
+                                                            <%= dataTable[i].lichsuditau?.ngayroitau %>
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm"
-                                                                onclick="capNhatLuong(this)">Xem chi tiết</button>
+                                                                onclick="capNhatLuong(this)">Thêm bảng lương</button>
                                                         </td>
                                                     </tr>
                                                     <% } %>
@@ -338,51 +309,9 @@
         </div>
     </div>
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            if (document.getElementById('filterMonth').value === '') {
-                document.getElementById('filterMonth').selectedIndex = 0;
-            }
-            filterByMonth();
-        });
 
-        // function themLuong() {
-        //     window.location.href = '/payroll-add';
-        // }
-        function xoaBangLuong() {
-            // lấy tất cả checkbox đang check
-            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
-            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
-
-            if (ids.length === 0) {
-                alert('Vui lòng chọn ít nhất một bảng lương để xóa!');
-                return;
-            }
-
-            // xác nhận
-            if (!confirm('Bạn có chắc muốn xóa các bảng lương đã chọn?')) {
-                return;
-            }
-
-            // gửi danh sách id bằng POST request
-            fetch('/delete-bangluong', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ id: ids }) // id là mảng
-            })
-                .then(res => {
-                    if (res.redirected) {
-                        window.location.href = res.url;
-                    } else {
-                        return res.json();
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert('Có lỗi xảy ra khi xóa.');
-                });
+        function themLuong() {
+            window.location.href = '/payroll-add';
         }
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>

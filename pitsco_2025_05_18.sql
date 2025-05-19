@@ -37,7 +37,7 @@ CREATE TABLE `bangluong` (
   PRIMARY KEY (`id_bangluong`),
   KEY `thuyenvien_bangluong_idx` (`thuyenvien_id`),
   CONSTRAINT `bangluong_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `bangluong` WRITE;
 /*!40000 ALTER TABLE `bangluong` DISABLE KEYS */;
@@ -63,7 +63,7 @@ CREATE TABLE `chucvu` (
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_chucvu`),
   UNIQUE KEY `tenchucvu_UNIQUE` (`tenchucvu`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `chucvu` WRITE;
 /*!40000 ALTER TABLE `chucvu` DISABLE KEYS */;
@@ -98,7 +98,7 @@ CREATE TABLE `chucvu_chungchi` (
   KEY `cvcc_chungchi_idx` (`chungchi_id`),
   CONSTRAINT `cvcc_chucvu` FOREIGN KEY (`chucvu_id`) REFERENCES `chucvu` (`id_chucvu`),
   CONSTRAINT `cvcc_chungchi` FOREIGN KEY (`chungchi_id`) REFERENCES `chungchi` (`id_chungchi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 
 
@@ -115,7 +115,7 @@ CREATE TABLE `chungchi` (
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_chungchi`),
   UNIQUE KEY `tenchungchi_UNIQUE` (`tenchungchi`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `chungchi` WRITE;
 /*!40000 ALTER TABLE `chungchi` DISABLE KEYS */;
@@ -127,32 +127,6 @@ VALUES
 	(3,'Chứng chỉ Y tế','WHO','2025-05-12 15:50:04','2025-05-12 15:50:04');
 
 /*!40000 ALTER TABLE `chungchi` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table hopdong
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `hopdong`;
-
-CREATE TABLE `hopdong` (
-  `id_hopdong` int NOT NULL AUTO_INCREMENT,
-  `tenhopdong` varchar(45) NOT NULL,
-  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_hopdong`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `hopdong` WRITE;
-/*!40000 ALTER TABLE `hopdong` DISABLE KEYS */;
-
-INSERT INTO `hopdong` (`id_hopdong`, `tenhopdong`, `createdAt`, `updatedAt`)
-VALUES
-	(1,'Hợp đồng ngắn hạn','2025-05-12 15:50:04','2025-05-12 15:50:04'),
-	(2,'Hợp đồng dài hạn','2025-05-12 15:50:04','2025-05-12 15:50:04'),
-	(3,'Hợp đồng thử việc','2025-05-12 15:50:04','2025-05-12 15:50:04');
-
-/*!40000 ALTER TABLE `hopdong` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -169,7 +143,7 @@ CREATE TABLE `lichsuditau` (
   `timexuatcanh` datetime NOT NULL,
   `timelentau` datetime NOT NULL,
   `ngayroitau` date DEFAULT NULL,
-  `cangroitau` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cangroitau` varchar(50)  DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_lichsuditau`),
@@ -206,7 +180,7 @@ CREATE TABLE `loaitau` (
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_loaitau`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `loaitau` WRITE;
 /*!40000 ALTER TABLE `loaitau` DISABLE KEYS */;
@@ -234,7 +208,7 @@ CREATE TABLE `phanquyen` (
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_phanquyen`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `phanquyen` WRITE;
 /*!40000 ALTER TABLE `phanquyen` DISABLE KEYS */;
@@ -262,7 +236,7 @@ CREATE TABLE `taikhoannganhang` (
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`thuyenvien_id`),
   CONSTRAINT `nganhang_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 
 
@@ -281,7 +255,7 @@ CREATE TABLE `tau` (
   PRIMARY KEY (`id_tau`),
   KEY `tau_loaitau_idx` (`loaitau_id`),
   CONSTRAINT `tau_loaitau` FOREIGN KEY (`loaitau_id`) REFERENCES `loaitau` (`id_loaitau`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `tau` WRITE;
 /*!40000 ALTER TABLE `tau` DISABLE KEYS */;
@@ -318,7 +292,7 @@ CREATE TABLE `thannhan` (
   PRIMARY KEY (`id_thannhan`),
   KEY `thannhan_thuyenvien_idx` (`thuyenvien_id`),
   CONSTRAINT `thannhan_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `thannhan` WRITE;
 /*!40000 ALTER TABLE `thannhan` DISABLE KEYS */;
@@ -341,7 +315,7 @@ DROP TABLE IF EXISTS `thuyenvien`;
 
 CREATE TABLE `thuyenvien` (
   `id_thuyenvien` int NOT NULL AUTO_INCREMENT,
-  `anh` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `anh` varchar(100)  DEFAULT NULL,
   `hoten` varchar(45) NOT NULL,
   `cccd` varchar(45) NOT NULL,
   `email` varchar(45) NOT NULL,
@@ -355,9 +329,9 @@ CREATE TABLE `thuyenvien` (
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ngaysinh` date DEFAULT NULL,
   `sizegiaybaoho` int DEFAULT NULL,
-  `trangthai` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Đang chờ tàu',
+  `trangthai` varchar(255)  NOT NULL DEFAULT 'Đang chờ tàu',
   PRIMARY KEY (`id_thuyenvien`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `thuyenvien` WRITE;
 /*!40000 ALTER TABLE `thuyenvien` DISABLE KEYS */;
@@ -385,13 +359,13 @@ DROP TABLE IF EXISTS `thuyenvien_chungchi`;
 CREATE TABLE `thuyenvien_chungchi` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_thuyenvien` int NOT NULL,
-  `tenchungchi` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `sohieuchungchi` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tenchungchi` varchar(255)  NOT NULL,
+  `sohieuchungchi` varchar(20) CHARACTER SET utf8mb4  NOT NULL,
   `ngaycap` date NOT NULL,
   `ngayhethan` date DEFAULT NULL,
-  `noicap` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `xeploai` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `noicap` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
+  `xeploai` varchar(30) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `file` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -425,8 +399,8 @@ DROP TABLE IF EXISTS `thuyenvien_hocvan`;
 CREATE TABLE `thuyenvien_hocvan` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `id_thuyenvien` int DEFAULT NULL,
-  `truongdaotao` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `hedaotao` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `truongdaotao` varchar(255)  DEFAULT NULL,
+  `hedaotao` varchar(255)  DEFAULT NULL,
   `namtotnghiep` int DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -450,38 +424,23 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table thuyenvien_hopdong
+# Dump of table hopdong
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `thuyenvien_hopdong`;
+DROP TABLE IF EXISTS `hopdong`;
 
-CREATE TABLE `thuyenvien_hopdong` (
-  `id_thuyenvien_hopdong` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `hopdong` (
+  `id_hopdong` int NOT NULL AUTO_INCREMENT,
   `thuyenvien_id` int NOT NULL,
-  `hopdong_id` int NOT NULL,
   `ngayky` datetime NOT NULL,
   `ngayhethan` datetime NOT NULL,
+  `ngaythanhly` datetime NOT NULL,
   `trangthaihopdong` varchar(45) NOT NULL,
   `hinhanh` varchar(100) NOT NULL,
-  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_thuyenvien_hopdong`),
+  PRIMARY KEY (`id_hopdong`),
   KEY `chitiet_hopdong_thuyenvien_idx` (`thuyenvien_id`),
-  KEY `chitiet_hopdong_idx` (`hopdong_id`),
-  CONSTRAINT `tvhd_hopdong` FOREIGN KEY (`hopdong_id`) REFERENCES `hopdong` (`id_hopdong`),
   CONSTRAINT `tvhd_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-LOCK TABLES `thuyenvien_hopdong` WRITE;
-/*!40000 ALTER TABLE `thuyenvien_hopdong` DISABLE KEYS */;
-
-INSERT INTO `thuyenvien_hopdong` (`id_thuyenvien_hopdong`, `thuyenvien_id`, `hopdong_id`, `ngayky`, `ngayhethan`, `trangthaihopdong`, `hinhanh`, `createdAt`, `updatedAt`)
-VALUES
-	(1,1,2,'2025-05-12 09:00:00','2028-05-12 09:00:00','Đang hoạt động','contract_image_1.jpg','2025-05-12 15:50:56','2025-05-12 15:50:56'),
-	(2,2,3,'2025-06-15 14:30:00','2028-06-15 14:30:00','Đã hết hạn','contract_image_2.jpg','2025-05-12 15:50:56','2025-05-12 15:50:56');
-
-/*!40000 ALTER TABLE `thuyenvien_hopdong` ENABLE KEYS */;
-UNLOCK TABLES;
 
 
 # Dump of table thuyenvien_ngoaingu
@@ -492,14 +451,14 @@ DROP TABLE IF EXISTS `thuyenvien_ngoaingu`;
 CREATE TABLE `thuyenvien_ngoaingu` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `id_thuyenvien` int DEFAULT NULL,
-  `ngonngu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `tenchungchi` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ngonngu` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `tenchungchi` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `diemso` float DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ngaycap` date DEFAULT NULL,
   `ngayhethan` date DEFAULT NULL,
-  `file` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `file` varchar(255)  DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -529,10 +488,10 @@ DROP TABLE IF EXISTS `thuyenvien_tailieu`;
 CREATE TABLE `thuyenvien_tailieu` (
   `id` int NOT NULL AUTO_INCREMENT,
   `id_thuyenvien` int NOT NULL,
-  `cccd_mattruoc` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cccd_matsau` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phieutiemvacxin` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `chungnhanvangda` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `cccd_mattruoc` varchar(255)  DEFAULT NULL,
+  `cccd_matsau` varchar(255)  DEFAULT NULL,
+  `phieutiemvacxin` varchar(255)  DEFAULT NULL,
+  `chungnhanvangda` varchar(255)  DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -594,7 +553,7 @@ CREATE TABLE `trangthai` (
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_trangthai`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `trangthai` WRITE;
 /*!40000 ALTER TABLE `trangthai` DISABLE KEYS */;
@@ -627,7 +586,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`taikhoan`),
   KEY `user_phanquyen_idx` (`phanquyen_id`),
   CONSTRAINT `user_phanquyen` FOREIGN KEY (`phanquyen_id`) REFERENCES `phanquyen` (`id_phanquyen`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;

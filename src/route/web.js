@@ -1,9 +1,14 @@
 import express from "express";
 import ChungChiController from '../controllers/ChungChiController';
-import UserController from '../controllers/UserController';
 import ThuyenVienController from '../controllers/ThuyenVienController';
 import AuthController from '../controllers/AuthController';
 import AuthMiddleware from '../middlewares/AuthMiddleware';
+import HopDongController from '../controllers/HopDongController';
+import UserController from '../controllers/userController';
+import BangLuongController from '../controllers/BangLuongController';
+import ThuyenVienLuongController from '../controllers/ThuyenVienLuongController';
+import ChucVuController from '../controllers/ChucVuController';
+import TauController from '../controllers/TauController';
 
 const router = express.Router();
 
@@ -63,6 +68,11 @@ const initWebRoutes = (app) => {
     
     // user ở đây
     router.get('/danh-sach-user', UserController.getAllUser);
+    router.post('/post-user', UserController.postUser);
+    router.post('/edit-user', UserController.getEditUser);
+    router.post('/put-user', UserController.putUser);
+    router.post('/reset-user', UserController.resetPassword);
+    router.post('/delete-user', UserController.deleteUser);
     
     //chứng chỉ ở đâyđây
     router.get('/danh-sach-chung-chi', ChungChiController.getAllChungChi);
@@ -100,8 +110,44 @@ const initWebRoutes = (app) => {
     
     // Add photo upload route
     router.post('/upload-anh-thuyen-vien/:id', ThuyenVienController.uploadThuyenVienPhoto);
-    
+
+    //hợp đồng ở đây
+    router.get('/danh-sach-hop-dong', HopDongController.getAllHopDong);
+    router.post('/post-hop-dong', HopDongController.postHopDong);
+    router.post('/edit-hop-dong', HopDongController.puteditHopDong);
+    router.post('/delete-hop-dong', HopDongController.deleteHopDong);
+    router.get('/hop-dong-cho-thanh-ly', HopDongController.getHopDongChoThanhLy);
+    router.post('/thuc-hien-thanh-ly', HopDongController.postThanhLyHopDong);
+    router.get('/hop-dong-da-thanh-ly', HopDongController.getHopDongDaThanhLy);
+
+    //thuyền viên bảng lương ở đây
+    router.get('/danh-sach-thuyen-vien-luong', ThuyenVienLuongController.getAllThuyenVienLuong);
+
+    //bảng lương ở đây
+    router.get('/danh-sach-bang-luong', BangLuongController.getAllBangLuong);
+    // router.post('/post-bangluong', BangLuongController.postBangLuong);
+    router.post('/edit-bangluong', BangLuongController.getEditBangLuong);
+    // router.post('/put-bangluong', BangLuongController.putBangLuong);
+    router.post('/delete-bangluong', BangLuongController.deleteBangLuong);
+
+    //chức vụ ở đây
+    router.get('/danh-sach-chuc-vu', ChucVuController.getAllChucVu);
+    router.post('/post-chucvu', ChucVuController.postChucVu);
+    router.post('/edit-chucvu', ChucVuController.getEditChucVu);
+    router.post('/put-chucvu', ChucVuController.putChucVu);
+    router.post('/delete-chucvu', ChucVuController.deleteChucVu);
+
+    //tàu ở đây
+    router.get('/danh-sach-tau', TauController.getAllTau);
+    router.post('/post-tau', TauController.postTau);
+    router.post('/edit-tau', TauController.getEditTau);
+    router.post('/put-tau', TauController.putTau);
+    router.post('/delete-tau', TauController.deleteTau);
+    router.get('/search-tau', TauController.searchTau);
+
     app.use("/", router);
+
+    
 };
 
 export default initWebRoutes;

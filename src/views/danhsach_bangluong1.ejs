@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PITSCO Crew Management System - Users</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+                <div class="sidebar-brand-icon logo">
+                    <img src="img/logo.png" alt="PITSCO Logo" style="height: 40px;">
+                </div>
+            </a>
+
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Bảng điều khiển</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/users">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Danh sách tài khoản</span></a>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/crews">
+                    <i class="fas fa-users"></i>
+                    <span>Danh sách thuyền viên</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Hồ sơ chứng chỉ</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/cer-expiring">Sắp đến hạn</a>
+                        <a class="collapse-item" href="/cer-expired">Đã quá hạn</a>
+                    </div>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                    aria-expanded="true" aria-controls="collapsePages">
+                    <i class="fas fa-fw fa-folder"></i>
+                    <span>Hợp đồng</span>
+                </a>
+                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/con-list">Danh sách hợp đồng</a>
+                        <a class="collapse-item" href="/con-expiring">Sắp đến hạn</a>
+                        <a class="collapse-item" href="/con-expired">Đã quá hạn</a>
+                    </div>
+                </div>
+            </li>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="/payroll">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Bảng lương</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-archive"></i>
+                    <span>Danh mục tài liệu</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/list-job">Danh sách chức danh</a>
+                        <a class="collapse-item" href="/list-ship">Danh sách tàu</a>
+                        <a class="collapse-item" href="/list-cer">Danh sách chứng chỉ</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider d-none d-md-block">
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+        </ul>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-bell fa-fw"></i>
+                                <span class="badge badge-danger badge-counter">2+</span>
+                            </a>
+                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="alertsDropdown">
+                                <h6 class="dropdown-header">
+                                    Thông báo
+                                </h6>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">19/3/2025</div>
+                                        <span class="font-weight-bold">Có 1 hợp đồng sắp hết hạn</span>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500">19/3/2025</div>
+                                        Có 1 chứng chỉ sắp hết hạn
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                            </div>
+                        </li>
+
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user-lock mr-2 text-gray-400"></i>
+                                    Quản trị viên
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Tài khoản
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Cài đặt
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Bảng Lương Thuyền Viên</h1>
+                    </div>
+                    <!-- Bộ lọc tháng -->
+                    <div class="row justify-content-between mb-3">
+                        <div class="col-md-4">
+                            <label for="filterMonth" class="form-label fw-bold">📅 Chọn tháng:</label>
+                            <select id="filterMonth" class="form-select" onchange="filterByMonth()">
+                                <option value="3-2025">Tháng 7/2025</option>
+                                <option value="2-2025">Tháng 6/2025</option>
+                                <option value="1-2025">Tháng 5/2025</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-success me-2" onclick="themLuong()">➕ Thêm</button>
+                            <button class="btn btn-danger me-2" onclick="xoaChon()">🗑 Xóa</button>
+                            <button class="btn btn-warning" onclick="xuatBangLuong()">📤 Xuất</button>
+                            <!-- Modal Thêm bảng lương -->
+                            <div class="modal fade" id="modalThemBangLuong" tabindex="-1" role="dialog"
+                                aria-labelledby="modalLabelThem" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-primary" id="modalLabelThem">Thêm bảng lương
+                                                mới</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="formThemBangLuong" action="/post-bangluong" method="POST">
+                                                <div class="form-group">
+                                                    <label for="thuyenVienId" class="text-primary">Mã thuyền
+                                                        viên</label>
+                                                    <input type="text" class="form-control" id="thuyenVienId"
+                                                        name="thuyenvien_id" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="luongCoBan" class="text-primary">Lương cơ
+                                                        bản</label>
+                                                    <input type="text" class="form-control" id="luongCoBan"
+                                                        name="luongcb" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tiGia" class="text-primary">Tỉ giá</label>
+                                                    <input type="text" class="form-control" id="tiGia" name="tigia"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="soCong" class="text-primary">Số công</label>
+                                                    <input type="text" class="form-control" id="soCong" name="socong"
+                                                        required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="phuongThuc" class="text-primary">Phương thức</label>
+                                                    <select class="form-control" id="phuongThuc" name="phuongthuc"
+                                                        required>
+                                                        <option>Ngày xuất cảnh</option>
+                                                        <option>Ngày lên tàu</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tinhTrang" class="text-primary">Tình trạng</label>
+                                                    <select class="form-control" id="tinhTrang" name="tinhtrang"
+                                                        required>
+                                                        <option>Chưa thanh toán</option>
+                                                        <option>Đã thanh toán</option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Lưu</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="m-0">📋 Danh sách bảng lương</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)">
+                                            </th>
+                                            <th>Mã thuyền viên</th>
+                                            <th>Họ Tên</th>
+                                            <th>Lương Cơ Bản</th>
+                                            <th>Hệ số quy đổi</th>
+                                            <th>Số công</th>
+                                            <th>Tháng</th>
+                                            <th>Phương thức</th>
+                                            <th>Tình Trạng</th>
+                                            <th>Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="salaryTable">
+                                        <% for(let i=0; i<dataTable.length; i++){ %>
+                                            <tr onclick="chonDong(this, event)">
+                                                <td><input type="checkbox" class="row-checkbox"
+                                                        data-id="<%= dataTable[i].id_bangluong %>"></td>
+                                                <td>
+                                                    <%= dataTable[i].thuyenvien_id %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].thuyenvien?.hoten %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].luongcb %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].tigia %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].socong %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].thoigian %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].phuongthuc %>
+                                                </td>
+                                                <td class="ten">
+                                                    <%= dataTable[i].tinhtrang %>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-warning btn-sm"
+                                                        onclick="openEditModal('<%= dataTable[i].id_bangluong %>', '<%= dataTable[i].thuyenvien_id %>', '<%= dataTable[i].luongcb %>', '<%= dataTable[i].tigia %>', '<%= dataTable[i].socong %>', '<%= dataTable[i].phuongthuc %>', '<%= dataTable[i].tinhtrang %>')">
+                                                        Cập nhật
+                                                    </button>
+                                                    <button class="btn btn-warning btn-sm">
+                                                        Thanh toán
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                    </tbody>
+                                </table>
+                                <!-- Modal edit -->
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <form id="editBangLuongForm" action="/put-bangluong" method="POST">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sửa bảng lương</h5>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="editId" name="id_bangluong">
+                                                    <div class="form-group">
+                                                        <label>Mã thuyền viên</label>
+                                                        <input type="text" class="form-control" id="editThuyenVienId"
+                                                            name="thuyenvien_id" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Lương cơ bản</label>
+                                                        <input type="text" class="form-control" id="editLuongCB"
+                                                            name="luongcb" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Tỉ giá</label>
+                                                        <input type="text" class="form-control" id="editTiGia"
+                                                            name="tigia" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Số công</label>
+                                                        <input type="text" class="form-control" id="editSoCong"
+                                                            name="socong" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phuongThuc" class="text-primary">Phương
+                                                            thức</label>
+                                                        <select class="form-control" id="editPhuongThuc"
+                                                            name="phuongthuc" required>
+                                                            <option>Ngày xuất cảnh</option>
+                                                            <option>Ngày lên tàu</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="tinhTrang" class="text-primary">Tình
+                                                            trạng</label>
+                                                        <select class="form-control" id="editTinhTrang" name="tinhtrang"
+                                                            required>
+                                                            <option>Chưa thanh toán</option>
+                                                            <option>Đã thanh toán</option>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <footer class="sticky-footer bg-white">
+                        <div class="container my-auto">
+                            <div class="copyright text-center my-auto">
+                                <span>Copyright &copy; PITSCO Crew Management System 2025 </span>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
+
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắc muốn rời đi?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Chọn "Đăng xuất" bên dưới nếu bạn sẵn sàng kết thúc phiên hiện
+                                tại
+                                của mình.
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Hủy</button>
+                                <a class="btn btn-primary" href="/login">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function themBangLuong() {
+                        $('#modalThemBangLuong').modal('show');
+                    }
+
+                    function openEditModal(id, thuyenvien_id, luongcb, tigia, socong, phuongthuc, tinhtrang) {
+                        document.getElementById('editId').value = id;
+                        document.getElementById('editThuyenVienId').value = thuyenvien_id;
+                        document.getElementById('editLuongCoBan').value = luongcb;
+                        document.getElementById('editTiGia').value = tigia;
+                        document.getElementById('editSocong').value = socong;
+                        document.getElementById('editPhuongThuc').value = phuongthuc;
+                        document.getElementById('editTinhTrang').value = tinhtrang;
+                        $('#editModal').modal('show');
+                    }
+
+                    function xoaChon() {
+                        // lấy tất cả checkbox đang check
+                        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+                        const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+                        if (ids.length === 0) {
+                            alert('Vui lòng chọn ít nhất một bảng lương để xóa!');
+                            return;
+                        }
+
+                        // xác nhận
+                        if (!confirm('Bạn có chắc muốn xóa các bảng lương đã chọn?')) {
+                            return;
+                        }
+
+                        // gửi danh sách id bằng POST request
+                        fetch('/delete-bangluong', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({ id: ids }) // id là mảng
+                        })
+                            .then(res => {
+                                if (res.redirected) {
+                                    window.location.href = res.url;
+                                } else {
+                                    return res.json();
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                alert('Có lỗi xảy ra khi xóa.');
+                            });
+                    }
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        document.getElementById("filterMonth").value = "3-2025";
+                        filterByMonth();
+                    });
+                    // function themLuong() {
+                    //     window.location.href = '/payroll-add';
+                    // }
+                </script>
+
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                <script src="js/style.js"></script>
+
+                <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+                <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+                <script src="js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>
