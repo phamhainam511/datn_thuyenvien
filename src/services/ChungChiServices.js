@@ -71,8 +71,9 @@ let deleteChungChi = (chungchi_id) => {
             })
             if(chungchi ){
                 await chungchi.destroy();
+                return resolve(true);
             }
-            resolve();
+            return resolve(false);
         }catch(e){
             reject(e);
         }

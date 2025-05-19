@@ -440,7 +440,7 @@ CREATE TABLE `hopdong` (
   PRIMARY KEY (`id_hopdong`),
   KEY `chitiet_hopdong_thuyenvien_idx` (`thuyenvien_id`),
   CONSTRAINT `tvhd_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB ;
 
 
 # Dump of table thuyenvien_ngoaingu

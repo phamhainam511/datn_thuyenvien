@@ -196,20 +196,30 @@ let updateHopDongData = async (data, file) => {
         if (!thuyenVien) {
             throw new Error('Thuyền viên không tồn tại!');
         }
-        // Chuyển đổi ngày từ string "dd/MM/yyyy" sang Date object
+
+        // Chuyển đổi ngày từ chuỗi sang Date
         const ngayky = parseDate(data.ngayKi);
         const ngayhethan = parseDate(data.ngayHetHan);
 
-        if (ngayky >= ngayhethan) {
-                return reject(new Error('Ngày ký hợp đồng phải trước ngày hết hạn!'));
+        if (!ngayky || !ngayhethan || isNaN(ngayky) || isNaN(ngayhethan)) {
+            throw new Error('Ngày ký hoặc ngày hết hạn không hợp lệ!');
         }
 
-        await db.Hopdong.update({
+        if (ngayky >= ngayhethan) {
+            throw new Error('Ngày ký hợp đồng phải trước ngày hết hạn!');
+        }
+
+        const updateData = {
             thuyenvien_id: data.thuyenvien_id,
             ngayky,
             ngayhethan,
-            hinhanh: data.hinhanh,
-        }, {
+        };
+
+        if (file) {
+            updateData.hinhanh = '/uploads/contract/' + file.filename;
+        }
+
+        await db.Hopdong.update(updateData, {
             where: {
                 id_hopdong: data.idHopDong
             },
@@ -217,10 +227,11 @@ let updateHopDongData = async (data, file) => {
 
         return 'Cập nhật hợp đồng thành công!';
     } catch (e) {
-        console.error(e);
+        console.error('Lỗi cập nhật hợp đồng:', e);
         throw e;
     }
 };
+
 
 let updatethanhLyHopDong = async (idHopDong) => {
     if (!idHopDong) {

@@ -22,193 +22,244 @@
 
 <body id="page-top">
 
-    <%- include('partials/header', { title: 'Danh sách chứng chỉ', baseUrl: '' }) %>
+    <%- include('partials/header', { title: 'Danh sách chứng chỉ' , baseUrl: '' }) %>
 
-    <div id="wrapper">
-        <%- include('partials/sidebar', { activeMenu: 'documents', baseUrl: '' }) %>
+        <div id="wrapper">
+            <%- include('partials/sidebar', { activeMenu: 'documents' , baseUrl: '' }) %>
 
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <%- include('partials/topbar', { baseUrl: '' }) %>
+                <div id="content-wrapper" class="d-flex flex-column">
+                    <div id="content">
+                        <%- include('partials/topbar', { baseUrl: '' }) %>
 
-                <div class="container-fluid">
+                            <div class="container-fluid">
 
-                    <h1 class="h3 mb-2 text-gray-800">Danh sách chứng chỉ</h1>
-                    <div class="card shadow mt-3">
-                        <div
-                            class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                            <h5 class="m-0">Chứng chỉ</h5>
-                            <div>
-                                <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
-                                <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
-                                <!-- Modal Thêm chứng chỉ -->
-                                <div class="modal fade" id="modalThemChungChi" tabindex="-1" role="dialog"
-                                    aria-labelledby="modalLabelThem" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-primary" id="modalLabelThem">Thêm chứng chỉ
-                                                    mới</h5>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="formThemChungChi" action="/post-chungchi" method="POST">
-                                                    <div class="form-group">
-                                                        <label for="tenChungChi" class="text-primary">Tên chứng
-                                                            chỉ</label>
-                                                        <input type="text" class="form-control" id="tenChungChi"
-                                                            name="tenchungchi" required>
+                                <h1 class="h3 mb-2 text-gray-800">Danh sách chứng chỉ</h1>
+                                <div class="card shadow mt-3">
+                                    <div
+                                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                        <h5 class="m-0">Chứng chỉ</h5>
+                                        <div>
+                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
+                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
+                                            <!-- Modal Thêm chứng chỉ -->
+                                            <div class="modal fade" id="modalThemChungChi" tabindex="-1" role="dialog"
+                                                aria-labelledby="modalLabelThem" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title text-primary" id="modalLabelThem">
+                                                                Thêm chứng chỉ
+                                                                mới</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form id="formThemChungChi" action="/post-chungchi"
+                                                                method="POST">
+                                                                <div class="form-group">
+                                                                    <label for="tenChungChi" class="text-primary">Tên
+                                                                        chứng
+                                                                        chỉ</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="tenChungChi" name="tenchungchi" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="tieuChuanApDung"
+                                                                        class="text-primary">Tiêu chuẩn áp
+                                                                        dụng</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="tieuChuanApDung" name="tieuchuanapdung"
+                                                                        required>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Lưu</button>
+                                                            </form>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="tieuChuanApDung" class="text-primary">Tiêu chuẩn áp
-                                                            dụng</label>
-                                                        <input type="text" class="form-control" id="tieuChuanApDung"
-                                                            name="tieuchuanapdung" required>
-                                                    </div>
-                                                    <button type="submit" class="btn btn-primary">Lưu</button>
-                                                </form>
+                                                </div>
                                             </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable1">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 5%;"><input type="checkbox" id="checkAll"
+                                                                onclick="chonTatCa(this)"></th>
+                                                        <th style="width: 10%;">STT</th>
+                                                        <th>Tên chứng chỉ</th>
+                                                        <th>Tiêu chuẩn áp dụng</th>
+                                                        <th style="width: 20%;">Hành động</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="danhSach">
+                                                    <% for(let i=0; i<dataTable.length; i++){ %>
+                                                        <tr onclick="chonDong(this, event)">
+                                                            <td><input type="checkbox" class="row-checkbox"
+                                                                    data-id="<%= dataTable[i].id_chungchi %>"></td>
+                                                            <td>
+                                                                <%= dataTable[i].id_chungchi %>
+                                                            </td>
+                                                            <td class="ten">
+                                                                <%= dataTable[i].tenchungchi %>
+                                                            </td>
+                                                            <td class="ten">
+                                                                <%= dataTable[i].tieuchuanapdung %>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-warning btn-sm"
+                                                                    onclick="openEditModal('<%= dataTable[i].id_chungchi %>', '<%= dataTable[i].tenchungchi %>', '<%= dataTable[i].tieuchuanapdung %>')">
+                                                                    Sửa
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <% } %>
+                                                </tbody>
+                                            </table>
+                                            <!-- Modal edit -->
+                                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                                <div class="modal-dialog" role="document">
+                                                    <form id="editChungChiForm" action="/put-chungchi" method="POST">
+
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Sửa chứng chỉ</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input type="hidden" id="editId" name="id_chungchi">
+                                                                <div class="form-group">
+                                                                    <label>Tên chứng chỉ</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="editTenChungChi" name="tenchungchi"
+                                                                        required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Tiêu chuẩn áp dụng</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="editTieuChuanApDung" name="tieuchuanapdung"
+                                                                        required>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Lưu</button>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Đóng</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 5%;"><input type="checkbox" id="checkAll"
-                                                    onclick="chonTatCa(this)"></th>
-                                            <th style="width: 10%;">STT</th>
-                                            <th>Tên chứng chỉ</th>
-                                            <th>Tiêu chuẩn áp dụng</th>
-                                            <th style="width: 20%;">Hành động</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="danhSach">
-                                        <% for(let i = 0; i<dataTable.length; i++){ %>
-                                        <tr onclick="chonDong(this, event)">
-                                            <td><input type="checkbox" class="row-checkbox" data-id="<%= dataTable[i].id_chungchi %>"></td>
-                                            <td><%= dataTable[i].id_chungchi %></td>
-                                            <td class="ten"><%= dataTable[i].tenchungchi %></td>
-                                            <td class="ten"><%= dataTable[i].tieuchuanapdung %></td>
-                                            <td>
-                                                <button class="btn btn-warning btn-sm"
-                                                    onclick="openEditModal('<%= dataTable[i].id_chungchi %>', '<%= dataTable[i].tenchungchi %>', '<%= dataTable[i].tieuchuanapdung %>')">
-                                                    Sửa
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <% } %>
-                                    </tbody>
-                                </table>
-                                <!-- Modal edit -->
-                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-                                    <div class="modal-dialog" role="document">
-                                        <form id="editChungChiForm" action="/put-chungchi" method="POST">
-                                            
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Sửa chứng chỉ</h5>
-                                                    <button type="button" class="close"
-                                                        data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="hidden" id="editId" name="id_chungchi">
-                                                    <div class="form-group">
-                                                        <label>Tên chứng chỉ</label>
-                                                        <input type="text" class="form-control" id="editTenChungChi" name="tenchungchi" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Tiêu chuẩn áp dụng</label>
-                                                        <input type="text" class="form-control" id="editTieuChuanApDung" name="tieuchuanapdung" required>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Lưu</button>
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal">Đóng</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
 
                             </div>
-                        </div>
+
                     </div>
 
-
+                    <%- include('partials/footer') %>
                 </div>
-
-            </div>
-
-            <%- include('partials/footer') %>
         </div>
-    </div>
 
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <%- include('partials/logout-modal') %>
-    <%- include('partials/scripts', { baseUrl: '' }) %>
+        <%- include('partials/logout-modal') %>
+            <%- include('partials/scripts', { baseUrl: '' }) %>
 
-    <script>
-        function moPopupThem() {
-            $('#modalThemChungChi').modal('show');
-        }
+                <script>
+                    function moPopupThem() {
+                        $('#modalThemChungChi').modal('show');
+                    }
 
-        function openEditModal(id, ten, tieuchuan) {
-            document.getElementById('editId').value = id;
-            document.getElementById('editTenChungChi').value = ten;
-            document.getElementById('editTieuChuanApDung').value = tieuchuan;
-            $('#editModal').modal('show');
-        }
+                    function openEditModal(id, ten, tieuchuan) {
+                        document.getElementById('editId').value = id;
+                        document.getElementById('editTenChungChi').value = ten;
+                        document.getElementById('editTieuChuanApDung').value = tieuchuan;
+                        $('#editModal').modal('show');
+                    }
 
-        function xoaChon() {
-            // lấy tất cả checkbox đang check
-            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
-            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+                    function xoaChon() {
+                        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+                        const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
 
-            if (ids.length === 0) {
-                alert('Vui lòng chọn ít nhất một chứng chỉ để xóa!');
-                return;
-            }
+                        if (ids.length === 0) {
+                            Swal.fire("Chú ý", "Vui lòng chọn ít nhất một chứng chỉ để xóa!", "warning");
+                            return;
+                        }
 
-            // xác nhận
-            if (!confirm('Bạn có chắc muốn xóa các chứng chỉ đã chọn?')) {
-                return;
-            }
+                        Swal.fire({
+                            title: "Bạn có chắc muốn xóa?",
+                            text: "Thao tác này không thể hoàn tác!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "Xóa",
+                            cancelButtonText: "Hủy"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                fetch('/delete-chungchi', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json'
+                                    },
+                                    body: JSON.stringify({ id: ids })
+                                })
+                                    .then(res => {
+                                        if (!res.ok) {
+                                            return res.json().then(data => {
+                                                throw new Error(data.message || "Có lỗi xảy ra!");
+                                            });
+                                        }
+                                        return res.json();
+                                    })
+                                    .then(data => {
+                                        Swal.fire("Thành công", data.message, "success").then(() => {
+                                            window.location.reload(); // load lại trang sau khi nhấn OK
+                                        });
+                                    })
+                                    .catch(err => {
+                                        console.error(err);
+                                        Swal.fire("Lỗi", err.message || "Không thể xóa chứng chỉ!", "error");
+                                    });
+                            }
+                        });
+                    }
+                    $('#dataTable1').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                        // "dom": 'lrtip', // Hide default search box
+                        "language": {
+                            "search": "Tìm kiếm:",
+                            "lengthMenu": "Hiển thị _MENU_ mục",
+                            "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                            "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                            "paginate": {
+                                "first": "Đầu",
+                                "last": "Cuối",
+                                "next": "Sau",
+                                "previous": "Trước"
+                            }
+                        }
+                    });
 
-            // gửi danh sách id bằng POST request
-            fetch('/delete-chungchi', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({ id: ids }) // id là mảng
-            })
-            .then(res => {
-                if (res.redirected) {
-                    window.location.href = res.url;
-                } else {
-                    return res.json();
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Có lỗi xảy ra khi xóa.');
-            });
-        }
-    </script>
+                </script>
 
 </body>
 

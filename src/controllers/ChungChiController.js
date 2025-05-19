@@ -32,17 +32,35 @@ let putChungChi = async(req, res) => {
 }
 
 let deleteChungChi = async (req, res) => {
-    let ids = req.body.id; // => mảng id
+    let ids = req.body.id;
+
     if (!Array.isArray(ids)) {
-        ids = [ids]; // nếu gửi 1 id thì cho thành mảng luôn
+        ids = [ids]; // ép thành mảng
     }
 
-    for (let id of ids) {
-        await ChungChiServices.deleteChungChi(id);
-    }
+    try {
+        for (let id of ids) {
+            const deleted = await ChungChiServices.deleteChungChi(id);
+            if (!deleted) {
+                return res.status(400).json({
+                    message: `Không thể xóa chứng chỉ với ID: ${id}`
+                });
+            }
+        }
 
-    return res.redirect('/danh-sach-chung-chi');
+        // Trả về message thành công cho frontend
+        return res.status(200).json({
+            message: 'Thành công: xoá chứng chỉ thành công'
+        });
+    } catch (err) {
+        console.error('Lỗi khi xóa chứng chỉ:', err);
+        return res.status(500).json({
+            message: 'Đã xảy ra lỗi khi xóa chứng chỉ.'
+        });
+    }
 };
+
+
 
 let getAllLichSuDiTau = async (req, res) => {
     // let data = await ChungChiServices.getAllLichSuDiTau();

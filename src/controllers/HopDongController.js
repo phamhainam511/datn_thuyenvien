@@ -80,7 +80,8 @@ let postHopDong = (req, res) => {
             res.redirect('/danh-sach-hop-dong?success=true');
         } catch (error) {
             console.error('Lỗi khi tạo hợp đồng:', error);
-            res.send('Lỗi khi tạo hợp đồng: ' + error.message); // Đổi từ redirect sang send để thấy lỗi
+            const errorMessage = error.message || 'Đã xảy ra lỗi không xác định!';
+            res.redirect('/danh-sach-hop-dong?success=false&message=' + encodeURIComponent(errorMessage));
         }
     });
 };
@@ -136,8 +137,9 @@ let puteditHopDong = async (req, res) => {
 
             return res.redirect('/danh-sach-hop-dong?updated=true');
         } catch (error) {
-            console.error('Lỗi xử lý:', error);
-            return res.redirect('/danh-sach-hop-dong?updated=false');
+            console.error('Lỗi khi update:', error);
+            const errorMessage = error.message || 'Đã xảy ra lỗi không xác định!';
+            res.redirect('/danh-sach-hop-dong?updated=false&message=' + encodeURIComponent(errorMessage));
         }
     });
 };
