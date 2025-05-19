@@ -1,20 +1,52 @@
-import db from '../models';
+const db = require('../models');
+const {
+    Op
+} = require('sequelize');
 
-async function getCrewWorkingCount() {
-    const [results] = await db.sequelize.query(`
-        SELECT COUNT(*) AS count
-        FROM thuyenvien_trangthai tvtt
-        INNER JOIN (
-            SELECT thuyenvien_id, MAX(thoigian) AS latest_time
-            FROM thuyenvien_trangthai
-            GROUP BY thuyenvien_id
-        ) latest
-        ON tvtt.thuyenvien_id = latest.thuyenvien_id AND tvtt.thoigian = latest.latest_time
-        INNER JOIN trangthai tt ON tvtt.trangthai_id = tt.id_trangthai
-        WHERE tt.tentrangthai = 'Đang trên tàu'
-    `);
+const getExpiringCertificateCount = async (days = 30) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
-    return results[0].count || 0;
-}
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1); // 0:00 ngày mai
 
-export default { getCrewWorkingCount };
+    const futureDate = new Date(tomorrow);
+    futureDate.setDate(futureDate.getDate() + days); // 0:00 ngày sau 30 ngày tính từ ngày mai
+
+    console.log('Counting certificates from', tomorrow, 'to', futureDate);
+
+    try {
+        const count = await db.ThuyenvienChungchi.count({
+            where: {
+                ngayhethan: {
+                    [Op.gte]: tomorrow,  // từ ngày mai trở đi
+                    [Op.lt]: futureDate  // trước ngày 31
+                }
+            }
+        });
+
+        return count;
+    } catch (error) {
+        console.error('Error counting expiring certificates:', error);
+        return 0;
+    }
+};
+
+const getPendingContractsCount = async () => {
+    try {
+        const count = await db.HopDong.count({
+            where: {
+                trangthai: 'Chờ thanh lý'
+            }
+        });
+        return count;
+    } catch (error) {
+        console.error("Lỗi khi đếm hợp đồng chờ thanh lý:", error);
+        return 0;
+    }
+};
+
+module.exports = {
+    getExpiringCertificateCount,
+    getPendingContractsCount
+};

@@ -1,19 +1,15 @@
-import db from '../models';  
-import DashBoardService from '../services/DashBoardServices';
+const db = require('../models');
+const DashBoardServices = require("../services/DashBoardServices");
 
-export const index = async (req, res) => {
-    try {
-        const crewWorkingCount = await DashBoardService.getCrewWorkingCount();
+const getExpiringCertificateCount = async (days = 30) => {
+    return await DashBoardServices.getExpiringCertificateCount(days);
+};
 
-        res.render('trangchu.ejs', {
-            activeMenu: 'dashboard',
-            user: req.session.user,
-            dashboardData: {
-                crewWorkingCount
-            }
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Lỗi server');
-    }
+const getPendingContractsCount = async () => {
+    return await DashBoardServices.getPendingContractsCount();
+};
+
+module.exports = {
+    getExpiringCertificateCount,
+    getPendingContractsCount
 };

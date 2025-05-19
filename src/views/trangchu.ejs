@@ -27,7 +27,7 @@
             <div id="content">
                 <!-- Topbar -->
                 <%- include('partials/topbar') %>
-                
+
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -46,7 +46,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                 Số thuyền viên đang làm việc trên tàu</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= dashboardData.crewWorkingCount %></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-user fa-2x text-gray-300"></i>
@@ -82,7 +82,9 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                                 Chứng chỉ sắp hết hạn</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">3</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                data-expiring-count="<%= expiringCertCount %>">Loading...</div>
+
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-certificate fa-2x text-gray-300"></i>
@@ -99,8 +101,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Hợp đồng sắp hết hạn</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">2</div>
+                                                Hợp đồng chờ thanh lý</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                data-pending-contract-count="<%= pendingContractCount %>">Loading...</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-file-contract fa-2x text-gray-300"></i>
@@ -115,7 +118,8 @@
                         <!-- Biểu đồ thuyền viên theo tàu -->
                         <div class="col-xl-8 col-lg-7">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Phân bổ thuyền viên theo tàu</h6>
                                 </div>
                                 <div class="card-body">
@@ -129,7 +133,8 @@
                         <!-- Thống kê thuyền viên theo chức danh -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Thuyền viên theo chức danh</h6>
                                 </div>
                                 <div class="card-body">
@@ -261,6 +266,19 @@
                 cutoutPercentage: 80,
             },
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const expiringEl = document.querySelector("[data-expiring-count]");
+            if (expiringEl) {
+                expiringEl.textContent = expiringEl.dataset.expiringCount || '0';
+            }
+
+            const pendingContractEl = document.querySelector("[data-pending-contract-count]");
+            if (pendingContractEl) {
+                pendingContractEl.textContent = pendingContractEl.dataset.pendingContractCount || '0';
+            }
+        });
     </script>
 </body>
+
 </html>

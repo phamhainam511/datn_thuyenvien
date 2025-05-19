@@ -941,4 +941,5 @@ module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     updateThuyenVienStatus: updateThuyenVienStatus,
     uploadThuyenVienPhoto: uploadThuyenVienPhoto,
+
 }

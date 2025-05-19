@@ -34,12 +34,6 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'hopdongs'
             });
 
-            //Một thuyền viên có nhiều trạng thái
-            Thuyenvien.hasMany(models.ThuyenvienTrangthai, {
-                foreignKey: 'thuyenvien_id',
-                as: 'dsTrangThai'
-            });
-
         }
     }
 
