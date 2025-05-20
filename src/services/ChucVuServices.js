@@ -1,4 +1,5 @@
 import db from '../models/index';
+const dataUtils = require('./ChuanHoaServices'); 
 
 let createNewChucVu = async (data) => {
     return new Promise(async (resolve, reject) => {
