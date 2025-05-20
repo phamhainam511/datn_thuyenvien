@@ -1,10 +1,10 @@
 import db from '../models/index';
-
+const dataUtils = require('./ChuanHoaServices'); 
 let createNewThuyenVien = async(data) => {
     return new Promise(async(resolve, reject) => {
         try {
             const result = await db.Thuyenvien.create({
-                tenthuyenvien: data.tenthuyenvien,
+                tenthuyenvien: dataUtils.chuanHoaTen(data.tenthuyenvien),
                 tieuchuanapdung: data.tieuchuanapdung
             })
             resolve(result);
@@ -252,7 +252,7 @@ let createHocVan = (data) => {
             if (existingRecord) {
                 // Update existing record
                 await existingRecord.update({
-                    truongdaotao: data.truongdaotao,
+                    truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),
                     hedaotao: data.hedaotao,
                     namtotnghiep: data.namtotnghiep
                 });
@@ -261,7 +261,7 @@ let createHocVan = (data) => {
                 // Create new record
                 const result = await db.ThuyenvienHocvan.create({
                     id_thuyenvien: data.id_thuyenvien,
-                    truongdaotao: data.truongdaotao,
+                    truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),
                     hedaotao: data.hedaotao,
                     namtotnghiep: data.namtotnghiep
                 });
@@ -278,7 +278,7 @@ let updateHocVan = (id, data) => {
         try {
             await db.ThuyenvienHocvan.update(
                 {
-                    truongdaotao: data.truongdaotao,
+                    truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),
                     hedaotao: data.hedaotao,
                     namtotnghiep: data.namtotnghiep
                 },
@@ -728,22 +728,22 @@ let updateThuyenVienStatus = (id, newStatus) => {
 }
 
 async function getThuyenvienById(id) {
-  try {
-    const thuyenvien = await db.Thuyenvien.findOne({
-      where: { id_thuyenvien: id },
-      include: [
-        { model: db.ThuyenvienHocvan, as: 'hocvan' },
-        { model: db.ThuyenvienNgoaingu, as: 'ngoaingu' },
-        { model: db.ThuyenvienChungchi, as: 'chungchi' },
-        { model: db.ThuyenvienTailieu, as: 'tailieu' },
-        { model: db.Hopdong, as: 'hopdongs' }
-      ]
-    });
-    return thuyenvien;
-  } catch (error) {
-    console.error('Lỗi khi lấy thuyền viên:', error);
-    throw error;
-  }
+    try {
+        const thuyenvien = await db.Thuyenvien.findOne({
+        where: { id_thuyenvien: id },
+        include: [
+            { model: db.ThuyenvienHocvan, as: 'hocvan' },
+            { model: db.ThuyenvienNgoaingu, as: 'ngoaingu' },
+            { model: db.ThuyenvienChungchi, as: 'chungchi' },
+            { model: db.ThuyenvienTailieu, as: 'tailieu' },
+            { model: db.Hopdong, as: 'hopdongs' }
+        ]
+        });
+        return thuyenvien;
+    } catch (error) {
+        console.error('Lỗi khi lấy thuyền viên:', error);
+        throw error;
+    }
 }
 
 module.exports = {

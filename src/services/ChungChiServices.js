@@ -1,11 +1,11 @@
 import db from '../models/index';
-
+const dataUtils = require('./ChuanHoaServices'); 
 let createNewChungChi = async(data) => {
     return new Promise(async(resolve, reject) => {
         try {
             const result = await db.Chungchi.create({
-                tenchungchi: data.tenchungchi,
-                tieuchuanapdung: data.tieuchuanapdung
+                tenchungchi: dataUtils.chuanHoaTen(data.tenchungchi),
+                tieuchuanapdung: dataUtils.chuanHoaTen(data.tieuchuanapdung)
             })
             resolve(result);
         }catch (e){
@@ -49,8 +49,8 @@ let updateChungChiData = (data) => {
         try {
             await db.Chungchi.update(
                 {
-                    tenchungchi: data.tenchungchi,
-                    tieuchuanapdung: data.tieuchuanapdung
+                    tenchungchi: dataUtils.chuanHoaTen(data.tenchungchi),
+                    tieuchuanapdung: dataUtils.chuanHoaTen(data.tieuchuanapdung)
                 },
                 {
                     where: { id_chungchi: data.id_chungchi }

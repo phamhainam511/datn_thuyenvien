@@ -1,12 +1,13 @@
 import db from '../models/index';
 const { Sequelize, Op } = require('sequelize');
+const dataUtils = require('./ChuanHoaServices'); 
 
 let createNewTau = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await db.Tau.create({
-                tentau: data.tentau,
-                quoctich: data.quoctich,
+                tentau: dataUtils.chuanHoaTen(data.tentau),
+                quoctich: dataUtils.chuanHoaTen(data.quoctich),
                 loaitau_id: data.loaitau_id
             })
             resolve(result);
@@ -73,8 +74,8 @@ let updateTauData = (data) => {
         try {
             await db.Tau.update(
                 {
-                    tentau: data.tentau,
-                    quoctich: data.quoctich,
+                    tentau: dataUtils.chuanHoaTen(data.tentau),
+                    quoctich: dataUtils.chuanHoaTen(data.quoctich),
                     loaitau_id: data.loaitau_id
                 },
                 {

@@ -5,8 +5,7 @@ let createNewChucVu = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await db.Chucvu.create({
-                tenchucvu: data.tenchucvu,
-                capbac: data.capbac
+                tenchucvu: dataUtils.chuanHoaTen(data.tenchucvu),
             })
             resolve(result);
         } catch (e) {
@@ -51,7 +50,6 @@ let updateChucVuData = (data) => {
             await db.Chucvu.update(
                 {
                     tenchucvu: data.tenchucvu,
-                    capbac: data.capbac
                 },
                 {
                     where: { id_chucvu: data.id_chucvu }
