@@ -23,146 +23,149 @@
         <!-- Sidebar -->
         <%- include('partials/sidebar', { activeMenu: 'dashboard' }) %>
 
-        <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                <!-- Topbar -->
-                <%- include('partials/topbar') %>
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    <!-- Topbar -->
+                    <%- include('partials/topbar') %>
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Bảng điều khiển</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                            <i class="fas fa-download fa-sm text-white-50"></i> Tạo báo cáo
-                        </a>
-                    </div>
+                        <!-- Begin Page Content -->
+                        <div class="container-fluid">
+                            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <h1 class="h3 mb-0 text-gray-800">Bảng điều khiển</h1>
+                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    <i class="fas fa-download fa-sm text-white-50"></i> Tạo báo cáo
+                                </a>
+                            </div>
 
-                    <div class="row">
-                        <!-- Thuyền viên đang làm việc Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Số thuyền viên đang làm việc trên tàu</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">40</div>
+                            <div class="row">
+                                <!-- Thuyền viên đang làm việc Card -->
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card border-left-primary shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div
+                                                        class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                        Số thuyền viên đang làm việc trên tàu</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                        data-tren-tau-count="<%= soThuyenVienDangTrenTau %>">
+                                                        <%= soThuyenVienDangTrenTau %>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-user fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-user fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+
+                                <!-- Thuyền viên chờ việc Card -->
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card border-left-success shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div
+                                                        class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                        Số thuyền viên đang chờ tàu</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                        data-cho-tau-count="<%= soThuyenVienDangChoTau %>">
+                                                        <%= soThuyenVienDangChoTau %>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chứng chỉ sắp hết hạn Card -->
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card border-left-warning shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div
+                                                        class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                        Chứng chỉ sắp hết hạn</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                        data-expiring-count="<%= expiringCertCount %>">Loading...</div>
+
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-certificate fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hợp đồng sắp hết hạn Card -->
+                                <div class="col-xl-3 col-md-6 mb-4">
+                                    <div class="card border-left-danger shadow h-100 py-2">
+                                        <div class="card-body">
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col mr-2">
+                                                    <div
+                                                        class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                        Hợp đồng chờ thanh lý</div>
+                                                    <div class="h5 mb-0 font-weight-bold text-gray-800"
+                                                        data-pending-contract-count="<%= pendingContractCount %>">
+                                                        Loading...</div>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <i class="fas fa-file-contract fa-2x text-gray-300"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Biểu đồ chức vụ theo mhu cầu tuyển dụng -->
+                                <div class="col-xl-8 col-lg-7">
+                                    <div class="card shadow mb-4 h-100">
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Chức vụ theo nhu cầu tuyển
+                                                dụng
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-area">
+                                                <canvas id="crewByShipChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Thống kê thuyền viên theo trạng thái -->
+                                <div class="col-xl-4 col-lg-5">
+                                    <div class="card shadow mb-4 h-100">
+                                        <div
+                                            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                            <h6 class="m-0 font-weight-bold text-primary">Thuyền viên theo trạng thái
+                                            </h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="chart-pie pt-4 pb-2">
+                                                <canvas id="crewByPositionChart"></canvas>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Thuyền viên chờ việc Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Thuyền viên chờ việc</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-users fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Chứng chỉ sắp hết hạn Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Chứng chỉ sắp hết hạn</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                                data-expiring-count="<%= expiringCertCount %>">Loading...</div>
-
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-certificate fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Hợp đồng sắp hết hạn Card -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-danger shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                                Hợp đồng chờ thanh lý</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"
-                                                data-pending-contract-count="<%= pendingContractCount %>">Loading...</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-file-contract fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <!-- Biểu đồ thuyền viên theo tàu -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Phân bổ thuyền viên theo tàu</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="crewByShipChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Thống kê thuyền viên theo chức danh -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Thuyền viên theo chức danh</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="crewByPositionChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Thuyền trưởng
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Máy trưởng
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Thủy thủ
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- End Page Content -->
                 </div>
-                <!-- End Page Content -->
-            </div>
 
-            <!-- Footer -->
-            <%- include('partials/footer') %>
-        </div>
+                <!-- Footer -->
+                <%- include('partials/footer') %>
+            </div>
     </div>
 
     <!-- Scroll to Top Button -->
@@ -173,112 +176,112 @@
     <!-- Logout Modal -->
     <%- include('partials/logout-modal') %>
 
-    <!-- Core JavaScript -->
-    <script src="/vendor/jquery/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/js/style.js"></script>
+        <!-- Core JavaScript -->
+        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/js/style.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="/vendor/chart.js/Chart.min.js"></script>
+        <!-- Page level plugins -->
+        <script src="/vendor/chart.js/Chart.min.js"></script>
 
-    <%- include('partials/scripts') %>
+        <%- include('partials/scripts') %>
 
-    <!-- Dashboard Charts -->
-    <script>
-        // Dữ liệu biểu đồ cột
-        var ctx1 = document.getElementById("crewByShipChart");
-        var crewByShipChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ["Tàu A", "Tàu B", "Tàu C", "Tàu D", "Tàu E"],
-                datasets: [{
-                    label: "Số thuyền viên",
-                    backgroundColor: "#4e73df",
-                    hoverBackgroundColor: "#2e59d9",
-                    borderColor: "#4e73df",
-                    data: [12, 10, 8, 14, 6],
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
+            <!-- Dashboard Charts -->
+            <script>
+                const chucVuStats = JSON.parse('<%- chucVuStatsJson %>');
+
+                const ctx1 = document.getElementById("crewByShipChart");
+
+                const crewByShipChart = new Chart(ctx1, {
+                    type: 'bar',
+                    data: {
+                        labels: chucVuStats.labels,
+                        datasets: [{
+                            label: "Số lượng chức vụ trong lịch sử đi tàu",
+                            backgroundColor: "#4e73df",
+                            hoverBackgroundColor: "#2e59d9",
+                            borderColor: "#4e73df",
+                            data: chucVuStats.data,
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                ticks: { autoSkip: false }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    stepSize: 1,          // ⬅️ mỗi vạch cách 1 đơn vị
+                                    precision: 0          // ⬅️ ép hiển thị số nguyên
+                                    // Hoặc dùng callback nếu cần linh hoạt hơn:
+                                    // callback: value => Number.isInteger(value) ? value : ''
+                                }
+                            }]
                         },
-                        ticks: {
-                            maxTicksLimit: 6
+                        legend: { display: false }
+                    }
+                });
+            </script>
+
+            <script>
+                const trangThaiStats = JSON.parse('<%- thuyenvienTrangThaiStatsJson %>');
+
+                const ctx2 = document.getElementById("crewByPositionChart");
+                const crewByPositionChart = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: trangThaiStats.labels,
+                        datasets: [{
+                            data: trangThaiStats.data,
+                            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                            hoverBorderColor: "rgba(234, 236, 244, 1)",
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        tooltips: {
+                            backgroundColor: "rgb(255,255,255)",
+                            bodyFontColor: "#858796",
+                            borderColor: '#dddfeb',
+                            borderWidth: 1,
+                            xPadding: 15,
+                            yPadding: 15,
+                            displayColors: false,
+                            caretPadding: 10,
                         },
-                        maxBarThickness: 25,
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            max: 15,
-                            maxTicksLimit: 5,
-                            padding: 10,
-                        },
-                        gridLines: {
-                            color: "rgb(234, 236, 244)",
-                            zeroLineColor: "rgb(234, 236, 244)",
-                            drawBorder: false,
-                            borderDash: [2],
-                            zeroLineBorderDash: [2]
-                        }
-                    }],
-                },
-                legend: {
-                    display: false
-                },
-            }
-        });
+                        legend: { display: true }, // Bật hiển thị chú thích nếu cần
+                        cutoutPercentage: 80,
+                    }
+                });
+            </script>
 
-        // Dữ liệu biểu đồ tròn
-        var ctx2 = document.getElementById("crewByPositionChart");
-        var crewByPositionChart = new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-                labels: ["Thuyền trưởng", "Máy trưởng", "Thủy thủ"],
-                datasets: [{
-                    data: [5, 8, 27],
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    backgroundColor: "rgb(255,255,255)",
-                    bodyFontColor: "#858796",
-                    borderColor: '#dddfeb',
-                    borderWidth: 1,
-                    xPadding: 15,
-                    yPadding: 15,
-                    displayColors: false,
-                    caretPadding: 10,
-                },
-                legend: {
-                    display: false
-                },
-                cutoutPercentage: 80,
-            },
-        });
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const expiringEl = document.querySelector("[data-expiring-count]");
+                    if (expiringEl) {
+                        expiringEl.textContent = expiringEl.dataset.expiringCount || '0';
+                    }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const expiringEl = document.querySelector("[data-expiring-count]");
-            if (expiringEl) {
-                expiringEl.textContent = expiringEl.dataset.expiringCount || '0';
-            }
+                    const pendingContractEl = document.querySelector("[data-pending-contract-count]");
+                    if (pendingContractEl) {
+                        pendingContractEl.textContent = pendingContractEl.dataset.pendingContractCount || '0';
+                    }
 
-            const pendingContractEl = document.querySelector("[data-pending-contract-count]");
-            if (pendingContractEl) {
-                pendingContractEl.textContent = pendingContractEl.dataset.pendingContractCount || '0';
-            }
-        });
-    </script>
+                    const trenTauEl = document.querySelector("[data-tren-tau-count]");
+                    if (trenTauEl) {
+                        trenTauEl.textContent = trenTauEl.dataset.trenTauCount || '0';
+                    }
+
+                    const choTauEl = document.querySelector("[data-cho-tau-count]");
+                    if (choTauEl) {
+                        choTauEl.textContent = choTauEl.dataset.choTauCount || '0';
+                    }
+                });
+            </script>
 </body>
 
 </html>

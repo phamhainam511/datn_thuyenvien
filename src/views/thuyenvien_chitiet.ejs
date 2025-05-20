@@ -41,9 +41,15 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Thông tin thuyền viên</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                            <i class="fas fa-file-export fa-sm text-white-50"></i> Xuất thông tin
-                        </a>
+                        <div class="d-flex">
+                            <a href="#" id="exportInfoBtn" class="btn btn-sm btn-info shadow-sm me-5" style="margin-right: 5px;">
+                                <i class="fas fa-file-export fa-sm text-white-50 me-2"></i> Xuất thông tin
+                            </a>
+
+                            <a href="#" id="exportContractBtn" class="btn btn-sm btn-primary shadow-sm">
+                                <i class="fas fa-file-export fa-sm text-white-50 me-2"></i> Xuất hợp đồng
+                            </a>
+                        </div>
                     </div>
 
                     <!-- Tabs -->
@@ -1501,7 +1507,36 @@
                 
                 // Additional event handlers...
             });
+
+
+            document.getElementById("exportContractBtn").addEventListener("click", function(e) {
+                e.preventDefault();
+
+                // Lấy id thuyenvien từ URL hiện tại
+                const pathParts = window.location.pathname.split('/');
+                const idThuyenvien = pathParts[pathParts.length - 1]; // Lấy phần cuối của path
+
+                fetch(`/thuyenvien/export-word/${idThuyenvien}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `hopdong_thuyenvien_${idThuyenvien}.docx`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    })
+                    .catch(() => alert("Lỗi khi tải hợp đồng!"));
+            });
+
         </script>
+
+        
     </body>
 
 </html>

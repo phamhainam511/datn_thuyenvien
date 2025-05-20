@@ -727,6 +727,25 @@ let updateThuyenVienStatus = (id, newStatus) => {
     });
 }
 
+async function getThuyenvienById(id) {
+  try {
+    const thuyenvien = await db.Thuyenvien.findOne({
+      where: { id_thuyenvien: id },
+      include: [
+        { model: db.ThuyenvienHocvan, as: 'hocvan' },
+        { model: db.ThuyenvienNgoaingu, as: 'ngoaingu' },
+        { model: db.ThuyenvienChungchi, as: 'chungchi' },
+        { model: db.ThuyenvienTailieu, as: 'tailieu' },
+        { model: db.Hopdong, as: 'hopdongs' }
+      ]
+    });
+    return thuyenvien;
+  } catch (error) {
+    console.error('Lỗi khi lấy thuyền viên:', error);
+    throw error;
+  }
+}
+
 module.exports = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien: getAllThuyenVien,
@@ -763,4 +782,5 @@ module.exports = {
     getExpiredCertificates: getExpiredCertificates,
     createNewThuyenVienFull: createNewThuyenVienFull,
     updateThuyenVienStatus: updateThuyenVienStatus,
+    getThuyenvienById : getThuyenvienById,
 }

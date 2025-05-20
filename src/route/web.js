@@ -42,12 +42,20 @@ const initWebRoutes = (app) => {
         try {
             const expiringCertCount = await DashBoardController.getExpiringCertificateCount(30); // số chứng chỉ hết hạn trong 30 ngày
             const pendingContractCount = await DashBoardController.getPendingContractsCount();
+            const soThuyenVienDangTrenTau = await DashBoardController.getThuyenvienDangTrenTau();
+            const soThuyenVienDangChoTau = await DashBoardController.getThuyenvienDangChoTau();
+            const chucVuStats = await DashBoardController.getChucVuStats();
+            const thuyenvienTrangThaiStats = await DashBoardController.getThuyenvienTrangThaiStats();
 
             res.render('trangchu.ejs', {
                 activeMenu: 'dashboard',
                 user: req.session.user,
                 expiringCertCount,
-                pendingContractCount
+                pendingContractCount,
+                soThuyenVienDangTrenTau,
+                soThuyenVienDangChoTau,
+                chucVuStatsJson: JSON.stringify(chucVuStats),
+                thuyenvienTrangThaiStatsJson: JSON.stringify(thuyenvienTrangThaiStats)
             });
         } catch (error) {
             console.error('Lỗi khi lấy dữ liệu dashboard:', error);
@@ -77,9 +85,10 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-than-nhan/:id', ThuyenVienController.updateThanNhan);
     router.get('/them-thuyen-vien', ThuyenVienController.getAddThuyenVienForm);
     router.post('/them-thuyen-vien', ThuyenVienController.createNewThuyenVien);
-
+    
     // Correct the route for viewing crew details
     router.get('/thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
+    router.get("/thuyenvien/export-word/:id", ThuyenVienController.exportThuyenvienContract);
 
     // user ở đây
     router.get('/danh-sach-user', UserController.getAllUser);

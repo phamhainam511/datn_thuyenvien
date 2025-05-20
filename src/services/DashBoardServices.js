@@ -2,6 +2,7 @@ const db = require('../models');
 const {
     Op
 } = require('sequelize');
+const sequelize = db.sequelize;
 
 const getExpiringCertificateCount = async (days = 30) => {
     const today = new Date();
@@ -34,9 +35,9 @@ const getExpiringCertificateCount = async (days = 30) => {
 
 const getPendingContractsCount = async () => {
     try {
-        const count = await db.HopDong.count({
+        const count = await db.Hopdong.count({
             where: {
-                trangthai: 'Chờ thanh lý'
+                trangthaihopdong: 'Chờ thanh lý'
             }
         });
         return count;
@@ -46,7 +47,87 @@ const getPendingContractsCount = async () => {
     }
 };
 
+const countThuyenvienDangTrenTau = async () => {
+    try {
+        const count = await db.Thuyenvien.count({
+            where: {
+                trangthai: 'Đang trên tàu'
+            }
+        });
+        return count;
+    } catch (error) {
+        console.error("Lỗi khi đếm số thuyền viên trên tàu:", error);
+        return 0;
+    }
+};
+
+const countThuyenvienDangChoTau = async () => {
+    try {
+        const count = await db.Thuyenvien.count({
+            where: {
+                trangthai: 'Đang chờ tàu'
+            }
+        });
+        return count;
+    } catch (error) {
+        console.error("Lỗi khi đếm số thuyền viên đang chờ tàu:", error);
+        return 0;
+    }
+};
+
+const getChucVuStats = async () => {
+    const result = await db.Lichsuditau.findAll({
+        attributes: [
+            'chucvu_id',
+            [db.sequelize.fn('COUNT', db.sequelize.col('chucvu_id')), 'soluong']
+        ],
+        include: [{
+            model: db.Chucvu,
+            attributes: ['tenchucvu']
+        }],
+        group: ['chucvu_id', 'Chucvu.id_chucvu']
+    });
+
+    const labels = result.map(item => item.Chucvu?.tenchucvu || 'Không rõ');
+    const data = result.map(item => parseInt(item.getDataValue('soluong')) || 0);
+    return { labels, data };
+};
+
+const getThuyenvienTrangThaiStats = async () => {
+    const result = await db.Thuyenvien.findAll({
+        attributes: [
+            'trangthai',
+            [sequelize.fn('COUNT', sequelize.col('trangthai')), 'soluong']
+        ],
+        group: ['trangthai']
+    });
+
+    // Chuyển về định dạng labels + data
+    const labelsMap = {
+        1: 'Đang trên tàu',
+        2: 'Đang chờ tàu',
+        3: 'Đang trên bờ'
+    };
+
+    const labels = [];
+    const data = [];
+
+    result.forEach(item => {
+        const tt = item.trangthai;
+        labels.push(labelsMap[tt] || `Trạng thái ${tt}`);
+        data.push(parseInt(item.dataValues.soluong));
+    });
+
+    return { labels, data };
+};
+
+
+
 module.exports = {
     getExpiringCertificateCount,
-    getPendingContractsCount
+    getPendingContractsCount,
+    countThuyenvienDangTrenTau,
+    countThuyenvienDangChoTau,
+    getChucVuStats,
+    getThuyenvienTrangThaiStats
 };
