@@ -407,7 +407,14 @@ let getChungChiThuyenVien = (thuyenvien_id) => {
     return new Promise(async(resolve, reject) => {
         try {
             let chungchi = await db.ThuyenvienChungchi.findAll({
-                where: { id_thuyenvien: thuyenvien_id }
+                where: { id_thuyenvien: thuyenvien_id },
+                include: [
+                    {
+                        model: db.Chungchi,
+                        as: 'chungchi',
+                        attributes: ['tenchungchi']
+                    }
+                ],
                 // Removed include since we no longer need to join with Chungchi table
             });
             
@@ -437,8 +444,8 @@ let createChungChi = (data) => {
     return new Promise(async(resolve, reject) => {
         try {
             const result = await db.ThuyenvienChungchi.create({
+                id_chungchi: data.id_chungchi,
                 id_thuyenvien: data.id_thuyenvien,
-                tenchungchi: data.tenchungchi, // Changed from chungchi_id
                 sohieuchungchi: data.sohieuchungchi,
                 ngaycap: data.ngaycap,
                 ngayhethan: data.ngayhethan,
@@ -457,7 +464,7 @@ let updateChungChi = (id, data) => {
     return new Promise(async(resolve, reject) => {
         try {
             let updateData = {
-                tenchungchi: data.tenchungchi, // Changed from chungchi_id
+                id_chungchi: data.id_chungchi, // Changed from chungchi_id
                 sohieuchungchi: data.sohieuchungchi,
                 ngaycap: data.ngaycap,
                 ngayhethan: data.ngayhethan,
@@ -603,6 +610,11 @@ let getExpiringCertificates = (days = 90) => {
                         model: db.Thuyenvien,
                         as: 'thuyenvien',
                         attributes: ['id_thuyenvien', 'hoten']
+                    },
+                    {
+                        model: db.Chungchi,
+                        as: 'chungchi',
+                        attributes: ['tenchungchi']
                     }
                 ],
                 order: [['ngayhethan', 'ASC']]
@@ -615,25 +627,39 @@ let getExpiringCertificates = (days = 90) => {
     });
 };
 
-let getExpiredCertificates = () => {
+let getExpiredCertificates = (certificateType = null) => {
     return new Promise(async(resolve, reject) => {
         try {
             // Calculate today's date for comparison
             const today = new Date();
+
+            // Build where clause
+            let whereClause = {
+                ngayhethan: {
+                    [db.Sequelize.Op.lt]: today
+                }
+            };
+            
+            // Add certificate type filter if provided
+            if (certificateType) {
+                whereClause.id_chungchi = certificateType;
+            }
             
             // Find certificates that have already expired
             let certificates = await db.ThuyenvienChungchi.findAll({
-                where: {
-                    ngayhethan: {
-                        [db.Sequelize.Op.lt]: today
-                    }
-                },
+                where: whereClause,
                 include: [
                     {
                         model: db.Thuyenvien,
                         as: 'thuyenvien',
                         attributes: ['id_thuyenvien', 'hoten']
+                    },
+                    {
+                        model: db.Chungchi,
+                        as: 'chungchi',
+                        attributes: ['tenchungchi']
                     }
+                
                 ],
                 order: [['ngayhethan', 'ASC']]
             });
@@ -683,7 +709,7 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
         if (crewCertificates && crewCertificates.length > 0) {
             for (const certData of crewCertificates) {
                 // Skip empty certificates
-                if (!certData.tenchungchi) continue;
+                if (!certData.id_chungchi) continue;
                 
                 certData.id_thuyenvien = thuyenvien_id;
                 await db.ThuyenvienChungchi.create(certData, { transaction });
@@ -726,6 +752,96 @@ let updateThuyenVienStatus = (id, newStatus) => {
         }
     });
 }
+
+let getCrewWithCertificates = (certificateIds) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // Find all crew certificates that match the given certificate IDs
+            // Find crew members who have ALL the specified certificates
+            const certificates = await db.ThuyenvienChungchi.findAll({
+                attributes: [
+                    'id_thuyenvien',
+                    [db.sequelize.fn('COUNT', db.sequelize.fn('DISTINCT', db.sequelize.col('id_chungchi'))), 'certificateCount']
+                ],
+                where: {
+                    id_chungchi: {
+                        [db.Sequelize.Op.in]: certificateIds
+                    }
+                },
+                group: ['id_thuyenvien'],
+                having: db.sequelize.literal(`COUNT(DISTINCT id_chungchi) = ${certificateIds.length}`),
+                raw: true
+            });
+            
+            // Extract unique crew IDs
+            const crewIds = [...new Set(certificates.map(cert => cert.id_thuyenvien))];
+            resolve(crewIds);
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
+
+let getEstimatedBoardingTimes = (crewIds) => {
+    return new Promise(async(resolve, reject) => {
+        try {
+            // For each crew member, get their latest boarding time record
+            let boardingTimes = {};
+            
+            // If no crew IDs provided, return empty object
+            if (!crewIds || crewIds.length === 0) {
+                resolve(boardingTimes);
+                return;
+            }
+            
+            // Get latest boarding records for all the crew members at once
+            const latestBoardings = await db.Lichsuditau.findAll({
+                attributes: [
+                    'thuyenvien_id',
+                    'timelentau'
+                ],
+                where: {
+                    thuyenvien_id: {
+                        [db.Sequelize.Op.in]: crewIds
+                    }
+                },
+                group: ['thuyenvien_id'],
+                order: [['id_lichsuditau', 'DESC']],
+                raw: true
+            });
+            
+            // Convert to the desired format
+            latestBoardings.forEach(record => {
+                if (record.timelentau) {
+                    const date = new Date(record.timelentau);
+                    if (!isNaN(date.getTime())) {
+                        // Format: YYYY-MM-DD H:i:s
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        let hours = date.getHours() - 7;
+                        if (hours < 0) {
+                            hours += 24;
+                        }
+                        hours = String(hours).padStart(2, '0');
+                        const minutes = String(date.getMinutes()).padStart(2, '0');
+                        const seconds = String(date.getSeconds()).padStart(2, '0');
+                        
+                        boardingTimes[record.thuyenvien_id] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                    } else {
+                        boardingTimes[record.thuyenvien_id] = record.timelentau;
+                    }
+                } else {
+                    boardingTimes[record.thuyenvien_id] = null;
+                }
+            });
+            
+            resolve(boardingTimes);
+        } catch(e) {
+            reject(e);
+        }
+    });
+};
 
 async function getThuyenvienById(id) {
     try {
@@ -783,4 +899,6 @@ module.exports = {
     createNewThuyenVienFull: createNewThuyenVienFull,
     updateThuyenVienStatus: updateThuyenVienStatus,
     getThuyenvienById : getThuyenvienById,
+    getCrewWithCertificates: getCrewWithCertificates,
+    getEstimatedBoardingTimes: getEstimatedBoardingTimes,
 }

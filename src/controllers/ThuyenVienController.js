@@ -215,8 +215,22 @@ const uploadNewCrewFiles = multer({
 
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
+    let certificates = await ThuyenVienServices.getAllChungChi();
+    
+    // Get the IDs of all crew members with "Đang chờ tàu" status
+    const waitingCrewIds = data
+        .filter(crew => crew.trangthai === 'Đang chờ tàu')
+        .map(crew => crew.id_thuyenvien);
+    
+    // Get estimated boarding times for waiting crew
+    let estimatedBoardingTimes = {};
+    if (waitingCrewIds.length > 0) {
+        estimatedBoardingTimes = await ThuyenVienServices.getEstimatedBoardingTimes(waitingCrewIds);
+    }
     return res.render('danhsach_thuyenvien.ejs', {
-        allThuyenVien: data
+        allThuyenVien: data,
+        certificates: certificates,
+        estimatedBoardingTimes: estimatedBoardingTimes
     });
 };
 
@@ -651,8 +665,11 @@ let getExpiringCertificates = async (req, res) => {
 
 let getExpiredCertificates = async (req, res) => {
     try {
+        // Get certificate type filter from query, if any
+        const certificateType = req.query.type ? parseInt(req.query.type) : null;
+        
         // Get only professional certificates
-        const expiredCertificates = await ThuyenVienServices.getExpiredCertificates();
+        const expiredCertificates = await ThuyenVienServices.getExpiredCertificates(certificateType);
 
         // Calculate days overdue for each certificate
         const processedCertificates = expiredCertificates.map(cert => {
@@ -785,10 +802,13 @@ let createNewThuyenVien = async (req, res) => {
 
             // Prepare crew certificates
             let crewCertificates = [];
-            if (Array.isArray(req.body['tenchungchi_tv'])) {
-                for (let i = 0; i < req.body['tenchungchi_tv'].length; i++) {
+
+            console.log(req.body);
+
+            if (Array.isArray(req.body['id_chungchi'])) {
+                for (let i = 0; i < req.body['id_chungchi'].length; i++) {
                     const certData = {
-                        tenchungchi: req.body['tenchungchi_tv'][i],
+                        id_chungchi: req.body['id_chungchi'][i],
                         sohieuchungchi: req.body['sohieuchungchi'][i],
                         ngaycap: req.body['ngaycap_tv'][i] || null,
                         ngayhethan: req.body['ngayhethan_tv'][i] || null,
@@ -803,10 +823,10 @@ let createNewThuyenVien = async (req, res) => {
 
                     crewCertificates.push(certData);
                 }
-            } else if (req.body['tenchungchi_tv']) {
+            } else if (req.body['id_chungchi']) {
                 // Handle single crew certificate
                 const certData = {
-                    tenchungchi: req.body['tenchungchi_tv'],
+                    id_chungchi: req.body['id_chungchi'],
                     sohieuchungchi: req.body['sohieuchungchi'],
                     ngaycap: req.body['ngaycap_tv'] || null,
                     ngayhethan: req.body['ngayhethan_tv'] || null,
@@ -914,6 +934,87 @@ let uploadThuyenVienPhoto = async (req, res) => {
         }
     });
 };
+
+let getAllChungChi = async (req, res) => {
+    try {
+        const certificates = await ThuyenVienServices.getAllChungChi();
+        if (req && res) {
+            // If called as route handler, return JSON response
+            return res.json(certificates);
+        } else {
+            // If called from another function, return the certificates
+            return certificates;
+        }
+    } catch (error) {
+        console.error('Error fetching all certificates:', error);
+        if (req && res) {
+            return res.status(500).json({ error: 'Server error' });
+        }
+        throw error;
+    }
+};
+
+let getCrewWithCertificates = async (req, res) => {
+    try {
+        // Get certificates from query parameter
+        const certificateIds = req.query.certificates ? req.query.certificates.split(',').map(id => parseInt(id)) : [];
+        
+        if (!certificateIds.length) {
+            return res.json([]);
+        }
+        
+        // Get crew IDs who have the selected certificates
+        const crewIds = await ThuyenVienServices.getCrewWithCertificates(certificateIds);
+        return res.json(crewIds);
+    } catch (error) {
+        console.error('Error getting crew with certificates:', error);
+        return res.status(500).json({ error: 'Server error' });
+    }
+};
+
+// Add a new method to get notification counts
+let getNotificationCounts = async () => {
+    try {
+        // Get expiring certificates count
+        const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
+            where: {
+                ngayhethan: {
+                    [db.Sequelize.Op.between]: [
+                        new Date(new Date() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+                        new Date() // today
+                    ]
+                }
+            }
+        });
+
+        // Get crew members who boarded in the last 30 days (distinct by thuyenvien_id)
+        const recentBoardingsCount = await db.Lichsuditau.count({
+            where: {
+                timelentau: {
+                    [db.Sequelize.Op.between]: [
+                        new Date(new Date() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
+                        new Date() // today
+                    ]
+                }
+            },
+            distinct: true,
+            col: 'thuyenvien_id'
+        });
+
+        return {
+            expiringCertificatesCount,
+            recentBoardingsCount,
+            totalCount: expiringCertificatesCount + recentBoardingsCount
+        };
+    } catch (error) {
+        console.error('Error fetching notification counts:', error);
+        return {
+            expiringCertificatesCount: 0,
+            recentBoardingsCount: 0,
+            totalCount: 0
+        };
+    }
+}
 
 let exportThuyenvienContract = async (req, res) => {
     try {
@@ -1097,5 +1198,7 @@ module.exports = {
     updateThuyenVienStatus: updateThuyenVienStatus,
     uploadThuyenVienPhoto: uploadThuyenVienPhoto,
     exportThuyenvienContract: exportThuyenvienContract,
-
+    getAllChungChi: getAllChungChi,
+    getCrewWithCertificates: getCrewWithCertificates,
+    getNotificationCounts: getNotificationCounts,
 }
