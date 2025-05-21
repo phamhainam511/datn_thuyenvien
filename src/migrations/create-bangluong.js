@@ -35,6 +35,10 @@ module.exports = {
                 type: Sequelize.DATEONLY,
                 allowNull: false
             },
+            tongtien: {
+                type: Sequelize.DECIMAL(10, 0),
+                allowNull: false
+            },
             phuongthuc: {
                 type: Sequelize.STRING(45),
                 allowNull: false

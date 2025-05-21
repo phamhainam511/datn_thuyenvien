@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATEONLY,
             allowNull: false
         },
+        tongtien: {
+            type: DataTypes.DECIMAL(10, 0),
+            allowNull: false
+        },
         phuongthuc: {
             type: DataTypes.STRING(45),
             allowNull: false

@@ -228,7 +228,8 @@
                                             <thead class="table-dark">
                                                 <tr>
                                                     <th>Mã thuyền viên</th>
-                                                    <th>Họ Tên</th>
+                                                    <th>Họ tên</th>
+                                                    <th>Chức vụ</th>
                                                     <th>Ngày xuất cảnh</th>
                                                     <th>Ngày lên tàu</th>
                                                     <th>Ngày xuống tàu</th>
@@ -244,32 +245,92 @@
                                                         <td>
                                                             <%= dataTable[i].hoten %>
                                                         </td>
-                                                        <td class="ten">
-                                                            <%= dataTable[i].lichsuditau?.timexuatcanh %>
+                                                        <td>
+                                                            <%= dataTable[i].lichsuditau?.[0]?.chucvu?.tenchucvu %>
                                                         </td>
                                                         <td class="ten">
-                                                            <%= dataTable[i].lichsuditau?.timelentau %>
+                                                            <%= new
+                                                                Date(dataTable[i].lichsuditau?.[0]?.timexuatcanh).toLocaleDateString('vi-VN')
+                                                                %>
                                                         </td>
                                                         <td class="ten">
-                                                            <%= dataTable[i].lichsuditau?.ngayroitau %>
+                                                            <%= new
+                                                                Date(dataTable[i].lichsuditau?.[0]?.timelentau).toLocaleDateString('vi-VN')
+                                                                %>
+                                                        </td>
+                                                        <td class="ten">
+                                                            <%= dataTable[i].lichsuditau?.[0]?.ngayroitau ? new
+                                                                Date(dataTable[i].lichsuditau?.[0]?.ngayroitau).toLocaleDateString('vi-VN')
+                                                                : '-' %>
                                                         </td>
                                                         <td>
                                                             <button class="btn btn-primary btn-sm"
-                                                                onclick="capNhatLuong(this)">Thêm bảng lương</button>
+                                                                onclick="themLuong('<%= dataTable[i].id_thuyenvien %>')">Thêm
+                                                                bảng lương</button>
                                                         </td>
                                                     </tr>
                                                     <% } %>
                                             </tbody>
                                         </table>
+                                        <!-- Modal Thêm bảng lương -->
+                                        <div class="modal fade" id="modalThemLuong" tabindex="-1" role="dialog"
+                                            aria-labelledby="modalLabelThem" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-primary" id="modalLabelThem">Thêm
+                                                            bảng lương</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="formThemLuong" action="/post-bangluong" method="POST">
+                                                            <input type="hidden" name="id_thuyenvien" id="idThuyenVien">
+                                                            <div class="form-group">
+                                                                <label for="luongCB" class="text-primary">Lương cơ
+                                                                    bản</label>
+                                                                <input type="text" class="form-control" id="luongCB"
+                                                                    name="luongcb" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="tiGia" class="text-primary">Tỉ giá</label>
+                                                                <input type="text" class="form-control" id="tiGia"
+                                                                    name="tigia" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="soCong" class="text-primary">Số công</label>
+                                                                <input type="text" class="form-control" id="soCong"
+                                                                    name="socong" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="tongTien" class="text-primary">Tổng
+                                                                    tiền</label>
+                                                                <input type="text" class="form-control" id="tongTien"
+                                                                    name="tongtien" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="phuongThuc" class="text-primary">Phương
+                                                                    thức</label>
+                                                                <select class="form-control" id="phuongThuc"
+                                                                    name="phuongthuc" required>
+                                                                    <option>Ngày xuất cảnh</option>
+                                                                    <option>Ngày lên tàu</option>
+                                                                </select>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-primary">Lưu</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
 
             </div>
 
@@ -309,9 +370,9 @@
         </div>
     </div>
     <script>
-
-        function themLuong() {
-            window.location.href = '/payroll-add';
+        function themLuong(id) {
+            document.getElementById('idThuyenVien').value = id;
+            $('#modalThemLuong').modal('show');
         }
     </script>
     <script src="vendor/jquery/jquery.min.js"></script>

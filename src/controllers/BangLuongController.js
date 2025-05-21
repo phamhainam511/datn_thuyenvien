@@ -1,19 +1,24 @@
-import db from '../models';
 import BangLuongServices from "../services/BangLuongServices";
+import BangLuongFunctionServices from '../services/BangLuongFunctionServices';
 
 let getAllBangLuong = async (req, res) => {
-    let data = await BangLuongServices.getAllBangLuong();
-    let comboTime = await BangLuongServices.getComboTime();
-    return res.render('danhsach_bangluong.ejs', {
-        dataTable: data,
-        dataTime: comboTime,
-        formatTime: BangLuongServices.formatTime
-    });
+    try {
+        let comboTime = await BangLuongServices.getComboTime();
+        let keyword = req.query.keyword || comboTime[0];
+        let bangluongs = await BangLuongServices.getAllBangLuong(keyword);
+        return res.render('danhsach_bangluong.ejs', {
+            dataTable: bangluongs,
+            dataTime: comboTime,
+            formatTime: BangLuongFunctionServices.formatTime,
+            formatDecimal: BangLuongFunctionServices.formatDecimal,
+            keyword: keyword
+        });
+    } catch (e) {
+        console.log(e);
+        return res.send('Lỗi khi hiển thị bảng lương theo tháng');
+    }
 };
-// let postBangLuong = async (req, res) => {
-//     let message = await BangLuongServices.createNewBangLuong(req.body);
-//     res.redirect('/danh-sach-bang-luong');
-// }
+
 let getEditBangLuong = async (req, res) => {
     let bangluong_id = req.query.id;
     if (bangluong_id) {
@@ -24,16 +29,6 @@ let getEditBangLuong = async (req, res) => {
         return res.send('Không tìm thấy bảng lương');
     }
 }
-
-// let putBangLuong = async (req, res) => {
-//     try {
-//         let data = req.body;
-//         await BangLuongServices.updateBangLuongData(data);
-//         return res.redirect('/danh-sach-bang-luong');
-//     } catch (error) {
-//         res.send('Lỗi: ' + error.message);
-//     }
-// }
 
 let deleteBangLuong = async (req, res) => {
     let ids = req.body.id; // => mảng id
@@ -50,8 +45,6 @@ let deleteBangLuong = async (req, res) => {
 
 module.exports = {
     getAllBangLuong: getAllBangLuong,
-    // postBangLuong: postBangLuong,
     getEditBangLuong: getEditBangLuong,
-    // putBangLuong: putBangLuong,
     deleteBangLuong: deleteBangLuong
 }

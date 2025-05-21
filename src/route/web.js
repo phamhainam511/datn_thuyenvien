@@ -6,6 +6,7 @@ import AuthMiddleware from '../middlewares/AuthMiddleware';
 import HopDongController from '../controllers/HopDongController';
 import UserController from '../controllers/userController';
 import BangLuongController from '../controllers/BangLuongController';
+import BangLuongChiTietController from '../controllers/BangLuongChiTietController';
 import ThuyenVienLuongController from '../controllers/ThuyenVienLuongController';
 import ChucVuController from '../controllers/ChucVuController';
 import TauController from '../controllers/TauController';
@@ -37,9 +38,9 @@ const initWebRoutes = (app) => {
         }
         return AuthMiddleware.isAuthenticated(req, res, next);
     });
-     // Add notification middleware for authenticated routes
+    // Add notification middleware for authenticated routes
     router.use(NotificationMiddleware.injectNotificationData);
-    
+
 
     //Dashboard route
     router.get('/', AuthMiddleware.checkPermission, async (req, res) => {
@@ -89,7 +90,7 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-than-nhan/:id', ThuyenVienController.updateThanNhan);
     router.get('/them-thuyen-vien', ThuyenVienController.getAddThuyenVienForm);
     router.post('/them-thuyen-vien', ThuyenVienController.createNewThuyenVien);
-    
+
     // Correct the route for viewing crew details
     router.get('/thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
     router.get("/thuyenvien/export-word/:id", ThuyenVienController.exportThuyenvienContract);
@@ -143,7 +144,7 @@ const initWebRoutes = (app) => {
 
     // Add API endpoint to get crew members with specific certificates
     router.get('/api/crew-with-certificates', ThuyenVienController.getCrewWithCertificates);
-    
+
 
     //hợp đồng ở đây
     router.get('/danh-sach-hop-dong', HopDongController.getAllHopDong);
@@ -156,13 +157,18 @@ const initWebRoutes = (app) => {
 
     //thuyền viên bảng lương ở đây
     router.get('/danh-sach-thuyen-vien-luong', ThuyenVienLuongController.getAllThuyenVienLuong);
+    router.post('/post-bangluong', ThuyenVienLuongController.postBangLuong);
 
     //bảng lương ở đây
     router.get('/danh-sach-bang-luong', BangLuongController.getAllBangLuong);
-    // router.post('/post-bangluong', BangLuongController.postBangLuong);
     router.post('/edit-bangluong', BangLuongController.getEditBangLuong);
-    // router.post('/put-bangluong', BangLuongController.putBangLuong);
     router.post('/delete-bangluong', BangLuongController.deleteBangLuong);
+
+    //bảng lương chi tiết ở đây
+    router.get('/bang-luong-chi-tiet', BangLuongChiTietController.getBangLuongChiTiet);
+    router.post('/put-bangluong', BangLuongChiTietController.putBangLuong);
+    router.post('/put-nganhang', BangLuongChiTietController.putNganHang);
+    router.post('/xuly-thanhtoan', BangLuongChiTietController.xuLyThanhToan);
 
     //chức vụ ở đây
     router.get('/danh-sach-chuc-vu', ChucVuController.getAllChucVu);

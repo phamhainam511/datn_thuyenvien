@@ -34,6 +34,23 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'hopdongs'
             });
 
+            // Một thuyền viên có nhiều bảng lương
+            this.hasMany(models.Bangluong, {
+                foreignKey: 'thuyenvien_id',
+                as: 'bangluong'
+            });
+
+            // Một thuyền viên có nhiều lịch sử đi tàu
+            this.hasMany(models.Lichsuditau, {
+                foreignKey: 'thuyenvien_id',
+                as: 'lichsuditau'
+            });
+
+            // Một thuyền viên có 1 tài khoản ngân hàng
+            this.hasOne(models.Taikhoannganhang, {
+                foreignKey: 'thuyenvien_id',
+                as: 'taikhoannganhang'
+            });
         }
     }
 

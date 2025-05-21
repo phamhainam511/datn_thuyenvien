@@ -4,8 +4,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Taikhoannganhang extends Model {
         static associate(models) {
-            // Định nghĩa quan hệ với bảng thuyenvien
-            
+            this.belongsTo(models.Thuyenvien, {
+                foreignKey: 'thuyenvien_id',
+                as: 'thuyenvien'
+            });
         }
     }
 
@@ -20,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         tentaikhoan: {
+            type: DataTypes.STRING(45),
+            allowNull: false
+        },
+        tennganhang: {
             type: DataTypes.STRING(45),
             allowNull: false
         }
