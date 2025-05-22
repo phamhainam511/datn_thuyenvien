@@ -15,6 +15,12 @@ const routePermissions = {
   
   // Manager routes (crew, certificates, contracts, documents)
   '/danh-sach-thuyen-vien': [ROLES.ADMIN, ROLES.MANAGER],
+  '/danh-sach-hop-dong': [ROLES.ADMIN, ROLES.MANAGER],
+  '/hop-dong-cho-thanh-ly': [ROLES.ADMIN, ROLES.MANAGER],
+  '/hop-dong-da-thanh-ly': [ROLES.ADMIN, ROLES.MANAGER],
+  '/danh-sach-chuc-vu': [ROLES.ADMIN, ROLES.MANAGER],
+  '/danh-sach-tau': [ROLES.ADMIN, ROLES.MANAGER],
+  '/danh-sach-chung-chi': [ROLES.ADMIN, ROLES.MANAGER],
   '/thuyen-vien': [ROLES.ADMIN, ROLES.MANAGER],
   '/cer-expiring': [ROLES.ADMIN, ROLES.MANAGER],
   '/cer-expired': [ROLES.ADMIN, ROLES.MANAGER],
@@ -26,7 +32,8 @@ const routePermissions = {
   '/list-cer': [ROLES.ADMIN, ROLES.MANAGER],
   
   // Finance routes
-  '/payroll': [ROLES.ADMIN, ROLES.FINANCE],
+  '/danh-sach-thuyen-vien-luong': [ROLES.ADMIN, ROLES.FINANCE],
+  '/danh-sach-bang-luong': [ROLES.ADMIN, ROLES.FINANCE],
 };
 
 // Helper function to check if a role has access to a route
