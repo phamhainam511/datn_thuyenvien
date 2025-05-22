@@ -205,6 +205,10 @@
                                                     id="maritalStatus">
                                                     <%= thuyenvieninfo.ghichu %>
                                                 </span></li>
+                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến</strong> <span
+                                                    id="maritalStatus">
+                                                    <%= thuyenvieninfo.thoigian_lenTauDuKien %>
+                                                </span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -828,6 +832,11 @@
                                             <label for="ghichu">Nguyện vọng đi tàu:</label>
                                             <textarea class="form-control" id="ghichu" name="ghichu" rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Ngày lên tàu dự kiến:</label>
+                                            <input type="date" class="form-control" id="inputDob" name="thoigian_lenTauDuKien"
+                                                value="<%= thuyenvieninfo.thoigian_lenTauDuKien %>">
+                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -853,7 +862,7 @@
                                     <form id="waitingStatusForm" action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang chờ tàu">
                                         <div class="form-group">
-                                             <label>Thời gian lên tàu dự kiến:</label>
+                                            <label>Thời gian lên tàu dự kiến:</label>
                                             <input type="datetime-local" class="form-control" name="thoigian_lenTauDuKien">
                                         </div>
                                         <div class="form-group">

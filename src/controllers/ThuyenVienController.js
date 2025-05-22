@@ -736,6 +736,7 @@ let createNewThuyenVien = async (req, res) => {
                 sodienthoai: req.body.sodienthoai,
                 tinhtranghonnhan: req.body.tinhtranghonnhan,
                 ghichu: req.body.ghichu,
+                thoigian_lenTauDuKien: req.body.thoigian_lenTauDuKien
             };
 
             // Add crew photo path if uploaded
@@ -898,6 +899,11 @@ let updateThuyenVienStatus = async (req, res) => {
         const { trangthai, tau_id, chucvu_id, timexuatcanh, timelentau, thoigian_lenTauDuKien, 
                 ngayroitau, cangroitau, quoctich_thuyen, tinh_trang_roi_tau } = req.body;
 
+        // Lấy trạng thái hiện tại
+        const currentThuyenVien = await db.Thuyenvien.findOne({
+            where: { id_thuyenvien: thuyenvien_id }
+        });
+
         const last_lichsuditau = await db.Lichsuditau.findOne({
             where: {
                 thuyenvien_id: thuyenvien_id,
@@ -955,7 +961,22 @@ let updateThuyenVienStatus = async (req, res) => {
             );
         }
 
+        if (currentThuyenVien.trangthai === 'Đang trên tàu' && trangthai !== 'Đang trên tàu') {
+            const hopdongHieuluc = await db.Hopdong.findOne({
+                where: {
+                    thuyenvien_id: thuyenvien_id,
+                    trangthaihopdong: 'Có hiệu lực'
+                },
+                order: [['id_hopdong', 'DESC']] // phòng khi có nhiều cái, lấy cái mới nhất
+            });
 
+            if (hopdongHieuluc) {
+                await db.Hopdong.update(
+                    { trangthaihopdong: 'Chờ thanh lý' },
+                    { where: { id_hopdong: hopdongHieuluc.id_hopdong } }
+                );
+            }
+        }
         return res.redirect('/thuyen-vien/' + thuyenvien_id);
     } catch (error) {
         console.error('Error updating status:', error);
