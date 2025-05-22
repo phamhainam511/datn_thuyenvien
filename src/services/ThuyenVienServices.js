@@ -595,14 +595,15 @@ let deleteTaiLieu = (id) => {
 let getExpiringCertificates = (days = 90) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Calculate the date range for expiring certificates
             const today = new Date();
+            const limitDate = new Date();
+            limitDate.setDate(limitDate.getDate() + days);  // Tính ngày giới hạn
 
-            // Find certificates expiring within the specified period
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: {
                     ngayhethan: {
-                        [db.Sequelize.Op.gt]: today
+                        [db.Sequelize.Op.gt]: today,      // Ngày hết hạn lớn hơn hôm nay
+                        [db.Sequelize.Op.lte]: limitDate  // Và nhỏ hơn hoặc bằng ngày giới hạn
                     }
                 },
                 include: [
@@ -626,6 +627,7 @@ let getExpiringCertificates = (days = 90) => {
         }
     });
 };
+
 
 let getExpiredCertificates = (certificateType = null) => {
     return new Promise(async (resolve, reject) => {

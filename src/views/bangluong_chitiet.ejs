@@ -355,6 +355,30 @@
                                     return;
                                 }
                             }
+
+                            const urlParams = new URLSearchParams(window.location.search);
+                            if (urlParams.get('updated') === 'true') {
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Cập nhật thành công!',
+                                timer: 2000,
+                                showConfirmButton: false,
+                                });
+                            } else if (urlParams.get('pay') === 'true') {
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Thay đổi thành công!',
+                                timer: 2000,
+                                showConfirmButton: false,
+                                });
+                            } else if (urlParams.get('error')) {
+                                Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: urlParams.get('error'),
+                                confirmButtonText: 'Đóng'
+                                });
+                            }
                         </script>
 
 </body>

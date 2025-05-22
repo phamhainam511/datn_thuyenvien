@@ -100,7 +100,7 @@
                                                             </td>
                                                             <td>
                                                                 <button class="btn btn-primary btn-sm"
-                                                                    onclick="openEditModal('<%= dataTable[i].id_chucvu %>', '<%= dataTable[i].tenchucvu %>', '<%= dataTable[i].capbac %>')">
+                                                                    onclick="openEditModal('<%= dataTable[i].id_chucvu %>', '<%= dataTable[i].tenchucvu %>')">
                                                                     Sửa
                                                                 </button>
                                                             </td>
@@ -165,10 +165,9 @@
                         $('#modalThemChucVu').modal('show');
                     }
 
-                    function openEditModal(id, ten, capbac) {
+                    function openEditModal(id, ten) {
                         document.getElementById('editId').value = id;
                         document.getElementById('editTenChucVu').value = ten;
-                        document.getElementById('editCapBac').value = capbac;
                         $('#editModal').modal('show');
                     }
 
