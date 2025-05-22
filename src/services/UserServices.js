@@ -6,7 +6,6 @@ let createNewUser = async (data) => {
             const result = await db.user.create({
                 taikhoan: data.taikhoan,
                 hoten: data.hoten,
-                phongban: data.phongban,
                 matkhau: data.matkhau,
                 sdt: data.sdt,
                 diachi: data.diachi,
@@ -77,7 +76,6 @@ let updateUserData = (data) => {
             await db.user.update(
                 {
                     hoten: data.hoten,
-                    phongban: data.phongban,
                     sdt: data.sdt,
                     diachi: data.diachi,
                     email: data.email,
