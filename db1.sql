@@ -39,7 +39,7 @@ CREATE TABLE `bangluong` (
   `tinhtrang` varchar(45) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bangluong`
@@ -60,7 +60,7 @@ CREATE TABLE `chucvu` (
   `tenchucvu` varchar(30) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `chucvu`
@@ -87,7 +87,7 @@ CREATE TABLE `chucvu_chungchi` (
   `chungchi_id` int(11) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE `chungchi` (
   `tieuchuanapdung` varchar(45) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `chungchi`
@@ -126,7 +126,7 @@ CREATE TABLE `hopdong` (
   `ngaythanhly` datetime DEFAULT NULL,
   `trangthaihopdong` varchar(45) NOT NULL,
   `hinhanh` varchar(100) NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `hopdong`
@@ -161,7 +161,7 @@ CREATE TABLE `lichsuditau` (
   `quoctich_thuyen` varchar(50) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `lichsuditau`
@@ -189,7 +189,7 @@ CREATE TABLE `loaitau` (
   `tenloaitau` varchar(30) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `loaitau`
@@ -213,7 +213,7 @@ CREATE TABLE `phanquyen` (
   `mota` varchar(45) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `phanquyen`
@@ -237,7 +237,7 @@ CREATE TABLE `taikhoannganhang` (
   `tennganhang` varchar(45) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `taikhoannganhang`
@@ -266,7 +266,7 @@ CREATE TABLE `tau` (
   `loaitau_id` int(11) NOT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tau`
@@ -297,7 +297,7 @@ CREATE TABLE `thannhan` (
   `diachi` varchar(100) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `thannhan`
@@ -334,7 +334,7 @@ CREATE TABLE `thuyenvien` (
   `trangthai` varchar(255) NOT NULL DEFAULT 'Đang chờ tàu',
   `ghichu` text DEFAULT NULL,
   `thoigian_lenTauDuKien` date DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `thuyenvien`
@@ -371,7 +371,7 @@ CREATE TABLE `thuyenvien_chungchi` (
   `file` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `thuyenvien_chungchi`
@@ -397,14 +397,19 @@ INSERT INTO `thuyenvien_chungchi` (`id`, `id_thuyenvien`, `id_chungchi`, `sohieu
 --
 
 CREATE TABLE `thuyenvien_hocvan` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `id_thuyenvien` int(11) DEFAULT NULL,
-  `truongdaotao` varchar(255) DEFAULT NULL,
-  `hedaotao` varchar(255) DEFAULT NULL,
-  `namtotnghiep` int(11) DEFAULT NULL,
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_thuyenvien` INT(11) DEFAULT NULL,
+  `truongdaotao` VARCHAR(255) DEFAULT NULL,
+  `hedaotao` VARCHAR(255) DEFAULT NULL,
+  `namtotnghiep` INT(11) DEFAULT NULL,
+  `createdAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_hocvan_thuyenvien`
+    FOREIGN KEY (`id_thuyenvien`) 
+    REFERENCES `thuyenvien` (`id_thuyenvien`) 
+    ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `thuyenvien_hocvan`
@@ -439,7 +444,7 @@ CREATE TABLE `thuyenvien_ngoaingu` (
   `ngaycap` date DEFAULT NULL,
   `ngayhethan` date DEFAULT NULL,
   `file` varchar(255) DEFAULT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `thuyenvien_ngoaingu`
@@ -473,7 +478,7 @@ CREATE TABLE `thuyenvien_tailieu` (
   `chungnhanvangda` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `thuyenvien_tailieu`
@@ -501,7 +506,7 @@ CREATE TABLE `user` (
   `email` varchar(255) DEFAULT NULL,
   `createdAt` timestamp NULL DEFAULT current_timestamp(),
   `updatedAt` timestamp NULL DEFAULT current_timestamp()
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
@@ -782,17 +787,6 @@ ALTER TABLE `thannhan`
 ALTER TABLE `thuyenvien_chungchi`
   ADD CONSTRAINT `thuyenvien_chungchi_ibfk_1` FOREIGN KEY (`id_thuyenvien`) REFERENCES `thuyenvien` (`id_thuyenvien`) ON DELETE CASCADE,
   ADD CONSTRAINT `thuyenvien_chungchi_ibfk_2` FOREIGN KEY (`id_chungchi`) REFERENCES `chungchi` (`id_chungchi`) ON DELETE CASCADE;
-
--- Constraints for table `thuyenvien_hocvan`
---
-ALTER TABLE `thuyenvien_hocvan`
-  ADD CONSTRAINT `thuyenvien_hocvan_ibfk_1` FOREIGN KEY (`id_thuyenvien`) REFERENCES `thuyenvien` (`id_thuyenvien`) ON DELETE CASCADE;
-
--- Constraints for table `thuyenvien_ngoaingu`
---
-ALTER TABLE `thuyenvien_ngoaingu`
-  ADD CONSTRAINT `thuyenvien_ngoaingu_ibfk_1` FOREIGN KEY (`id_thuyenvien`) REFERENCES `thuyenvien` (`id_thuyenvien`) ON DELETE CASCADE;
-
 
 --
 -- Constraints for table `thuyenvien_tailieu`
