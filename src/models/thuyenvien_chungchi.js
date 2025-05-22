@@ -33,10 +33,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        tenchungchi: {
-            type: DataTypes.STRING(255),
-            allowNull: true
-        },
         sohieuchungchi: {
             type: DataTypes.STRING(20),
             allowNull: false

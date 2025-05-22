@@ -371,7 +371,6 @@ CREATE TABLE `thuyenvien_chungchi` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `id_thuyenvien` INT NOT NULL,
   `id_chungchi` INT NOT NULL,
-  `tenchungchi` VARCHAR(255) NOT NULL, -- ✅ giữ lại tên chứng chỉ
   `sohieuchungchi` VARCHAR(20) NOT NULL,
   `ngaycap` DATE NOT NULL,
   `ngayhethan` DATE DEFAULT NULL,
@@ -392,19 +391,19 @@ LOCK TABLES `thuyenvien_chungchi` WRITE;
 /*!40000 ALTER TABLE `thuyenvien_chungchi` DISABLE KEYS */;
 
 INSERT INTO `thuyenvien_chungchi` (
-  `id`, `id_thuyenvien`, `id_chungchi`, `tenchungchi`, 
+  `id`, `id_thuyenvien`, `id_chungchi`, 
   `sohieuchungchi`, `ngaycap`, `ngayhethan`, 
   `noicap`, `xeploai`, `file`, `createdAt`, `updatedAt`
 )
 VALUES
-  (1, 1, 1, 'Chứng chỉ An toàn', 'TEST1', '2025-05-14', '2025-05-18', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-18 14:50:32'),
-  (2, 1, 2, 'Chứng chỉ Hàng hải', 'TEST1', '2025-05-16', '2025-05-16', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-17 15:38:36'),
-  (3, 4, 1, 'Chứng chỉ An toàn', '123123', '2025-05-18', '2025-05-18', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
-  (4, 4, 2, 'Chứng chỉ Hàng hải', '123123', '2025-05-01', '2025-05-01', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
-  (5, 5, 3, 'Chứng chỉ Y tế', '123123', '2025-05-18', '2025-05-18', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747508097657.jpg', '2025-05-17 18:54:57', '2025-05-17 18:54:57'),
-  (6, 6, 2, 'Chứng chỉ Hàng hải', '123123', '2025-05-18', '2025-05-19', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747511104013.jpg', '2025-05-17 19:45:04', '2025-05-17 19:45:04'),
-  (7, 7, 1, 'Chứng chỉ An toàn', '123123', '2025-05-01', '2025-05-23', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747579931343.png', '2025-05-18 14:52:11', '2025-05-18 14:52:11'),
-  (8, 8, 2, 'Chứng chỉ Hàng hải', 'ABC', '2025-05-18', '2025-05-19', 'HANOI', 'TOT', '/uploads/crew_certificates/crew_cert__1747580296359.jpg', '2025-05-18 14:58:16', '2025-05-18 14:58:16');
+  (1, 1, 1, 'TEST1', '2025-05-14', '2025-05-18', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-18 14:50:32'),
+  (2, 1, 2, 'TEST1', '2025-05-16', '2025-05-16', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-17 15:38:36'),
+  (3, 4, 1, '123123', '2025-05-18', '2025-05-18', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
+  (4, 4, 2, '123123', '2025-05-01', '2025-05-01', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
+  (5, 5, 3, '123123', '2025-05-18', '2025-05-18', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747508097657.jpg', '2025-05-17 18:54:57', '2025-05-17 18:54:57'),
+  (6, 6, 2, '123123', '2025-05-18', '2025-05-19', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747511104013.jpg', '2025-05-17 19:45:04', '2025-05-17 19:45:04'),
+  (7, 7, 1, '123123', '2025-05-01', '2025-05-23', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747579931343.png', '2025-05-18 14:52:11', '2025-05-18 14:52:11'),
+  (8, 8, 2, 'ABC', '2025-05-18', '2025-05-19', 'HANOI', 'TOT', '/uploads/crew_certificates/crew_cert__1747580296359.jpg', '2025-05-18 14:58:16', '2025-05-18 14:58:16');
 
 
 /*!40000 ALTER TABLE `thuyenvien_chungchi` ENABLE KEYS */;
