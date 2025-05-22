@@ -108,7 +108,6 @@ let deleteBangLuong = (bangluong_id) => {
     })
 }
 
-const ExcelJS = require('exceljs');
 let BangLuongExcell = (dataTable, thang) => {
     return new Promise(async (resolve, reject) => {
         try {
