@@ -734,7 +734,8 @@ let createNewThuyenVien = async (req, res) => {
                 sizegiaybaoho: req.body.sizegiaybaoho,
                 email: req.body.email,
                 sodienthoai: req.body.sodienthoai,
-                tinhtranghonnhan: req.body.tinhtranghonnhan
+                tinhtranghonnhan: req.body.tinhtranghonnhan,
+                ghichu: req.body.ghichu,
             };
 
             // Add crew photo path if uploaded
@@ -863,6 +864,14 @@ let createNewThuyenVien = async (req, res) => {
                 }
             }
 
+            // Prepare bank account info
+            const bankAccountData = {
+                stk: req.body.stk,
+                tentaikhoan: req.body.tentaikhoan,
+                tennganhang: req.body.tennganhang
+            };
+
+
             // Submit all data to service
             const result = await ThuyenVienServices.createNewThuyenVienFull(
                 crewData,
@@ -870,7 +879,8 @@ let createNewThuyenVien = async (req, res) => {
                 educationData,
                 languageCertificates,
                 crewCertificates,
-                documentData
+                documentData,
+                bankAccountData 
             );
 
             // Redirect to the crew list page after successful creation

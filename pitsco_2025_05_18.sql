@@ -242,7 +242,13 @@ CREATE TABLE `taikhoannganhang` (
   CONSTRAINT `nganhang_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
 );
 
-
+INSERT INTO `taikhoannganhang` (`thuyenvien_id`, `stk`, `tentaikhoan`, `tennganhang`)
+VALUES 
+(1, '123456789012345', 'Nguyen Van A', 'Vietcombank'),
+(2, '987654321098765', 'Tran Thi B', 'ACB'),
+(3, '112233445566778', 'Le Van C', 'Techcombank'),
+(4, '998877665544332', 'Pham Thi D', 'BIDV'),
+(5, '556677889900112', 'Hoang Van E', 'MB Bank');
 
 # Dump of table tau
 # ------------------------------------------------------------
@@ -334,6 +340,7 @@ CREATE TABLE `thuyenvien` (
   `ngaysinh` date DEFAULT NULL,
   `sizegiaybaoho` int DEFAULT NULL,
   `trangthai` varchar(255)  NOT NULL DEFAULT 'Đang chờ tàu',
+  `ghichu` text DEFAULT NULL,
   PRIMARY KEY (`id_thuyenvien`)
 );
 
@@ -361,35 +368,44 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `thuyenvien_chungchi`;
 
 CREATE TABLE `thuyenvien_chungchi` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `id_thuyenvien` int NOT NULL,
-  `tenchungchi` varchar(255)  NOT NULL,
-  `sohieuchungchi` varchar(20) CHARACTER SET utf8mb4  NOT NULL,
-  `ngaycap` date NOT NULL,
-  `ngayhethan` date DEFAULT NULL,
-  `noicap` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
-  `xeploai` varchar(30) CHARACTER SET utf8mb4  DEFAULT NULL,
-  `file` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
-  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `id_thuyenvien` INT NOT NULL,
+  `id_chungchi` INT NOT NULL,
+  `tenchungchi` VARCHAR(255) NOT NULL, -- ✅ giữ lại tên chứng chỉ
+  `sohieuchungchi` VARCHAR(20) NOT NULL,
+  `ngaycap` DATE NOT NULL,
+  `ngayhethan` DATE DEFAULT NULL,
+  `noicap` VARCHAR(100) DEFAULT NULL,
+  `xeploai` VARCHAR(30) DEFAULT NULL,
+  `file` VARCHAR(255) DEFAULT NULL,
+  `createdAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `id_thuyenvien` (`id_thuyenvien`),
-  CONSTRAINT `thuyenvien_chungchi_ibfk_1` FOREIGN KEY (`id_thuyenvien`) REFERENCES `thuyenvien` (`id_thuyenvien`) ON DELETE CASCADE
-);
+  KEY `id_chungchi` (`id_chungchi`),
+  CONSTRAINT `thuyenvien_chungchi_ibfk_1` FOREIGN KEY (`id_thuyenvien`) REFERENCES `thuyenvien` (`id_thuyenvien`) ON DELETE CASCADE,
+  CONSTRAINT `thuyenvien_chungchi_ibfk_2` FOREIGN KEY (`id_chungchi`) REFERENCES `chungchi` (`id_chungchi`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 LOCK TABLES `thuyenvien_chungchi` WRITE;
 /*!40000 ALTER TABLE `thuyenvien_chungchi` DISABLE KEYS */;
 
-INSERT INTO `thuyenvien_chungchi` (`id`, `id_thuyenvien`, `tenchungchi`, `sohieuchungchi`, `ngaycap`, `ngayhethan`, `noicap`, `xeploai`, `file`, `createdAt`, `updatedAt`)
+INSERT INTO `thuyenvien_chungchi` (
+  `id`, `id_thuyenvien`, `id_chungchi`, `tenchungchi`, 
+  `sohieuchungchi`, `ngaycap`, `ngayhethan`, 
+  `noicap`, `xeploai`, `file`, `createdAt`, `updatedAt`
+)
 VALUES
-	(1,1,'TEST Còn hạn','TEST1','2025-05-14','2025-05-18','TEST','TEST','/uploads/crew_certificates/crew_cert_1747455804565.png','2025-05-17 04:23:24','2025-05-18 14:50:32'),
-	(2,1,'TEST Qua hạn','TEST1','2025-05-16','2025-05-16','TEST','TEST','/uploads/crew_certificates/crew_cert_1747455804565.png','2025-05-17 04:23:24','2025-05-17 15:38:36'),
-	(3,4,'123123','123123','2025-05-18','2025-05-18','123123','123123',NULL,'2025-05-17 18:46:14','2025-05-17 18:46:14'),
-	(4,4,'123123','123123','2025-05-01','2025-05-01','123123','123123',NULL,'2025-05-17 18:46:14','2025-05-17 18:46:14'),
-	(5,5,'123123','123123','2025-05-18','2025-05-18','123123','123123','/uploads/crew_certificates/crew_cert__1747508097657.jpg','2025-05-17 18:54:57','2025-05-17 18:54:57'),
-	(6,6,'123123','123123','2025-05-18','2025-05-19','123123','123123','/uploads/crew_certificates/crew_cert__1747511104013.jpg','2025-05-17 19:45:04','2025-05-17 19:45:04'),
-	(7,7,'123123','123123','2025-05-01','2025-05-23','123123','123123','/uploads/crew_certificates/crew_cert__1747579931343.png','2025-05-18 14:52:11','2025-05-18 14:52:11'),
-	(8,8,'ABC','ABC','2025-05-18','2025-05-19','HANOI','TOT','/uploads/crew_certificates/crew_cert__1747580296359.jpg','2025-05-18 14:58:16','2025-05-18 14:58:16');
+  (1, 1, 1, 'Chứng chỉ An toàn', 'TEST1', '2025-05-14', '2025-05-18', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-18 14:50:32'),
+  (2, 1, 2, 'Chứng chỉ Hàng hải', 'TEST1', '2025-05-16', '2025-05-16', 'TEST', 'TEST', '/uploads/crew_certificates/crew_cert_1747455804565.png', '2025-05-17 04:23:24', '2025-05-17 15:38:36'),
+  (3, 4, 1, 'Chứng chỉ An toàn', '123123', '2025-05-18', '2025-05-18', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
+  (4, 4, 2, 'Chứng chỉ Hàng hải', '123123', '2025-05-01', '2025-05-01', '123123', '123123', NULL, '2025-05-17 18:46:14', '2025-05-17 18:46:14'),
+  (5, 5, 3, 'Chứng chỉ Y tế', '123123', '2025-05-18', '2025-05-18', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747508097657.jpg', '2025-05-17 18:54:57', '2025-05-17 18:54:57'),
+  (6, 6, 2, 'Chứng chỉ Hàng hải', '123123', '2025-05-18', '2025-05-19', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747511104013.jpg', '2025-05-17 19:45:04', '2025-05-17 19:45:04'),
+  (7, 7, 1, 'Chứng chỉ An toàn', '123123', '2025-05-01', '2025-05-23', '123123', '123123', '/uploads/crew_certificates/crew_cert__1747579931343.png', '2025-05-18 14:52:11', '2025-05-18 14:52:11'),
+  (8, 8, 2, 'Chứng chỉ Hàng hải', 'ABC', '2025-05-18', '2025-05-19', 'HANOI', 'TOT', '/uploads/crew_certificates/crew_cert__1747580296359.jpg', '2025-05-18 14:58:16', '2025-05-18 14:58:16');
+
 
 /*!40000 ALTER TABLE `thuyenvien_chungchi` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -438,13 +454,28 @@ CREATE TABLE `hopdong` (
   `thuyenvien_id` int NOT NULL,
   `ngayky` datetime NOT NULL,
   `ngayhethan` datetime NOT NULL,
-  `ngaythanhly` datetime NOT NULL,
+  `ngaythanhly` datetime ,
   `trangthaihopdong` varchar(45) NOT NULL,
   `hinhanh` varchar(100) NOT NULL,
   PRIMARY KEY (`id_hopdong`),
   KEY `chitiet_hopdong_thuyenvien_idx` (`thuyenvien_id`),
   CONSTRAINT `tvhd_thuyenvien` FOREIGN KEY (`thuyenvien_id`) REFERENCES `thuyenvien` (`id_thuyenvien`)
 );
+
+
+INSERT INTO `hopdong` (
+  `id_hopdong`, `thuyenvien_id`, `ngayky`, `ngayhethan`, 
+  `ngaythanhly`, `trangthaihopdong`, `hinhanh`
+)
+VALUES
+  (1, 1, '2024-01-10 09:00:00', '2025-01-10 09:00:00', '2025-01-11 10:00:00', 'Đã thanh lý', '/uploads/contracts/hopdong_1.pdf'),
+  (2, 2, '2024-03-01 10:30:00', '2025-03-01 10:30:00', '2025-03-05 14:00:00', 'Đã thanh lý', '/uploads/contracts/hopdong_2.pdf'),
+  (3, 3, '2024-05-20 08:00:00', '2025-05-20 08:00:00', NULL, 'Có hiệu lực', '/uploads/contracts/hopdong_3.pdf'),
+  (4, 4, '2025-01-01 13:15:00', '2026-01-01 13:15:00', NULL, 'Có hiệu lực', '/uploads/contracts/hopdong_4.pdf'),
+  (5, 5, '2025-04-15 07:00:00', '2026-04-15 07:00:00', '2026-04-18 15:00:00', 'Đã thanh lý', '/uploads/contracts/hopdong_5.pdf'),
+  (6, 6, '2025-05-01 09:00:00', '2026-05-01 09:00:00', NULL, 'Chờ thanh lý', '/uploads/contracts/hopdong_6.pdf'),
+  (7, 7, '2025-05-10 10:00:00', '2026-05-10 10:00:00', NULL, 'Chờ thanh lý', '/uploads/contracts/hopdong_7.pdf'),
+  (8, 8, '2025-05-15 08:30:00', '2026-05-15 08:30:00', NULL, 'Chờ thanh lý', '/uploads/contracts/hopdong_8.pdf');
 
 
 # Dump of table thuyenvien_ngoaingu

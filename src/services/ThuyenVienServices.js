@@ -1,44 +1,44 @@
 import db from '../models/index';
-const dataUtils = require('./ChuanHoaServices'); 
-let createNewThuyenVien = async(data) => {
-    return new Promise(async(resolve, reject) => {
+const dataUtils = require('./ChuanHoaServices');
+let createNewThuyenVien = async (data) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const result = await db.Thuyenvien.create({
                 tenthuyenvien: dataUtils.chuanHoaTen(data.tenthuyenvien),
                 tieuchuanapdung: data.tieuchuanapdung
             })
             resolve(result);
-        }catch (e){
+        } catch (e) {
             reject(e);
         }
     })
 
 }
 let getAllThuyenVien = () => {
-    return new Promise(async(resolve, reject) => {
-        try{
+    return new Promise(async (resolve, reject) => {
+        try {
             let thuyenviens = db.Thuyenvien.findAll({
-                raw:true,
+                raw: true,
             });
             resolve(thuyenviens);
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
-    
+
 }
 let getThuyenVienId = (thuyenvien_id) => {
-    return new Promise (async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let thuyenvien = await db.Thuyenvien.findOne({
-                where : {id_thuyenvien : thuyenvien_id}
+                where: { id_thuyenvien: thuyenvien_id }
             })
-            if (thuyenvien){
-                resolve (thuyenvien);
-            }else {
-                resolve ([]);
+            if (thuyenvien) {
+                resolve(thuyenvien);
+            } else {
+                resolve([]);
             }
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
@@ -62,32 +62,32 @@ let updateThuyenVienData = (id, data) => {
 }
 let deleteThuyenVien = (thuyenvien_id) => {
     return new Promise(async (resolve, reject) => {
-        try{
+        try {
             let thuyenvien = await db.Thuyenvien.findOne({
-                where: {id_thuyenvien:thuyenvien_id}
+                where: { id_thuyenvien: thuyenvien_id }
             })
-            if(thuyenvien ){
+            if (thuyenvien) {
                 await thuyenvien.destroy();
             }
             resolve();
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
 }
 
 let getNhanThanThuyenVien = (thuyenvien_id) => {
-    return new Promise (async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let nhanthanthuyenvien = await db.Thannhan.findOne({
-                where : {thuyenvien_id : thuyenvien_id}
+                where: { thuyenvien_id: thuyenvien_id }
             })
-            if (nhanthanthuyenvien){
-                resolve (nhanthanthuyenvien);
-            }else {
-                resolve ({});
+            if (nhanthanthuyenvien) {
+                resolve(nhanthanthuyenvien);
+            } else {
+                resolve({});
             }
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
@@ -100,7 +100,7 @@ let updateThanNhanData = (thuyenvien_id, data) => {
             let existingRecord = await db.Thannhan.findOne({
                 where: { thuyenvien_id: thuyenvien_id }
             });
-            
+
             if (existingRecord) {
                 // Update existing record
                 await db.Thannhan.update(
@@ -114,7 +114,7 @@ let updateThanNhanData = (thuyenvien_id, data) => {
                 data.thuyenvien_id = thuyenvien_id;
                 await db.Thannhan.create(data);
             }
-            
+
             resolve('Cập nhật thông tin gia đình thành công!');
         } catch (e) {
             console.log(e);
@@ -124,17 +124,17 @@ let updateThanNhanData = (thuyenvien_id, data) => {
 }
 
 let getLichSuDiTau = (thuyenvien_id) => {
-    return new Promise (async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let lichsuditau = await db.Lichsuditau.findAll({
-                where : {thuyenvien_id : thuyenvien_id}
+                where: { thuyenvien_id: thuyenvien_id }
             })
-            if (lichsuditau){
-                resolve (lichsuditau);
-            }else {
-                resolve ([]);
+            if (lichsuditau) {
+                resolve(lichsuditau);
+            } else {
+                resolve([]);
             }
-        }catch(e){
+        } catch (e) {
             reject(e);
         }
     })
@@ -158,7 +158,7 @@ let createLichSuDiTau = (data) => {
                 ngayroitau: data.ngayroitau || null,
                 cangroitau: data.cangroitau || null
             });
-            
+
             resolve('Thêm lịch sử đi tàu thành công!');
         } catch (e) {
             console.log(e);
@@ -184,14 +184,14 @@ let updateLichSuDiTauData = (historyId, data) => {
                 ngayroitau: data.ngayroitau,
                 cangroitau: data.cangroitau
             };
-            
+
             await db.Lichsuditau.update(
                 updateData,
                 {
                     where: { id_lichsuditau: historyId }
                 }
             );
-            
+
             resolve('Cập nhật lịch sử đi tàu thành công!');
         } catch (e) {
             console.log(e);
@@ -223,32 +223,32 @@ let getAllChucVu = () => {
 }
 
 let getHocVanThuyenVien = (thuyenvien_id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Change to findOne instead of findAll
             let hocvan = await db.ThuyenvienHocvan.findOne({
                 where: { id_thuyenvien: thuyenvien_id }
             });
-            
+
             if (hocvan) {
                 resolve(hocvan);
             } else {
                 resolve(null);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let createHocVan = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Check if a record already exists
             const existingRecord = await db.ThuyenvienHocvan.findOne({
                 where: { id_thuyenvien: data.id_thuyenvien }
             });
-            
+
             if (existingRecord) {
                 // Update existing record
                 await existingRecord.update({
@@ -267,14 +267,14 @@ let createHocVan = (data) => {
                 });
                 resolve('Thêm thông tin học vấn thành công!');
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let updateHocVan = (id, data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await db.ThuyenvienHocvan.update(
                 {
@@ -287,45 +287,45 @@ let updateHocVan = (id, data) => {
                 }
             );
             resolve('Cập nhật thông tin học vấn thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let deleteHocVan = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await db.ThuyenvienHocvan.destroy({
                 where: { id: id }
             });
             resolve('Xóa thông tin học vấn thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getNgoaiNguThuyenVien = (thuyenvien_id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let ngoaingu = await db.ThuyenvienNgoaingu.findAll({
                 where: { id_thuyenvien: thuyenvien_id }
             });
-            
+
             if (ngoaingu && ngoaingu.length > 0) {
                 resolve(ngoaingu);
             } else {
                 resolve([]);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let createNgoaiNgu = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const result = await db.ThuyenvienNgoaingu.create({
                 id_thuyenvien: data.id_thuyenvien,
@@ -337,14 +337,14 @@ let createNgoaiNgu = (data) => {
                 file: data.file
             });
             resolve('Thêm chứng chỉ ngoại ngữ thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let updateNgoaiNgu = (id, data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let updateData = {
                 ngonngu: data.ngonngu,
@@ -353,12 +353,12 @@ let updateNgoaiNgu = (id, data) => {
                 ngaycap: data.ngaycap,
                 ngayhethan: data.ngayhethan
             };
-            
+
             // Only update file if a new one is provided
             if (data.file) {
                 updateData.file = data.file;
             }
-            
+
             await db.ThuyenvienNgoaingu.update(
                 updateData,
                 {
@@ -366,45 +366,45 @@ let updateNgoaiNgu = (id, data) => {
                 }
             );
             resolve('Cập nhật chứng chỉ ngoại ngữ thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let deleteNgoaiNgu = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await db.ThuyenvienNgoaingu.destroy({
                 where: { id: id }
             });
             resolve('Xóa chứng chỉ ngoại ngữ thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getNgoaiNguById = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let ngoaingu = await db.ThuyenvienNgoaingu.findOne({
                 where: { id: id }
             });
-            
+
             if (ngoaingu) {
                 resolve(ngoaingu);
             } else {
                 resolve(null);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getChungChiThuyenVien = (thuyenvien_id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let chungchi = await db.ThuyenvienChungchi.findAll({
                 where: { id_thuyenvien: thuyenvien_id },
@@ -417,31 +417,31 @@ let getChungChiThuyenVien = (thuyenvien_id) => {
                 ],
                 // Removed include since we no longer need to join with Chungchi table
             });
-            
+
             if (chungchi && chungchi.length > 0) {
                 resolve(chungchi);
             } else {
                 resolve([]);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getAllChungChi = () => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let chungchi = await db.Chungchi.findAll();
             resolve(chungchi);
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let createChungChi = (data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             const result = await db.ThuyenvienChungchi.create({
                 id_chungchi: data.id_chungchi,
@@ -454,14 +454,14 @@ let createChungChi = (data) => {
                 file: data.file
             });
             resolve('Thêm chứng chỉ thuyền viên thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let updateChungChi = (id, data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let updateData = {
                 id_chungchi: data.id_chungchi, // Changed from chungchi_id
@@ -471,12 +471,12 @@ let updateChungChi = (id, data) => {
                 noicap: data.noicap,
                 xeploai: data.xeploai
             };
-            
+
             // Only update file if a new one is provided
             if (data.file) {
                 updateData.file = data.file;
             }
-            
+
             await db.ThuyenvienChungchi.update(
                 updateData,
                 {
@@ -484,69 +484,69 @@ let updateChungChi = (id, data) => {
                 }
             );
             resolve('Cập nhật chứng chỉ thuyền viên thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let deleteChungChi = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await db.ThuyenvienChungchi.destroy({
                 where: { id: id }
             });
             resolve('Xóa chứng chỉ thuyền viên thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getChungChiById = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let chungchi = await db.ThuyenvienChungchi.findOne({
                 where: { id: id }
             });
-            
+
             if (chungchi) {
                 resolve(chungchi);
             } else {
                 resolve(null);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getTaiLieuThuyenVien = (thuyenvien_id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let tailieu = await db.ThuyenvienTailieu.findOne({
                 where: { id_thuyenvien: thuyenvien_id }
             });
-            
+
             if (tailieu) {
                 resolve(tailieu);
             } else {
                 resolve(null);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let createOrUpdateTaiLieu = (thuyenvien_id, data) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Check if a record already exists
             const existingRecord = await db.ThuyenvienTailieu.findOne({
                 where: { id_thuyenvien: thuyenvien_id }
             });
-            
+
             if (existingRecord) {
                 // Update existing record
                 await existingRecord.update(data);
@@ -557,47 +557,47 @@ let createOrUpdateTaiLieu = (thuyenvien_id, data) => {
                 await db.ThuyenvienTailieu.create(data);
                 resolve('Thêm tài liệu thành công!');
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getTaiLieuById = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             let tailieu = await db.ThuyenvienTailieu.findByPk(id);
-            
+
             if (tailieu) {
                 resolve(tailieu);
             } else {
                 resolve(null);
             }
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let deleteTaiLieu = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             await db.ThuyenvienTailieu.destroy({
                 where: { id: id }
             });
             resolve('Xóa tài liệu thành công!');
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getExpiringCertificates = (days = 90) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Calculate the date range for expiring certificates
             const today = new Date();
-            
+
             // Find certificates expiring within the specified period
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: {
@@ -619,16 +619,16 @@ let getExpiringCertificates = (days = 90) => {
                 ],
                 order: [['ngayhethan', 'ASC']]
             });
-            
+
             resolve(certificates);
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getExpiredCertificates = (certificateType = null) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Calculate today's date for comparison
             const today = new Date();
@@ -639,12 +639,12 @@ let getExpiredCertificates = (certificateType = null) => {
                     [db.Sequelize.Op.lt]: today
                 }
             };
-            
+
             // Add certificate type filter if provided
             if (certificateType) {
                 whereClause.id_chungchi = certificateType;
             }
-            
+
             // Find certificates that have already expired
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: whereClause,
@@ -659,72 +659,78 @@ let getExpiredCertificates = (certificateType = null) => {
                         as: 'chungchi',
                         attributes: ['tenchungchi']
                     }
-                
+
                 ],
                 order: [['ngayhethan', 'ASC']]
             });
-            
+
             resolve(certificates);
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
-let createNewThuyenVienFull = async (crewData, familyData, educationData, languageCertificates, crewCertificates, documentData) => {
+let createNewThuyenVienFull = async (crewData, familyData, educationData, languageCertificates, crewCertificates, documentData, bankAccountData) => {
     let transaction;
-    
+
     try {
         // Start transaction to ensure data consistency
         transaction = await db.sequelize.transaction();
-        
+
         // 1. Create the main thuyenvien record
         const newCrewMember = await db.Thuyenvien.create(crewData, { transaction });
         const thuyenvien_id = newCrewMember.id_thuyenvien;
-        
+
         // 2. Create family info if provided
         if (Object.values(familyData).some(val => val)) {
             familyData.thuyenvien_id = thuyenvien_id;
             await db.Thannhan.create(familyData, { transaction });
         }
-        
+
         // 3. Create education info if provided
         if (educationData.truongdaotao) {
             educationData.id_thuyenvien = thuyenvien_id;
             await db.ThuyenvienHocvan.create(educationData, { transaction });
         }
-        
+
         // 4. Create language certificates if provided
         if (languageCertificates && languageCertificates.length > 0) {
             for (const certData of languageCertificates) {
                 // Skip empty certificates
                 if (!certData.ngonngu && !certData.tenchungchi) continue;
-                
+
                 certData.id_thuyenvien = thuyenvien_id;
                 await db.ThuyenvienNgoaingu.create(certData, { transaction });
             }
         }
-        
+
         // 5. Create crew certificates if provided
         if (crewCertificates && crewCertificates.length > 0) {
             for (const certData of crewCertificates) {
                 // Skip empty certificates
                 if (!certData.id_chungchi) continue;
-                
+
                 certData.id_thuyenvien = thuyenvien_id;
                 await db.ThuyenvienChungchi.create(certData, { transaction });
             }
         }
-        
+
         // 6. Create document attachments if provided
         if (Object.keys(documentData).length > 0) {
             documentData.id_thuyenvien = thuyenvien_id;
             await db.ThuyenvienTailieu.create(documentData, { transaction });
         }
-        
+
+        // 7. Create bank account if provided
+        if (bankAccountData && bankAccountData.stk) {
+            bankAccountData.thuyenvien_id = thuyenvien_id;
+            await db.Taikhoannganhang.create(bankAccountData, { transaction });
+        }
+
         // Commit transaction if all operations succeed
         await transaction.commit();
-        
+
         return {
             success: true,
             message: 'Thêm thuyền viên thành công',
@@ -754,7 +760,7 @@ let updateThuyenVienStatus = (id, newStatus) => {
 }
 
 let getCrewWithCertificates = (certificateIds) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // Find all crew certificates that match the given certificate IDs
             // Find crew members who have ALL the specified certificates
@@ -772,28 +778,28 @@ let getCrewWithCertificates = (certificateIds) => {
                 having: db.sequelize.literal(`COUNT(DISTINCT id_chungchi) = ${certificateIds.length}`),
                 raw: true
             });
-            
+
             // Extract unique crew IDs
             const crewIds = [...new Set(certificates.map(cert => cert.id_thuyenvien))];
             resolve(crewIds);
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
 };
 
 let getEstimatedBoardingTimes = (crewIds) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
             // For each crew member, get their latest boarding time record
             let boardingTimes = {};
-            
+
             // If no crew IDs provided, return empty object
             if (!crewIds || crewIds.length === 0) {
                 resolve(boardingTimes);
                 return;
             }
-            
+
             // Get latest boarding records for all the crew members at once
             const latestBoardings = await db.Lichsuditau.findAll({
                 attributes: [
@@ -809,7 +815,7 @@ let getEstimatedBoardingTimes = (crewIds) => {
                 order: [['id_lichsuditau', 'DESC']],
                 raw: true
             });
-            
+
             // Convert to the desired format
             latestBoardings.forEach(record => {
                 if (record.timelentau) {
@@ -826,7 +832,7 @@ let getEstimatedBoardingTimes = (crewIds) => {
                         hours = String(hours).padStart(2, '0');
                         const minutes = String(date.getMinutes()).padStart(2, '0');
                         const seconds = String(date.getSeconds()).padStart(2, '0');
-                        
+
                         boardingTimes[record.thuyenvien_id] = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
                     } else {
                         boardingTimes[record.thuyenvien_id] = record.timelentau;
@@ -835,9 +841,9 @@ let getEstimatedBoardingTimes = (crewIds) => {
                     boardingTimes[record.thuyenvien_id] = null;
                 }
             });
-            
+
             resolve(boardingTimes);
-        } catch(e) {
+        } catch (e) {
             reject(e);
         }
     });
@@ -846,14 +852,14 @@ let getEstimatedBoardingTimes = (crewIds) => {
 async function getThuyenvienById(id) {
     try {
         const thuyenvien = await db.Thuyenvien.findOne({
-        where: { id_thuyenvien: id },
-        include: [
-            { model: db.ThuyenvienHocvan, as: 'hocvan' },
-            { model: db.ThuyenvienNgoaingu, as: 'ngoaingu' },
-            { model: db.ThuyenvienChungchi, as: 'chungchi' },
-            { model: db.ThuyenvienTailieu, as: 'tailieu' },
-            { model: db.Hopdong, as: 'hopdongs' }
-        ]
+            where: { id_thuyenvien: id },
+            include: [
+                { model: db.ThuyenvienHocvan, as: 'hocvan' },
+                { model: db.ThuyenvienNgoaingu, as: 'ngoaingu' },
+                { model: db.ThuyenvienChungchi, as: 'chungchi' },
+                { model: db.ThuyenvienTailieu, as: 'tailieu' },
+                { model: db.Hopdong, as: 'hopdongs' }
+            ]
         });
         return thuyenvien;
     } catch (error) {
@@ -898,7 +904,7 @@ module.exports = {
     getExpiredCertificates: getExpiredCertificates,
     createNewThuyenVienFull: createNewThuyenVienFull,
     updateThuyenVienStatus: updateThuyenVienStatus,
-    getThuyenvienById : getThuyenvienById,
+    getThuyenvienById: getThuyenvienById,
     getCrewWithCertificates: getCrewWithCertificates,
     getEstimatedBoardingTimes: getEstimatedBoardingTimes,
 }

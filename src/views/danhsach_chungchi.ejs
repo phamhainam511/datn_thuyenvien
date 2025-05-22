@@ -39,8 +39,8 @@
                                         class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                                         <h5 class="m-0">Chứng chỉ</h5>
                                         <div>
-                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
-                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
+                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">Xóa chứng chỉ</button>
+                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">Thêm chứng chỉ</button>
                                             <!-- Modal Thêm chứng chỉ -->
                                             <div class="modal fade" id="modalThemChungChi" tabindex="-1" role="dialog"
                                                 aria-labelledby="modalLabelThem" aria-hidden="true">
@@ -111,7 +111,7 @@
                                                                 <%= dataTable[i].tieuchuanapdung %>
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-warning btn-sm"
+                                                                <button class="btn btn-primary btn-sm"
                                                                     onclick="openEditModal('<%= dataTable[i].id_chungchi %>', '<%= dataTable[i].tenchungchi %>', '<%= dataTable[i].tieuchuanapdung %>')">
                                                                     Sửa
                                                                 </button>

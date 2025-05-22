@@ -241,10 +241,19 @@
                                                         <input type="text" class="form-control" name="sizegiay">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label>Size giày bảo hộ:</label>
                                                         <input type="text" class="form-control" name="sizegiaybaoho">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label>Tình trạng hôn nhân:</label>
+                                                        <select class="form-control" name="tinhtranghonnhan">
+                                                            <option value="Độc thân">Độc thân</option>
+                                                            <option value="Đã kết hôn">Đã kết hôn</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,13 +274,10 @@
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <label>Tình trạng hôn nhân:</label>
-                                                        <select class="form-control" name="tinhtranghonnhan">
-                                                            <option value="Độc thân">Độc thân</option>
-                                                            <option value="Đã kết hôn">Đã kết hôn</option>
-                                                        </select>
+                                                        <label>Ghi chú (nếu có):</label>
+                                                        <textarea class="form-control" name="ghichu" rows="3" placeholder="Nhập nguyện vọng đi tàu của thuyền viên ..."></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -585,6 +591,37 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Section 7: Thêm tài khoản ngân hàng -->
+                                <div class="form-section" id="section2">
+                                    <h5 class="text-primary mb-4 section-heading">7. Thông tin tài khoản ngân hàng</h5>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="tennganhang" class="field-required">Tên ngân hàng:</label>
+                                                <input type="text" class="form-control" name="tennganhang" id="tennganhang" placeholder="VD: Vietcombank" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="stk" class="field-required">Số tài khoản:</label>
+                                                <input type="text" class="form-control" name="stk" id="stk" placeholder="Nhập số tài khoản" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="tentaikhoan" class="field-required">Tên chủ tài khoản:</label>
+                                                <input type="text" class="form-control" name="tentaikhoan" id="tentaikhoan" placeholder="VD: Nguyen Van A" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <!-- Replace form navigation buttons with a single submit button -->
                                 <div class="text-center mt-5">

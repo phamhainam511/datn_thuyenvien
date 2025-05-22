@@ -83,15 +83,17 @@ const getChucVuStats = async () => {
         ],
         include: [{
             model: db.Chucvu,
+            as: 'chucvu', // ✅ thêm dòng này
             attributes: ['tenchucvu']
         }],
-        group: ['chucvu_id', 'Chucvu.id_chucvu']
+        group: ['chucvu_id', 'chucvu.id_chucvu'] // ✅ đổi `Chucvu.id_chucvu` -> `chucvu.id_chucvu`
     });
 
-    const labels = result.map(item => item.Chucvu?.tenchucvu || 'Không rõ');
+    const labels = result.map(item => item.chucvu?.tenchucvu || 'Không rõ');
     const data = result.map(item => parseInt(item.getDataValue('soluong')) || 0);
     return { labels, data };
 };
+
 
 const getThuyenvienTrangThaiStats = async () => {
     const result = await db.Thuyenvien.findAll({

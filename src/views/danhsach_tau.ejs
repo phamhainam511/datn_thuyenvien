@@ -34,8 +34,8 @@
                                         class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                                         <h5 class="m-0">Tàu</h5>
                                         <div>
-                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">🗑️ Xóa</button>
-                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">+ Thêm</button>
+                                            <button class="btn btn-light btn-sm" onclick="xoaChon()">Xóa tàu</button>
+                                            <button class="btn btn-light btn-sm" onclick="moPopupThem()">Thêm tàu</button>
                                             <!-- Modal Thêm tàu -->
                                             <div class="modal fade" id="modalThemTau" tabindex="-1" role="dialog"
                                                 aria-labelledby="modalLabelThem" aria-hidden="true">
@@ -119,7 +119,7 @@
                                                                 <%= dataTable[i].loaitau?.tenloaitau %>
                                                             </td>
                                                             <td>
-                                                                <button class="btn btn-warning btn-sm"
+                                                                <button class="btn btn-primary btn-sm"
                                                                     onclick="openEditModal('<%= dataTable[i].id_tau %>', '<%= dataTable[i].tentau %>', '<%= dataTable[i].quoctich %>', '<%= dataTable[i].loaitau_id %>')">
                                                                     Sửa
                                                                 </button>

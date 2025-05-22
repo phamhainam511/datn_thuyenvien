@@ -116,6 +116,10 @@ module.exports = (sequelize, DataTypes) => {
                 isIn: [['Đang chờ tàu', 'Đang trên tàu', 'Đang trên bờ']]
             }
         },
+        ghichu: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
     }, {
         sequelize,
         modelName: 'Thuyenvien',

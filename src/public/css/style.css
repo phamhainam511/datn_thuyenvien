@@ -1,5 +1,26 @@
 
 :root {
+  --primary: #003366; /* màu xanh đậm, màu chính của bạn */
+  
+  /* Các màu bổ trợ (complementary, tương phản nhẹ) */
+  --secondary: #005599; /* xanh biển sáng hơn, vẫn gần primary */
+  --success: #28a745; /* xanh lá tươi, nổi bật và hài hòa */
+  --info: #17a2b8; /* xanh biển lam nhẹ, làm nổi bật phần thông tin */
+  --warning: #ffc107; /* vàng tươi, tăng sự chú ý */
+  --danger: #dc3545; /* đỏ đậm, rõ ràng để báo lỗi hoặc cảnh báo */
+  
+  /* Các màu nền, chữ, trung tính */
+  --light: #f8f9fa; /* trắng ngà, nhẹ nhàng */
+  --white: #ffffff; /* trắng tinh */
+  --gray-light: #dee2e6; /* xám nhạt để phân tách */
+  --gray: #6c757d; /* xám vừa, chữ phụ */
+  --gray-dark: #343a40; /* xám đậm, chữ chính */
+  --dark: #212529; /* đen xám đậm, chữ rất rõ */
+
+  /* Màu phụ cho hover, active, hoặc hiệu ứng */
+  --primary-hover: #002244; /* xanh đậm hơn */
+  --primary-light: #336699; /* xanh nhạt hơn cho hover hoặc background */
+  
   --blue: #003366;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -10,17 +31,7 @@
   --green: #1cc88a;
   --teal: #20c9a6;
   --cyan: #36b9cc;
-  --white: #fff;
-  --gray: #858796;
-  --gray-dark: #5a5c69;
-  --primary: #003366;
-  --secondary: #858796;
-  --success: #1cc88a;
-  --info: #36b9cc;
-  --warning: #f6c23e;
-  --danger: #e74a3b;
   --light: #f8f9fc;
-  --dark: #5a5c69;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;

@@ -96,18 +96,22 @@
                                         <div class="col-md-3 text-center">
                                             <img src="<%= thuyenvieninfo.anh ? thuyenvieninfo.anh : '/img/crew_test1.jpg' %>" alt="Ảnh thuyền viên"
                                                 class="crew-photo mb-2">
-                                            <h5 class="fw-bold">
+                                            <h5 class="fw-bold mb-1">
                                                 <%= thuyenvieninfo.hoten %>
                                             </h5>
-                                            <p class="text-muted">Chức vụ: test</p>
+                                            <p class="text-muted mb-2">Chức vụ: test</p>
                                             
                                             <!-- Upload photo button -->
-                                            <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>" method="POST" enctype="multipart/form-data" class="mb-3">
-                                                <div class="custom-file mb-2">
+                                            <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>" method="POST" enctype="multipart/form-data" class="mb-2">
+
+                                                <div class="form-group mb-2">
+                                                    <div class="custom-file text-left">
                                                     <input type="file" class="custom-file-input" id="crew_photo" name="crew_photo" accept=".jpg,.jpeg,.png">
                                                     <label class="custom-file-label" for="crew_photo">Chọn ảnh...</label>
                                                 </div>
-                                                <button type="submit" class="btn btn-sm btn-info">
+                                                </div>
+                                                
+                                                <button type="submit" class="btn btn-sm btn-info mt-2">
                                                     <i class="fas fa-upload"></i> Cập nhật ảnh
                                                 </button>
                                             </form>
@@ -180,6 +184,10 @@
                                                         id="maritalStatus">
                                                         <%= thuyenvieninfo.tinhtranghonnhan %>
                                                     </span></li>
+                                                <li class="list-group-item"><strong>Nguyện vọng đi tàu:</strong> <span
+                                                    id="maritalStatus">
+                                                    <%= thuyenvieninfo.ghichu %>
+                                                </span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -798,6 +806,10 @@
                                                 <option value="Độc thân">Độc thân</option>
                                                 <option value="Đã kết hôn">Đã kết hôn</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="ghichu">Nguyện vọng đi tàu:</label>
+                                            <textarea class="form-control" id="ghichu" name="ghichu" rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
                                         </div>
                                     </form>
                                 </div>
