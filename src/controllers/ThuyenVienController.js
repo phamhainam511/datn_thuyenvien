@@ -723,6 +723,10 @@ let createNewThuyenVien = async (req, res) => {
 
         try {
             // Extract basic crew info from request body
+            let thoigianlentaudukien = null;
+            if (req.body.thoigian_lenTauDuKien) {
+                thoigianlentaudukien = req.body.thoigian_lenTauDuKien.replace('T', ' ');
+            }
             const crewData = {
                 hoten: req.body.hoten,
                 ngaysinh: req.body.ngaysinh,
@@ -1077,14 +1081,15 @@ let getNotificationCounts = async () => {
     const past30Days = new Date();
     past30Days.setDate(today.getDate() - 30);
 
-    const recentBoardingsCount = await db.Lichsuditau.count({
+    const recentBoardingsCount = await db.Thuyenvien.count({
       where: {
-        timelentau: {
-          [db.Sequelize.Op.between]: [past30Days, today]
-        }
+        thoigian_lenTauDuKien:  {
+                [db.Sequelize.Op.between]: [
+                new Date(), // today
+                new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // 30 days in the future
+                ]
+            }
       },
-      distinct: true,
-      col: 'thuyenvien_id'
     });
 
     return {
