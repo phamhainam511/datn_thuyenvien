@@ -43,8 +43,26 @@ let deleteBangLuong = async (req, res) => {
     return res.redirect('/danh-sach-bang-luong');
 };
 
+let exportBangLuong = async (req, res) => {
+    try {
+        const time = req.query.time || comboTime[0];
+        const dataTable = await BangLuongServices.getAllBangLuong(time);
+        const workbook = await BangLuongServices.exportBangLuong(dataTable, time);
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=bang_luong_${time.replace('/', '_')}.xlsx`);
+
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (e) {
+        console.log(e);
+        return res.send('Lỗi xuất Excel');
+    }
+}
+
 module.exports = {
     getAllBangLuong: getAllBangLuong,
     getEditBangLuong: getEditBangLuong,
-    deleteBangLuong: deleteBangLuong
+    deleteBangLuong: deleteBangLuong,
+    exportBangLuong: exportBangLuong
 }

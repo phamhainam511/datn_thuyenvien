@@ -60,14 +60,14 @@
                                 <!-- Tab nút -->
                                 <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <a href="/danh-sach-thuyen-vien-luong" class="nav-link" id="crew-tab" data-bs-toggle="tab" data-bs-target="#crew"
-                                            type="button" role="tab">
+                                        <a href="/danh-sach-thuyen-vien-luong" class="nav-link" id="crew-tab"
+                                            data-bs-toggle="tab" data-bs-target="#crew" type="button" role="tab">
                                             Thuyền viên đang trên tàu
                                         </a>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <a href="/danh-sach-bang-luong" class="nav-link active" id="salary-tab" data-bs-toggle="tab"
-                                            data-bs-target="#salary" type="button" role="tab">
+                                        <a href="/danh-sach-bang-luong" class="nav-link active" id="salary-tab"
+                                            data-bs-toggle="tab" data-bs-target="#salary" type="button" role="tab">
                                             Bảng lương
                                         </a>
                                     </li>
@@ -84,10 +84,12 @@
 
                                                 <!-- Bọc 2 nút trong một div để căn phải -->
                                                 <div>
-                                                    <button class="btn btn-primary btn-sm me-2"
-                                                        onclick="xuatBangLuong()">Xuất
-                                                        bảng
-                                                        lương</button>
+                                                    <form method="GET" action="/export-bang-luong">
+                                                        <input type="hidden" name="time" value="<%= keyword %>">
+                                                        <button class="btn btn-primary btn-sm me-2" type="submit">Xuất
+                                                            bảng lương</button>
+                                                    </form>
+
                                                     <button class="btn btn-danger btn-sm" onclick="xoaBangLuong()">Xoá
                                                         bảng
                                                         lương</button>

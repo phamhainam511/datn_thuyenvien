@@ -108,14 +108,14 @@ let deleteBangLuong = (bangluong_id) => {
     })
 }
 
-let BangLuongExcell = (dataTable, thang) => {
+let exportBangLuong = (dataTable, thang) => {
     return new Promise(async (resolve, reject) => {
         try {
             const workbook = new ExcelJS.Workbook();
             const worksheet = workbook.addWorksheet('Bảng lương');
 
             // Dòng đầu đề ở đây
-            worksheet.mergeCells('A1:C2');
+            worksheet.mergeCells('A1:D2');
             worksheet.getCell('A1').value = 'CÔNG TY TNHH ĐẦU TƯ VÀ PHÁT TRIỂN NGUỒN NHÂN LỰC PITSCO';
             worksheet.getCell('A1').alignment = { vertical: 'middle', horizontal: 'center' };
             worksheet.getCell('A1').font = { size: 12, bold: true };
@@ -125,31 +125,13 @@ let BangLuongExcell = (dataTable, thang) => {
             worksheet.getCell('A3').alignment = { horizontal: 'center' };
             worksheet.getCell('A3').font = { size: 12, bold: true };
 
-            // Tên cột ở đây
-            worksheet.columns = [
-                { header: 'STT', key: 'stt', width: 5 },
-                { header: 'Tên tài khoản', key: 'tentaikhoan', width: 20 },
-                { header: 'Số tài khoản', key: 'stk', width: 20 },
-                { header: 'Tên ngân hàng', key: 'nganhang', width: 50 },
-                { header: 'Tổng tiền', key: 'tongtien', width: 15 },
-                { header: 'Nội dung', key: 'noidung', width: 50 },
-            ];
-
-            // Thêm dữ liệu ở đây
-            dataTable.forEach((row, index) => {
-                worksheet.addRow({
-                    stt: index + 1,
-                    tentaikhoan: row.thuyenvien?.taikhoannganhang?.tentaikhoan || '',
-                    stk: row.thuyenvien?.taikhoannganhang?.stk || '',
-                    nganhang: row.thuyenvien?.taikhoannganhang?.tennganhang || '',
-                    tongtien: row.tongtien,
-                    noidung: '',
-                });
-            });
-
-            // Định dạng cột
-            worksheet.getColumn('tongtien').numFmt = '#,##0';
-            worksheet.getColumn('stt').alignment = { horizontal: 'center' };
+            // Set độ rộng cột
+            worksheet.getColumn(1).width = 5;    // STT
+            worksheet.getColumn(2).width = 20;   // Tên tài khoản
+            worksheet.getColumn(3).width = 20;   // Số tài khoản
+            worksheet.getColumn(4).width = 20;   // Tên ngân hàng
+            worksheet.getColumn(5).width = 15;   // Tổng tiền
+            worksheet.getColumn(6).width = 50;   // Nội dung
 
             // Tạo định dạng Border (viền mỏng)
             const borderStyles = {
@@ -159,28 +141,43 @@ let BangLuongExcell = (dataTable, thang) => {
                 right: { style: 'thin' }
             };
 
-            // Border cho tên cột ở dòng thứ 5
-            worksheet.getRow(5).eachCell(cell => {
+            // Thêm tiêu đề cột vào dòng 5
+            const headerRow = worksheet.getRow(5);
+            headerRow.values = ['STT', 'Tên tài khoản', 'Số tài khoản', 'Tên ngân hàng', 'Tổng tiền', 'Nội dung'];
+            headerRow.font = { bold: true };
+            headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
+            headerRow.height = 20;
+
+            // Border cho tiêu đề cột ở dòng thứ 5
+            headerRow.eachCell(cell => {
                 cell.border = borderStyles;
-                cell.alignment = { horizontal: 'center', vertical: 'middle' };
-                cell.font = { bold: true };
             });
 
-            // Border cho các dòng dữ liệu
-            for (let i = 6; i < 6 + dataTable.length; i++) {
-                worksheet.getRow(i).eachCell(cell => {
+            dataTable.forEach((row, index) => {
+                const r = worksheet.getRow(6 + index);
+                r.values = [
+                    index + 1,
+                    row.thuyenvien?.hoten || '',
+                    row.thuyenvien?.taikhoannganhang?.stk || '',
+                    row.thuyenvien?.taikhoannganhang?.tennganhang || '',
+                    Number(row.tongtien),
+                    ''
+                ];
+                r.getCell(5).numFmt = '#,##0';
+                r.eachCell(cell => {
                     cell.border = borderStyles;
                 });
-            }
+            });
 
             // Dòng tổng cộng
             const totalRow = dataTable.length + 6;
-            worksheet.mergeCells(`A${totalRow}:D${totalRowNumber}`);
+            worksheet.mergeCells(`A${totalRow}:D${totalRow}`);
             worksheet.getCell(`A${totalRow}`).value = 'Tổng';
-            worksheet.getCell(`A${totalRowNumber}`).font = { bold: true };
-            worksheet.getCell(`A${totalRowNumber}`).alignment = { horizontal: 'center' };
+            worksheet.getCell(`A${totalRow}`).font = { bold: true };
+            worksheet.getCell(`A${totalRow}`).alignment = { horizontal: 'center' };
 
             worksheet.getCell(`E${totalRow}`).value = { formula: `SUM(E6:E${totalRow - 1})` };
+            worksheet.getCell(`E${totalRow}`).numFmt = '#,##0';
             worksheet.getCell(`E${totalRow}`).font = { bold: true };
             worksheet.getCell(`E${totalRow}`).alignment = { horizontal: 'right' };
             worksheet.getRow(totalRow).eachCell(cell => {
@@ -188,11 +185,11 @@ let BangLuongExcell = (dataTable, thang) => {
             });
 
             // Tổng tiền bằng chữ ở đây
-            const totalTien = dataTable.reduce((sum, i) => sum + i.tongtien, 0);  //reduce là hàm tính tổng
+            const totalTien = dataTable.reduce((sum, i) => sum + Number(i.tongtien), 0);  //reduce là hàm tính tổng
             worksheet.getCell(`B${totalRow + 2}`).value = 'Bằng chữ:';
 
-            worksheet.mergeCells(`C${totalRow + 2}:F${totalRow + 2}`);
-            worksheet.getCell(`C${totalRow}` + 2).value = BangLuongFunctionServices.chuyenSoThanhChu(totalTien);
+            worksheet.mergeCells(`C${totalRow + 2}:E${totalRow + 2}`);
+            worksheet.getCell(`C${totalRow + 2}`).value = BangLuongFunctionServices.chuyenSoThanhChu(totalTien);
             worksheet.getCell(`C${totalRow + 2}`).alignment = { horizontal: 'left' };
 
             // Chữ ký của kế toán trưởng và tổng giám đốc ở đây
@@ -217,5 +214,5 @@ module.exports = {
     getComboTime: getComboTime,
     getBangLuongId: getBangLuongId,
     deleteBangLuong: deleteBangLuong,
-    BangLuongExcell: BangLuongExcell
+    exportBangLuong: exportBangLuong
 }

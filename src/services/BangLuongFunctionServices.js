@@ -10,9 +10,9 @@ function formatDecimal(num) {
 };
 
 function chuyenSoThanhChu(num) {
-    const ChuSo = [" Không ", " Một ", " Hai ", " Ba ", " Bốn ", " Năm ", " Sáu ", " Bảy ", " Tám ", " Chín "];
-    const DonVi = ["", " Nghìn", " Triệu", "Tỷ"];
-    if (so === 0) return "Không VNĐ";
+    const ChuSo = ["Không", "Một", "Hai", "Ba", "Bốn", "Năm", "Sáu", "Bảy", "Tám", "Chín"];
+    const DonVi = ["", "Nghìn", "Triệu", "Tỷ"];
+    if (num === 0) return "Không VNĐ";
 
     let str = "";
     let hang = 0;
@@ -23,43 +23,40 @@ function chuyenSoThanhChu(num) {
         let donvi = n % 10;
         let chuoi = "";
 
-        if (n / 1000 > 0) {
-            chuoi += ChuSo[tram] + " Trăm ";
-        } else {
-            if (tram !== 0) {
-                chuoi += ChuSo[tram] + " Trăm ";
-            }
+        if (n > 100 && (tram !== 0 || chuc !== 0 || donvi !== 0)) {
+            chuoi += ChuSo[tram] + " Trăm";
         }
         if (chuc !== 0) {
             if (chuc === 1) {
-                chuoi += " Mười ";
+                chuoi += " Mười";
             } else {
-                chuoi += ChuSo[chuc] + " Mươi ";
+                chuoi += " " + ChuSo[chuc] + " Mươi";
             }
         }
         if (donvi !== 0) {
             if (chuc === 0) {
-                chuoi += "Lẻ " + ChuSo[donvi] + " ";
+                chuoi += " Lẻ" + ChuSo[donvi];
             }
             else if (chuc !== 0 && donvi === 1) {
-                chuoi += "Mốt ";
+                chuoi += " Mốt";
             } else if (chuc !== 0 && donvi === 5) {
-                chuoi += "Lăm ";
+                chuoi += " Lăm";
             } else {
-                chuoi += ChuSo[donvi] + " ";
+                chuoi += " " + ChuSo[donvi];
             }
         }
         if (chuoi !== "") {
-            chuoi += DonVi[hang];
+            chuoi += " " + DonVi[hang] + " ";
         }
         str = chuoi + str;
         n = Math.floor(n / 1000);
         hang++;
     }
-    return str.trim() + " VNĐ";
+    return str.trim() + " Đồng";
 }
 
 module.exports = {
     formatTime: formatTime,
-    formatDecimal: formatDecimal
+    formatDecimal: formatDecimal,
+    chuyenSoThanhChu: chuyenSoThanhChu
 }

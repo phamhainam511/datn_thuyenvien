@@ -169,6 +169,7 @@ const initWebRoutes = (app) => {
     router.get('/danh-sach-bang-luong', BangLuongController.getAllBangLuong);
     router.post('/edit-bangluong', BangLuongController.getEditBangLuong);
     router.post('/delete-bangluong', BangLuongController.deleteBangLuong);
+    router.get('/export-bang-luong', BangLuongController.exportBangLuong);
 
     //bảng lương chi tiết ở đây
     router.get('/bang-luong-chi-tiet', BangLuongChiTietController.getBangLuongChiTiet);
