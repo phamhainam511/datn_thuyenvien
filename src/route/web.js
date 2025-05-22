@@ -101,7 +101,11 @@ const initWebRoutes = (app) => {
     router.post('/edit-user', UserController.getEditUser);
     router.post('/put-user', UserController.putUser);
     router.post('/reset-user', UserController.resetPassword);
-    router.post('/delete-user', UserController.deleteUser);
+    router.get('/doi-mat-khau', (req, res) => {
+        res.render('doimatkhau.ejs', { errors: [], success: null });
+    });
+    router.post('/doi-mat-khau', UserController.ChangePassword);
+
 
     //chứng chỉ ở đâyđây
     router.get('/danh-sach-chung-chi', ChungChiController.getAllChungChi);

@@ -1,4 +1,5 @@
 import db from '../models/index';
+import bcrypt from 'bcrypt';
 
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
@@ -130,6 +131,41 @@ let deleteUser = (user_id) => {
 }
 
 
+let changePassword = async (taikhoan, currentPassword, newPassword) => {
+    try {
+        const user = await db.user.findByPk(taikhoan);
+
+        if (!user) {
+            return { errCode: 1, message: 'Người dùng không tồn tại!' };
+        }
+
+        let isMatch = false;
+
+        // Kiểm tra xem mật khẩu đã được mã hoá hay chưa
+        if (user.matkhau.startsWith('$2b$')) {
+            isMatch = await bcrypt.compare(currentPassword, user.matkhau);
+        } else {
+            isMatch = currentPassword === user.matkhau;
+        }
+
+        if (!isMatch) {
+            return { errCode: 2, message: 'Mật khẩu hiện tại không đúng!' };
+        }
+
+        // Hash mật khẩu mới
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Cập nhật mật khẩu mới
+        user.matkhau = hashedPassword;
+        await user.save();
+
+        return { errCode: 0, message: 'Đổi mật khẩu thành công!' };
+    } catch (error) {
+        console.error('Change password error:', error);
+        return { errCode: 3, message: 'Lỗi máy chủ!' };
+    }
+};
+
 module.exports = {
     createNewUser: createNewUser,
     getComboPhanQuyen: getComboPhanQuyen,
@@ -138,4 +174,5 @@ module.exports = {
     resetPassword: resetPassword,
     updateUserData: updateUserData,
     deleteUser: deleteUser,
+    changePassword: changePassword,
 }

@@ -982,49 +982,48 @@ let getCrewWithCertificates = async (req, res) => {
     }
 };
 
-// Add a new method to get notification counts
 let getNotificationCounts = async () => {
-    try {
-        // Get expiring certificates count
-        const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
-            where: {
-                ngayhethan: {
-                    [db.Sequelize.Op.between]: [
-                        new Date(new Date() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
-                        new Date() // today
-                    ]
-                }
-            }
-        });
+  try {
+    const today = new Date();
+    const next30Days = new Date();
+    next30Days.setDate(today.getDate() + 30);
 
-        // Get crew members who boarded in the last 30 days (distinct by thuyenvien_id)
-        const recentBoardingsCount = await db.Lichsuditau.count({
-            where: {
-                timelentau: {
-                    [db.Sequelize.Op.between]: [
-                        new Date(new Date() - 30 * 24 * 60 * 60 * 1000), // 30 days ago
-                        new Date() // today
-                    ]
-                }
-            },
-            distinct: true,
-            col: 'thuyenvien_id'
-        });
+    const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
+      where: {
+        ngayhethan: {
+          [db.Sequelize.Op.between]: [today, next30Days]
+        }
+      }
+    });
 
-        return {
-            expiringCertificatesCount,
-            recentBoardingsCount,
-            totalCount: expiringCertificatesCount + recentBoardingsCount
-        };
-    } catch (error) {
-        console.error('Error fetching notification counts:', error);
-        return {
-            expiringCertificatesCount: 0,
-            recentBoardingsCount: 0,
-            totalCount: 0
-        };
-    }
+    const past30Days = new Date();
+    past30Days.setDate(today.getDate() - 30);
+
+    const recentBoardingsCount = await db.Lichsuditau.count({
+      where: {
+        timelentau: {
+          [db.Sequelize.Op.between]: [past30Days, today]
+        }
+      },
+      distinct: true,
+      col: 'thuyenvien_id'
+    });
+
+    return {
+      expiringCertificatesCount,
+      recentBoardingsCount,
+      totalCount: expiringCertificatesCount + recentBoardingsCount
+    };
+  } catch (error) {
+    console.error('Error fetching notification counts:', error);
+    return {
+      expiringCertificatesCount: 0,
+      recentBoardingsCount: 0,
+      totalCount: 0
+    };
+  }
 }
+
 
 let exportThuyenvienContract = async (req, res) => {
     try {

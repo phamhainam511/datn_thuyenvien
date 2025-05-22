@@ -63,6 +63,35 @@ let deleteUser = async (req, res) => {
     return res.redirect('/danh-sach-user');
 };
 
+let ChangePassword = async (req, res) => {
+  try {
+    const taikhoan = req.session.user.taikhoan; // từ session
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    let errors = [];
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      errors.push('Vui lòng nhập đầy đủ thông tin.');
+    }
+    if (newPassword !== confirmPassword) {
+      errors.push('Mật khẩu mới và xác nhận không khớp.');
+    }
+
+    if (errors.length > 0) {
+      return res.render('doimatkhau.ejs', { errors, success: null });
+    }
+
+    const result = await UserServices.changePassword(taikhoan, currentPassword, newPassword);
+
+    if (result.success) {
+      return res.render('doimatkhau.ejs', { errors: [], success: 'Đổi mật khẩu thành công!' });
+    } else {
+      return res.render('doimatkhau.ejs', { errors: [result.message], success: null });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.render('doimatkhau.ejs', { errors: ['Có lỗi xảy ra, vui lòng thử lại.'], success: null });
+  }
+};
 module.exports = {
     getAllUser: getAllUser,
     postUser: postUser,
@@ -70,4 +99,5 @@ module.exports = {
     putUser: putUser,
     resetPassword: resetPassword,
     deleteUser: deleteUser,
+    ChangePassword : ChangePassword
 }
