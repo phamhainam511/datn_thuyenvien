@@ -36,13 +36,14 @@
 
                 <!-- Include topbar partial -->
                 <%- include('partials/topbar', { baseUrl: '/' }) %>
-                
+
                 <div class="container-fluid">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Thông tin thuyền viên</h1>
                         <div class="d-flex">
-                            <a href="#" id="exportInfoBtn" class="btn btn-sm btn-info shadow-sm me-5" style="margin-right: 5px;">
+                            <a href="#" id="exportInfoBtn" class="btn btn-sm btn-info shadow-sm me-5"
+                                style="margin-right: 5px;">
                                 <i class="fas fa-file-export fa-sm text-white-50 me-2"></i> Xuất thông tin
                             </a>
 
@@ -94,39 +95,42 @@
                                     <div class="row">
                                         <!-- Ảnh thuyền viên & trạng thái -->
                                         <div class="col-md-3 text-center">
-                                            <img src="<%= thuyenvieninfo.anh ? thuyenvieninfo.anh : '/img/crew_test1.jpg' %>" alt="Ảnh thuyền viên"
-                                                class="crew-photo mb-2">
+                                            <img src="<%= thuyenvieninfo.anh ? thuyenvieninfo.anh : '/img/crew_test1.jpg' %>"
+                                                alt="Ảnh thuyền viên" class="crew-photo mb-2">
                                             <h5 class="fw-bold mb-1">
                                                 <%= thuyenvieninfo.hoten %>
                                             </h5>
                                             <p class="text-muted mb-2">Chức vụ: test</p>
-                                            
+
                                             <!-- Upload photo button -->
-                                            <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>" method="POST" enctype="multipart/form-data" class="mb-2">
+                                            <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>"
+                                                method="POST" enctype="multipart/form-data" class="mb-2">
 
                                                 <div class="form-group mb-2">
                                                     <div class="custom-file text-left">
-                                                    <input type="file" class="custom-file-input" id="crew_photo" name="crew_photo" accept=".jpg,.jpeg,.png">
-                                                    <label class="custom-file-label" for="crew_photo">Chọn ảnh...</label>
+                                                        <input type="file" class="custom-file-input" id="crew_photo"
+                                                            name="crew_photo" accept=".jpg,.jpeg,.png">
+                                                        <label class="custom-file-label" for="crew_photo">Chọn
+                                                            ảnh...</label>
+                                                    </div>
                                                 </div>
-                                                </div>
-                                                
+
                                                 <button type="submit" class="btn btn-sm btn-info mt-2">
                                                     <i class="fas fa-upload"></i> Cập nhật ảnh
                                                 </button>
                                             </form>
-                                            
+
                                             <!-- Update this section to show actual status with appropriate styling -->
                                             <% let statusClass = ''; %>
                                             <% if(thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
-                                                <% statusClass = 'active'; %>
+                                            <% statusClass = 'active'; %>
                                             <% } else if(thuyenvieninfo.trangthai === 'Đang chờ tàu') { %>
-                                                <% statusClass = 'waiting'; %>
+                                            <% statusClass = 'waiting'; %>
                                             <% } else { %>
-                                                <% statusClass = 'inactive'; %>
+                                            <% statusClass = 'inactive'; %>
                                             <% } %>
                                             <p class="status <%= statusClass %>"><%= thuyenvieninfo.trangthai %></p>
-                                            
+
                                             <!-- Nút cập nhật -->
                                             <div class="text-center mt-4">
                                                 <div class="btn-group">
@@ -134,18 +138,24 @@
                                                     <button type="button" class="btn btn-primary" id="statusButtonIdx">
                                                         Cập nhật trạng thái
                                                     </button>
-                                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button type="button"
+                                                        class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         <% if (thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#waitingStatusModal">Đang chờ tàu</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                            data-target="#waitingStatusModal">Đang chờ tàu</a>
                                                         <% } %>
                                                         <% if (thuyenvieninfo.trangthai === 'Đang chờ tàu') { %>
-                                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#boardingStatusModal">Đang trên tàu</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                            data-target="#boardingStatusModal">Đang trên tàu</a>
                                                         <% } %>
                                                         <% if (thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
-                                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#disembarkingStatusModal">Đang trên bờ</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                            data-target="#disembarkingStatusModal">Đang trên bờ</a>
                                                         <% } %>
                                                     </div>
                                                     <% } %>
@@ -202,13 +212,13 @@
                                                         <%= thuyenvieninfo.tinhtranghonnhan %>
                                                     </span></li>
                                                 <li class="list-group-item"><strong>Nguyện vọng đi tàu:</strong> <span
-                                                    id="maritalStatus">
-                                                    <%= thuyenvieninfo.ghichu %>
-                                                </span></li>
-                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến</strong> <span
-                                                    id="maritalStatus">
-                                                    <%= thuyenvieninfo.thoigian_lenTauDuKien %>
-                                                </span></li>
+                                                        id="maritalStatus">
+                                                        <%= thuyenvieninfo.ghichu %>
+                                                    </span></li>
+                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến</strong>
+                                                    <span id="maritalStatus">
+                                                        <%= thuyenvieninfo.thoigian_lenTauDuKien %>
+                                                    </span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -267,33 +277,37 @@
                                         <i class="fas fa-plus-circle text-success" style="font-size: 20px;"></i>
                                     </a>
                                     <% } else { %>
-                                    <a href="#" class="ml-2 editEducationBtn" data-toggle="modal" data-target="#editEducationModal"
-                                        data-id="<%= hocvaninfo.id %>"
+                                    <a href="#" class="ml-2 editEducationBtn" data-toggle="modal"
+                                        data-target="#editEducationModal" data-id="<%= hocvaninfo.id %>"
                                         data-school="<%= hocvaninfo.truongdaotao %>"
                                         data-program="<%= hocvaninfo.hedaotao %>"
                                         data-year="<%= hocvaninfo.namtotnghiep %>">
                                         <i class="fas fa-edit text-primary" style="font-size: 20px;"></i>
                                     </a>
                                     <% } %>
-                                    
+
                                     <% if (!hocvaninfo) { %>
-                                        <div class="alert alert-info mt-3">
-                                            <p class="mb-0">Chưa có thông tin học vấn. Vui lòng thêm thông tin học vấn cho thuyền viên.</p>
-                                        </div>
+                                    <div class="alert alert-info mt-3">
+                                        <p class="mb-0">Chưa có thông tin học vấn. Vui lòng thêm thông tin học vấn cho
+                                            thuyền viên.</p>
+                                    </div>
                                     <% } else { %>
-                                        <ul class="list-group mt-3">
-                                            <li class="list-group-item"><strong>Trường đào tạo:</strong> <%= hocvaninfo.truongdaotao %></li>
-                                            <li class="list-group-item"><strong>Hệ đào tạo:</strong> <%= hocvaninfo.hedaotao %></li>
-                                            <li class="list-group-item"><strong>Năm tốt nghiệp:</strong> <%= hocvaninfo.namtotnghiep %></li>
-                                        </ul>
-                                        
-                                        <div class="mt-3">
-                                            <a href="/xoa-hoc-van/<%= hocvaninfo.id %>/<%= thuyenvieninfo.id_thuyenvien %>" 
-                                               class="btn btn-sm btn-danger" 
-                                               onclick="return confirm('Bạn có chắc chắn muốn xóa thông tin học vấn này?')">
-                                                <i class="fas fa-trash"></i> Xóa thông tin học vấn
-                                            </a>
-                                        </div>
+                                    <ul class="list-group mt-3">
+                                        <li class="list-group-item"><strong>Trường đào tạo:</strong>
+                                            <%= hocvaninfo.truongdaotao %></li>
+                                        <li class="list-group-item"><strong>Hệ đào tạo:</strong>
+                                            <%= hocvaninfo.hedaotao %></li>
+                                        <li class="list-group-item"><strong>Năm tốt nghiệp:</strong>
+                                            <%= hocvaninfo.namtotnghiep %></li>
+                                    </ul>
+
+                                    <div class="mt-3">
+                                        <a href="/xoa-hoc-van/<%= hocvaninfo.id %>/<%= thuyenvieninfo.id_thuyenvien %>"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa thông tin học vấn này?')">
+                                            <i class="fas fa-trash"></i> Xóa thông tin học vấn
+                                        </a>
+                                    </div>
                                     <% } %>
                                 </div>
                             </div>
@@ -308,34 +322,35 @@
                                     <a href="#" class="ml-2" data-toggle="modal" data-target="#addLanguageModal">
                                         <i class="fas fa-plus-circle text-success" style="font-size: 20px;"></i>
                                     </a>
-                                    
+
                                     <% if (!ngoainguinfo || ngoainguinfo.length === 0) { %>
-                                        <div class="alert alert-info mt-3">
-                                            <p class="mb-0">Chưa có chứng chỉ ngoại ngữ. Vui lòng thêm chứng chỉ ngoại ngữ cho thuyền viên.</p>
-                                        </div>
+                                    <div class="alert alert-info mt-3">
+                                        <p class="mb-0">Chưa có chứng chỉ ngoại ngữ. Vui lòng thêm chứng chỉ ngoại ngữ
+                                            cho thuyền viên.</p>
+                                    </div>
                                     <% } else { %>
-                                        <div class="table-responsive mt-3">
-                                            <table class="table table-bordered">
-                                                <thead class="table-secondary">
-                                                    <tr>
-                                                        <th>Ngôn ngữ</th>
-                                                        <th>Tên chứng chỉ</th>
-                                                        <th>Điểm số</th>
-                                                        <th>Ngày cấp</th>
-                                                        <th>Ngày hết hạn</th>
-                                                        <th>File đính kèm</th>
-                                                        <th>Thao tác</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% for (let i = 0; i < ngoainguinfo.length; i++) { %>
-                                                        <tr>
-                                                            <td><%= ngoainguinfo[i].ngonngu %></td>
-                                                            <td><%= ngoainguinfo[i].tenchungchi %></td>
-                                                            <td><%= ngoainguinfo[i].diemso %></td>
-                                                            <td>
-                                                                <% if (ngoainguinfo[i].ngaycap) { %>
-                                                                    <% 
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-bordered">
+                                            <thead class="table-secondary">
+                                                <tr>
+                                                    <th>Ngôn ngữ</th>
+                                                    <th>Tên chứng chỉ</th>
+                                                    <th>Điểm số</th>
+                                                    <th>Ngày cấp</th>
+                                                    <th>Ngày hết hạn</th>
+                                                    <th>File đính kèm</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% for (let i = 0; i < ngoainguinfo.length; i++) { %>
+                                                <tr>
+                                                    <td><%= ngoainguinfo[i].ngonngu %></td>
+                                                    <td><%= ngoainguinfo[i].tenchungchi %></td>
+                                                    <td><%= ngoainguinfo[i].diemso %></td>
+                                                    <td>
+                                                        <% if (ngoainguinfo[i].ngaycap) { %>
+                                                        <% 
                                                                     // Safely format the date regardless of type
                                                                     let ngaycap = ngoainguinfo[i].ngaycap;
                                                                     let formattedDate;
@@ -347,14 +362,14 @@
                                                                         formattedDate = ngaycap;
                                                                     }
                                                                     %>
-                                                                    <%= formattedDate %>
-                                                                <% } else { %>
-                                                                    N/A
-                                                                <% } %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (ngoainguinfo[i].ngayhethan) { %>
-                                                                    <% 
+                                                        <%= formattedDate %>
+                                                        <% } else { %>
+                                                        N/A
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (ngoainguinfo[i].ngayhethan) { %>
+                                                        <% 
                                                                     // Safely format the date regardless of type
                                                                     let ngayhethan = ngoainguinfo[i].ngayhethan;
                                                                     let formattedDate;
@@ -366,45 +381,44 @@
                                                                         formattedDate = ngayhethan;
                                                                     }
                                                                     %>
-                                                                    <%= formattedDate %>
-                                                                <% } else { %>
-                                                                    N/A
-                                                                <% } %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (ngoainguinfo[i].file) { %>
-                                                                    <a href="<%= ngoainguinfo[i].file %>" target="_blank" class="btn btn-sm btn-info">
-                                                                        <i class="fas fa-file-download"></i> Xem
-                                                                    </a>
-                                                                <% } else { %>
-                                                                    Không có file
-                                                                <% } %>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button 
-                                                                    class="btn btn-sm btn-warning editLanguageBtn"
-                                                                    data-id="<%= ngoainguinfo[i].id %>"
-                                                                    data-language="<%= ngoainguinfo[i].ngonngu %>"
-                                                                    data-certificate="<%= ngoainguinfo[i].tenchungchi %>"
-                                                                    data-score="<%= ngoainguinfo[i].diemso %>"
-                                                                    data-issued="<%= ngoainguinfo[i].ngaycap ? (typeof ngoainguinfo[i].ngaycap === 'string' ? ngoainguinfo[i].ngaycap.split('T')[0] : (ngoainguinfo[i].ngaycap instanceof Date ? ngoainguinfo[i].ngaycap.toISOString().split('T')[0] : ngoainguinfo[i].ngaycap)) : '' %>"
-                                                                    data-expired="<%= ngoainguinfo[i].ngayhethan ? (typeof ngoainguinfo[i].ngayhethan === 'string' ? ngoainguinfo[i].ngayhethan.split('T')[0] : (ngoainguinfo[i].ngayhethan instanceof Date ? ngoainguinfo[i].ngayhethan.toISOString().split('T')[0] : ngoainguinfo[i].ngayhethan)) : '' %>"
-                                                                    data-file="<%= ngoainguinfo[i].file %>"
-                                                                    data-toggle="modal"
-                                                                    data-target="#editLanguageModal">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                                <a href="/xoa-ngoai-ngu/<%= ngoainguinfo[i].id %>/<%= thuyenvieninfo.id_thuyenvien %>" 
-                                                                   class="btn btn-sm btn-danger" 
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                        <%= formattedDate %>
+                                                        <% } else { %>
+                                                        N/A
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (ngoainguinfo[i].file) { %>
+                                                        <a href="<%= ngoainguinfo[i].file %>" target="_blank"
+                                                            class="btn btn-sm btn-info">
+                                                            <i class="fas fa-file-download"></i> Xem
+                                                        </a>
+                                                        <% } else { %>
+                                                        Không có file
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-warning editLanguageBtn"
+                                                            data-id="<%= ngoainguinfo[i].id %>"
+                                                            data-language="<%= ngoainguinfo[i].ngonngu %>"
+                                                            data-certificate="<%= ngoainguinfo[i].tenchungchi %>"
+                                                            data-score="<%= ngoainguinfo[i].diemso %>"
+                                                            data-issued="<%= ngoainguinfo[i].ngaycap ? (typeof ngoainguinfo[i].ngaycap === 'string' ? ngoainguinfo[i].ngaycap.split('T')[0] : (ngoainguinfo[i].ngaycap instanceof Date ? ngoainguinfo[i].ngaycap.toISOString().split('T')[0] : ngoainguinfo[i].ngaycap)) : '' %>"
+                                                            data-expired="<%= ngoainguinfo[i].ngayhethan ? (typeof ngoainguinfo[i].ngayhethan === 'string' ? ngoainguinfo[i].ngayhethan.split('T')[0] : (ngoainguinfo[i].ngayhethan instanceof Date ? ngoainguinfo[i].ngayhethan.toISOString().split('T')[0] : ngoainguinfo[i].ngayhethan)) : '' %>"
+                                                            data-file="<%= ngoainguinfo[i].file %>" data-toggle="modal"
+                                                            data-target="#editLanguageModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <a href="/xoa-ngoai-ngu/<%= ngoainguinfo[i].id %>/<%= thuyenvieninfo.id_thuyenvien %>"
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <% } %>
                                 </div>
                             </div>
@@ -419,34 +433,36 @@
                                     <a href="#" class="ml-2" data-toggle="modal" data-target="#addCrewCertModal">
                                         <i class="fas fa-plus-circle text-success" style="font-size: 20px;"></i>
                                     </a>
-                                    
+
                                     <% if (!chungchiinfo || chungchiinfo.length === 0) { %>
-                                        <div class="alert alert-info mt-3">
-                                            <p class="mb-0">Chưa có chứng chỉ thuyền viên. Vui lòng thêm chứng chỉ cho thuyền viên.</p>
-                                        </div>
+                                    <div class="alert alert-info mt-3">
+                                        <p class="mb-0">Chưa có chứng chỉ thuyền viên. Vui lòng thêm chứng chỉ cho
+                                            thuyền viên.</p>
+                                    </div>
                                     <% } else { %>
-                                        <div class="table-responsive mt-3">
-                                            <table class="table table-bordered">
-                                                <thead class="table-secondary">
-                                                    <tr>
-                                                        <th>Tên chứng chỉ</th>
-                                                        <th>Số hiệu</th>
-                                                        <th>Ngày cấp</th>
-                                                        <th>Ngày hết hạn</th>
-                                                        <th>Nơi cấp</th>
-                                                        <th>Xếp loại</th>
-                                                        <th>File đính kèm</th>
-                                                        <th>Thao tác</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <% for (let i = 0; i < chungchiinfo.length; i++) { %>
-                                                        <tr>
-                                                            <td><%= chungchiinfo[i].chungchi ? chungchiinfo[i].chungchi.tenchungchi : '' %></td>
-                                                            <td><%= chungchiinfo[i].sohieuchungchi %></td>
-                                                            <td>
-                                                                <% if (chungchiinfo[i].ngaycap) { %>
-                                                                    <% 
+                                    <div class="table-responsive mt-3">
+                                        <table class="table table-bordered">
+                                            <thead class="table-secondary">
+                                                <tr>
+                                                    <th>Tên chứng chỉ</th>
+                                                    <th>Số hiệu</th>
+                                                    <th>Ngày cấp</th>
+                                                    <th>Ngày hết hạn</th>
+                                                    <th>Nơi cấp</th>
+                                                    <th>Xếp loại</th>
+                                                    <th>File đính kèm</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% for (let i = 0; i < chungchiinfo.length; i++) { %>
+                                                <tr>
+                                                    <td><%= chungchiinfo[i].chungchi ? chungchiinfo[i].chungchi.tenchungchi : '' %>
+                                                    </td>
+                                                    <td><%= chungchiinfo[i].sohieuchungchi %></td>
+                                                    <td>
+                                                        <% if (chungchiinfo[i].ngaycap) { %>
+                                                        <% 
                                                                     // Safely format the date regardless of type
                                                                     let ngaycap = chungchiinfo[i].ngaycap;
                                                                     let formattedDate;
@@ -458,14 +474,14 @@
                                                                         formattedDate = ngaycap;
                                                                     }
                                                                     %>
-                                                                    <%= formattedDate %>
-                                                                <% } else { %>
-                                                                    N/A
-                                                                <% } %>
-                                                            </td>
-                                                            <td>
-                                                                <% if (chungchiinfo[i].ngayhethan) { %>
-                                                                    <% 
+                                                        <%= formattedDate %>
+                                                        <% } else { %>
+                                                        N/A
+                                                        <% } %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (chungchiinfo[i].ngayhethan) { %>
+                                                        <% 
                                                                     // Safely format the date regardless of type
                                                                     let ngayhethan = chungchiinfo[i].ngayhethan;
                                                                     let formattedDate;
@@ -477,48 +493,47 @@
                                                                         formattedDate = ngayhethan;
                                                                     }
                                                                     %>
-                                                                    <%= formattedDate %>
-                                                                <% } else { %>
-                                                                    N/A
-                                                                <% } %>
-                                                            </td>
-                                                            <td><%= chungchiinfo[i].noicap %></td>
-                                                            <td><%= chungchiinfo[i].xeploai %></td>
-                                                            <td>
-                                                                <% if (chungchiinfo[i].file) { %>
-                                                                    <a href="<%= chungchiinfo[i].file %>" target="_blank" class="btn btn-sm btn-info">
-                                                                        <i class="fas fa-file-download"></i> Xem
-                                                                    </a>
-                                                                <% } else { %>
-                                                                    Không có file
-                                                                <% } %>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <button 
-                                                                    class="btn btn-sm btn-warning editCrewCertBtn"
-                                                                    data-id="<%= chungchiinfo[i].id %>"
-                                                                    data-cert-id="<%= chungchiinfo[i].id_chungchi %>"
-                                                                    data-cert-number="<%= chungchiinfo[i].sohieuchungchi %>"
-                                                                    data-issued="<%= chungchiinfo[i].ngaycap ? (typeof chungchiinfo[i].ngaycap === 'string' ? chungchiinfo[i].ngaycap.split('T')[0] : (chungchiinfo[i].ngaycap instanceof Date ? chungchiinfo[i].ngaycap.toISOString().split('T')[0] : chungchiinfo[i].ngaycap)) : '' %>"
-                                                                    data-expired="<%= chungchiinfo[i].ngayhethan ? (typeof chungchiinfo[i].ngayhethan === 'string' ? chungchiinfo[i].ngayhethan.split('T')[0] : (chungchiinfo[i].ngayhethan instanceof Date ? chungchiinfo[i].ngayhethan.toISOString().split('T')[0] : chungchiinfo[i].ngayhethan)) : '' %>"
-                                                                    data-issuer="<%= chungchiinfo[i].noicap %>"
-                                                                    data-rank="<%= chungchiinfo[i].xeploai %>"
-                                                                    data-file="<%= chungchiinfo[i].file %>"
-                                                                    data-toggle="modal"
-                                                                    data-target="#editCrewCertModal">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                                <a href="/xoa-chung-chi/<%= chungchiinfo[i].id %>/<%= thuyenvieninfo.id_thuyenvien %>" 
-                                                                   class="btn btn-sm btn-danger" 
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                        <%= formattedDate %>
+                                                        <% } else { %>
+                                                        N/A
+                                                        <% } %>
+                                                    </td>
+                                                    <td><%= chungchiinfo[i].noicap %></td>
+                                                    <td><%= chungchiinfo[i].xeploai %></td>
+                                                    <td>
+                                                        <% if (chungchiinfo[i].file) { %>
+                                                        <a href="<%= chungchiinfo[i].file %>" target="_blank"
+                                                            class="btn btn-sm btn-info">
+                                                            <i class="fas fa-file-download"></i> Xem
+                                                        </a>
+                                                        <% } else { %>
+                                                        Không có file
+                                                        <% } %>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-sm btn-warning editCrewCertBtn"
+                                                            data-id="<%= chungchiinfo[i].id %>"
+                                                            data-cert-id="<%= chungchiinfo[i].id_chungchi %>"
+                                                            data-cert-number="<%= chungchiinfo[i].sohieuchungchi %>"
+                                                            data-issued="<%= chungchiinfo[i].ngaycap ? (typeof chungchiinfo[i].ngaycap === 'string' ? chungchiinfo[i].ngaycap.split('T')[0] : (chungchiinfo[i].ngaycap instanceof Date ? chungchiinfo[i].ngaycap.toISOString().split('T')[0] : chungchiinfo[i].ngaycap)) : '' %>"
+                                                            data-expired="<%= chungchiinfo[i].ngayhethan ? (typeof chungchiinfo[i].ngayhethan === 'string' ? chungchiinfo[i].ngayhethan.split('T')[0] : (chungchiinfo[i].ngayhethan instanceof Date ? chungchiinfo[i].ngayhethan.toISOString().split('T')[0] : chungchiinfo[i].ngayhethan)) : '' %>"
+                                                            data-issuer="<%= chungchiinfo[i].noicap %>"
+                                                            data-rank="<%= chungchiinfo[i].xeploai %>"
+                                                            data-file="<%= chungchiinfo[i].file %>" data-toggle="modal"
+                                                            data-target="#editCrewCertModal">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <a href="/xoa-chung-chi/<%= chungchiinfo[i].id %>/<%= thuyenvieninfo.id_thuyenvien %>"
+                                                            class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa chứng chỉ này?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <% } %>
                                 </div>
                             </div>
@@ -572,22 +587,23 @@
                                                     %>
                                                     <%= vitri %>
                                                 </td>
-                                                <td><%= lichsuditauinfo[i].timexuatcanh.toISOString().split('T')[0] %></td>
+                                                <td><%= lichsuditauinfo[i].timexuatcanh.toISOString().split('T')[0] %>
+                                                </td>
                                                 <td><%= lichsuditauinfo[i].timelentau.toISOString() %></td>
                                                 <td><%= lichsuditauinfo[i].ngayroitau %></td>
                                                 <td><%= lichsuditauinfo[i].cangroitau %></td>
                                                 <td><%= lichsuditauinfo[i].quoctich_thuyen %></td>
                                                 <td class="text-center">
-                                                    <button 
-                                                        class="btn btn-sm btn-warning editShipHistoryBtn"
+                                                    <button class="btn btn-sm btn-warning editShipHistoryBtn"
                                                         data-history-id="<%= lichsuditauinfo[i].id_lichsuditau %>"
                                                         data-ship-id="<%= lichsuditauinfo[i].tau_id %>"
                                                         data-position-id="<%= lichsuditauinfo[i].chucvu_id %>"
                                                         data-thuyenvien-id="<%= lichsuditauinfo[i].thuyenvien_id %>"
-                                                        data-toggle="modal"
-                                                        data-target="#editShipHistoryModal"><i class="fas fa-edit"></i></button>
+                                                        data-toggle="modal" data-target="#editShipHistoryModal"><i
+                                                            class="fas fa-edit"></i></button>
                                                     <button class="btn btn-sm btn-danger delete-btn"
-                                                        data-history-id="<%= lichsuditauinfo[i].id_lichsuditau %>"><i class="fas fa-trash"></i></button>
+                                                        data-history-id="<%= lichsuditauinfo[i].id_lichsuditau %>"><i
+                                                            class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -598,12 +614,14 @@
                         </div>
 
                         <!-- Attachments Tab -->
-                        <div class="tab-pane fade" id="crew-attachments" role="tabpanel" aria-labelledby="attachments-tab">
+                        <div class="tab-pane fade" id="crew-attachments" role="tabpanel"
+                            aria-labelledby="attachments-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <h5 class="text-primary">Tài liệu đính kèm</h5>
-                                    
-                                    <form action="/upload-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>" method="POST" enctype="multipart/form-data">
+
+                                    <form action="/upload-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>" method="POST"
+                                        enctype="multipart/form-data">
                                         <div class="row mt-4">
                                             <!-- CCCD Mặt trước -->
                                             <div class="col-md-6 mb-4">
@@ -613,31 +631,35 @@
                                                     </div>
                                                     <div class="card-body text-center">
                                                         <% if (tailieuinfo && tailieuinfo.cccd_mattruoc) { %>
-                                                            <img src="<%= tailieuinfo.cccd_mattruoc %>" alt="CCCD Mặt Trước" class="img-fluid mb-3" style="max-height: 200px;">
-                                                            <div class="d-flex justify-content-center">
-                                                                <a href="<%= tailieuinfo.cccd_mattruoc %>" target="_blank" class="btn btn-sm btn-info mr-2">
-                                                                    <i class="fas fa-eye"></i> Xem
-                                                                </a>
-                                                                <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/cccd_mattruoc" 
-                                                                   class="btn btn-sm btn-danger"
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
-                                                                    <i class="fas fa-trash"></i> Xóa
-                                                                </a>
-                                                            </div>
+                                                        <img src="<%= tailieuinfo.cccd_mattruoc %>" alt="CCCD Mặt Trước"
+                                                            class="img-fluid mb-3" style="max-height: 200px;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <a href="<%= tailieuinfo.cccd_mattruoc %>" target="_blank"
+                                                                class="btn btn-sm btn-info mr-2">
+                                                                <i class="fas fa-eye"></i> Xem
+                                                            </a>
+                                                            <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/cccd_mattruoc"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
+                                                                <i class="fas fa-trash"></i> Xóa
+                                                            </a>
+                                                        </div>
                                                         <% } else { %>
-                                                            <div class="text-center py-4">
-                                                                <i class="fas fa-id-card fa-4x text-muted mb-3"></i>
-                                                                <p class="text-muted">Chưa có tài liệu</p>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="cccd_mattruoc">Tải lên CCCD Mặt Trước:</label>
-                                                                <input type="file" class="form-control-file" id="cccd_mattruoc" name="cccd_mattruoc" accept=".jpg,.jpeg,.png,.pdf">
-                                                            </div>
+                                                        <div class="text-center py-4">
+                                                            <i class="fas fa-id-card fa-4x text-muted mb-3"></i>
+                                                            <p class="text-muted">Chưa có tài liệu</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="cccd_mattruoc">Tải lên CCCD Mặt Trước:</label>
+                                                            <input type="file" class="form-control-file"
+                                                                id="cccd_mattruoc" name="cccd_mattruoc"
+                                                                accept=".jpg,.jpeg,.png,.pdf">
+                                                        </div>
                                                         <% } %>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- CCCD Mặt sau -->
                                             <div class="col-md-6 mb-4">
                                                 <div class="card">
@@ -646,31 +668,35 @@
                                                     </div>
                                                     <div class="card-body text-center">
                                                         <% if (tailieuinfo && tailieuinfo.cccd_matsau) { %>
-                                                            <img src="<%= tailieuinfo.cccd_matsau %>" alt="CCCD Mặt Sau" class="img-fluid mb-3" style="max-height: 200px;">
-                                                            <div class="d-flex justify-content-center">
-                                                                <a href="<%= tailieuinfo.cccd_matsau %>" target="_blank" class="btn btn-sm btn-info mr-2">
-                                                                    <i class="fas fa-eye"></i> Xem
-                                                                </a>
-                                                                <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/cccd_matsau" 
-                                                                   class="btn btn-sm btn-danger"
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
-                                                                    <i class="fas fa-trash"></i> Xóa
-                                                                </a>
-                                                            </div>
+                                                        <img src="<%= tailieuinfo.cccd_matsau %>" alt="CCCD Mặt Sau"
+                                                            class="img-fluid mb-3" style="max-height: 200px;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <a href="<%= tailieuinfo.cccd_matsau %>" target="_blank"
+                                                                class="btn btn-sm btn-info mr-2">
+                                                                <i class="fas fa-eye"></i> Xem
+                                                            </a>
+                                                            <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/cccd_matsau"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
+                                                                <i class="fas fa-trash"></i> Xóa
+                                                            </a>
+                                                        </div>
                                                         <% } else { %>
-                                                            <div class="text-center py-4">
-                                                                <i class="fas fa-id-card fa-4x text-muted mb-3"></i>
-                                                                <p class="text-muted">Chưa có tài liệu</p>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="cccd_matsau">Tải lên CCCD Mặt Sau:</label>
-                                                                <input type="file" class="form-control-file" id="cccd_matsau" name="cccd_matsau" accept=".jpg,.jpeg,.png,.pdf">
-                                                            </div>
+                                                        <div class="text-center py-4">
+                                                            <i class="fas fa-id-card fa-4x text-muted mb-3"></i>
+                                                            <p class="text-muted">Chưa có tài liệu</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="cccd_matsau">Tải lên CCCD Mặt Sau:</label>
+                                                            <input type="file" class="form-control-file"
+                                                                id="cccd_matsau" name="cccd_matsau"
+                                                                accept=".jpg,.jpeg,.png,.pdf">
+                                                        </div>
                                                         <% } %>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- Phiếu tiêm vắc xin -->
                                             <div class="col-md-6 mb-4">
                                                 <div class="card">
@@ -679,31 +705,37 @@
                                                     </div>
                                                     <div class="card-body text-center">
                                                         <% if (tailieuinfo && tailieuinfo.phieutiemvacxin) { %>
-                                                            <img src="<%= tailieuinfo.phieutiemvacxin %>" alt="Phiếu Tiêm Vắc Xin" class="img-fluid mb-3" style="max-height: 200px;">
-                                                            <div class="d-flex justify-content-center">
-                                                                <a href="<%= tailieuinfo.phieutiemvacxin %>" target="_blank" class="btn btn-sm btn-info mr-2">
-                                                                    <i class="fas fa-eye"></i> Xem
-                                                                </a>
-                                                                <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/phieutiemvacxin" 
-                                                                   class="btn btn-sm btn-danger"
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
-                                                                    <i class="fas fa-trash"></i> Xóa
-                                                                </a>
-                                                            </div>
+                                                        <img src="<%= tailieuinfo.phieutiemvacxin %>"
+                                                            alt="Phiếu Tiêm Vắc Xin" class="img-fluid mb-3"
+                                                            style="max-height: 200px;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <a href="<%= tailieuinfo.phieutiemvacxin %>" target="_blank"
+                                                                class="btn btn-sm btn-info mr-2">
+                                                                <i class="fas fa-eye"></i> Xem
+                                                            </a>
+                                                            <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/phieutiemvacxin"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
+                                                                <i class="fas fa-trash"></i> Xóa
+                                                            </a>
+                                                        </div>
                                                         <% } else { %>
-                                                            <div class="text-center py-4">
-                                                                <i class="fas fa-syringe fa-4x text-muted mb-3"></i>
-                                                                <p class="text-muted">Chưa có tài liệu</p>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="phieutiemvacxin">Tải lên Phiếu Tiêm Vắc Xin:</label>
-                                                                <input type="file" class="form-control-file" id="phieutiemvacxin" name="phieutiemvacxin" accept=".jpg,.jpeg,.png,.pdf">
-                                                            </div>
+                                                        <div class="text-center py-4">
+                                                            <i class="fas fa-syringe fa-4x text-muted mb-3"></i>
+                                                            <p class="text-muted">Chưa có tài liệu</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="phieutiemvacxin">Tải lên Phiếu Tiêm Vắc
+                                                                Xin:</label>
+                                                            <input type="file" class="form-control-file"
+                                                                id="phieutiemvacxin" name="phieutiemvacxin"
+                                                                accept=".jpg,.jpeg,.png,.pdf">
+                                                        </div>
                                                         <% } %>
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <!-- Chứng nhận vàng da -->
                                             <div class="col-md-6 mb-4">
                                                 <div class="card">
@@ -712,32 +744,38 @@
                                                     </div>
                                                     <div class="card-body text-center">
                                                         <% if (tailieuinfo && tailieuinfo.chungnhanvangda) { %>
-                                                            <img src="<%= tailieuinfo.chungnhanvangda %>" alt="Chứng Nhận Vàng Da" class="img-fluid mb-3" style="max-height: 200px;">
-                                                            <div class="d-flex justify-content-center">
-                                                                <a href="<%= tailieuinfo.chungnhanvangda %>" target="_blank" class="btn btn-sm btn-info mr-2">
-                                                                    <i class="fas fa-eye"></i> Xem
-                                                                </a>
-                                                                <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/chungnhanvangda" 
-                                                                   class="btn btn-sm btn-danger"
-                                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
-                                                                    <i class="fas fa-trash"></i> Xóa
-                                                                </a>
-                                                            </div>
+                                                        <img src="<%= tailieuinfo.chungnhanvangda %>"
+                                                            alt="Chứng Nhận Vàng Da" class="img-fluid mb-3"
+                                                            style="max-height: 200px;">
+                                                        <div class="d-flex justify-content-center">
+                                                            <a href="<%= tailieuinfo.chungnhanvangda %>" target="_blank"
+                                                                class="btn btn-sm btn-info mr-2">
+                                                                <i class="fas fa-eye"></i> Xem
+                                                            </a>
+                                                            <a href="/xoa-tai-lieu/<%= thuyenvieninfo.id_thuyenvien %>/chungnhanvangda"
+                                                                class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
+                                                                <i class="fas fa-trash"></i> Xóa
+                                                            </a>
+                                                        </div>
                                                         <% } else { %>
-                                                            <div class="text-center py-4">
-                                                                <i class="fas fa-file-medical fa-4x text-muted mb-3"></i>
-                                                                <p class="text-muted">Chưa có tài liệu</p>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="chungnhanvangda">Tải lên Chứng Nhận Vàng Da:</label>
-                                                                <input type="file" class="form-control-file" id="chungnhanvangda" name="chungnhanvangda" accept=".jpg,.jpeg,.png,.pdf">
-                                                            </div>
+                                                        <div class="text-center py-4">
+                                                            <i class="fas fa-file-medical fa-4x text-muted mb-3"></i>
+                                                            <p class="text-muted">Chưa có tài liệu</p>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="chungnhanvangda">Tải lên Chứng Nhận Vàng
+                                                                Da:</label>
+                                                            <input type="file" class="form-control-file"
+                                                                id="chungnhanvangda" name="chungnhanvangda"
+                                                                accept=".jpg,.jpeg,.png,.pdf">
+                                                        </div>
                                                         <% } %>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="text-center mt-3">
                                             <button type="submit" class="btn btn-primary">
                                                 <i class="fas fa-upload"></i> Tải lên tài liệu
@@ -830,11 +868,13 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="ghichu">Nguyện vọng đi tàu:</label>
-                                            <textarea class="form-control" id="ghichu" name="ghichu" rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
+                                            <textarea class="form-control" id="ghichu" name="ghichu"
+                                                rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày lên tàu dự kiến:</label>
-                                            <input type="date" class="form-control" id="inputDob" name="thoigian_lenTauDuKien"
+                                            <input type="date" class="form-control" id="inputDob"
+                                                name="thoigian_lenTauDuKien"
                                                 value="<%= thuyenvieninfo.thoigian_lenTauDuKien %>">
                                         </div>
                                     </form>
@@ -849,21 +889,25 @@
                     </div>
 
                     <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - WAITING STATUS -->
-                    <div class="modal fade" id="waitingStatusModal" tabindex="-1" role="dialog" aria-labelledby="waitingStatusModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="waitingStatusModal" tabindex="-1" role="dialog"
+                        aria-labelledby="waitingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="waitingStatusModalLabel">Cập nhật trạng thái - Đang chờ tàu</h5>
+                                    <h5 class="modal-title" id="waitingStatusModalLabel">Cập nhật trạng thái - Đang chờ
+                                        tàu</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="waitingStatusForm" action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
+                                    <form id="waitingStatusForm"
+                                        action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang chờ tàu">
                                         <div class="form-group">
                                             <label>Thời gian lên tàu dự kiến:</label>
-                                            <input type="datetime-local" class="form-control" name="thoigian_lenTauDuKien">
+                                            <input type="datetime-local" class="form-control"
+                                                name="thoigian_lenTauDuKien">
                                         </div>
                                         <div class="form-group">
                                             <label>Cảng xuất cảnh:</label>
@@ -881,26 +925,30 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="waitingStatusForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="waitingStatusForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - Đang trên tàu -->
-                    <div class="modal fade" id="boardingStatusModal" tabindex="-1" role="dialog" aria-labelledby="boardingStatusModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="boardingStatusModal" tabindex="-1" role="dialog"
+                        aria-labelledby="boardingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="boardingStatusModalLabel">Cập nhật trạng thái - Đang trên tàu</h5>
+                                    <h5 class="modal-title" id="boardingStatusModalLabel">Cập nhật trạng thái - Đang
+                                        trên tàu</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="boardingStatusForm" action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
+                                    <form id="boardingStatusForm"
+                                        action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang trên tàu">
-                                        
+
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
@@ -917,7 +965,8 @@
                                                     <label>Vị trí:</label>
                                                     <select class="form-control" name="chucvu_id" required>
                                                         <% chucvuinfo.forEach(function(chucvu) { %>
-                                                        <option value="<%= chucvu.id_chucvu %>"><%= chucvu.tenchucvu %></option>
+                                                        <option value="<%= chucvu.id_chucvu %>"><%= chucvu.tenchucvu %>
+                                                        </option>
                                                         <% }); %>
                                                     </select>
                                                 </div>
@@ -927,13 +976,15 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Ngày xuất cảnh:</label>
-                                                    <input type="date" class="form-control" name="timexuatcanh" required>
+                                                    <input type="date" class="form-control" name="timexuatcanh"
+                                                        required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Ngày giờ lên tàu:</label>
-                                                    <input type="datetime-local" class="form-control" name="timelentau" required>
+                                                    <input type="datetime-local" class="form-control" name="timelentau"
+                                                        required>
                                                 </div>
                                             </div>
                                         </div>
@@ -941,24 +992,28 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="boardingStatusForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="boardingStatusForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - DISEMBARKING -->
-                    <div class="modal fade" id="disembarkingStatusModal" tabindex="-1" role="dialog" aria-labelledby="disembarkingStatusModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="disembarkingStatusModal" tabindex="-1" role="dialog"
+                        aria-labelledby="disembarkingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="disembarkingStatusModalLabel">Cập nhật trạng thái - Đang trên bờ</h5>
+                                    <h5 class="modal-title" id="disembarkingStatusModalLabel">Cập nhật trạng thái - Đang
+                                        trên bờ</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="disembarkingStatusForm" action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
+                                    <form id="disembarkingStatusForm"
+                                        action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang trên bờ">
                                         <div class="form-group">
                                             <label>Cảng xuất cảnh:</label>
@@ -976,7 +1031,8 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="disembarkingStatusForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="disembarkingStatusForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
@@ -1068,7 +1124,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <form id="addShipHistoryForm" action="/them-lich-su-di-tau" method="POST">
-                                        <input type="hidden" name="thuyenvien_id" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <input type="hidden" name="thuyenvien_id"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Tên tàu:</label>
                                             <select class="form-control" id="newShipName" name="tau_id" required>
@@ -1087,15 +1144,18 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày xuất cảnh:</label>
-                                            <input type="date" class="form-control" id="newOnboardDate" name="timexuatcanh" required>
+                                            <input type="date" class="form-control" id="newOnboardDate"
+                                                name="timexuatcanh" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày giờ lên tàu:</label>
-                                            <input type="datetime-local" class="form-control" id="newOnboardTime" name="timelentau" required>
+                                            <input type="datetime-local" class="form-control" id="newOnboardTime"
+                                                name="timelentau" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày rời tàu:</label>
-                                            <input type="date" class="form-control" id="newOffboardDate" name="ngayroitau">
+                                            <input type="date" class="form-control" id="newOffboardDate"
+                                                name="ngayroitau">
                                         </div>
                                         <div class="form-group">
                                             <label>Cảng xuống tàu:</label>
@@ -1103,13 +1163,15 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Quốc tịch thuyền:</label>
-                                            <input type="text" class="form-control" id="newNationality" name="quoctich_thuyen">
+                                            <input type="text" class="form-control" id="newNationality"
+                                                name="quoctich_thuyen">
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-success" form="addShipHistoryForm">Thêm lịch sử</button>
+                                    <button type="submit" class="btn btn-success" form="addShipHistoryForm">Thêm lịch
+                                        sử</button>
                                 </div>
                             </div>
                         </div>
@@ -1148,36 +1210,43 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày xuất cảnh:</label>
-                                            <input type="date" class="form-control" id="editOnboardDate" name="timexuatcanh" required>
+                                            <input type="date" class="form-control" id="editOnboardDate"
+                                                name="timexuatcanh" required value="">
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày giờ lên tàu:</label>
-                                            <input type="datetime-local" class="form-control" id="editOnboardTime" name="timelentau" required>
+                                            <input type="datetime-local" class="form-control" id="editOnboardTime"
+                                                name="timelentau" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày rời tàu:</label>
-                                            <input type="date" class="form-control" id="editOffboardDate" name="ngayroitau" required>
+                                            <input type="date" class="form-control" id="editOffboardDate"
+                                                name="ngayroitau" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Cảng xuống tàu:</label>
-                                            <input type="text" class="form-control" id="editPort" name="cangroitau" required>
+                                            <input type="text" class="form-control" id="editPort" name="cangroitau"
+                                                required>
                                         </div>
                                         <div class="form-group">
                                             <label>Quốc tịch thuyền:</label>
-                                            <input type="text" class="form-control" id="editNationality" name="quoctich_thuyen" required>
+                                            <input type="text" class="form-control" id="editNationality"
+                                                name="quoctich_thuyen" required>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" id="saveEditShipHistory" form="editShipHistoryForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" id="saveEditShipHistory"
+                                        form="editShipHistoryForm">Lưu thay đổi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL THÊM HỌC VẤN -->
-                    <div class="modal fade" id="addEducationModal" tabindex="-1" role="dialog" aria-labelledby="addEducationModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addEducationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="addEducationModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1188,7 +1257,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <form id="addEducationForm" action="/them-hoc-van" method="POST">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Trường đào tạo:</label>
                                             <input type="text" class="form-control" name="truongdaotao" required>
@@ -1208,14 +1278,16 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-success" form="addEducationForm">Thêm học vấn</button>
+                                    <button type="submit" class="btn btn-success" form="addEducationForm">Thêm học
+                                        vấn</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL CHỈNH SỬA HỌC VẤN -->
-                    <div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog" aria-labelledby="editEducationModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editEducationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editEducationModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1226,35 +1298,42 @@
                                 </div>
                                 <div class="modal-body">
                                     <form id="editEducationForm" action="/cap-nhat-hoc-van" method="POST">
-                                        <input type="hidden" id="editEducationId" name="id" value="">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <input type="hidden" id="editEducationId" name="id"
+                                            value="">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Trường đào tạo:</label>
-                                            <input type="text" class="form-control" id="editSchool" name="truongdaotao" required>
+                                            <input type="text" class="form-control" id="editSchool" name="truongdaotao"
+                                                required value="">
                                         </div>
                                         <div class="form-group">
                                             <label>Hệ đào tạo:</label>
-                                            <select class="form-control" id="editProgram" name="hedaotao" required>
+                                            <select class="form-control" id="editProgram" name="hedaotao" required
+                                                value="">
                                                 <option value="Cao đẳng">Cao đẳng</option>
                                                 <option value="Đại học">Đại học</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Năm tốt nghiệp:</label>
-                                            <input type="number" class="form-control" id="editYear" name="namtotnghiep" required>
+                                            <input type="number" class="form-control" id="editYear" name="namtotnghiep"
+                                                required value="<%= hocvaninfo.namtotnghiep %>">
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="editEducationForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="editEducationForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL THÊM CHỨNG CHỈ NGOẠI NGỮ -->
-                    <div class="modal fade" id="addLanguageModal" tabindex="-1" role="dialog" aria-labelledby="addLanguageModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addLanguageModal" tabindex="-1" role="dialog"
+                        aria-labelledby="addLanguageModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1264,8 +1343,10 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addLanguageForm" action="/them-ngoai-ngu" method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                    <form id="addLanguageForm" action="/them-ngoai-ngu" method="POST"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Ngôn ngữ:</label>
                                             <select class="form-control" name="ngonngu" required>
@@ -1294,21 +1375,25 @@
                                         </div>
                                         <div class="form-group">
                                             <label>File chứng chỉ:</label>
-                                            <input type="file" class="form-control-file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png">
-                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                            <input type="file" class="form-control-file" name="certificate_file"
+                                                accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG,
+                                                PNG</small>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-success" form="addLanguageForm">Thêm chứng chỉ</button>
+                                    <button type="submit" class="btn btn-success" form="addLanguageForm">Thêm chứng
+                                        chỉ</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL CHỈNH SỬA CHỨNG CHỈ NGOẠI NGỮ -->
-                    <div class="modal fade" id="editLanguageModal" tabindex="-1" role="dialog" aria-labelledby="editLanguageModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editLanguageModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editLanguageModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1318,12 +1403,15 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="editLanguageForm" action="/cap-nhat-ngoai-ngu" method="POST" enctype="multipart/form-data">
+                                    <form id="editLanguageForm" action="/cap-nhat-ngoai-ngu" method="POST"
+                                        enctype="multipart/form-data">
                                         <input type="hidden" id="editLanguageId" name="id" value="">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Ngôn ngữ:</label>
-                                            <select class="form-control" id="editLanguage" name="ngonngu" required>
+                                            <select class="form-control" id="editLanguage" name="ngonngu" required
+                                                value="">
                                                 <option value="Tiếng Anh">Tiếng Anh</option>
                                                 <option value="Tiếng Nhật">Tiếng Nhật</option>
                                                 <option value="Tiếng Hàn">Tiếng Hàn</option>
@@ -1333,41 +1421,53 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Tên chứng chỉ:</label>
-                                            <input type="text" class="form-control" id="editCertificate" name="tenchungchi" required>
+                                            <input type="text" class="form-control" id="editCertificate"
+                                                name="tenchungchi" required value="">
                                         </div>
                                         <div class="form-group">
                                             <label>Điểm số:</label>
-                                            <input type="number" step="0.1" class="form-control" id="editScore" name="diemso" required>
+                                            <input type="number" step="0.1" class="form-control" id="editScore"
+                                                name="diemso" required value="">
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày cấp:</label>
-                                            <input type="date" class="form-control" id="editIssued" name="ngaycap" required>
+                                            <input type="date" class="form-control" id="editIssued" name="ngaycap"
+                                                required value="">
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày hết hạn:</label>
-                                            <input type="date" class="form-control" id="editExpired" name="ngayhethan">
+                                            <input type="date" class="form-control" id="editExpired" name="ngayhethan"
+                                                value="">
                                         </div>
                                         <div class="form-group">
                                             <label>File hiện tại:</label>
                                             <div id="currentFileInfo" class="mb-2">
-                                                <span id="currentFileName">Không có file</span>
+                                                <span id="currentFileName">
+
+                                                    Không có file
+
+                                                </span>
                                             </div>
                                             <label>Tải lên file mới (nếu cần):</label>
-                                            <input type="file" class="form-control-file" name="certificate_file" accept=".pdf,.jpg,.jpeg,.png">
-                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                            <input type="file" class="form-control-file" name="certificate_file"
+                                                accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG,
+                                                PNG</small>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="editLanguageForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="editLanguageForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL THÊM CHỨNG CHỈ THUYỀN VIÊN -->
-                    <div class="modal fade" id="addCrewCertModal" tabindex="-1" role="dialog" aria-labelledby="addCrewCertModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addCrewCertModal" tabindex="-1" role="dialog"
+                        aria-labelledby="addCrewCertModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1377,11 +1477,14 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="addCrewCertForm" action="/them-chung-chi" method="POST" enctype="multipart/form-data">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                    <form id="addCrewCertForm" action="/them-chung-chi" method="POST"
+                                        enctype="multipart/form-data">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Tên chứng chỉ:</label>
-                                            <select id="addCertificateName" class="form-control" name="id_chungchi" required>
+                                            <select id="addCertificateName" class="form-control" name="id_chungchi"
+                                                required>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -1406,21 +1509,25 @@
                                         </div>
                                         <div class="form-group">
                                             <label>File chứng chỉ:</label>
-                                            <input type="file" class="form-control-file" name="crew_certificate_file" accept=".pdf,.jpg,.jpeg,.png">
-                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                            <input type="file" class="form-control-file" name="crew_certificate_file"
+                                                accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG,
+                                                PNG</small>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-success" form="addCrewCertForm">Thêm chứng chỉ</button>
+                                    <button type="submit" class="btn btn-success" form="addCrewCertForm">Thêm chứng
+                                        chỉ</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- MODAL CHỈNH SỬA CHỨNG CHỈ THUYỀN VIÊN -->
-                    <div class="modal fade" id="editCrewCertModal" tabindex="-1" role="dialog" aria-labelledby="editCrewCertModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="editCrewCertModal" tabindex="-1" role="dialog"
+                        aria-labelledby="editCrewCertModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -1430,33 +1537,41 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="editCrewCertForm" action="/cap-nhat-chung-chi" method="POST" enctype="multipart/form-data">
+                                    <form id="editCrewCertForm" action="/cap-nhat-chung-chi" method="POST"
+                                        enctype="multipart/form-data">
                                         <input type="hidden" id="editCrewCertId" name="id" value="">
-                                        <input type="hidden" name="id_thuyenvien" value="<%= thuyenvieninfo.id_thuyenvien %>">
+                                        <input type="hidden" name="id_thuyenvien"
+                                            value="<%= thuyenvieninfo.id_thuyenvien %>">
                                         <div class="form-group">
                                             <label>Tên chứng chỉ:</label>
-                                            <select class="form-control" id="editCrewCertName" name="id_chungchi" required>
+                                            <select class="form-control" id="editCrewCertName" name="id_chungchi"
+                                                required>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Số hiệu chứng chỉ:</label>
-                                            <input type="text" class="form-control" id="editCrewCertNumber" name="sohieuchungchi" required>
+                                            <input type="text" class="form-control" id="editCrewCertNumber"
+                                                name="sohieuchungchi" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày cấp:</label>
-                                            <input type="date" class="form-control" id="editCrewCertIssued" name="ngaycap" required>
+                                            <input type="date" class="form-control" id="editCrewCertIssued"
+                                                name="ngaycap" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày hết hạn:</label>
-                                            <input type="date" class="form-control" id="editCrewCertExpired" name="ngayhethan">
+                                            <input type="date" class="form-control" id="editCrewCertExpired"
+                                                name="ngayhethan">
                                         </div>
                                         <div class="form-group">
                                             <label>Nơi cấp:</label>
-                                            <input type="text" class="form-control" id="editCrewCertIssuer" name="noicap" required>
+                                            <input type="text" class="form-control" id="editCrewCertIssuer"
+                                                name="noicap" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Xếp loại:</label>
-                                            <input type="text" class="form-control" id="editCrewCertRank" name="xeploai">
+                                            <input type="text" class="form-control" id="editCrewCertRank"
+                                                name="xeploai">
                                         </div>
                                         <div class="form-group">
                                             <label>File hiện tại:</label>
@@ -1464,14 +1579,17 @@
                                                 <span id="currentCrewCertFileName">Không có file</span>
                                             </div>
                                             <label>Tải lên file mới (nếu cần):</label>
-                                            <input type="file" class="form-control-file" name="crew_certificate_file" accept=".pdf,.jpg,.jpeg,.png">
-                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG, PNG</small>
+                                            <input type="file" class="form-control-file" name="crew_certificate_file"
+                                                accept=".pdf,.jpg,.jpeg,.png">
+                                            <small class="form-text text-muted">Chấp nhận file PDF, JPG, JPEG,
+                                                PNG</small>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    <button type="submit" class="btn btn-primary" form="editCrewCertForm">Lưu thay đổi</button>
+                                    <button type="submit" class="btn btn-primary" form="editCrewCertForm">Lưu thay
+                                        đổi</button>
                                 </div>
                             </div>
                         </div>
@@ -1479,36 +1597,8 @@
 
                     <!-- JavaScript to handle crew certificate modals -->
                     <script>
-                    $(document).ready(function() {
-                        // Crew certificate edit button functionality
-                        $('.editCrewCertBtn').on('click', function() {
-                            // Get data from button attributes
-                            const id = $(this).data('id');
-                            const certId = $(this).data('cert-id'); // Changed from cert-name to cert-id
-                            const certNumber = $(this).data('cert-number');
-                            const issued = $(this).data('issued');
-                            const expired = $(this).data('expired');
-                            const issuer = $(this).data('issuer');
-                            const rank = $(this).data('rank');
-                            const file = $(this).data('file');
-                            
-                            // Populate form fields with current data
-                            $('#editCrewCertId').val(id);
-                            $('#editCrewCertName').val(certId); // This now selects the dropdown option with the correct ID
-                            $('#editCrewCertNumber').val(certNumber);
-                            $('#editCrewCertIssued').val(issued);
-                            $('#editCrewCertExpired').val(expired);
-                            $('#editCrewCertIssuer').val(issuer);
-                            $('#editCrewCertRank').val(rank);
-                            
-                            // Update file info section
-                            if (file && file !== '') {
-                                $('#currentCrewCertFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
-                            } else {
-                                $('#currentCrewCertFileName').text('No file attached');
-                            }
-                        });
-                    });
+
+
                     </script>
                 </div>
 
@@ -1540,64 +1630,143 @@
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/js/demo/datatables-demo.js"></script>
 
-        <!-- Make sure this script is at the very end -->
+    <!-- Make sure this script is at the very end -->
     <script>
-        // Ensure document is ready before executing
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM fully loaded");
-            
-            // Set up main status button default action based on current status
-            const statusButton = document.getElementById('statusButton');
-            if (statusButton) {
-                statusButton.addEventListener('click', function() {
-                    const currentStatus = '<%= thuyenvieninfo.trangthai %>';
+        // Tab functionality
+            $(document).ready(function () {
+                // Load certificates via AJAX and then select the correct one
+                $.ajax({
+                    url: '/api/chung-chi',
+                    type: 'GET',
+                    success: function(certificates) {
+                        // Clear and populate the dropdown
+                        var select = $('#editCrewCertName');
+                        select.empty();
+                        
+                        certificates.forEach(function(cert) {
+                            select.append('<option value="' + cert.id_chungchi + '">' + cert.tenchungchi + '</option>');
+                        });
+
+                        var select = $('#addCertificateName');
+                        select.empty();
+                        
+                        certificates.forEach(function(cert) {
+                            select.append('<option value="' + cert.id_chungchi + '">' + cert.tenchungchi + '</option>');
+                        });
+                        
+                        // // Set the correct certificate
+                        // select.val(chungchiId);
+                    },
+                    error: function() {
+                        console.error('Failed to load certificates');
+                    }
+                });
+
+                // Enable Bootstrap tabs
+                $('#crewTabs a').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+
+                // Education Edit Button Click
+                $('.editEducationBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const school = $(this).data('school');
+                    const program = $(this).data('program');
+                    const year = $(this).data('year');
                     
-                    // Open the appropriate modal based on current status
-                    if (currentStatus === 'Đang trên tàu') {
-                        $('#disembarkingStatusModal').modal('show');
-                    } else if (currentStatus === 'Đang chờ tàu') {
-                        $('#boardingStatusModal').modal('show');
-                    } else {
-                        $('#waitingStatusModal').modal('show');
-                    }
+                    // Populate form fields with current data
+                    $('#editEducationId').val(id);
+                    $('#editSchool').val(school);
+                    $('#editProgram').val(program);
+                    $('#editYear').val(year);
                 });
-            }
-            
-            // Handle returning fields visibility in disembarking modal
-            const disembarkingTypeSelect = document.getElementById('disembarkingTypeSelect');
-            const disembarkingReturningFields = document.getElementById('disembarkingReturningFields');
-            
-            if (disembarkingTypeSelect && disembarkingReturningFields) {
-                // Initial state
-                disembarkingReturningFields.style.display = 
-                    disembarkingTypeSelect.value === 'Sẽ quay lại' ? 'block' : 'none';
                 
-                // Change handler
-                disembarkingTypeSelect.addEventListener('change', function() {
-                    disembarkingReturningFields.style.display = 
-                        this.value === 'Sẽ quay lại' ? 'block' : 'none';
-                });
-            }
-            
-            // Link disembarkation status with return type
-            const disembarkingStatusSelect = document.getElementById('disembarkingStatusSelect');
-            
-            if (disembarkingStatusSelect && disembarkingTypeSelect) {
-                disembarkingStatusSelect.addEventListener('change', function() {
-                    if (this.value === 'Đang chờ tàu') {
-                        disembarkingTypeSelect.value = 'Sẽ quay lại';
-                        if (disembarkingReturningFields) {
-                            disembarkingReturningFields.style.display = 'block';
-                        }
-                    } else if (this.value === 'Đang trên bờ') {
-                        disembarkingTypeSelect.value = 'Nghỉ việc';
-                        if (disembarkingReturningFields) {
-                            disembarkingReturningFields.style.display = 'none';
-                        }
+                // Language Certificate Edit Button Click
+                $('.editLanguageBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const language = $(this).data('language');
+                    const certificate = $(this).data('certificate');
+                    const score = $(this).data('score');
+                    const issued = $(this).data('issued');
+                    const expired = $(this).data('expired');
+                    const file = $(this).data('file');
+                    
+                    // Populate form fields with current data
+                    $('#editLanguageId').val(id);
+                    $('#editLanguage').val(language);
+                    $('#editCertificate').val(certificate);
+                    $('#editScore').val(score);
+                    $('#editIssued').val(issued);
+                    $('#editExpired').val(expired);
+                    
+                    // Update file info section
+                    if (file && file !== '') {
+                        $('#currentFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
+                    } else {
+                        $('#currentFileName').text('No file attached');
                     }
                 });
-                }
-        });
+                
+                // Crew Certificate Edit Button Click
+                $('.editCrewCertBtn').on('click', function() {
+                    // Get data from button attributes
+                    const id = $(this).data('id');
+                    const certId = $(this).data('cert-id'); // Changed from cert-name to cert-id
+                    const certNumber = $(this).data('cert-number');
+                    const issued = $(this).data('issued');
+                    const expired = $(this).data('expired');
+                    const issuer = $(this).data('issuer');
+                    const rank = $(this).data('rank');
+                    const file = $(this).data('file');
+                    
+                    // Populate form fields with current data
+                    $('#editCrewCertId').val(id);
+                    $('#editCrewCertName').val(certId); // This now selects the dropdown option with the correct ID
+                    $('#editCrewCertNumber').val(certNumber);
+                    $('#editCrewCertIssued').val(issued);
+                    $('#editCrewCertExpired').val(expired);
+                    $('#editCrewCertIssuer').val(issuer);
+                    $('#editCrewCertRank').val(rank);
+                    
+                    // Update file info section
+                    if (file && file !== '') {
+                        $('#currentCrewCertFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
+                    } else {
+                        $('#currentCrewCertFileName').text('No file attached');
+                    }
+                });
+                
+                // Ship History Edit Button Click
+                $('.editShipHistoryBtn').on('click', function() {
+                    // Get data from button attributes
+                    const historyId = $(this).data('history-id');
+                    const shipId = $(this).data('ship-id');
+                    const positionId = $(this).data('position-id');
+                    const thuyenvienId = $(this).data('thuyenvien-id');
+                    
+                    // Find the corresponding row to get other data
+                    const row = $(this).closest('tr');
+                    const onboardDate = row.find('td:eq(2)').text(); // Date format: YYYY-MM-DD
+                    const onboardTime = row.find('td:eq(3)').text(); // Time format: HH:MM:SS
+                    const offboardDate = row.find('td:eq(4)').text();
+                    const port = row.find('td:eq(5)').text();
+                    
+                    // Populate form fields with current data
+                    $('#editHistoryId').val(historyId);
+                    $('#editThuyenVienId').val(thuyenvienId);
+                    $('#editShipName').val(shipId);
+                    $('#editPosition').val(positionId);
+                    $('#editOnboardDate').val(onboardDate);
+                    $('#editOnboardTime').val(onboardTime.substring(0, 5)); // Extract HH:MM from HH:MM:SS
+                    $('#editOffboardDate').val(offboardDate);
+                    $('#editPort').val(port);
+                });
+                
+                // Additional event handlers...
+            });
 
 
             document.getElementById("exportContractBtn").addEventListener("click", function(e) {
@@ -1625,42 +1794,97 @@
                     .catch(() => alert("Lỗi khi tải hợp đồng!"));
             });
 
-            document.getElementById("exportInfoBtn").addEventListener("click", function(e) {
-                e.preventDefault();
+        // Ensure document is ready before executing
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("DOM fully loaded");
 
-                // Lấy id thuyenvien từ URL hiện tại
-                const pathParts = window.location.pathname.split('/');
-                const idThuyenvien = pathParts[pathParts.length - 1]; // Lấy phần cuối của path
+            // Set up main status button default action based on current status
+            const statusButton = document.getElementById('statusButton');
+            if (statusButton) {
+                statusButton.addEventListener('click', function () {
+                    const currentStatus = '<%= thuyenvieninfo.trangthai %>';
 
-                fetch(`/thuyenvien/export-excel/${idThuyenvien}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('Network response was not ok');
-                        return response.blob();
-                    })
-                    .then(blob => {
-                        // Tạo URL từ blob
-                        const url = window.URL.createObjectURL(blob);
-                        // Tạo thẻ <a> ẩn để tải file
-                        const a = document.createElement('a');
-                        a.href = url;
+                    // Open the appropriate modal based on current status
+                    if (currentStatus === 'Đang trên tàu') {
+                        $('#disembarkingStatusModal').modal('show');
+                    } else if (currentStatus === 'Đang chờ tàu') {
+                        $('#boardingStatusModal').modal('show');
+                    } else {
+                        $('#waitingStatusModal').modal('show');
+                    }
+                });
+            }
 
-                        // Đặt tên file (bạn có thể sửa tên file tùy ý)
-                        a.download = `thong_tin_thuyenvien_${idThuyenvien}.xlsx`;
+            // Handle returning fields visibility in disembarking modal
+            const disembarkingTypeSelect = document.getElementById('disembarkingTypeSelect');
+            const disembarkingReturningFields = document.getElementById('disembarkingReturningFields');
 
-                        document.body.appendChild(a);
-                        a.click();
-                        a.remove();
+            if (disembarkingTypeSelect && disembarkingReturningFields) {
+                // Initial state
+                disembarkingReturningFields.style.display =
+                    disembarkingTypeSelect.value === 'Sẽ quay lại' ? 'block' : 'none';
 
-                        // Giải phóng URL
-                        window.URL.revokeObjectURL(url);
-                    })
-                    .catch(() => alert("Lỗi khi tải hợp đồng!"));
-            });
+                // Change handler
+                disembarkingTypeSelect.addEventListener('change', function () {
+                    disembarkingReturningFields.style.display =
+                        this.value === 'Sẽ quay lại' ? 'block' : 'none';
+                });
+            }
+
+            // Link disembarkation status with return type
+            const disembarkingStatusSelect = document.getElementById('disembarkingStatusSelect');
+
+            if (disembarkingStatusSelect && disembarkingTypeSelect) {
+                disembarkingStatusSelect.addEventListener('change', function () {
+                    if (this.value === 'Đang chờ tàu') {
+                        disembarkingTypeSelect.value = 'Sẽ quay lại';
+                        if (disembarkingReturningFields) {
+                            disembarkingReturningFields.style.display = 'block';
+                        }
+                    } else if (this.value === 'Đang trên bờ') {
+                        disembarkingTypeSelect.value = 'Nghỉ việc';
+                        if (disembarkingReturningFields) {
+                            disembarkingReturningFields.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        });
+
+        document.getElementById("exportInfoBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Lấy id thuyenvien từ URL hiện tại
+            const pathParts = window.location.pathname.split('/');
+            const idThuyenvien = pathParts[pathParts.length - 1]; // Lấy phần cuối của path
+
+            fetch(`/thuyenvien/export-excel/${idThuyenvien}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.blob();
+                })
+                .then(blob => {
+                    // Tạo URL từ blob
+                    const url = window.URL.createObjectURL(blob);
+                    // Tạo thẻ <a> ẩn để tải file
+                    const a = document.createElement('a');
+                    a.href = url;
+
+                    // Đặt tên file (bạn có thể sửa tên file tùy ý)
+                    a.download = `thong_tin_thuyenvien_${idThuyenvien}.xlsx`;
+
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+
+                    // Giải phóng URL
+                    window.URL.revokeObjectURL(url);
+                })
+                .catch(() => alert("Lỗi khi tải hợp đồng!"));
+        });
+    </script>
 
 
-        </script>
-
-        
-    </body>
+</body>
 
 </html>

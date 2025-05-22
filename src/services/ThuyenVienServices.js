@@ -268,6 +268,8 @@ let createHocVan = (data) => {
 let updateHocVan = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            let record = await db.ThuyenvienHocvan.findOne({ where: { id: id } });
+            console.log(record);
             await db.ThuyenvienHocvan.update(
                 {
                     truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),

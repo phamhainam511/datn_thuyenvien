@@ -397,13 +397,18 @@ INSERT INTO `thuyenvien_chungchi` (`id`, `id_thuyenvien`, `id_chungchi`, `sohieu
 --
 
 CREATE TABLE `thuyenvien_hocvan` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `id_thuyenvien` int(11) DEFAULT NULL,
-  `truongdaotao` varchar(255) DEFAULT NULL,
-  `hedaotao` varchar(255) DEFAULT NULL,
-  `namtotnghiep` int(11) DEFAULT NULL,
-  `createdAt` timestamp NULL DEFAULT current_timestamp(),
-  `updatedAt` timestamp NULL DEFAULT current_timestamp()
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_thuyenvien` INT(11) DEFAULT NULL,
+  `truongdaotao` VARCHAR(255) DEFAULT NULL,
+  `hedaotao` VARCHAR(255) DEFAULT NULL,
+  `namtotnghiep` INT(11) DEFAULT NULL,
+  `createdAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_hocvan_thuyenvien`
+    FOREIGN KEY (`id_thuyenvien`) 
+    REFERENCES `thuyenvien` (`id_thuyenvien`) 
+    ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
