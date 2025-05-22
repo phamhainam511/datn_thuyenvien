@@ -126,6 +126,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             allowNull: true,
         },
+        thoigian_lenTauDuKien: {
+            type: DataTypes.DATE,
+            allowNull: true
+        }
     }, {
         sequelize,
         modelName: 'Thuyenvien',

@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'chucvu_id',
                 as: 'chucvu'
             });
+            Lichsuditau.belongsTo(models.Tau, {
+                foreignKey: 'tau_id',
+                as: 'tau'
+            });
         }
     }
 
@@ -47,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         cangroitau: {
+            type: DataTypes.STRING(50),
+            allowNull: true
+        },
+        quoctich_thuyen: {
             type: DataTypes.STRING(50),
             allowNull: true
         }
