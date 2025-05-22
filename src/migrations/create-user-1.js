@@ -12,10 +12,6 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false
             },
-            phongban: {
-                type: Sequelize.STRING,
-                allowNull: false
-            },
             matkhau: {
                 type: Sequelize.STRING(30),
                 allowNull: false
