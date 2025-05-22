@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'ngoaingu'
             });
 
+            Thuyenvien.belongsToMany(models.Chungchi, {
+                through: models.ThuyenvienChungchi,
+                foreignKey: 'id_thuyenvien',
+                otherKey: 'id_chungchi',
+                as: 'chungchis'
+            });
             // Add relationship with ThuyenvienChungchi
             Thuyenvien.hasMany(models.ThuyenvienChungchi, {
                 foreignKey: 'id_thuyenvien',

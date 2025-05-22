@@ -12,6 +12,7 @@ import ChucVuController from '../controllers/ChucVuController';
 import TauController from '../controllers/TauController';
 import DashBoardController from '../controllers/DashBoardController';
 import NotificationMiddleware from '../middlewares/NotificationMiddleware';
+import exportCV from "../controllers/ExcelController";
 
 const router = express.Router();
 
@@ -94,6 +95,7 @@ const initWebRoutes = (app) => {
     // Correct the route for viewing crew details
     router.get('/thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
     router.get("/thuyenvien/export-word/:id", ThuyenVienController.exportThuyenvienContract);
+    router.get('/thuyenvien/export-excel/:id', exportCV.exportCV);
 
     // user ở đây
     router.get('/danh-sach-user', UserController.getAllUser);
