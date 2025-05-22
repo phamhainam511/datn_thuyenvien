@@ -58,7 +58,7 @@ let exportBangLuong = async (req, res) => {
         console.log(e);
         return res.send('Lỗi xuất Excel');
     }
-}
+};
 
 module.exports = {
     getAllBangLuong: getAllBangLuong,

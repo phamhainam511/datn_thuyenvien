@@ -183,7 +183,7 @@
             <%- include('partials/scripts', { baseUrl: '' }) %>
                 <script>
                     function xoaBangLuong() {
-                        // lấy tất cả checkbox đang check
+                        // lấy tất cả checkbox đang check 
                         const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                         const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
 

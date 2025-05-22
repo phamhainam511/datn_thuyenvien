@@ -207,7 +207,7 @@ let exportBangLuong = (dataTable, thang) => {
             reject(e);
         }
     })
-}
+};
 
 module.exports = {
     getAllBangLuong: getAllBangLuong,

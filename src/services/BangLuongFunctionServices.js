@@ -53,7 +53,7 @@ function chuyenSoThanhChu(num) {
         hang++;
     }
     return str.trim() + " Đồng";
-}
+};
 
 module.exports = {
     formatTime: formatTime,
