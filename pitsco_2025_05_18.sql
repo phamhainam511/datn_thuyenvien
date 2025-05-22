@@ -610,7 +610,7 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `taikhoan` varchar(30) NOT NULL,
-  `matkhau` varchar(30) NOT NULL,
+  `matkhau` varchar(60) NOT NULL,
   `phanquyen_id` int NOT NULL,
   `hoten` varchar(255) DEFAULT NULL,
   `sdt` varchar(10) DEFAULT NULL,

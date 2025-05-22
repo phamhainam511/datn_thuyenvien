@@ -1,10 +1,11 @@
 import db from '../models/index';
+import bcrypt from 'bcrypt';
 
 let handleLogin = (taikhoan, matkhau) => {
     return new Promise(async (resolve, reject) => {
         try {
             let userData = {};
-            
+
             // Check if account exists
             let user = await db.user.findOne({
                 where: { taikhoan: taikhoan },
@@ -17,13 +18,22 @@ let handleLogin = (taikhoan, matkhau) => {
                     }
                 ]
             });
-            
+
             if (user) {
+                let isMatch = false;
+
+                if (user.matkhau.startsWith('$2b$')) {
+                    // Mật khẩu đã được mã hoá
+                    isMatch = await bcrypt.compare(matkhau, user.matkhau);
+                } else {
+                    // Mật khẩu chưa mã hoá
+                    isMatch = matkhau === user.matkhau;
+                }
                 // Compare password
-                if (user.matkhau === matkhau) {
+                if (isMatch) {
                     userData.errCode = 0;
                     userData.errMessage = "Đăng nhập thành công";
-                    
+
                     // Don't send password to client
                     const userObj = user.get({ plain: true });
                     delete userObj.matkhau;
@@ -36,7 +46,7 @@ let handleLogin = (taikhoan, matkhau) => {
                 userData.errCode = 2;
                 userData.errMessage = "Tài khoản không tồn tại";
             }
-            
+
             resolve(userData);
         } catch (e) {
             reject(e);
