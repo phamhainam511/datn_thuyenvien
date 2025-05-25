@@ -1,12 +1,13 @@
 import db from '../models/index';
 import bcrypt from 'bcrypt';
+import ChuanHoaServices from '../services/ChuanHoaServices';
 
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await db.user.create({
                 taikhoan: data.taikhoan,
-                hoten: data.hoten,
+                hoten: ChuanHoaServices.chuanHoaTen(data.hoten),
                 matkhau: data.matkhau,
                 sdt: data.sdt,
                 diachi: data.diachi,
@@ -76,7 +77,7 @@ let updateUserData = (data) => {
         try {
             await db.user.update(
                 {
-                    hoten: data.hoten,
+                    hoten: ChuanHoaServices.chuanHoaTen(data.hoten),
                     sdt: data.sdt,
                     diachi: data.diachi,
                     email: data.email,

@@ -3,7 +3,7 @@ import ThuyenVienServices from "../services/ThuyenVienServices";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
-const { Document, Packer, Paragraph, TextRun, AlignmentType} = require('docx');
+const { Document, Packer, Paragraph, TextRun, AlignmentType } = require('docx');
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -216,12 +216,12 @@ const uploadNewCrewFiles = multer({
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     let certificates = await ThuyenVienServices.getAllChungChi();
-    
+
     // Get the IDs of all crew members with "Đang chờ tàu" status
     const waitingCrewIds = data
         .filter(crew => crew.trangthai === 'Đang chờ tàu')
         .map(crew => crew.id_thuyenvien);
-    
+
     // Get estimated boarding times for waiting crew
     let estimatedBoardingTimes = {};
     if (waitingCrewIds.length > 0) {
@@ -667,7 +667,7 @@ let getExpiredCertificates = async (req, res) => {
     try {
         // Get certificate type filter from query, if any
         const certificateType = req.query.type ? parseInt(req.query.type) : null;
-        
+
         // Get only professional certificates
         const expiredCertificates = await ThuyenVienServices.getExpiredCertificates(certificateType);
 
@@ -885,7 +885,7 @@ let createNewThuyenVien = async (req, res) => {
                 languageCertificates,
                 crewCertificates,
                 documentData,
-                bankAccountData 
+                bankAccountData
             );
 
             // Redirect to the crew list page after successful creation
@@ -900,8 +900,8 @@ let createNewThuyenVien = async (req, res) => {
 let updateThuyenVienStatus = async (req, res) => {
     try {
         const thuyenvien_id = req.params.id;
-        const { trangthai, tau_id, chucvu_id, timexuatcanh, timelentau, thoigian_lenTauDuKien, 
-                ngayroitau, cangroitau, quoctich_thuyen, tinh_trang_roi_tau } = req.body;
+        const { trangthai, tau_id, chucvu_id, timexuatcanh, timelentau, thoigian_lenTauDuKien,
+            ngayroitau, cangroitau, quoctich_thuyen, tinh_trang_roi_tau } = req.body;
 
         // Lấy trạng thái hiện tại
         const currentThuyenVien = await db.Thuyenvien.findOne({
@@ -941,17 +941,17 @@ let updateThuyenVienStatus = async (req, res) => {
             );
             const newtimelentau = timelentau.replace('T', ' ');
             await db.Lichsuditau.create({
-                    thuyenvien_id: thuyenvien_id,
-                    tau_id: tau_id,
-                    chucvu_id: chucvu_id,
-                    timexuatcanh: timexuatcanh,
-                    timelentau: newtimelentau,
-                });
+                thuyenvien_id: thuyenvien_id,
+                tau_id: tau_id,
+                chucvu_id: chucvu_id,
+                timexuatcanh: timexuatcanh,
+                timelentau: newtimelentau,
+            });
         } else {
             await db.Thuyenvien.update(
                 {
                     trangthai: trangthai,
-                    thoigian_lenTauDuKien: thoigian_lenTauDuKien ? thoigian_lenTauDuKien : null,
+                    thoigian_lenTauDuKien: null,
                 }
                 , { where: { id_thuyenvien: thuyenvien_id } }
             );
@@ -1050,11 +1050,11 @@ let getCrewWithCertificates = async (req, res) => {
     try {
         // Get certificates from query parameter
         const certificateIds = req.query.certificates ? req.query.certificates.split(',').map(id => parseInt(id)) : [];
-        
+
         if (!certificateIds.length) {
             return res.json([]);
         }
-        
+
         // Get crew IDs who have the selected certificates
         const crewIds = await ThuyenVienServices.getCrewWithCertificates(certificateIds);
         return res.json(crewIds);
@@ -1065,46 +1065,46 @@ let getCrewWithCertificates = async (req, res) => {
 };
 
 let getNotificationCounts = async () => {
-  try {
-    const today = new Date();
-    const next30Days = new Date();
-    next30Days.setDate(today.getDate() + 30);
+    try {
+        const today = new Date();
+        const next30Days = new Date();
+        next30Days.setDate(today.getDate() + 30);
 
-    const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
-      where: {
-        ngayhethan: {
-          [db.Sequelize.Op.between]: [today, next30Days]
-        }
-      }
-    });
-
-    const past30Days = new Date();
-    past30Days.setDate(today.getDate() - 30);
-
-    const recentBoardingsCount = await db.Thuyenvien.count({
-      where: {
-        thoigian_lenTauDuKien:  {
-                [db.Sequelize.Op.between]: [
-                new Date(), // today
-                new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // 30 days in the future
-                ]
+        const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
+            where: {
+                ngayhethan: {
+                    [db.Sequelize.Op.between]: [today, next30Days]
+                }
             }
-      },
-    });
+        });
 
-    return {
-      expiringCertificatesCount,
-      recentBoardingsCount,
-      totalCount: expiringCertificatesCount + recentBoardingsCount
-    };
-  } catch (error) {
-    console.error('Error fetching notification counts:', error);
-    return {
-      expiringCertificatesCount: 0,
-      recentBoardingsCount: 0,
-      totalCount: 0
-    };
-  }
+        const past30Days = new Date();
+        past30Days.setDate(today.getDate() - 30);
+
+        const recentBoardingsCount = await db.Thuyenvien.count({
+            where: {
+                thoigian_lenTauDuKien: {
+                    [db.Sequelize.Op.between]: [
+                        new Date(), // today
+                        new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // 30 days in the future
+                    ]
+                }
+            },
+        });
+
+        return {
+            expiringCertificatesCount,
+            recentBoardingsCount,
+            totalCount: expiringCertificatesCount + recentBoardingsCount
+        };
+    } catch (error) {
+        console.error('Error fetching notification counts:', error);
+        return {
+            expiringCertificatesCount: 0,
+            recentBoardingsCount: 0,
+            totalCount: 0
+        };
+    }
 }
 
 
