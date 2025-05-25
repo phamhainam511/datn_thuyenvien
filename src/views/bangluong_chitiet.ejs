@@ -84,7 +84,8 @@
                                                                 onsubmit="return huyThanhToan()">
                                                                 <input type="hidden" name="bangluong_id"
                                                                     value="<%= dataTable.id_bangluong %>">
-                                                                <button class="btn btn-danger btn-sm mr-2" type="submit">Hủy
+                                                                <button class="btn btn-danger btn-sm mr-2"
+                                                                    type="submit">Hủy
                                                                     thanh
                                                                     toán</button>
                                                             </form>
@@ -115,25 +116,29 @@
                                                                                             class="text-primary">Lương
                                                                                             cơ bản</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editLuongCB"
-                                                                                            name="luongcb" required>
+                                                                                            name="luongcb"
+                                                                                            data-type="number" required>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label class="text-primary">Tỉ
                                                                                             giá</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editTiGia" name="tigia"
-                                                                                            required>
+                                                                                            data-type="number"
+                                                                                            maxlength="5" required>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label class="text-primary">Tổng
                                                                                             lương</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editTongTien"
-                                                                                            name="tongtien" required>
+                                                                                            name="tongtien"
+                                                                                            data-type="number"
+                                                                                            maxlength="9" required>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label
@@ -187,25 +192,28 @@
                                                                                         <label class="text-primary">Tên
                                                                                             ngân hàng</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editTenNganHang"
-                                                                                            name="tennganhang" required>
+                                                                                            name="tennganhang"
+                                                                                            data-type="text" required>
                                                                                     </div>
-                                                                                    <div class="form-group">
+                                                                                    <div class="form-group validate">
                                                                                         <label class="text-primary">Số
                                                                                             tài khoản</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editSTK" name="stk"
-                                                                                            required>
+                                                                                            data-type="number"
+                                                                                            maxlength="20" required>
                                                                                     </div>
                                                                                     <div class="form-group">
                                                                                         <label class="text-primary">Tên
                                                                                             tài khoản</label>
                                                                                         <input type="text"
-                                                                                            class="form-control"
+                                                                                            class="form-control validate"
                                                                                             id="editTenTaiKhoan"
-                                                                                            name="tentaikhoan" required>
+                                                                                            name="tentaikhoan"
+                                                                                            data-type="text" required>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="modal-footer">
@@ -356,29 +364,45 @@
                                 }
                             }
 
+                            function setupInputValidation() {
+                                const inputs = document.querySelectorAll('.validate');
+                                inputs.forEach(input => {
+                                    const type = input.dataset.type;
+                                    input.addEventListener('input', () => {
+                                        if (type === 'number') {
+                                            input.value = input.value.replace(/[^0-9]/g, '');
+                                        } else if (type === 'text') {
+                                            input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+                                        }
+                                    });
+                                });
+                            }
+
                             const urlParams = new URLSearchParams(window.location.search);
                             if (urlParams.get('updated') === 'true') {
                                 Swal.fire({
-                                icon: 'success',
-                                title: 'Cập nhật thành công!',
-                                timer: 2000,
-                                showConfirmButton: false,
+                                    icon: 'success',
+                                    title: 'Cập nhật thành công!',
+                                    timer: 2000,
+                                    showConfirmButton: false,
                                 });
                             } else if (urlParams.get('pay') === 'true') {
                                 Swal.fire({
-                                icon: 'success',
-                                title: 'Thay đổi thành công!',
-                                timer: 2000,
-                                showConfirmButton: false,
+                                    icon: 'success',
+                                    title: 'Thay đổi thành công!',
+                                    timer: 2000,
+                                    showConfirmButton: false,
                                 });
                             } else if (urlParams.get('error')) {
                                 Swal.fire({
-                                icon: 'error',
-                                title: 'Lỗi',
-                                text: urlParams.get('error'),
-                                confirmButtonText: 'Đóng'
+                                    icon: 'error',
+                                    title: 'Lỗi',
+                                    text: urlParams.get('error'),
+                                    confirmButtonText: 'Đóng'
                                 });
                             }
+
+                            document.addEventListener('DOMContentLoaded', setupInputValidation);
                         </script>
 
 </body>

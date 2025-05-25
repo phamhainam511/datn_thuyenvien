@@ -102,6 +102,7 @@ const initWebRoutes = (app) => {
     router.post('/post-user', UserController.postUser);
     router.post('/edit-user', UserController.getEditUser);
     router.post('/put-user', UserController.putUser);
+    router.post('/delete-user', UserController.deleteUser);
     router.post('/reset-user', UserController.resetPassword);
     router.get('/doi-mat-khau', (req, res) => {
         res.render('doimatkhau.ejs', { errors: [], success: null });

@@ -51,46 +51,48 @@ let resetPassword = async (req, res) => {
 }
 
 let deleteUser = async (req, res) => {
-    let ids = req.body.id; // => mảng id
-    if (!Array.isArray(ids)) {
-        ids = [ids]; // nếu gửi 1 id thì cho thành mảng luôn
+    try {
+        let ids = req.body.id; // có thể là 1 id hoặc mảng id
+        if (!Array.isArray(ids)) {
+            ids = [ids]; // chuyển thành mảng nếu không phải
+        }
+        for (let id of ids) {
+            await UserServices.deleteUser(id);
+        }
+        return res.redirect('/danh-sach-user');
+    } catch (error) {
+        res.send('Lỗi: ' + error.message);
     }
-
-    for (let id of ids) {
-        await UserServices.deleteUser(id);
-    }
-
-    return res.redirect('/danh-sach-user');
 };
 
 let ChangePassword = async (req, res) => {
-  try {
-    const taikhoan = req.session.user.taikhoan; // từ session
-    const { currentPassword, newPassword, confirmPassword } = req.body;
+    try {
+        const taikhoan = req.session.user.taikhoan; // từ session
+        const { currentPassword, newPassword, confirmPassword } = req.body;
 
-    let errors = [];
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      errors.push('Vui lòng nhập đầy đủ thông tin.');
-    }
-    if (newPassword !== confirmPassword) {
-      errors.push('Mật khẩu mới và xác nhận không khớp.');
-    }
+        let errors = [];
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            errors.push('Vui lòng nhập đầy đủ thông tin.');
+        }
+        if (newPassword !== confirmPassword) {
+            errors.push('Mật khẩu mới và xác nhận không khớp.');
+        }
 
-    if (errors.length > 0) {
-      return res.render('doimatkhau.ejs', { errors, success: null });
-    }
+        if (errors.length > 0) {
+            return res.render('doimatkhau.ejs', { errors, success: null });
+        }
 
-    const result = await UserServices.changePassword(taikhoan, currentPassword, newPassword);
+        const result = await UserServices.changePassword(taikhoan, currentPassword, newPassword);
 
-    if (result.success) {
-      return res.render('doimatkhau.ejs', { errors: [], success: 'Đổi mật khẩu thành công!' });
-    } else {
-      return res.render('doimatkhau.ejs', { errors: [result.message], success: null });
+        if (result.success) {
+            return res.render('doimatkhau.ejs', { errors: [], success: 'Đổi mật khẩu thành công!' });
+        } else {
+            return res.render('doimatkhau.ejs', { errors: [result.message], success: null });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.render('doimatkhau.ejs', { errors: ['Có lỗi xảy ra, vui lòng thử lại.'], success: null });
     }
-  } catch (error) {
-    console.error(error);
-    return res.render('doimatkhau.ejs', { errors: ['Có lỗi xảy ra, vui lòng thử lại.'], success: null });
-  }
 };
 module.exports = {
     getAllUser: getAllUser,
@@ -99,5 +101,5 @@ module.exports = {
     putUser: putUser,
     resetPassword: resetPassword,
     deleteUser: deleteUser,
-    ChangePassword : ChangePassword
+    ChangePassword: ChangePassword
 }

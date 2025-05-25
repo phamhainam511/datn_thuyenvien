@@ -147,27 +147,38 @@
                                                                             <label for="luongCB"
                                                                                 class="text-primary">Lương cơ
                                                                                 bản</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="luongCB" name="luongcb" required>
+                                                                            <input type="text"
+                                                                                class="form-control validate"
+                                                                                id="luongCB" name="luongcb"
+                                                                                data-type="number" maxlength="5"
+                                                                                required>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="tiGia" class="text-primary">Tỉ
                                                                                 giá</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="tiGia" name="tigia" required>
+                                                                            <input type="text"
+                                                                                class="form-control validate" id="tiGia"
+                                                                                name="tigia" data-type="number"
+                                                                                maxlength="5" required>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="soCong" class="text-primary">Số
                                                                                 công</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="soCong" name="socong" required>
+                                                                            <input type="text"
+                                                                                class="form-control validate"
+                                                                                id="soCong" name="socong"
+                                                                                data-type="number" data-min="0"
+                                                                                data-max="31" required>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="tongTien"
                                                                                 class="text-primary">Tổng
                                                                                 tiền</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="tongTien" name="tongtien" required>
+                                                                            <input type="text"
+                                                                                class="form-control validate"
+                                                                                id="tongTien" name="tongtien"
+                                                                                data-type="number" maxlength="9"
+                                                                                required>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <label for="phuongThuc"
@@ -213,6 +224,33 @@
                         document.getElementById('idThuyenVien').value = id;
                         $('#modalThemLuong').modal('show');
                     }
+
+                    function setupInputValidation() {
+                        const inputs = document.querySelectorAll('.validate');
+                        inputs.forEach(input => {
+                            const type = input.dataset.type;
+                            const min = parseInt(input.dataset.min || '0');
+                            const max = parseInt(input.dataset.max || '0');
+                            input.addEventListener('input', () => {
+                                if (type === 'number') {
+                                    input.value = input.value.replace(/[^0-9]/g, '');
+                                    if (input.value !== '') {
+                                        let num = parseInt(input.value);
+                                        if (max && num > max) {
+                                            num = max;
+                                        }
+                                        if (min && num < min) {
+                                            num = min;
+                                        }
+                                        input.value = num;
+                                    }
+                                } else if (type === 'text') {
+                                    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+                                }
+                            });
+                        });
+                    }
+
                     $('#dataTable1').DataTable({
                         "paging": true,
                         "lengthChange": true,
@@ -235,6 +273,8 @@
                             }
                         }
                     });
+
+                    document.addEventListener('DOMContentLoaded', setupInputValidation);
                 </script>
 
 

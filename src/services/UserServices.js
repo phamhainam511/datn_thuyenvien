@@ -58,7 +58,7 @@ let getUserId = (user_id) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.user.findOne({
-                where: { id: user_id }
+                where: { taikhoan: user_id }
             })
             if (user) {
                 resolve(user);
