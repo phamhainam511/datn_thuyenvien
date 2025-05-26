@@ -342,7 +342,7 @@ let deleteThuyenVien = async (req, res) => {
     if (!Array.isArray(ids)) {
         ids = [ids]; // nếu gửi 1 id thì cho thành mảng luôn
     }
-
+    console.log("Danh sách ID nhận được:", ids);
     for (let id of ids) {
         await ThuyenVienServices.deleteThuyenVien(id);
     }

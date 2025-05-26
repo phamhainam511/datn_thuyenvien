@@ -197,8 +197,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Họ và tên:</label>
-                                        <input type="text" class="form-control validate" name="full_name"
-                                            data-type="text" required>
+                                        <input type="text" class="form-control validate-text" name="full_name" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Ngày sinh:</label>
@@ -206,18 +205,18 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label>CCCD:</label>
-                                        <input type="text" class="form-control validate" name="cccd" data-type="number"
-                                            maxlength="12" required>
+                                        <input type="text" class="form-control validate-int" name="cccd" maxlength="12"
+                                            required>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Chiều cao (cm):</label>
-                                        <input type="number" class="form-control validate" name="height"
-                                            data-type="number" data-min="160" data-max="300" required>
+                                        <input type="number" class="form-control validate-int" name="height"
+                                            data-min="160" data-max="300" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Cân nặng (kg):</label>
-                                        <input type="number" class="form-control validate" name="weight"
-                                            data-type="number" data-min="50" data-max="100" required>
+                                        <input type="number" class="form-control validate-int" name="weight"
+                                            data-min="50" data-max="100" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Nhóm máu:</label>
@@ -230,13 +229,13 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label>Size giày:</label>
-                                        <input type="number" class="form-control validate" name="shoe_size"
-                                            data-type="number" data-min="36" data-max="44" required>
+                                        <input type="number" class="form-control validate-int" name="shoe_size"
+                                            data-min="36" data-max="44" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Size giày bảo hộ:</label>
-                                        <input type="number" class="form-control validate" name="safety_shoe_size"
-                                            data-type="number" data-min="36" data-max="44" required>
+                                        <input type="number" class="form-control validate-int" name="safety_shoe_size"
+                                            data-min="36" data-max="44" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="time">Thời gian lên tàu dự kiến:</label>
@@ -244,13 +243,12 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label>Email:</label>
-                                        <input type="email" class="form-control validate" name="email" data-type="email"
-                                            required>
+                                        <input type="email" class="form-control validate-email" name="email" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Số điện thoại:</label>
-                                        <input type="text" class="form-control validate" name="phone" data-type="number"
-                                            maxlength="10" required>
+                                        <input type="text" class="form-control validate-int" name="phone" maxlength="10"
+                                            required>
                                     </div>
                                     <div class="col-md-6">
                                         <label>Tình trạng hôn nhân:</label>
@@ -277,43 +275,39 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Họ tên bố:</label>
-                                        <input type="text" class="form-control validate" name="father_name"
-                                            data-type="text">
+                                        <input type="text" class="form-control validate-text" name="father_name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Số điện thoại bố:</label>
-                                        <input type="text" class="form-control validate" name="father_phone"
-                                            data-type="number" maxlength="10">
+                                        <input type="text" class="form-control validate-int" name="father_phone"
+                                            maxlength="10">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Họ tên mẹ:</label>
-                                        <input type="text" class="form-control validate" name="mother_name"
-                                            data-type="text">
+                                        <input type="text" class="form-control validate-text" name="mother_name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Số điện thoại mẹ:</label>
-                                        <input type="text" class="form-control validate" name="mother_phone"
-                                            data-type="number" maxlength="10">
+                                        <input type="text" class="form-control validate-int" name="mother_phone"
+                                            maxlength="10">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Họ tên vợ:</label>
-                                        <input type="text" class="form-control validate" name="mother_name"
-                                            data-type="text">
+                                        <input type="text" class="form-control validate-text" name="mother_name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Số điện thoại vợ:</label>
-                                        <input type="text" class="form-control validate" name="mother_phone"
-                                            data-type="number" maxlength="10">
+                                        <input type="text" class="form-control validate-int" name="mother_phone"
+                                            maxlength="10">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Họ tên người giám hộ:</label>
-                                        <input type="text" class="form-control validate" name="mother_name"
-                                            data-type="text">
+                                        <input type="text" class="form-control validate-text" name="mother_name">
                                     </div>
                                     <div class="col-md-6">
                                         <label>Số điện thoại người giám hộ:</label>
-                                        <input type="text" class="form-control validate" name="mother_phone"
-                                            data-type="number" maxlength="10">
+                                        <input type="text" class="form-control validate-int" name="mother_phone"
+                                            maxlength="10">
                                     </div>
                                     <div class="col-md-12">
                                         <label>Địa chỉ bố mẹ:</label>
@@ -341,8 +335,8 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label>Năm tốt nghiệp:</label>
-                                        <input type="number" class="form-control validate" name="graduation_year"
-                                            data-type="number" data-min="1985" data-max="2025" required>
+                                        <input type="number" class="form-control validate-int" name="graduation_year"
+                                            data-min="1985" data-max="2025" required>
                                     </div>
                                 </div>
                             </div>
@@ -360,9 +354,8 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label>Điểm số:</label>
-                                            <input type="number" class="form-control validate"
-                                                name="language_certificate_score[]" placeholder="Nhập điểm"
-                                                data-type="float" required>
+                                            <input type="number" class="form-control validate-float"
+                                                name="language_certificate_score[]" placeholder="Nhập điểm" required>
                                         </div>
                                         <div class="col-md-2">
                                             <label>Ngày cấp:</label>
@@ -408,9 +401,9 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label>Số chứng chỉ:</label>
-                                            <input type="text" class="form-control validate"
+                                            <input type="text" class="form-control validate-int"
                                                 name="crew_certificate_number[]" placeholder="Nhập số chứng chỉ"
-                                                data-type="number" required>
+                                                required>
                                         </div>
                                         <div class="col-md-2">
                                             <label>Ngày cấp:</label>
@@ -525,49 +518,7 @@
             </div>
         </div>
     </div>
-    <script>
-        function setupInputValidation() {
-            const inputs = document.querySelectorAll('.validate');
-            inputs.forEach(input => {
-                const type = input.dataset.type;
-                const min = parseInt(input.dataset.min || '0');
-                const max = parseInt(input.dataset.max || '0');
-                input.addEventListener('input', () => {
-                    if (type === 'number') {
-                        input.value = input.value.replace(/[^0-9]/g, '');
-                    } else if (type === 'float') {
-                        input.value = input.value
-                            .replace(/[^0-9.]/g, '')
-                            .replace(/(\..*)\./g, '$1');
-                    } else if (type === 'text') {
-                        input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
-                    } else if (type === 'email') {
-                        const email = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-                        const value = input.value.trim();
-                        if (value !== '' && !email.test(value)) {
-                            input.setCustomValidity('Email không hợp lệ');
-                            input.reportValidity();
-                        } else {
-                            input.setCustomValidity('');
-                        }
-                    }
-                });
-                if (type === 'number' || type === 'float') {
-                    input.addEventListener('blur', () => {
-                        if (input.value !== '') {
-                            let num = parseInt(input.value);
-                            if (max && num > max) {
-                                input.value = max;
-                            } else if (min && num < min) {
-                                input.value = min;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-        document.addEventListener('DOMContentLoaded', setupInputValidation);
-    </script>
+    <script src="/js/validation.js"></script>
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

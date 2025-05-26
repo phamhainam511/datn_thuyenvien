@@ -55,6 +55,10 @@ module.exports = {
                 type: Sequelize.STRING(50),
                 allowNull: true
             },
+            quoctich_thuyen: {
+                type: Sequelize.STRING(50),
+                allowNull: true
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

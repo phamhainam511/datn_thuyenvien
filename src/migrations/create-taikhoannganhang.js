@@ -22,6 +22,10 @@ module.exports = {
                 type: Sequelize.STRING(45),
                 allowNull: false
             },
+            tennganhang: {
+                type: Sequelize.STRING(45),
+                allowNull: false
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

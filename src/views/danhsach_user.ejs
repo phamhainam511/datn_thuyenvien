@@ -68,34 +68,34 @@
                                                                     <label for="taiKhoan" class="text-primary">Tài
                                                                         khoản</label>
                                                                     <input type="text" class="form-control"
-                                                                        id="taiKhoan" name="taikhoan" required>
+                                                                        id="taiKhoan" name="taikhoan" maxlength="20"
+                                                                        required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="matKhau" class="text-primary">Mật
                                                                         khẩu</label>
                                                                     <input type="text" class="form-control" id="matKhau"
-                                                                        name="matkhau" required>
+                                                                        name="matkhau" maxlength="20" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="hoTen" class="text-primary">Họ
                                                                         tên</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="hoTen" name="hoten" data-type="text"
-                                                                        maxlength="30" required>
+                                                                    <input type="text"
+                                                                        class="form-control validate-text" id="hoTen"
+                                                                        name="hoten" maxlength="30" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="SDT" class="text-primary">Số điện
                                                                         thoại</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="SDT" name="sdt" data-type="number"
-                                                                        maxlength="10" required>
+                                                                    <input type="text" class="form-control validate-int"
+                                                                        id="SDT" name="sdt" maxlength="10" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="email"
                                                                         class="text-primary">Email</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="email" name="email" data-type="email"
-                                                                        required>
+                                                                    <input type="text"
+                                                                        class="form-control validate-email" id="email"
+                                                                        name="email" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="diaChi" class="text-primary">Địa
@@ -105,8 +105,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="phanquyenId" class="text-primary">Tên
-                                                                        phân
-                                                                        quyền</label>
+                                                                        phân quyền</label>
                                                                     <select class="form-control" id="phanQuyenId"
                                                                         name="phanquyen_id" required>
                                                                         <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
@@ -196,15 +195,15 @@
                                                                 <input type="hidden" id="editId" name="taikhoan">
                                                                 <div class="form-group">
                                                                     <label>Họ tên</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="editHoTen" name="hoten" data-type="text"
-                                                                        maxlength="30" required>
+                                                                    <input type="text"
+                                                                        class="form-control validate-text"
+                                                                        id="editHoTen" name="hoten" maxlength="30"
+                                                                        required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Số điện thoại</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="editSDT" name="sdt" data-type="number"
-                                                                        maxlength="10" required>
+                                                                    <input type="text" class="form-control validate-int"
+                                                                        id="editSDT" name="sdt" maxlength="10" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Địa chỉ</label>
@@ -213,9 +212,9 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Email</label>
-                                                                    <input type="text" class="form-control validate"
-                                                                        id="editEmail" name="email" data-type="email"
-                                                                        required>
+                                                                    <input type="text"
+                                                                        class="form-control validate-email"
+                                                                        id="editEmail" name="email" required>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label>Phân quyền</label>
@@ -388,6 +387,7 @@
 
                     document.addEventListener('DOMContentLoaded', setupInputValidation);
                 </script>
+                <script src="/js/validation.js"></script>
 
 </body>
 

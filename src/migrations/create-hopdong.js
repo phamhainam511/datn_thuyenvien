@@ -12,10 +12,6 @@ module.exports = {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
-            hopdong_id: {
-                type: Sequelize.INTEGER,
-                allowNull: false
-            },
             ngayky: {
                 type: Sequelize.DATE,
                 allowNull: false
@@ -35,16 +31,6 @@ module.exports = {
             hinhanh: {
                 type: Sequelize.STRING(100),
                 allowNull: false
-            },
-            createdAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-            },
-            updatedAt: {
-                allowNull: false,
-                type: Sequelize.DATE,
-                defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
             }
         });
 
