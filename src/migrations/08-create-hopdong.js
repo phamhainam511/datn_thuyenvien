@@ -54,7 +54,7 @@ module.exports = {
                 field: 'id_thuyenvien'
             },
             onUpdate: 'CASCADE',
-            onDelete: 'RESTRICT'
+            onDelete: 'CASCADE'
         });
     },
 

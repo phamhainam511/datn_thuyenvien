@@ -25,7 +25,7 @@ module.exports = {
                     key: 'id_loaitau'
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'RESTRICT'
+                onDelete: 'CASCADE'
             },
             createdAt: {
                 allowNull: false,

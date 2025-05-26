@@ -17,6 +17,10 @@ module.exports = {
                 type: Sequelize.STRING(45),
                 allowNull: false
             },
+            ngaysinh: {
+                type: Sequelize.DATE,
+                allowNull: false
+            },
             cccd: {
                 type: Sequelize.STRING(45),
                 allowNull: false
@@ -30,6 +34,10 @@ module.exports = {
                 allowNull: false
             },
             chieucao: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
+            sizegiaybaoho: {
                 type: Sequelize.INTEGER,
                 allowNull: false
             },
@@ -48,6 +56,18 @@ module.exports = {
             tinhtranghonnhan: {
                 type: Sequelize.STRING(20),
                 allowNull: false
+            },
+            trangthai: {
+                type: Sequelize.STRING(20),
+                allowNull: false
+            },
+            ghichu: {
+                type: Sequelize.STRING(255),
+                allowNull: true
+            },
+            thoigian_lenTauDuKien: {
+                type: Sequelize.DATE,
+                allowNull: true
             },
             createdAt: {
                 allowNull: false,
