@@ -49,6 +49,10 @@ module.exports = {
                 type: Sequelize.STRING(30),
                 allowNull: false
             },
+            file: {
+                type: Sequelize.STRING(255),
+                allowNull: true
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
