@@ -1629,6 +1629,15 @@
     <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/js/demo/datatables-demo.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const rawDate = $('#dob').text().trim(); // '2020-01-01'
+            const formatted = moment(rawDate).format('DD/MM/YYYY');
+            $('#dob').text(formatted);
+        });
+    </script>
 
     <!-- Make sure this script is at the very end -->
     <script>

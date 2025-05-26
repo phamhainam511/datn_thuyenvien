@@ -34,11 +34,11 @@ module.exports = {
                 allowNull: false
             },
             ngaycap: {
-                type: Sequelize.DATE,
+                type: Sequelize.DATEONLY,
                 allowNull: false
             },
             ngayhethan: {
-                type: Sequelize.DATE,
+                type: Sequelize.DATEONLY,
                 allowNull: false
             },
             noicap: {
