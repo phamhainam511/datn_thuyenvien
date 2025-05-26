@@ -30,7 +30,7 @@ function setupValidation() {
         input.addEventListener('input', () => {
             const selection = input.selectionStart;
             const data_old = input.value;
-            const data_new = data_old.replace(/[^a-zA-ZÀ-ỹ\s]/g, '');
+            const data_new = data_old.replace(/[0-9]/g, '');
             if (data_old !== data_new) {
                 input.value = data_new;
                 input.setSelectionRange(selection - 1, selection - 1);
@@ -38,7 +38,7 @@ function setupValidation() {
         });
     });
 
-    document.querySelectorAll('.validate-number, .validate-float').forEach(input => {
+    document.querySelectorAll('.validate-int, .validate-float').forEach(input => {
         input.addEventListener('blur', () => {
             const min = parseFloat(input.dataset.min || '-Infinity');
             const max = parseFloat(input.dataset.max || 'Infinity');
@@ -50,6 +50,22 @@ function setupValidation() {
                     input.value = max;
                 }
             }
+        });
+    });
+
+    document.querySelectorAll('.validate-email').forEach(input => {
+        input.addEventListener('blur', () => {
+            const email = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+            const value = input.value.trim();
+            if (value !== '' && !email.test(value)) {
+                input.setCustomValidity('Email không hợp lệ');
+                input.reportValidity();
+            } else {
+                input.setCustomValidity('');
+            }
+        });
+        input.addEventListener('input', () => {
+            input.setCustomValidity('');
         });
     });
 }

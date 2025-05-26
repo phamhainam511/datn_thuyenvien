@@ -100,7 +100,7 @@
                                             <h5 class="fw-bold mb-1">
                                                 <%= thuyenvieninfo.hoten %>
                                             </h5>
-                                           
+                                            <p class="text-muted mb-2">Chức vụ: test</p>
 
                                             <!-- Upload photo button -->
                                             <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>"
@@ -805,7 +805,7 @@
 
                                         <div class="form-group">
                                             <label>Họ và tên:</label>
-                                            <input type="text" class="form-control" id="inputFullName" name="hoten"
+                                            <input type="text" class="form-control validate-text" maxlength="30" id="inputFullName" name="hoten"
                                                 value="<%= thuyenvieninfo.hoten %>">
                                         </div>
                                         <div class="form-group">
@@ -1884,7 +1884,7 @@
         });
     </script>
 
-
+    <script src="/js/validation.js"></script>
 </body>
 
 </html>

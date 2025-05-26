@@ -58,27 +58,7 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-            },
-            ngaysinh: {
-            type: Sequelize.DATE,
-            allowNull: true
-        }, 
-        sizegiaybaoho: {
-                type: Sequelize.INTEGER,
-                allowNull: true
-            },
-            trangthai: {
-                type: Sequelize.STRING(50),
-                allowNull: false
-            },
-            ghichu: {
-                type: Sequelize.STRING(255),
-                allowNull: true
-            },
-             thoigian_lenTauDuKien	: {
-            type: Sequelize.DATE,
-            allowNull: true
-        }, 
+            }
         });
     },
 

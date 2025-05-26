@@ -190,7 +190,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="field-required">Họ và tên:</label>
-                                                        <input type="text" class="form-control" name="hoten" required>
+                                                        <input type="text" class="form-control validate-text" name="hoten" maxlength="30" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -205,19 +205,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="field-required">CCCD:</label>
-                                                        <input type="text" class="form-control" name="cccd" required>
+                                                        <input type="text" class="form-control validate-int" name="cccd" maxlength="12" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Chiều cao (cm):</label>
-                                                        <input type="number" class="form-control" name="chieucao">
+                                                        <label class="field-required">Chiều cao (cm):</label>
+                                                        <input type="number" class="form-control validate-int" name="chieucao" data-min="160" data-max="300" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Cân nặng (kg):</label>
-                                                        <input type="number" class="form-control" name="cannang">
+                                                        <label class="field-required">Cân nặng (kg):</label>
+                                                        <input type="number" class="form-control validate-int" name="cannang" data-min="50" data-max="100" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -225,7 +225,7 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Nhóm máu:</label>
+                                                        <label class="field-required">Nhóm máu:</label>
                                                         <select class="form-control" name="nhommau">
                                                             <option value="">-- Chọn --</option>
                                                             <option value="A">A</option>
@@ -237,19 +237,19 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Size giày:</label>
-                                                        <input type="text" class="form-control" name="sizegiay">
+                                                        <label class="field-required">Size giày:</label>
+                                                        <input type="text" class="form-control validate-int" name="sizegiay" data-min="36" data-max="44" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Size giày bảo hộ:</label>
-                                                        <input type="text" class="form-control" name="sizegiaybaoho">
+                                                        <label class="field-required">Size giày bảo hộ:</label>
+                                                        <input type="text" class="form-control validate-int" name="sizegiaybaoho" data-min="36" data-max="44" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label>Tình trạng hôn nhân:</label>
+                                                        <label class="field-required">Tình trạng hôn nhân:</label>
                                                         <select class="form-control" name="tinhtranghonnhan">
                                                             <option value="Độc thân">Độc thân</option>
                                                             <option value="Đã kết hôn">Đã kết hôn</option>
@@ -262,13 +262,13 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="field-required">Email:</label>
-                                                        <input type="email" class="form-control" name="email" required>
+                                                        <input type="email" class="form-control validate-email" name="email" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="field-required">Số điện thoại:</label>
-                                                        <input type="text" class="form-control" name="sodienthoai" required>
+                                                        <input type="text" class="form-control validate-int" name="sodienthoai" maxlength="10" required>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -299,13 +299,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Họ tên bố:</label>
-                                                <input type="text" class="form-control" name="hotenbo">
+                                                <input type="text" class="form-control validate-text" name="hotenbo" maxlength="30">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Số điện thoại bố:</label>
-                                                <input type="text" class="form-control" name="sdtbo">
+                                                <input type="text" class="form-control validate-int" name="sdtbo" maxlength="10">
                                             </div>
                                         </div>
                                     </div>
@@ -314,13 +314,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Họ tên mẹ:</label>
-                                                <input type="text" class="form-control" name="hotenme">
+                                                <input type="text" class="form-control validate-text" name="hotenme" maxlength="30">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Số điện thoại mẹ:</label>
-                                                <input type="text" class="form-control" name="sdtme">
+                                                <input type="text" class="form-control validate-int" name="sdtme" maxlength="10">
                                             </div>
                                         </div>
                                     </div>
@@ -329,13 +329,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Họ tên vợ/chồng:</label>
-                                                <input type="text" class="form-control" name="hotenvo">
+                                                <input type="text" class="form-control validate-text" name="hotenvo" maxlength="30">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Số điện thoại vợ/chồng:</label>
-                                                <input type="text" class="form-control" name="sdtvo">
+                                                <input type="text" class="form-control validate-int" name="sdtvo" maxlength="10">
                                             </div>
                                         </div>
                                     </div>
@@ -344,13 +344,13 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Họ tên người giám hộ:</label>
-                                                <input type="text" class="form-control" name="nguoigiamho">
+                                                <input type="text" class="form-control validate-text" name="nguoigiamho" maxlength="30">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>Số điện thoại người giám hộ:</label>
-                                                <input type="text" class="form-control" name="sdtgiamho">
+                                                <input type="text" class="form-control validate-int" name="sdtgiamho" maxlength="10">
                                             </div>
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="field-required">Năm tốt nghiệp:</label>
-                                                <input type="number" class="form-control" name="namtotnghiep" min="1980" max="2030" required>
+                                                <input type="number" class="form-control validate-int" name="namtotnghiep" data-min="1980" data-max="2030" maxlength="4" required>
                                             </div>
                                         </div>
                                     </div>
@@ -430,7 +430,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label>Điểm số:</label>
-                                                        <input type="number" step="0.1" class="form-control" name="diemso[]">
+                                                        <input type="number" class="form-control validate-float" name="diemso[]">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
@@ -484,7 +484,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Số hiệu chứng chỉ:</label>
-                                                        <input type="text" class="form-control" name="sohieuchungchi[]">
+                                                        <input type="text" class="form-control validate-int" name="sohieuchungchi[]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,7 +512,7 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>Xếp loại:</label>
-                                                        <input type="text" class="form-control" name="xeploai[]">
+                                                        <input type="text" class="form-control validate-text" name="xeploai[]">
                                                     </div>
                                                 </div>
                                             </div>
@@ -606,14 +606,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tennganhang" class="field-required">Tên ngân hàng:</label>
-                                                <input type="text" class="form-control" name="tennganhang" id="tennganhang" placeholder="VD: Vietcombank" required>
+                                                <input type="text" class="form-control validate-text" name="tennganhang" id="tennganhang" placeholder="VD: Vietcombank" required>
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="stk" class="field-required">Số tài khoản:</label>
-                                                <input type="text" class="form-control" name="stk" id="stk" placeholder="Nhập số tài khoản" required>
+                                                <input type="text" class="form-control validate-int" name="stk" id="stk" placeholder="Nhập số tài khoản" maxlength="20" required>
                                             </div>
                                         </div>
                                     </div>
@@ -622,7 +622,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="tentaikhoan" class="field-required">Tên chủ tài khoản:</label>
-                                                <input type="text" class="form-control" name="tentaikhoan" id="tentaikhoan" placeholder="VD: Nguyen Van A" required>
+                                                <input type="text" class="form-control validate-text" name="tentaikhoan" id="tentaikhoan" placeholder="VD: Nguyen Van A" maxlength="30" required>
                                             </div>
                                         </div>
                                     </div>
@@ -812,6 +812,7 @@
             });
         });
     </script>
+    <script src="/js/validation.js"></script>
 </body>
 
 </html>
