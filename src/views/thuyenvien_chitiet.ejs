@@ -350,42 +350,32 @@
                                                     <td><%= ngoainguinfo[i].tenchungchi %></td>
                                                     <td><%= ngoainguinfo[i].diemso %></td>
                                                     <td>
-                                                        <% if (ngoainguinfo[i].ngaycap) { %>
                                                         <% 
-                                                                    // Safely format the date regardless of type
-                                                                    let ngaycap = ngoainguinfo[i].ngaycap;
-                                                                    let formattedDate;
-                                                                    if (typeof ngaycap === 'string') {
-                                                                        formattedDate = ngaycap.split('T')[0];
-                                                                    } else if (ngaycap instanceof Date) {
-                                                                        formattedDate = ngaycap.toISOString().split('T')[0];
-                                                                    } else {
-                                                                        formattedDate = ngaycap;
-                                                                    }
-                                                                    %>
-                                                        <%= formattedDate %>
-                                                        <% } else { %>
-                                                        N/A
-                                                        <% } %>
+                                                            let nc = ngoainguinfo[i].ngaycap;
+                                                            let formattedNc = 'N/A';
+                                                            if (nc) {
+                                                            let d = new Date(nc);
+                                                            let dd = String(d.getDate()).padStart(2, '0');
+                                                            let mm = String(d.getMonth() + 1).padStart(2, '0'); // vì tháng bắt đầu từ 0
+                                                            let yyyy = d.getFullYear();
+                                                            formattedNc = `${dd}/${mm}/${yyyy}`;
+                                                            }
+                                                        %>
+                                                        <%= formattedNc %>
                                                     </td>
                                                     <td>
-                                                        <% if (ngoainguinfo[i].ngayhethan) { %>
                                                         <% 
-                                                                    // Safely format the date regardless of type
-                                                                    let ngayhethan = ngoainguinfo[i].ngayhethan;
-                                                                    let formattedDate;
-                                                                    if (typeof ngayhethan === 'string') {
-                                                                        formattedDate = ngayhethan.split('T')[0];
-                                                                    } else if (ngayhethan instanceof Date) {
-                                                                        formattedDate = ngayhethan.toISOString().split('T')[0];
-                                                                    } else {
-                                                                        formattedDate = ngayhethan;
-                                                                    }
-                                                                    %>
-                                                        <%= formattedDate %>
-                                                        <% } else { %>
-                                                        N/A
-                                                        <% } %>
+                                                            let nhh = ngoainguinfo[i].ngayhethan;
+                                                            let formattedNh = 'N/A';
+                                                            if (nhh) {
+                                                            let d = new Date(nhh);
+                                                            let dd = String(d.getDate()).padStart(2, '0');
+                                                            let mm = String(d.getMonth() + 1).padStart(2, '0');
+                                                            let yyyy = d.getFullYear();
+                                                            formattedNh = `${dd}/${mm}/${yyyy}`;
+                                                            }
+                                                        %>
+                                                        <%= formattedNh %>
                                                     </td>
                                                     <td>
                                                         <% if (ngoainguinfo[i].file) { %>
@@ -462,43 +452,34 @@
                                                     </td>
                                                     <td><%= chungchiinfo[i].sohieuchungchi %></td>
                                                     <td>
-                                                        <% if (chungchiinfo[i].ngaycap) { %>
                                                         <% 
-                                                                    // Safely format the date regardless of type
-                                                                    let ngaycap = chungchiinfo[i].ngaycap;
-                                                                    let formattedDate;
-                                                                    if (typeof ngaycap === 'string') {
-                                                                        formattedDate = ngaycap.split('T')[0];
-                                                                    } else if (ngaycap instanceof Date) {
-                                                                        formattedDate = ngaycap.toISOString().split('T')[0];
-                                                                    } else {
-                                                                        formattedDate = ngaycap;
-                                                                    }
-                                                                    %>
+                                                            let ngaycap = chungchiinfo[i].ngaycap;
+                                                            let formattedDate = 'N/A';
+                                                            if (ngaycap) {
+                                                            let d = new Date(ngaycap);
+                                                            let dd = String(d.getDate()).padStart(2, '0');
+                                                            let mm = String(d.getMonth() + 1).padStart(2, '0'); // tháng bắt đầu từ 0
+                                                            let yyyy = d.getFullYear();
+                                                            formattedDate = `${dd}/${mm}/${yyyy}`;
+                                                            }
+                                                        %>
                                                         <%= formattedDate %>
-                                                        <% } else { %>
-                                                        N/A
-                                                        <% } %>
                                                     </td>
                                                     <td>
-                                                        <% if (chungchiinfo[i].ngayhethan) { %>
                                                         <% 
-                                                                    // Safely format the date regardless of type
-                                                                    let ngayhethan = chungchiinfo[i].ngayhethan;
-                                                                    let formattedDate;
-                                                                    if (typeof ngayhethan === 'string') {
-                                                                        formattedDate = ngayhethan.split('T')[0];
-                                                                    } else if (ngayhethan instanceof Date) {
-                                                                        formattedDate = ngayhethan.toISOString().split('T')[0];
-                                                                    } else {
-                                                                        formattedDate = ngayhethan;
-                                                                    }
-                                                                    %>
-                                                        <%= formattedDate %>
-                                                        <% } else { %>
-                                                        N/A
-                                                        <% } %>
+                                                            let ngayhethan = chungchiinfo[i].ngayhethan;
+                                                            let formattedNgayHetHan = 'N/A'; // 🟢 đặt tên khác để không trùng
+                                                            if (ngayhethan) {
+                                                            let d = new Date(ngayhethan);
+                                                            let dd = String(d.getDate()).padStart(2, '0');
+                                                            let mm = String(d.getMonth() + 1).padStart(2, '0');
+                                                            let yyyy = d.getFullYear();
+                                                            formattedNgayHetHan = `${dd}/${mm}/${yyyy}`;
+                                                            }
+                                                        %>
+                                                        <%= formattedNgayHetHan %>
                                                     </td>
+
                                                     <td><%= chungchiinfo[i].noicap %></td>
                                                     <td><%= chungchiinfo[i].xeploai %></td>
                                                     <td>
