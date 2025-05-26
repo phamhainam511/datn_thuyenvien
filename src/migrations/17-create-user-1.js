@@ -9,7 +9,7 @@ module.exports = {
                 type: Sequelize.STRING(30)
             },
             matkhau: {
-                type: Sequelize.STRING(30),
+                type: Sequelize.STRING(60),
                 allowNull: false
             },
             sdt: {
