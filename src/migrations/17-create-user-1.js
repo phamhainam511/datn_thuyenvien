@@ -8,14 +8,25 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.STRING(30)
             },
-            hoten: {
-                type: Sequelize.STRING,
-                allowNull: false
-            },
             matkhau: {
                 type: Sequelize.STRING(30),
                 allowNull: false
             },
+            phanquyen_id: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+                references: {
+                    model: 'phanquyen',
+                    key: 'id_phanquyen'
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'RESTRICT'
+            },
+            hoten: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
+            
             sdt: {
                 type: Sequelize.STRING(15),
                 allowNull: true
@@ -28,16 +39,7 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: true
             },
-            phanquyen_id: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-                references: {
-                    model: 'phanquyen',
-                    key: 'id_phanquyen'
-                },
-                onUpdate: 'CASCADE',
-                onDelete: 'RESTRICT'
-            },
+            
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

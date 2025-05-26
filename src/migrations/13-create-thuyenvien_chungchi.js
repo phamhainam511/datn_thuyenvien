@@ -45,7 +45,7 @@ module.exports = {
                 type: Sequelize.STRING(100),
                 allowNull: false
             },
-            hangbangcap: {
+            xeploai: {
                 type: Sequelize.STRING(30),
                 allowNull: false
             },

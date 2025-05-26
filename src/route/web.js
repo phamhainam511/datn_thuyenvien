@@ -91,6 +91,7 @@ const initWebRoutes = (app) => {
     router.post('/cap-nhat-than-nhan/:id', ThuyenVienController.updateThanNhan);
     router.get('/them-thuyen-vien', ThuyenVienController.getAddThuyenVienForm);
     router.post('/them-thuyen-vien', ThuyenVienController.createNewThuyenVien);
+    router.post('/xoa-thuyen-vien', ThuyenVienController.deleteThuyenVien);
 
     // Correct the route for viewing crew details
     router.get('/thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
