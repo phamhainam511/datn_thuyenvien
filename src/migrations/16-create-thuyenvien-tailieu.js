@@ -17,7 +17,7 @@ module.exports = {
           key: 'id_thuyenvien',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'RESTRICT'   // hoặc 'CASCADE' tùy theo yêu cầu nghiệp vụ
+        onDelete: 'CASCADE'   // hoặc 'CASCADE' tùy theo yêu cầu nghiệp vụ
       },
       cccd_mattruoc: {
         type: Sequelize.STRING(255),

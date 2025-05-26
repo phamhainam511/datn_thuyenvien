@@ -18,7 +18,7 @@ module.exports = {
           key: 'id_thuyenvien',
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',        // hoặc 'CASCADE' nếu muốn xóa khi thuyenvien bị xóa
+        onDelete: 'CASCADE',        // hoặc 'CASCADE' nếu muốn xóa khi thuyenvien bị xóa
       },
       truongdaotao: {
         type: Sequelize.STRING(255),

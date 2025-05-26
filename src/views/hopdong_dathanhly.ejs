@@ -151,15 +151,15 @@
             if (ids.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Chưa chọn chứng chỉ nào!',
-                    text: 'Vui lòng chọn ít nhất một chứng chỉ để xóa.',
+                    title: 'Chưa chọn hợp đồng nào!',
+                    text: 'Vui lòng chọn ít nhất một hợp đồng để xóa.',
                 });
                 return;
             }
 
             Swal.fire({
                 title: 'Bạn chắc chắn?',
-                text: `Xóa ${ids.length} chứng chỉ đã chọn? Hành động này không thể hoàn tác!`,
+                text: `Xóa ${ids.length} hợp đồng đã chọn? Hành động này không thể hoàn tác!`,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -203,7 +203,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi',
-                                text: err.message || 'Đã xảy ra lỗi khi xoá chứng chỉ.'
+                                text: err.message || 'Đã xảy ra lỗi khi xoá hợp đồng.'
                             });
                         });
                 }

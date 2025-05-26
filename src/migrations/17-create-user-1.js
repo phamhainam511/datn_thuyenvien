@@ -32,7 +32,7 @@ module.exports = {
                     key: 'id_phanquyen'
                 },
                 onUpdate: 'CASCADE',
-                onDelete: 'RESTRICT'
+                onDelete: 'CASCADE'
             },
             createdAt: {
                 allowNull: false,
