@@ -345,15 +345,11 @@
                             }
 
                             function thanhToan() {
-                                if (!confirm('Bạn có chắc đã thanh toán chưa?')) {
-                                    return;
-                                }
+                                return confirm('Bạn có chắc đã thanh toán chưa?');
                             }
 
                             function huyThanhToan() {
-                                if (!confirm('Bạn có chắc muốn hủy thanh toán không?')) {
-                                    return;
-                                }
+                                return confirm('Bạn có chắc muốn hủy thanh toán không?');
                             }
 
                             const urlParams = new URLSearchParams(window.location.search);

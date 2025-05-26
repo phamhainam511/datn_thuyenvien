@@ -569,9 +569,9 @@
                                                     %>
                                                     <%= vitri %>
                                                 </td>
-                                                <td><%= lichsuditauinfo[i].timexuatcanh.toISOString().split('T')[0] %>
+                                                <td><%= lichsuditauinfo[i].timexuatcanh.toLocaleString() %>
                                                 </td>
-                                                <td><%= lichsuditauinfo[i].timelentau.toISOString() %></td>
+                                                <td><%= lichsuditauinfo[i].timelentau.toLocaleString() %></td>
                                                 <td><%= lichsuditauinfo[i].ngayroitau %></td>
                                                 <td><%= lichsuditauinfo[i].cangroitau %></td>
                                                 <td><%= lichsuditauinfo[i].quoctich_thuyen %></td>
@@ -797,17 +797,17 @@
                                         </div>
                                         <div class="form-group">
                                             <label>CCCD:</label>
-                                            <input type="text" class="form-control" id="inputIdNumber" name="cccd"
+                                            <input type="text" class="form-control validate-int" maxlength="12" id="inputIdNumber" name="cccd"
                                                 value="<%= thuyenvieninfo.cccd %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Chiều cao:</label>
-                                            <input type="text" class="form-control" id="inputHeight" name="chieucao"
+                                            <input type="text" class="form-control validate-int" data-min="160" data-max="250" maxlength="3" id="inputHeight" name="chieucao"
                                                 value="<%= thuyenvieninfo.chieucao %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Cân nặng:</label>
-                                            <input type="text" class="form-control" id="inputWeight" name="cannang"
+                                            <input type="text" class="form-control validate-float" data-min="50" data-max="120" maxlength="3" id="inputWeight" name="cannang"
                                                 value="<%= thuyenvieninfo.cannang %>">
                                         </div>
                                         <div class="form-group">
@@ -822,22 +822,22 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Size giày:</label>
-                                            <input type="text" class="form-control" id="inputShoeSize" name="sizegiay"
+                                            <input type="text" class="form-control validate-int" data-min="36" data-max="45" maxlength="2" id="inputShoeSize" name="sizegiay"
                                                 value="<%= thuyenvieninfo.sizegiay %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Size giày bảo hộ:</label>
-                                            <input type="text" class="form-control" id="inputSafetyShoeSize"
+                                            <input type="text" class="form-control validate-int" data-min="36" data-max="45" maxlength="2" id="inputSafetyShoeSize"
                                                 name="sizegiaybaoho" value="<%= thuyenvieninfo.sizegiaybaoho %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Email:</label>
-                                            <input type="email" class="form-control" id="inputEmail" name="email"
+                                            <input type="email" class="form-control validate-email" id="inputEmail" name="email"
                                                 value="<%= thuyenvieninfo.email %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại:</label>
-                                            <input type="text" class="form-control" id="inputPhone" name="sodienthoai"
+                                            <input type="text" class="form-control validate-int" maxlength="10" id="inputPhone" name="sodienthoai"
                                                 value="<%= thuyenvieninfo.sodienthoai %>">
                                         </div>
                                         <div class="form-group">
@@ -897,7 +897,7 @@
                                                 name="thoigian_lenTauDuKien">
                                         </div>
                                         <div class="form-group">
-                                            <label>Cảng xuất cảnh:</label>
+                                            <label>Cảng rời tàu:</label>
                                             <input type="text" class="form-control" name="cangroitau">
                                         </div>
                                         <div class="form-group">
@@ -962,8 +962,8 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label>Ngày xuất cảnh:</label>
-                                                    <input type="date" class="form-control" name="timexuatcanh"
+                                                    <label>Ngày giờ xuất cảnh:</label>
+                                                    <input type="datetime-local" class="form-control" name="timexuatcanh"
                                                         required>
                                                 </div>
                                             </div>
@@ -1003,7 +1003,7 @@
                                         action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang trên bờ">
                                         <div class="form-group">
-                                            <label>Cảng xuất cảnh:</label>
+                                            <label>Cảng rời tàu:</label>
                                             <input type="text" class="form-control" name="cangroitau">
                                         </div>
                                         <div class="form-group">
@@ -1041,42 +1041,42 @@
                                         action="/cap-nhat-than-nhan/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <div class="form-group">
                                             <label>Họ tên bố:</label>
-                                            <input type="text" class="form-control" id="inputFatherName" name="hotenbo"
+                                            <input type="text" class="form-control validate-text" maxlength="30" id="inputFatherName" name="hotenbo"
                                                 value="<%= nhanthanthuyenvieninfo.hotenbo %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại bố:</label>
-                                            <input type="text" class="form-control" id="inputFatherPhone" name="sdtbo"
+                                            <input type="text" class="form-control validate-int" maxlength="10" id="inputFatherPhone" name="sdtbo"
                                                 value="<%= nhanthanthuyenvieninfo.sdtbo %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Họ tên mẹ:</label>
-                                            <input type="text" class="form-control" id="inputMotherName" name="hotenme"
+                                            <input type="text" class="form-control validate-text" maxlength="30" id="inputMotherName" name="hotenme"
                                                 value="<%= nhanthanthuyenvieninfo.hotenme %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại mẹ:</label>
-                                            <input type="text" class="form-control" id="inputMotherPhone" name="sdtme"
+                                            <input type="text" class="form-control validate-int" maxlength="10" id="inputMotherPhone" name="sdtme"
                                                 value="<%= nhanthanthuyenvieninfo.sdtme %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Họ tên vợ/chồng:</label>
-                                            <input type="text" class="form-control" id="inputSpouseName" name="hotenvo"
+                                            <input type="text" class="form-control validate-text" maxlength="30" id="inputSpouseName" name="hotenvo"
                                                 value="<%= nhanthanthuyenvieninfo.hotenvo %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại vợ/chồng:</label>
-                                            <input type="text" class="form-control" id="inputSpousePhone" name="sdtvo"
+                                            <input type="text" class="form-control validate-int" maxlength="10" id="inputSpousePhone" name="sdtvo"
                                                 value="<%= nhanthanthuyenvieninfo.sdtvo %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Họ tên người giám hộ:</label>
-                                            <input type="text" class="form-control" id="inputGuardianName"
+                                            <input type="text" class="form-control validate-text" maxlength="30" id="inputGuardianName"
                                                 name="nguoigiamho" value="<%= nhanthanthuyenvieninfo.nguoigiamho %>">
                                         </div>
                                         <div class="form-group">
                                             <label>Số điện thoại người giám hộ:</label>
-                                            <input type="text" class="form-control" id="inputGuardianPhone"
+                                            <input type="text" class="form-control validate-int" maxlength="10" id="inputGuardianPhone"
                                                 name="sdtgiamho" value="<%= nhanthanthuyenvieninfo.sdtgiamho %>">
                                         </div>
                                         <div class="form-group">
@@ -1130,8 +1130,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Ngày xuất cảnh:</label>
-                                            <input type="date" class="form-control" id="newOnboardDate"
+                                            <label>Ngày giờ xuất cảnh:</label>
+                                            <input type="datetime-local" class="form-control" id="newOnboardDate"
                                                 name="timexuatcanh" required>
                                         </div>
                                         <div class="form-group">
@@ -1196,8 +1196,8 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Ngày xuất cảnh:</label>
-                                            <input type="date" class="form-control" id="editOnboardDate"
+                                            <label>Ngày giờ xuất cảnh:</label>
+                                            <input type="datetime-local" class="form-control" id="editOnboardDate"
                                                 name="timexuatcanh" required value="">
                                         </div>
                                         <div class="form-group">
@@ -1208,17 +1208,16 @@
                                         <div class="form-group">
                                             <label>Ngày rời tàu:</label>
                                             <input type="date" class="form-control" id="editOffboardDate"
-                                                name="ngayroitau" required>
+                                                name="ngayroitau">
                                         </div>
                                         <div class="form-group">
                                             <label>Cảng xuống tàu:</label>
-                                            <input type="text" class="form-control" id="editPort" name="cangroitau"
-                                                required>
+                                            <input type="text" class="form-control" id="editPort" name="cangroitau">
                                         </div>
                                         <div class="form-group">
                                             <label>Quốc tịch thuyền:</label>
                                             <input type="text" class="form-control" id="editNationality"
-                                                name="quoctich_thuyen" required>
+                                                name="quoctich_thuyen">
                                         </div>
                                     </form>
                                 </div>
@@ -1253,13 +1252,15 @@
                                         <div class="form-group">
                                             <label>Hệ đào tạo:</label>
                                             <select class="form-control" name="hedaotao" required>
+                                                <option value="Trung cấp">Trung cấp</option>
                                                 <option value="Cao đẳng">Cao đẳng</option>
                                                 <option value="Đại học">Đại học</option>
+                                                <option value="Sau đại học">Sau đại học</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Năm tốt nghiệp:</label>
-                                            <input type="number" class="form-control" name="namtotnghiep" required>
+                                            <input type="number" class="form-control validate-int" data-min="1980" data-max="2030" maxlength="4" name="namtotnghiep" required>
                                         </div>
                                     </form>
                                 </div>
@@ -1298,14 +1299,16 @@
                                             <label>Hệ đào tạo:</label>
                                             <select class="form-control" id="editProgram" name="hedaotao" required
                                                 value="">
+                                                <option value="Trung cấp">Trung cấp</option>
                                                 <option value="Cao đẳng">Cao đẳng</option>
                                                 <option value="Đại học">Đại học</option>
+                                                <option value="Sau đại học">Sau đại học</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Năm tốt nghiệp:</label>
-                                            <input type="number" class="form-control" id="editYear" name="namtotnghiep"
-                                                required value="<%= hocvaninfo.namtotnghiep %>">
+                                            <input type="number" class="form-control validate-int" data-min="1980" data-max="2030" maxlength="4"  id="editYear" name="namtotnghiep"
+                                                required value="">
                                         </div>
                                     </form>
                                 </div>
@@ -1350,7 +1353,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Điểm số:</label>
-                                            <input type="number" step="0.1" class="form-control" name="diemso" required>
+                                            <input type="number" class="form-control validate-float" name="diemso" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày cấp:</label>
@@ -1413,7 +1416,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Điểm số:</label>
-                                            <input type="number" step="0.1" class="form-control" id="editScore"
+                                            <input type="number" class="form-control validate-float" id="editScore"
                                                 name="diemso" required value="">
                                         </div>
                                         <div class="form-group">
@@ -1476,7 +1479,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Số hiệu chứng chỉ:</label>
-                                            <input type="text" class="form-control" name="sohieuchungchi" required>
+                                            <input type="text" class="form-control validate-int" name="sohieuchungchi" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày cấp:</label>
@@ -1492,7 +1495,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Xếp loại:</label>
-                                            <input type="text" class="form-control" name="xeploai">
+                                            <input type="text" class="form-control validate-text" name="xeploai">
                                         </div>
                                         <div class="form-group">
                                             <label>File chứng chỉ:</label>
@@ -1537,7 +1540,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Số hiệu chứng chỉ:</label>
-                                            <input type="text" class="form-control" id="editCrewCertNumber"
+                                            <input type="text" class="form-control validate-int" id="editCrewCertNumber"
                                                 name="sohieuchungchi" required>
                                         </div>
                                         <div class="form-group">
@@ -1557,7 +1560,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Xếp loại:</label>
-                                            <input type="text" class="form-control" id="editCrewCertRank"
+                                            <input type="text" class="form-control validate-text" id="editCrewCertRank"
                                                 name="xeploai">
                                         </div>
                                         <div class="form-group">
