@@ -3,13 +3,13 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable('thuyenvien_chungchi', {
-            id_thuyenvien_chungchi: {
+            id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            thuyenvien_id: {
+            id_thuyenvien: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
@@ -19,7 +19,7 @@ module.exports = {
                 onUpdate: 'CASCADE',
                 onDelete: 'CASCADE'
             },
-            chungchi_id: {
+            id_chungchi: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 references: {
