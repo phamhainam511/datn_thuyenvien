@@ -24,6 +24,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: true
             },
+            hoten: {
+                type: Sequelize.STRING,
+                allowNull: true
+            },
             phanquyen_id: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
