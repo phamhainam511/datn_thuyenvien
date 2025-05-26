@@ -215,8 +215,9 @@
                                                         id="maritalStatus">
                                                         <%= thuyenvieninfo.ghichu %>
                                                     </span></li>
-                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến</strong>
-                                                    <span id="maritalStatus">
+
+                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến: </strong>
+                                                    <span id="thoigianLenTau">
                                                         <%= thuyenvieninfo.thoigian_lenTauDuKien %>
                                                     </span></li>
                                             </ul>
@@ -871,11 +872,15 @@
                                             <textarea class="form-control" id="ghichu" name="ghichu"
                                                 rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
                                         </div>
+                                        <% 
+                                            const rawDateTime = new Date(thuyenvieninfo.thoigian_lenTauDuKien);
+                                            const formattedDateTime = rawDateTime.toISOString().slice(0,16); 
+                                        %>
                                         <div class="form-group">
                                             <label>Ngày lên tàu dự kiến:</label>
-                                            <input type="date" class="form-control" id="inputDob"
+                                            <input type="datetime-local" class="form-control" id=""
                                                 name="thoigian_lenTauDuKien"
-                                                value="<%= thuyenvieninfo.thoigian_lenTauDuKien %>">
+                                                 value="<%= formattedDateTime %>">
                                         </div>
                                     </form>
                                 </div>
@@ -904,6 +909,7 @@
                                     <form id="waitingStatusForm"
                                         action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
                                         <input type="hidden" name="trangthai" value="Đang chờ tàu">
+                                        
                                         <div class="form-group">
                                             <label>Thời gian lên tàu dự kiến:</label>
                                             <input type="datetime-local" class="form-control"
@@ -1636,6 +1642,13 @@
             const rawDate = $('#dob').text().trim(); // '2020-01-01'
             const formatted = moment(rawDate).format('DD/MM/YYYY');
             $('#dob').text(formatted);
+        });
+        $(document).ready(function () {
+            const rawDateTime = $('#thoigianLenTau').text().trim(); // ví dụ: "2025-06-10T08:00:00.000Z"
+            if (rawDateTime) {
+            const formatted = moment(rawDateTime).format('DD/MM/YYYY HH:mm'); // hoặc chỉ DD/MM/YYYY nếu không cần giờ
+            $('#thoigianLenTau').text(formatted);
+            }
         });
     </script>
 
