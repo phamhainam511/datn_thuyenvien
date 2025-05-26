@@ -12,6 +12,7 @@ Lệnh này sẽ cài các thư viện cần thiết được khai báo trong fi
 2. Tạo cơ sở dữ liệu
 Chạy Xampp và tạo cơ sở dữ liệu tên "db2"
 Sau đó chạy lệnh: npm install --save sequelize sequelize-cli để import các bảng
+và chạy: npx sequelize-cli db:migrate để import các bảng
 và: npx sequelize-cli db:seed:all để import dữ liệu mẫu
 
 3. Chạy ứng dụng
