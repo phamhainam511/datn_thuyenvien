@@ -134,7 +134,7 @@
                                             <!-- Nút cập nhật -->
                                             <div class="text-center mt-4">
                                                 <div class="btn-group">
-                                                    <% if (thuyenvieninfo.trangthai !== 'Đang trên bờ') { %>
+                                                    <% if (thuyenvieninfo.trangthai !== '') { %>
                                                     <button type="button" class="btn btn-primary" id="statusButtonIdx">
                                                         Cập nhật trạng thái
                                                     </button>
@@ -145,7 +145,7 @@
                                                         <span class="sr-only">Toggle Dropdown</span>
                                                     </button>
                                                     <div class="dropdown-menu">
-                                                        <% if (thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
+                                                        <% if (thuyenvieninfo.trangthai === 'Đang trên bờ') { %>
                                                         <a class="dropdown-item" href="#" data-toggle="modal"
                                                             data-target="#waitingStatusModal">Đang chờ tàu</a>
                                                         <% } %>
@@ -874,7 +874,7 @@
                         </div>
                     </div>
 
-                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - WAITING STATUS -->
+                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - ĐANG CHỜ TÀU -->
                     <div class="modal fade" id="waitingStatusModal" tabindex="-1" role="dialog"
                         aria-labelledby="waitingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -896,18 +896,6 @@
                                             <input type="datetime-local" class="form-control"
                                                 name="thoigian_lenTauDuKien">
                                         </div>
-                                        <div class="form-group">
-                                            <label>Cảng rời tàu:</label>
-                                            <input type="text" class="form-control" name="cangroitau">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Ngày rời tàu:</label>
-                                            <input type="date" class="form-control" name="ngayroitau">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Quốc tịch thuyền:</label>
-                                            <input type="text" class="form-control" name="quoctich_thuyen">
-                                        </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -919,7 +907,7 @@
                         </div>
                     </div>
 
-                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - Đang trên tàu -->
+                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - ĐANG TRÊN TÀU -->
                     <div class="modal fade" id="boardingStatusModal" tabindex="-1" role="dialog"
                         aria-labelledby="boardingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -986,7 +974,7 @@
                         </div>
                     </div>
 
-                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - DISEMBARKING -->
+                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - ĐANG TRÊN BỜ -->
                     <div class="modal fade" id="disembarkingStatusModal" tabindex="-1" role="dialog"
                         aria-labelledby="disembarkingStatusModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">

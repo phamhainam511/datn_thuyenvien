@@ -11298,6 +11298,11 @@ body.sidebar-toggled footer.sticky-footer {
   color: white;
 }
 
+.status.waiting {
+  background-color: #ffc107;
+  color: white;
+}
+
 .status.inactive {
   background-color: #dc3545;
   color: white;

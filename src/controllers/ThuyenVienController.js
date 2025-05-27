@@ -908,6 +908,7 @@ let updateThuyenVienStatus = async (req, res) => {
             where: { id_thuyenvien: thuyenvien_id }
         });
 
+        // Lấy lịch sử đi tàu gần nhất
         const last_lichsuditau = await db.Lichsuditau.findOne({
             where: {
                 thuyenvien_id: thuyenvien_id,
@@ -922,14 +923,6 @@ let updateThuyenVienStatus = async (req, res) => {
                     thoigian_lenTauDuKien: thoigian_lenTauDuKien ? thoigian_lenTauDuKien : null,
                 }
                 , { where: { id_thuyenvien: thuyenvien_id } }
-            );
-            await db.Lichsuditau.update(
-                {
-                    ngayroitau: req.body.ngayroitau,
-                    cangroitau: req.body.cangroitau,
-                    quoctich_thuyen: req.body.quoctich_thuyen
-                }
-                , { where: { id_lichsuditau: last_lichsuditau.id_lichsuditau } }
             );
         } else if (trangthai === 'Đang trên tàu') {
             await db.Thuyenvien.update(
