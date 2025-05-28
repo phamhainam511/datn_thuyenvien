@@ -23,365 +23,496 @@
 <body id="page-top">
     <%- include('partials/header', { title: 'Danh sách chứng chỉ' , baseUrl: '' }) %>
 
-        <div id="wrapper">
+    <div id="wrapper">
 
-            <%- include('partials/sidebar', { activeMenu: 'users' , baseUrl: '' }) %>
+        <%- include('partials/sidebar', { activeMenu: 'users' , baseUrl: '' }) %>
 
-                <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content-wrapper" class="d-flex flex-column">
 
-                    <div id="content">
+            <div id="content">
 
-                        <%- include('partials/topbar', { baseUrl: '' }) %>
+                <%- include('partials/topbar', { baseUrl: '' }) %>
 
-                            <div class="container-fluid">
+                <div class="container-fluid">
 
-                                <h1 class="h3 mb-2 text-gray-800">Danh sách tài khoản</h1>
-                                <div class="card shadow mb-4">
-                                    <div class="card-header py-3 d-flex justify-content-between align-items-center">
-                                        <h6 class="m-0 font-weight-bold text-primary">Tài khoản người dùng</h6>
+                    <h1 class="h3 mb-2 text-gray-800">Danh sách tài khoản</h1>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                            <h6 class="m-0 font-weight-bold text-primary">Tài khoản người dùng</h6>
 
-                                        <div>
-                                            <button class="btn btn-secondary btn-sm me-2" onclick="themTaiKhoan()">Thêm
-                                                Tài
-                                                Khoản</button>
-                                            <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">Xóa
-                                                Tài
-                                                Khoản</button>
-                                            <div class="modal fade" id="modalThemUser" tabindex="-1" role="dialog"
-                                                aria-labelledby="modalLabelThem" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title text-primary" id="modalLabelThem">
-                                                                Thêm user
-                                                                mới</h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form id="formThemUser" action="/post-user" method="POST">
-                                                                <div class="form-group">
-                                                                    <label for="taiKhoan" class="text-primary">Tài
-                                                                        khoản</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="taiKhoan" name="taikhoan" maxlength="20"
-                                                                        required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="matKhau" class="text-primary">Mật
-                                                                        khẩu</label>
-                                                                    <input type="text" class="form-control" id="matKhau"
-                                                                        name="matkhau" maxlength="20" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="hoTen" class="text-primary">Họ
-                                                                        tên</label>
-                                                                    <input type="text"
-                                                                        class="form-control validate-text" id="hoTen"
-                                                                        name="hoten" maxlength="30" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="SDT" class="text-primary">Số điện
-                                                                        thoại</label>
-                                                                    <input type="text" class="form-control validate-int"
-                                                                        id="SDT" name="sdt" maxlength="10" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="email"
-                                                                        class="text-primary">Email</label>
-                                                                    <input type="text"
-                                                                        class="form-control validate-email" id="email"
-                                                                        name="email" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="diaChi" class="text-primary">Địa
-                                                                        chỉ</label>
-                                                                    <input type="text" class="form-control" id="diaChi"
-                                                                        name="diachi" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="phanquyenId" class="text-primary">Tên
-                                                                        phân quyền</label>
-                                                                    <select class="form-control" id="phanQuyenId"
-                                                                        name="phanquyen_id" required>
-                                                                        <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
-                                                                            <option
-                                                                                value="<%= dataPhanQuyen[i].id_phanquyen %>">
-                                                                                <%= dataPhanQuyen[i].tenphanquyen %>
-                                                                            </option>
-                                                                            <% } %>
-                                                                    </select>
-                                                                </div>
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Lưu</button>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                            <div>
+                                <button class="btn btn-secondary btn-sm me-2" onclick="themTaiKhoan()">Thêm
+                                    Tài
+                                    Khoản</button>
+                                <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">Xóa
+                                    Tài
+                                    Khoản</button>
+                                <div class="modal fade" id="modalThemUser" tabindex="-1" role="dialog"
+                                    aria-labelledby="modalLabelThem" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-primary" id="modalLabelThem">
+                                                    Thêm user
+                                                    mới</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered text-center" id="dataTable1" width="100%"
-                                                cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th><input type="checkbox" id="selectAll"
-                                                                onclick="chonTatCa(this)"></th>
-                                                        <th>Họ Tên</th>
-                                                        <th>Số Điện Thoại</th>
-                                                        <th>Email</th>
-                                                        <th>Địa Chỉ</th>
-                                                        <th>Tài Khoản</th>
-                                                        <th>Phân Quyền</th>
-                                                        <th>Thao Tác</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="danhSach">
-                                                    <% for(let i=0; i<dataTable.length; i++){ %>
-                                                        <tr onclick="chonDong(this, event)">
-                                                            <td><input type="checkbox" class="row-checkbox"
-                                                                    data-id="<%= dataTable[i].taikhoan %>"></td>
-                                                            <td>
-                                                                <%= dataTable[i].hoten %>
-                                                            </td>
-                                                            <td class="ten">
-                                                                <%= dataTable[i].sdt %>
-                                                            </td>
-                                                            <td class="ten">
-                                                                <%= dataTable[i].email %>
-                                                            </td>
-                                                            <td class="ten">
-                                                                <%= dataTable[i].diachi %>
-                                                            </td>
-                                                            <td class="ten">
-                                                                <%= dataTable[i].taikhoan %>
-                                                            </td>
-                                                            <td class="ten">
-                                                                <%= dataTable[i].phanquyen?.tenphanquyen %>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn btn-primary btn-sm"
-                                                                    onclick="openEditModal('<%= dataTable[i].taikhoan %>', '<%= dataTable[i].hoten %>', '<%= dataTable[i].sdt %>', '<%= dataTable[i].diachi %>', '<%= dataTable[i].email %>', '<%= dataTable[i].phanquyen_id %>')">
-                                                                    Sửa
-                                                                </button>
-                                                                <button class="btn btn-warning btn-sm"
-                                                                    onclick="resetPassword('<%= dataTable[i].taikhoan %>')">
-                                                                    Reset
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        <% } %>
-                                                </tbody>
-                                            </table>
-                                            <!-- Modal edit -->
-                                            <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <form id="editUserForm" action="/put-user" method="POST">
-
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title">Sửa user</h5>
-                                                                <button type="button" class="close"
-                                                                    data-dismiss="modal">&times;</button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <input type="hidden" id="editId" name="taikhoan">
-                                                                <div class="form-group">
-                                                                    <label>Họ tên</label>
-                                                                    <input type="text"
-                                                                        class="form-control validate-text"
-                                                                        id="editHoTen" name="hoten" maxlength="30"
-                                                                        required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Số điện thoại</label>
-                                                                    <input type="text" class="form-control validate-int"
-                                                                        id="editSDT" name="sdt" maxlength="10" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Địa chỉ</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="editDiaChi" name="diachi" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Email</label>
-                                                                    <input type="text"
-                                                                        class="form-control validate-email"
-                                                                        id="editEmail" name="email" required>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Phân quyền</label>
-                                                                    <select class="form-control" id="editPhanQuyenId"
-                                                                        name="phanquyen_id" required>
-                                                                        <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
-                                                                            <option
-                                                                                value="<%= dataPhanQuyen[i].id_phanquyen %>">
-                                                                                <%= dataPhanQuyen[i].tenphanquyen %>
-                                                                            </option>
-                                                                            <% } %>
-                                                                    </select>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit"
-                                                                    class="btn btn-primary">Lưu</button>
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-dismiss="modal">Đóng</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                            <div class="modal-body">
+                                                <form id="formThemUser" action="/post-user" method="POST">
+                                                    <div class="form-group">
+                                                        <label for="taiKhoan" class="text-primary">Tài
+                                                            khoản</label>
+                                                        <input type="text" class="form-control" id="taiKhoan"
+                                                            name="taikhoan" maxlength="20" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="matKhau" class="text-primary">Mật
+                                                            khẩu</label>
+                                                        <input type="text" class="form-control" id="matKhau"
+                                                            name="matkhau" maxlength="20" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="hoTen" class="text-primary">Họ
+                                                            tên</label>
+                                                        <input type="text" class="form-control validate-text" id="hoTen"
+                                                            name="hoten" maxlength="30" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="SDT" class="text-primary">Số điện
+                                                            thoại</label>
+                                                        <input type="text" class="form-control validate-int" id="SDT"
+                                                            name="sdt" maxlength="10" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="email" class="text-primary">Email</label>
+                                                        <input type="text" class="form-control validate-email"
+                                                            id="email" name="email" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="diaChi" class="text-primary">Địa
+                                                            chỉ</label>
+                                                        <input type="text" class="form-control" id="diaChi"
+                                                            name="diachi" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phanquyenId" class="text-primary">Tên
+                                                            phân quyền</label>
+                                                        <select class="form-control" id="phanQuyenId"
+                                                            name="phanquyen_id" required>
+                                                            <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
+                                                            <option value="<%= dataPhanQuyen[i].id_phanquyen %>">
+                                                                <%= dataPhanQuyen[i].tenphanquyen %>
+                                                            </option>
+                                                            <% } %>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
+                        </div>
 
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-center" id="dataTable1" width="100%"
+                                    cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="selectAll" onclick="chonTatCa(this)"></th>
+                                            <th>Họ Tên</th>
+                                            <th>Số Điện Thoại</th>
+                                            <th>Email</th>
+                                            <th>Địa Chỉ</th>
+                                            <th>Tài Khoản</th>
+                                            <th>Phân Quyền</th>
+                                            <th>Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="danhSach">
+                                        <% for(let i=0; i<dataTable.length; i++){ %>
+                                        <tr onclick="chonDong(this, event)">
+                                            <td><input type="checkbox" class="row-checkbox"
+                                                    data-id="<%= dataTable[i].taikhoan %>"></td>
+                                            <td>
+                                                <%= dataTable[i].hoten %>
+                                            </td>
+                                            <td class="ten">
+                                                <%= dataTable[i].sdt %>
+                                            </td>
+                                            <td class="ten">
+                                                <%= dataTable[i].email %>
+                                            </td>
+                                            <td class="ten">
+                                                <%= dataTable[i].diachi %>
+                                            </td>
+                                            <td class="ten">
+                                                <%= dataTable[i].taikhoan %>
+                                            </td>
+                                            <td class="ten">
+                                                <%= dataTable[i].phanquyen?.tenphanquyen %>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary btn-sm"
+                                                    onclick="openEditModal('<%= dataTable[i].taikhoan %>', '<%= dataTable[i].hoten %>', '<%= dataTable[i].sdt %>', '<%= dataTable[i].diachi %>', '<%= dataTable[i].email %>', '<%= dataTable[i].phanquyen_id %>')">
+                                                    Sửa
+                                                </button>
+                                                <button class="btn btn-warning btn-sm"
+                                                    onclick="resetPassword('<%= dataTable[i].taikhoan %>')">
+                                                    Reset
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                                <!-- Modal edit -->
+                                <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+                                    <div class="modal-dialog" role="document">
+                                        <form id="editUserForm" action="/put-user" method="POST">
+
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Sửa user</h5>
+                                                    <button type="button" class="close"
+                                                        data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" id="editId" name="taikhoan">
+                                                    <div class="form-group">
+                                                        <label>Họ tên</label>
+                                                        <input type="text" class="form-control validate-text"
+                                                            id="editHoTen" name="hoten" maxlength="30" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Số điện thoại</label>
+                                                        <input type="text" class="form-control validate-int"
+                                                            id="editSDT" name="sdt" maxlength="10" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Địa chỉ</label>
+                                                        <input type="text" class="form-control" id="editDiaChi"
+                                                            name="diachi" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        <input type="text" class="form-control validate-email"
+                                                            id="editEmail" name="email" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Phân quyền</label>
+                                                        <select class="form-control" id="editPhanQuyenId"
+                                                            name="phanquyen_id" required>
+                                                            <% for(let i=0; i<dataPhanQuyen.length; i++){ %>
+                                                            <option value="<%= dataPhanQuyen[i].id_phanquyen %>">
+                                                                <%= dataPhanQuyen[i].tenphanquyen %>
+                                                            </option>
+                                                            <% } %>
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Đóng</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <%- include('partials/footer') %>
 
                 </div>
 
+            </div>
+
+            <%- include('partials/footer') %>
+
         </div>
 
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    </div>
 
-        <%- include('partials/logout-modal') %>
-            <%- include('partials/scripts', { baseUrl: '' }) %>
-                <script>
-                    function themTaiKhoan() {
-                        $('#modalThemUser').modal('show');
-                    }
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-                    function openEditModal(taikhoan, hoten, sdt, diachi, email, phanquyen) {
-                        document.getElementById('editId').value = taikhoan;
-                        document.getElementById('editHoTen').value = hoten;
-                        document.getElementById('editSDT').value = sdt;
-                        document.getElementById('editDiaChi').value = diachi;
-                        document.getElementById('editEmail').value = email;
-                        document.getElementById('editPhanQuyenId').value = phanquyen;
-                        $('#editModal').modal('show');
-                    }
+    <%- include('partials/logout-modal') %>
+    <%- include('partials/scripts', { baseUrl: '' }) %>
+    <script>
+        function themTaiKhoan() {
+            $('#modalThemUser').modal('show');
+        }
 
-                    function resetPassword(taikhoan) {
-                        if (!confirm('Bạn có chắc muốn reset mật khẩu không?')) {
-                            return;
-                        }
+        function openEditModal(taikhoan, hoten, sdt, diachi, email, phanquyen) {
+            document.getElementById('editId').value = taikhoan;
+            document.getElementById('editHoTen').value = hoten;
+            document.getElementById('editSDT').value = sdt;
+            document.getElementById('editDiaChi').value = diachi;
+            document.getElementById('editEmail').value = email;
+            document.getElementById('editPhanQuyenId').value = phanquyen;
+            $('#editModal').modal('show');
+        }
 
-                        fetch('/reset-user', {
+        function resetPassword(taikhoan) {
+            Swal.fire({
+                title: 'Bạn có chắc muốn reset mật khẩu không?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Có',
+                cancelButtonText: 'Không'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/reset-user', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json'
                             },
-                            body: JSON.stringify({ id: taikhoan })
-                        })
-                            .then(res => {
-                                if (res.redirected) {
-                                    window.location.href = res.url;
-                                } else {
-                                    return res.json();
-                                }
+                            body: JSON.stringify({
+                                id: taikhoan
                             })
-                            .catch(err => {
-                                console.error(err);
-                                alert('Có lỗi xảy ra khi reset.' + err);
-                            });
-                    }
-
-                    function xoaTatCaThuyenVien() {
-                        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
-                        const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
-
-                        if (ids.length === 0) {
-                            alert('Vui lòng chọn ít nhất một user để xóa!');
-                            return;
-                        }
-
-                        if (!confirm('Bạn có chắc muốn xóa các user đã chọn?')) {
-                            return;
-                        }
-
-                        fetch('/delete-user', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json'
-                            },
-                            body: JSON.stringify({ id: ids }) 
                         })
-                            .then(res => {
-                                if (res.redirected) {
-                                    window.location.href = res.url;
-                                } else {
-                                    return res.json();
-                                }
-                            })
-                            .catch(err => {
-                                console.error(err);
-                                alert('Có lỗi xảy ra khi xóa.');
-                            });
-                    }
-
-                    function setupInputValidation() {
-                        const inputs = document.querySelectorAll('.validate');
-                        inputs.forEach(input => {
-                            const type = input.dataset.type;
-                            input.addEventListener('input', () => {
-                                if (type === 'number') {
-                                    input.value = input.value.replace(/[^0-9]/g, '');
-                                } else if (type === 'text') {
-                                    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
-                                } else if (type === 'email') {
-                                    const email = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-                                    const value = input.value.trim();
-                                    if (value !== '' && !email.test(value)) {
-                                        input.setCustomValidity('Email không hợp lệ');
-                                        input.reportValidity();
-                                    } else {
-                                        input.setCustomValidity('');
-                                    }
-                                };
-                            });
-
-                        });
-                    }
-
-                    $('#dataTable1').DataTable({
-                        "paging": true,
-                        "lengthChange": true,
-                        "searching": true,
-                        "ordering": true,
-                        "info": true,
-                        "autoWidth": false,
-                        "responsive": true,
-                        "language": {
-                            "search": "Tìm kiếm:",
-                            "lengthMenu": "Hiển thị _MENU_ mục",
-                            "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                            "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
-                            "paginate": {
-                                "first": "Đầu",
-                                "last": "Cuối",
-                                "next": "Sau",
-                                "previous": "Trước"
+                        .then(res => {
+                            if (res.redirected) {
+                                window.location.href = res.url;
+                            } else {
+                                return res.json();
                             }
-                        }
-                    });
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Có lỗi xảy ra khi reset: ' + err
+                            });
+                        });
+                } else {
+                    return;
+                }
+            });
+        }
 
-                    document.addEventListener('DOMContentLoaded', setupInputValidation);
-                </script>
-                <script src="/js/validation.js"></script>
+
+        function xoaTatCaThuyenVien() {
+            const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+            const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
+
+            if (ids.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Chưa chọn user',
+                    text: 'Vui lòng chọn ít nhất một user để xóa!'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa các user đã chọn?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch('/delete-user', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: ids
+                            })
+                        })
+                        .then(res => {
+                            if (res.redirected) {
+                                window.location.href = res.url;
+                            } else {
+                                return res.json();
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi',
+                                text: 'Có lỗi xảy ra khi xóa.'
+                            });
+                        });
+                } else {
+                    return;
+                }
+            });
+        }
+
+
+        function setupInputValidation() {
+            const inputs = document.querySelectorAll('.validate');
+            inputs.forEach(input => {
+                const type = input.dataset.type;
+                input.addEventListener('input', () => {
+                    if (type === 'number') {
+                        input.value = input.value.replace(/[^0-9]/g, '');
+                    } else if (type === 'text') {
+                        input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+                    } else if (type === 'email') {
+                        const email = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+                        const value = input.value.trim();
+                        if (value !== '' && !email.test(value)) {
+                            input.setCustomValidity('Email không hợp lệ');
+                            input.reportValidity();
+                        } else {
+                            input.setCustomValidity('');
+                        }
+                    };
+                });
+
+            });
+        }
+
+        $('#dataTable1').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "search": "Tìm kiếm:",
+                "lengthMenu": "Hiển thị _MENU_ mục",
+                "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                "paginate": {
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Sau",
+                    "previous": "Trước"
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', setupInputValidation);
+
+        const alertMessage = "<%= alertMessage || '' %>";
+
+        if (alertMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: alertMessage
+            });
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const msg = urlParams.get('msg');
+        const detail = urlParams.get('detail');
+
+        if (msg === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Tạo user thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (msg === 'fail') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Tạo user thất bại!',
+                text: detail || 'Thông tin không hợp lệ hoặc trùng lặp.'
+            });
+        } else if (msg === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi server!',
+                text: detail || 'Vui lòng thử lại sau.'
+            });
+        }
+
+        const status = urlParams.get('status');
+        const detail1 = urlParams.get('detail1');
+
+        if (status === 'update_success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Cập nhật user thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (status === 'update_fail') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Cập nhật user thất bại!',
+                text: detail1 || 'Thông tin không hợp lệ hoặc trùng lặp.'
+            });
+        } else if (status === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi server!',
+                text: detail1 || 'Vui lòng thử lại sau.'
+            });
+        }
+
+        const status1 = urlParams.get('status1');
+        const detail2 = urlParams.get('detail2');
+
+        if (status1 === 'reset_success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Reset mật khẩu thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (status1 === 'reset_fail') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Reset mật khẩu thất bại!',
+                text: detail2 || 'Vui lòng thử lại sau.'
+            });
+        } else if (status1 === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi server!',
+                text: detail2 || 'Vui lòng thử lại sau.'
+            });
+        }
+
+        const status3 = urlParams.get('status3');
+        const detail3 = urlParams.get('detail3');
+
+        if (status3 === 'delete_success') {
+            Swal.fire({
+                icon: 'success',
+                title: 'Xóa user thành công!',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        } else if (status3 === 'delete_fail') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Xóa user thất bại!',
+                text: detail3 || 'Vui lòng thử lại sau.'
+            });
+        } else if (status3 === 'error') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi server!',
+                text: detail3 || 'Vui lòng thử lại sau.'
+            });
+        }
+
+        window.history.replaceState({}, document.title, window.location.pathname);
+    </script>
+    <script src="/js/validation.js"></script>
 
 </body>
 
