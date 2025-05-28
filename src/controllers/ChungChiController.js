@@ -35,7 +35,7 @@ let deleteChungChi = async (req, res) => {
     let ids = req.body.id;
 
     if (!Array.isArray(ids)) {
-        ids = [ids]; // ép thành mảng
+        ids = [ids]; 
     }
 
     try {
@@ -48,7 +48,6 @@ let deleteChungChi = async (req, res) => {
             }
         }
 
-        // Trả về message thành công cho frontend
         return res.status(200).json({
             message: 'Thành công: xoá chứng chỉ thành công'
         });

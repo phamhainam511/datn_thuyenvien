@@ -32,9 +32,9 @@ let putChucVu = async (req, res) => {
 }
 
 let deleteChucVu = async (req, res) => {
-    let ids = req.body.id; // => mảng id
+    let ids = req.body.id; 
     if (!Array.isArray(ids)) {
-        ids = [ids]; // nếu gửi 1 id thì cho thành mảng luôn
+        ids = [ids]; 
     }
 
     for (let id of ids) {

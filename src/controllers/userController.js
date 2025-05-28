@@ -52,9 +52,9 @@ let resetPassword = async (req, res) => {
 
 let deleteUser = async (req, res) => {
     try {
-        let ids = req.body.id; // có thể là 1 id hoặc mảng id
+        let ids = req.body.id; 
         if (!Array.isArray(ids)) {
-            ids = [ids]; // chuyển thành mảng nếu không phải
+            ids = [ids]; 
         }
         for (let id of ids) {
             await UserServices.deleteUser(id);
@@ -67,7 +67,7 @@ let deleteUser = async (req, res) => {
 
 let ChangePassword = async (req, res) => {
     try {
-        const taikhoan = req.session.user.taikhoan; // từ session
+        const taikhoan = req.session.user.taikhoan; 
         const { currentPassword, newPassword, confirmPassword } = req.body;
 
         let errors = [];

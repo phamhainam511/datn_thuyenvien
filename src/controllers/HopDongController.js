@@ -4,11 +4,9 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         const uploadPath = path.join(__dirname, '../public/uploads/contract');
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -29,7 +27,7 @@ const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+            cb('Lỗi: Chỉ hỗ trợ tải lên các loại file sau đây - ' + filetypes);
         }
     }
 }).single('hinhanh');
@@ -90,7 +88,6 @@ let getHopDongById = async (req, res) => {
     let hopdong_id = req.params.id;
     if (hopdong_id) {
         try {
-            // Lấy dữ liệu hợp đồng theo id
             let hopdong_data = await HopDongServices.getHopDongById(hopdong_id);
 
             return res.render('hopdong_chitiet.ejs', {
@@ -117,11 +114,9 @@ let puteditHopDong = async (req, res) => {
             let data = req.body;
             let file = req.file;
 
-            // Nếu có file mới upload thì xử lý xóa file cũ và lưu file mới
             if (file) {
                 const existingContract = await HopDongServices.getHopDongById(data.idHopDong);
 
-                // Xóa file cũ nếu tồn tại
                 if (existingContract && existingContract.hinhanh) {
                     const oldFilePath = path.join(__dirname, '../public', existingContract.hinhanh);
                     if (fs.existsSync(oldFilePath)) {
@@ -129,7 +124,6 @@ let puteditHopDong = async (req, res) => {
                     }
                 }
 
-                // Gán đường dẫn file mới (lưu tương đối để đưa vào DB)
                 data.hinhanh = '/uploads/contract/' + file.filename;
             }
 

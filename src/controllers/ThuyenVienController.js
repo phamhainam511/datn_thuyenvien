@@ -5,11 +5,9 @@ import path from 'path';
 import fs from 'fs';
 const { Document, Packer, Paragraph, TextRun, AlignmentType } = require('docx');
 
-// Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadPath = path.join(__dirname, '../public/uploads/language_certificates');
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -30,16 +28,14 @@ const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+            cb('Lỗi: Chỉ hỗ trợ tải lên các loại file sau đây - ' + filetypes);
         }
     }
 }).single('certificate_file');
 
-// Configure multer for certificate file uploads
 const certificateStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadPath = path.join(__dirname, '../public/uploads/crew_certificates');
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -60,15 +56,13 @@ const uploadCertificate = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb('Error: File upload only supports the following filetypes - ' + filetypes);
+            cb('Lỗi: Chỉ hỗ trợ tải lên các loại file sau đây - ' + filetypes);
         }
     }
 }).single('crew_certificate_file');
 
-// Configure multer for document file uploads
 const documentStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Determine the correct destination based on file type
         let uploadFolder;
         const fieldname = file.fieldname;
 
@@ -88,7 +82,6 @@ const documentStorage = multer.diskStorage({
         }
 
         const uploadPath = path.join(__dirname, `../public/uploads/documents/${uploadFolder}`);
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -120,11 +113,9 @@ const uploadDocuments = multer({
     { name: 'chungnhanvangda', maxCount: 1 }
 ]);
 
-// Configure multer for crew member photo upload
 const crewPhotoStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         const uploadPath = path.join(__dirname, '../public/uploads/crew_photos');
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -150,12 +141,10 @@ const uploadCrewPhoto = multer({
     }
 }).single('crew_photo');
 
-// Configure multer for multiple file uploads in the add new crew member form
 const newCrewStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         let uploadFolder;
 
-        // Determine the correct destination based on field name
         if (file.fieldname === 'crew_photo') {
             uploadFolder = 'crew_photos';
         } else if (file.fieldname.startsWith('certificate_file')) {
@@ -173,7 +162,6 @@ const newCrewStorage = multer.diskStorage({
         }
 
         const uploadPath = path.join(__dirname, `../public/uploads/${uploadFolder}`);
-        // Create directory if it doesn't exist
         if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
         }
@@ -217,12 +205,10 @@ let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     let certificates = await ThuyenVienServices.getAllChungChi();
 
-    // Get the IDs of all crew members with "Đang chờ tàu" status
     const waitingCrewIds = data
         .filter(crew => crew.trangthai === 'Đang chờ tàu')
         .map(crew => crew.id_thuyenvien);
 
-    // Get estimated boarding times for waiting crew
     let estimatedBoardingTimes = {};
     if (waitingCrewIds.length > 0) {
         estimatedBoardingTimes = await ThuyenVienServices.getEstimatedBoardingTimes(waitingCrewIds);
@@ -338,9 +324,9 @@ let deleteHocVan = async (req, res) => {
 };
 
 let deleteThuyenVien = async (req, res) => {
-    let ids = req.body.id; // => mảng id
+    let ids = req.body.id; 
     if (!Array.isArray(ids)) {
-        ids = [ids]; // nếu gửi 1 id thì cho thành mảng luôn
+        ids = [ids]; 
     }
     console.log("Danh sách ID nhận được:", ids);
     for (let id of ids) {
@@ -388,9 +374,7 @@ let createNgoaiNgu = async (req, res) => {
 
         try {
             let data = req.body;
-            // If file was uploaded, add file path to data
             if (req.file) {
-                // Store relative path for database
                 data.file = '/uploads/language_certificates/' + req.file.filename;
             }
 
@@ -413,19 +397,15 @@ let updateNgoaiNgu = async (req, res) => {
             let id = data.id;
             let thuyenvien_id = data.id_thuyenvien;
 
-            // If file was uploaded, add file path to data
             if (req.file) {
-                // Get existing record to check if there's an old file to delete
                 const existingRecord = await ThuyenVienServices.getNgoaiNguById(id);
                 if (existingRecord && existingRecord.file) {
                     const oldFilePath = path.join(__dirname, '../public', existingRecord.file);
-                    // Delete old file if it exists
                     if (fs.existsSync(oldFilePath)) {
                         fs.unlinkSync(oldFilePath);
                     }
                 }
 
-                // Store relative path for database
                 data.file = '/uploads/language_certificates/' + req.file.filename;
             }
 
@@ -443,10 +423,8 @@ let deleteNgoaiNgu = async (req, res) => {
         let id = req.params.id;
         let thuyenvien_id = req.params.thuyenvien_id;
 
-        // Get the record to find the file path
         const record = await ThuyenVienServices.getNgoaiNguById(id);
 
-        // Delete the file if it exists
         if (record && record.file) {
             const filePath = path.join(__dirname, '../public', record.file);
             if (fs.existsSync(filePath)) {
@@ -470,9 +448,7 @@ let createChungChi = async (req, res) => {
 
         try {
             let data = req.body;
-            // If file was uploaded, add file path to data
             if (req.file) {
-                // Store relative path for database
                 data.file = '/uploads/crew_certificates/' + req.file.filename;
             }
 
@@ -495,19 +471,15 @@ let updateChungChi = async (req, res) => {
             let id = data.id;
             let thuyenvien_id = data.id_thuyenvien;
 
-            // If file was uploaded, add file path to data
             if (req.file) {
-                // Get existing record to check if there's an old file to delete
                 const existingRecord = await ThuyenVienServices.getChungChiById(id);
                 if (existingRecord && existingRecord.file) {
                     const oldFilePath = path.join(__dirname, '../public', existingRecord.file);
-                    // Delete old file if it exists
                     if (fs.existsSync(oldFilePath)) {
                         fs.unlinkSync(oldFilePath);
                     }
                 }
 
-                // Store relative path for database
                 data.file = '/uploads/crew_certificates/' + req.file.filename;
             }
 
@@ -525,10 +497,8 @@ let deleteChungChi = async (req, res) => {
         let id = req.params.id;
         let thuyenvien_id = req.params.thuyenvien_id;
 
-        // Get the record to find the file path
         const record = await ThuyenVienServices.getChungChiById(id);
 
-        // Delete the file if it exists
         if (record && record.file) {
             const filePath = path.join(__dirname, '../public', record.file);
             if (fs.existsSync(filePath)) {
@@ -554,7 +524,6 @@ let uploadTaiLieu = async (req, res) => {
             const thuyenvien_id = req.params.id;
             let data = {};
 
-            // Process each uploaded file and add to data object
             if (req.files) {
                 if (req.files.cccd_mattruoc) {
                     data.cccd_mattruoc = '/uploads/documents/id_cards/' + req.files.cccd_mattruoc[0].filename;
@@ -573,17 +542,13 @@ let uploadTaiLieu = async (req, res) => {
                 }
             }
 
-            // Check if we have any files to update
             if (Object.keys(data).length > 0) {
-                // Get existing record to check if there are old files to delete
                 const existingRecord = await ThuyenVienServices.getTaiLieuThuyenVien(thuyenvien_id);
 
                 if (existingRecord) {
-                    // Delete old files if they are being replaced
                     for (const field in data) {
                         if (existingRecord[field]) {
                             const oldFilePath = path.join(__dirname, '../public', existingRecord[field]);
-                            // Delete old file if it exists
                             if (fs.existsSync(oldFilePath)) {
                                 fs.unlinkSync(oldFilePath);
                             }
@@ -606,20 +571,17 @@ let deleteTaiLieuFile = async (req, res) => {
         const thuyenvien_id = req.params.id;
         const fieldName = req.params.field;
 
-        // Get the existing record
         const record = await ThuyenVienServices.getTaiLieuThuyenVien(thuyenvien_id);
 
         if (!record || !record[fieldName]) {
             return res.send('Không tìm thấy tài liệu');
         }
 
-        // Delete the file
         const filePath = path.join(__dirname, '../public', record[fieldName]);
         if (fs.existsSync(filePath)) {
             fs.unlinkSync(filePath);
         }
 
-        // Update the database record
         let updateData = {};
         updateData[fieldName] = null;
         await ThuyenVienServices.createOrUpdateTaiLieu(thuyenvien_id, updateData);
@@ -632,13 +594,10 @@ let deleteTaiLieuFile = async (req, res) => {
 
 let getExpiringCertificates = async (req, res) => {
     try {
-        // Get the days parameter from query, default to 90 days if not provided
         const days = req.query.days ? parseInt(req.query.days) : 90;
 
-        // Get only professional certificates
         const expiringCertificates = await ThuyenVienServices.getExpiringCertificates(days);
 
-        // Calculate days remaining for each certificate
         const processedCertificates = expiringCertificates.map(cert => {
             const today = new Date();
             const expiryDate = new Date(cert.ngayhethan);
@@ -650,7 +609,6 @@ let getExpiringCertificates = async (req, res) => {
             };
         });
 
-        // Sort by days remaining
         processedCertificates.sort((a, b) => a.daysRemaining - b.daysRemaining);
 
         return res.render('chungchi_saphethan.ejs', {
@@ -665,13 +623,10 @@ let getExpiringCertificates = async (req, res) => {
 
 let getExpiredCertificates = async (req, res) => {
     try {
-        // Get certificate type filter from query, if any
         const certificateType = req.query.type ? parseInt(req.query.type) : null;
 
-        // Get only professional certificates
         const expiredCertificates = await ThuyenVienServices.getExpiredCertificates(certificateType);
 
-        // Calculate days overdue for each certificate
         const processedCertificates = expiredCertificates.map(cert => {
             const today = new Date();
             const expiryDate = new Date(cert.ngayhethan);
@@ -683,7 +638,6 @@ let getExpiredCertificates = async (req, res) => {
             };
         });
 
-        // Sort by days overdue (most overdue first)
         processedCertificates.sort((a, b) => b.daysOverdue - a.daysOverdue);
 
         return res.render('chungchi_hethan.ejs', {
@@ -695,10 +649,8 @@ let getExpiredCertificates = async (req, res) => {
     }
 };
 
-// Render the add new crew member form
 let getAddThuyenVienForm = async (req, res) => {
     try {
-        // Get necessary data for dropdowns
         let chucvu_data = await ThuyenVienServices.getAllChucVu();
         let tau_data = await ThuyenVienServices.getAllTau();
         let chungchi_data = await ThuyenVienServices.getAllChungChi();
@@ -714,7 +666,6 @@ let getAddThuyenVienForm = async (req, res) => {
     }
 };
 
-// Process the new crew member form submission
 let createNewThuyenVien = async (req, res) => {
     uploadNewCrewFiles(req, res, async function (err) {
         if (err) {
@@ -722,7 +673,6 @@ let createNewThuyenVien = async (req, res) => {
         }
 
         try {
-            // Extract basic crew info from request body
             let thoigianlentaudukien = null;
             if (req.body.thoigian_lenTauDuKien) {
                 thoigianlentaudukien = req.body.thoigian_lenTauDuKien.replace('T', ' ');
@@ -743,12 +693,10 @@ let createNewThuyenVien = async (req, res) => {
                 thoigian_lenTauDuKien: req.body.thoigian_lenTauDuKien
             };
 
-            // Add crew photo path if uploaded
             if (req.files && req.files.crew_photo) {
                 crewData.photo = '/uploads/crew_photos/' + req.files.crew_photo[0].filename;
             }
 
-            // Prepare family info
             const familyData = {
                 hotenbo: req.body.hotenbo,
                 sdtbo: req.body.sdtbo,
@@ -761,14 +709,12 @@ let createNewThuyenVien = async (req, res) => {
                 diachi: req.body.diachi
             };
 
-            // Prepare education info
             const educationData = {
                 truongdaotao: req.body.truongdaotao,
                 hedaotao: req.body.hedaotao,
                 namtotnghiep: req.body.namtotnghiep
             };
 
-            // Prepare language certificates
             let languageCertificates = [];
 
             if (Array.isArray(req.body['ngonngu'])) {
@@ -781,7 +727,6 @@ let createNewThuyenVien = async (req, res) => {
                         ngayhethan: req.body['ngayhethan_nn'][i] || null
                     };
 
-                    // Add file path if available
                     if (req.files && req.files['certificate_file[]'] && req.files['certificate_file[]'][i]) {
                         certData.file = '/uploads/language_certificates/' + req.files['certificate_file[]'][i].filename;
                     }
@@ -789,7 +734,6 @@ let createNewThuyenVien = async (req, res) => {
                     languageCertificates.push(certData);
                 }
             } else if (req.body['ngonngu']) {
-                // Handle single language certificate
                 const certData = {
                     ngonngu: req.body['ngonngu'],
                     tenchungchi: req.body['tenchungchi_nn'],
@@ -798,7 +742,6 @@ let createNewThuyenVien = async (req, res) => {
                     ngayhethan: req.body['ngayhethan_nn'] || null
                 };
 
-                // Add file path if available
                 if (req.files && req.files['certificate_file[]']) {
                     certData.file = '/uploads/language_certificates/' + req.files['certificate_file[]'][0].filename;
                 }
@@ -806,7 +749,6 @@ let createNewThuyenVien = async (req, res) => {
                 languageCertificates.push(certData);
             }
 
-            // Prepare crew certificates
             let crewCertificates = [];
 
             console.log(req.body);
@@ -822,7 +764,6 @@ let createNewThuyenVien = async (req, res) => {
                         xeploai: req.body['xeploai'][i]
                     };
 
-                    // Add file path if available
                     if (req.files && req.files['crew_certificate_file[]'] && req.files['crew_certificate_file[]'][i]) {
                         certData.file = '/uploads/crew_certificates/' + req.files['crew_certificate_file[]'][i].filename;
                     }
@@ -830,7 +771,6 @@ let createNewThuyenVien = async (req, res) => {
                     crewCertificates.push(certData);
                 }
             } else if (req.body['id_chungchi']) {
-                // Handle single crew certificate
                 const certData = {
                     id_chungchi: req.body['id_chungchi'],
                     sohieuchungchi: req.body['sohieuchungchi'],
@@ -840,7 +780,6 @@ let createNewThuyenVien = async (req, res) => {
                     xeploai: req.body['xeploai']
                 };
 
-                // Add file path if available
                 if (req.files && req.files['crew_certificate_file[]']) {
                     certData.file = '/uploads/crew_certificates/' + req.files['crew_certificate_file[]'][0].filename;
                 }
@@ -848,7 +787,6 @@ let createNewThuyenVien = async (req, res) => {
                 crewCertificates.push(certData);
             }
 
-            // Prepare document attachments
             const documentData = {};
 
             if (req.files) {
@@ -869,7 +807,6 @@ let createNewThuyenVien = async (req, res) => {
                 }
             }
 
-            // Prepare bank account info
             const bankAccountData = {
                 stk: req.body.stk,
                 tentaikhoan: req.body.tentaikhoan,
@@ -877,7 +814,6 @@ let createNewThuyenVien = async (req, res) => {
             };
 
 
-            // Submit all data to service
             const result = await ThuyenVienServices.createNewThuyenVienFull(
                 crewData,
                 familyData,
@@ -888,7 +824,6 @@ let createNewThuyenVien = async (req, res) => {
                 bankAccountData
             );
 
-            // Redirect to the crew list page after successful creation
             return res.redirect('/danh-sach-thuyen-vien');
         } catch (error) {
             console.error('Error creating crew member:', error);
@@ -903,12 +838,10 @@ let updateThuyenVienStatus = async (req, res) => {
         const { trangthai, tau_id, chucvu_id, timexuatcanh, timelentau, thoigian_lenTauDuKien,
             ngayroitau, cangroitau, quoctich_thuyen, tinh_trang_roi_tau } = req.body;
 
-        // Lấy trạng thái hiện tại
         const currentThuyenVien = await db.Thuyenvien.findOne({
             where: { id_thuyenvien: thuyenvien_id }
         });
 
-        // Lấy lịch sử đi tàu gần nhất
         const last_lichsuditau = await db.Lichsuditau.findOne({
             where: {
                 thuyenvien_id: thuyenvien_id,
@@ -964,7 +897,7 @@ let updateThuyenVienStatus = async (req, res) => {
                     thuyenvien_id: thuyenvien_id,
                     trangthaihopdong: 'Có hiệu lực'
                 },
-                order: [['id_hopdong', 'DESC']] // phòng khi có nhiều cái, lấy cái mới nhất
+                order: [['id_hopdong', 'DESC']] 
             });
 
             if (hopdongHieuluc) {
@@ -990,23 +923,18 @@ let uploadThuyenVienPhoto = async (req, res) => {
         try {
             const thuyenvien_id = req.params.id;
 
-            // If file was uploaded, update the database with the file path
             if (req.file) {
-                // Get existing record to check if there's an old photo to delete
                 const existingRecord = await ThuyenVienServices.getThuyenVienId(thuyenvien_id);
 
                 if (existingRecord && existingRecord.anh) {
                     const oldFilePath = path.join(__dirname, '../public', existingRecord.anh);
-                    // Delete old file if it exists
                     if (fs.existsSync(oldFilePath)) {
                         fs.unlinkSync(oldFilePath);
                     }
                 }
 
-                // Store relative path for database
                 const photoPath = '/uploads/crew_photos/' + req.file.filename;
 
-                // Update the thuyenvien record with the new photo path
                 await ThuyenVienServices.updateThuyenVienData(thuyenvien_id, { anh: photoPath });
 
                 return res.redirect('/thuyen-vien/' + thuyenvien_id);
@@ -1024,10 +952,8 @@ let getAllChungChi = async (req, res) => {
     try {
         const certificates = await ThuyenVienServices.getAllChungChi();
         if (req && res) {
-            // If called as route handler, return JSON response
             return res.json(certificates);
         } else {
-            // If called from another function, return the certificates
             return certificates;
         }
     } catch (error) {
@@ -1041,14 +967,12 @@ let getAllChungChi = async (req, res) => {
 
 let getCrewWithCertificates = async (req, res) => {
     try {
-        // Get certificates from query parameter
         const certificateIds = req.query.certificates ? req.query.certificates.split(',').map(id => parseInt(id)) : [];
 
         if (!certificateIds.length) {
             return res.json([]);
         }
 
-        // Get crew IDs who have the selected certificates
         const crewIds = await ThuyenVienServices.getCrewWithCertificates(certificateIds);
         return res.json(crewIds);
     } catch (error) {
@@ -1078,8 +1002,8 @@ let getNotificationCounts = async () => {
             where: {
                 thoigian_lenTauDuKien: {
                     [db.Sequelize.Op.between]: [
-                        new Date(), // today
-                        new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), // 30 days in the future
+                        new Date(), 
+                        new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000), 
                     ]
                 }
             },
@@ -1103,7 +1027,7 @@ let getNotificationCounts = async () => {
 
 let exportThuyenvienContract = async (req, res) => {
     try {
-        const id = req.params.id; // ví dụ đường dẫn /thuyenvien/export-word/:id
+        const id = req.params.id; 
 
         const thuyenvien = await ThuyenVienServices.getThuyenvienById(id);
 

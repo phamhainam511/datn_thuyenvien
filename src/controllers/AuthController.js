@@ -1,5 +1,14 @@
 import AuthService from '../services/AuthService';
-
+/**
+ * Xử lý yêu cầu đăng nhập người dùng.
+ * 
+ * - Kiểm tra thông tin đầu vào: tài khoản và mật khẩu.
+ * - Gọi AuthService để xác thực người dùng.
+ * - Nếu thành công:
+ *   - Tạo session và lưu thông tin người dùng.
+ *   - Kiểm tra quyền người dùng (`phanquyen_id`) và điều hướng về trang chính.
+ * - Nếu thất bại hoặc lỗi hệ thống: hiển thị lỗi tại trang đăng nhập.
+ */
 let handleLogin = async (req, res) => {
     try {
         let taikhoan = req.body.taikhoan;
@@ -14,14 +23,12 @@ let handleLogin = async (req, res) => {
         let userData = await AuthService.handleLogin(taikhoan, matkhau);
         
         if (userData.errCode === 0) {
-            // Create session
             if (!req.session) {
                 req.session = {};
             }
             req.session.user = userData.user;
             req.session.isAuthenticated = true;
             
-            // Ensure phanquyen_id is available
             if (!userData.user.phanquyen_id) {
                 console.error('User role not found:', userData.user);
                 return res.render('dangnhap.ejs', {
@@ -42,7 +49,11 @@ let handleLogin = async (req, res) => {
         });
     }
 };
-
+/**
+ * Xử lý đăng xuất người dùng:
+ * - Hủy session hiện tại (nếu tồn tại).
+ * - Chuyển hướng về trang đăng nhập.
+ */
 let handleLogout = (req, res) => {
     if (req.session) {
         req.session.destroy(function(err) {
@@ -56,8 +67,12 @@ let handleLogout = (req, res) => {
     }
 };
 
+/**
+ * Render trang đăng nhập.
+ * - Nếu người dùng đã đăng nhập, chuyển hướng về trang chính.
+ * - Nếu chưa, hiển thị form đăng nhập.
+ */
 let getLoginPage = (req, res) => {
-    // Check if session exists before trying to access properties
     if (req.session && req.session.isAuthenticated) {
         return res.redirect('/');
     }
