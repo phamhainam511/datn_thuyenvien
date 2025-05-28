@@ -1,34 +1,40 @@
 import { hasAccess } from '../utils/permissions';
 
+/**
+ * Middleware kiểm tra người dùng đã đăng nhập hay chưa.
+ * Nếu đã đăng nhập, thêm thông tin người dùng vào `res.locals` để dùng trong view.
+ * Nếu chưa đăng nhập, chuyển hướng về trang đăng nhập.
+ */
 const isAuthenticated = (req, res, next) => {
-  // Check if session exists and user is authenticated
   if (req.session && req.session.isAuthenticated) {
-    // Add user data to all views
     res.locals.user = req.session.user;
     return next();
   }
   
-  // Redirect to login page if not authenticated
   return res.redirect('/login');
 };
 
+/**
+ * Middleware kiểm tra quyền truy cập của người dùng với route hiện tại.
+ * - Đảm bảo người dùng đã đăng nhập (nếu chưa, chuyển hướng về trang đăng nhập).
+ * - Lấy vai trò người dùng từ session, xác định route đang truy cập.
+ * - Gọi hàm `hasAccess()` để kiểm tra quyền:
+ *    - Nếu có quyền: tiếp tục.
+ *    - Nếu không: hiển thị trang từ chối truy cập.
+ */
 const checkPermission = (req, res, next) => {
-  // Check authentication first
   if (!req.session || !req.session.isAuthenticated) {
     return res.redirect('/login');
   }
   
-  // Get user role and requested path
   const role = req.session.user.phanquyen_id;
   const path = req.path;
   
-  // Check if user has access to this route
   if (hasAccess(role, path)) {
     res.locals.user = req.session.user;
     return next();
   }
-  
-  // Access denied - render access denied page
+  // Nếu không có quyền truy cập, hiển thị trang thông báo
   return res.render('access-denied', {
     message: 'Bạn không có quyền truy cập trang này',
     user: req.session.user,

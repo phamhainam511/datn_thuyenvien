@@ -1,24 +1,28 @@
 import ThuyenVienController from '../controllers/ThuyenVienController';
 
+/**
+ * Middleware để chèn dữ liệu thông báo (notifications) vào view.
+ * 
+ * - Nếu người dùng chưa đăng nhập, middleware sẽ bỏ qua.
+ * - Nếu đã đăng nhập, gọi controller để lấy số lượng thông báo và đính kèm vào `res.locals.notifications`.
+ * - Trong view (template), dùng `notifications` để hiển thị cảnh báo, tin nhắn, v.v.
+ */
 const NotificationMiddleware = {
     async injectNotificationData(req, res, next) {
         try {
-            // Skip if not authenticated
             if (!req.session || !req.session.user) {
                 return next();
             }
             
-            // Get notification counts
             const notificationData = await ThuyenVienController.getNotificationCounts();
 
             console.log('Notification data:', notificationData);
             
-            // Attach to res.locals so views can access it
             res.locals.notifications = notificationData;
             
             next();
         } catch (error) {
-            console.error('Error in notification middleware:', error);
+            console.error('Lỗi trong notification middleware:', error);
             next();
         }
     }
