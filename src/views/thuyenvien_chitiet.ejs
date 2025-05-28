@@ -1772,37 +1772,6 @@
                     }
                 });
             }
-
-            const disembarkingTypeSelect = document.getElementById('disembarkingTypeSelect');
-            const disembarkingReturningFields = document.getElementById('disembarkingReturningFields');
-
-            if (disembarkingTypeSelect && disembarkingReturningFields) {
-                disembarkingReturningFields.style.display =
-                    disembarkingTypeSelect.value === 'Sẽ quay lại' ? 'block' : 'none';
-
-                disembarkingTypeSelect.addEventListener('change', function () {
-                    disembarkingReturningFields.style.display =
-                        this.value === 'Sẽ quay lại' ? 'block' : 'none';
-                });
-            }
-
-            const disembarkingStatusSelect = document.getElementById('disembarkingStatusSelect');
-
-            if (disembarkingStatusSelect && disembarkingTypeSelect) {
-                disembarkingStatusSelect.addEventListener('change', function () {
-                    if (this.value === 'Đang chờ tàu') {
-                        disembarkingTypeSelect.value = 'Sẽ quay lại';
-                        if (disembarkingReturningFields) {
-                            disembarkingReturningFields.style.display = 'block';
-                        }
-                    } else if (this.value === 'Đang trên bờ') {
-                        disembarkingTypeSelect.value = 'Nghỉ việc';
-                        if (disembarkingReturningFields) {
-                            disembarkingReturningFields.style.display = 'none';
-                        }
-                    }
-                });
-            }
         });
 
         document.getElementById("exportInfoBtn").addEventListener("click", function (e) {
