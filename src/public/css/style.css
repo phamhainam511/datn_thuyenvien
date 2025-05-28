@@ -1,25 +1,22 @@
 
 :root {
-  --primary: #003366; /* màu xanh đậm, màu chính của bạn */
+  --primary: #003366; 
   
-  /* Các màu bổ trợ (complementary, tương phản nhẹ) */
-  --secondary: #005599; /* xanh biển sáng hơn, vẫn gần primary */
-  --success: #28a745; /* xanh lá tươi, nổi bật và hài hòa */
-  --info: #17a2b8; /* xanh biển lam nhẹ, làm nổi bật phần thông tin */
-  --warning: #ffc107; /* vàng tươi, tăng sự chú ý */
-  --danger: #dc3545; /* đỏ đậm, rõ ràng để báo lỗi hoặc cảnh báo */
+  --secondary: #005599; 
+  --success: #28a745; 
+  --info: #17a2b8; 
+  --warning: #ffc107; 
+  --danger: #dc3545; 
   
-  /* Các màu nền, chữ, trung tính */
-  --light: #f8f9fa; /* trắng ngà, nhẹ nhàng */
-  --white: #ffffff; /* trắng tinh */
-  --gray-light: #dee2e6; /* xám nhạt để phân tách */
-  --gray: #6c757d; /* xám vừa, chữ phụ */
-  --gray-dark: #343a40; /* xám đậm, chữ chính */
-  --dark: #212529; /* đen xám đậm, chữ rất rõ */
+  --light: #f8f9fa; 
+  --white: #ffffff; 
+  --gray-light: #dee2e6; 
+  --gray: #6c757d; 
+  --gray-dark: #343a40; 
+  --dark: #212529; 
 
-  /* Màu phụ cho hover, active, hoặc hiệu ứng */
-  --primary-hover: #002244; /* xanh đậm hơn */
-  --primary-light: #336699; /* xanh nhạt hơn cho hover hoặc background */
+  --primary-hover: #002244; 
+  --primary-light: #336699; 
   
   --blue: #003366;
   --indigo: #6610f2;
@@ -64,7 +61,7 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #858796;
+  color: var(--primary);
   text-align: left;
   background-color: #fff;
 }
@@ -229,6 +226,7 @@ label {
   display: inline-block;
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
+  color: var(--primary);
 }
 
 button {
@@ -1494,6 +1492,7 @@ pre code {
   padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid #e3e6f0;
+  color: var(--primary);
 }
 
 .table thead th {
@@ -1565,7 +1564,7 @@ pre code {
 .table-secondary,
 .table-secondary > th,
 .table-secondary > td {
-  background-color: #dddde2;
+  background-color: #f8f9fc;
 }
 
 .table-secondary th,
@@ -1697,7 +1696,7 @@ pre code {
 .table-dark,
 .table-dark > th,
 .table-dark > td {
-  background-color: #d1d1d5;
+  background-color: #fbfcfd;
 }
 
 .table-dark th,
@@ -1745,7 +1744,6 @@ pre code {
 
 .table-dark {
   color: #fff;
-  background-color: #5a5c69;
 }
 
 .table-dark th,
@@ -1834,7 +1832,7 @@ pre code {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #6e707e;
+  color: var(--primary);
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #d1d3e2;
@@ -1859,7 +1857,7 @@ pre code {
 }
 
 .form-control:focus {
-  color: #6e707e;
+  color: var(--primary);
   background-color: #fff;
   border-color: #bac8f3;
   outline: 0;
@@ -9989,7 +9987,7 @@ a:focus {
 }
 
 .text-xs {
-  font-size: .7rem;
+  font-size: 1rem;
 }
 
 .text-lg {
@@ -10340,7 +10338,7 @@ a:focus {
 }
 
 .sidebar .nav-item .nav-link span {
-  font-size: 0.65rem;
+  font-size: 1rem;
   display: block;
 }
 
@@ -10544,7 +10542,7 @@ a:focus {
     margin-right: 0.25rem;
   }
   .sidebar .nav-item .nav-link span {
-    font-size: 0.85rem;
+    font-size: 1rem;
     display: inline;
   }
   .sidebar .nav-item .nav-link[data-toggle="collapse"]::after {
@@ -10606,7 +10604,7 @@ a:focus {
     width: 6.5rem;
   }
   .sidebar.toggled .nav-item .nav-link span {
-    font-size: 0.65rem;
+    font-size: 1rem;
     display: block;
   }
   .sidebar.toggled .nav-item .nav-link i {
