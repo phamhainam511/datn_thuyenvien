@@ -9,10 +9,10 @@ const getExpiringCertificateCount = async (days = 30) => {
     today.setHours(0, 0, 0, 0);
 
     const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1); // 0:00 ngày mai
+    tomorrow.setDate(tomorrow.getDate() + 1); 
 
     const futureDate = new Date(tomorrow);
-    futureDate.setDate(futureDate.getDate() + days); // 0:00 ngày sau 30 ngày tính từ ngày mai
+    futureDate.setDate(futureDate.getDate() + days); 
 
     console.log('Counting certificates from', tomorrow, 'to', futureDate);
 
@@ -20,8 +20,8 @@ const getExpiringCertificateCount = async (days = 30) => {
         const count = await db.ThuyenvienChungchi.count({
             where: {
                 ngayhethan: {
-                    [Op.gte]: tomorrow,  // từ ngày mai trở đi
-                    [Op.lt]: futureDate  // trước ngày 31
+                    [Op.gte]: tomorrow,  
+                    [Op.lt]: futureDate 
                 }
             }
         });
@@ -83,10 +83,10 @@ const getChucVuStats = async () => {
         ],
         include: [{
             model: db.Chucvu,
-            as: 'chucvu', // ✅ thêm dòng này
+            as: 'chucvu', 
             attributes: ['tenchucvu']
         }],
-        group: ['chucvu_id', 'chucvu.id_chucvu'] // ✅ đổi `Chucvu.id_chucvu` -> `chucvu.id_chucvu`
+        group: ['chucvu_id', 'chucvu.id_chucvu'] 
     });
 
     const labels = result.map(item => item.chucvu?.tenchucvu || 'Không rõ');
@@ -104,7 +104,6 @@ const getThuyenvienTrangThaiStats = async () => {
         group: ['trangthai']
     });
 
-    // Chuyển về định dạng labels + data
     const labelsMap = {
         1: 'Đang trên tàu',
         2: 'Đang chờ tàu',

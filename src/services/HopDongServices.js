@@ -72,7 +72,6 @@ const parseDate = (str) => {
     if (!str) return null;
 
     if (str.includes('/')) {
-        // Định dạng dd/MM/yyyy
         const parts = str.split('/');
         if (parts.length !== 3) return null;
         const [day, month, year] = parts;
@@ -80,12 +79,10 @@ const parseDate = (str) => {
         if (isNaN(date.getTime())) return null;
         return date;
     } else if (str.includes('-')) {
-        // Định dạng yyyy-MM-dd hoặc yyyy-M-d
         const date = new Date(str);
         if (isNaN(date.getTime())) return null;
         return date;
     } else {
-        // Định dạng không xác định
         return null;
     }
 };
@@ -197,7 +194,6 @@ let updateHopDongData = async (data, file) => {
             throw new Error('Thuyền viên không tồn tại!');
         }
 
-        // Chuyển đổi ngày từ chuỗi sang Date
         const ngayky = parseDate(data.ngayKi);
         const ngayhethan = parseDate(data.ngayHetHan);
 

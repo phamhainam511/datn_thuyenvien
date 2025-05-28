@@ -96,13 +96,11 @@ let getNhanThanThuyenVien = (thuyenvien_id) => {
 let updateThanNhanData = (thuyenvien_id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // First check if a record exists
             let existingRecord = await db.Thannhan.findOne({
                 where: { thuyenvien_id: thuyenvien_id }
             });
 
             if (existingRecord) {
-                // Update existing record
                 await db.Thannhan.update(
                     data,
                     {
@@ -110,7 +108,6 @@ let updateThanNhanData = (thuyenvien_id, data) => {
                     }
                 );
             } else {
-                // Create new record if doesn't exist
                 data.thuyenvien_id = thuyenvien_id;
                 await db.Thannhan.create(data);
             }
@@ -217,7 +214,6 @@ let getAllChucVu = () => {
 let getHocVanThuyenVien = (thuyenvien_id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Change to findOne instead of findAll
             let hocvan = await db.ThuyenvienHocvan.findOne({
                 where: { id_thuyenvien: thuyenvien_id }
             });
@@ -236,13 +232,11 @@ let getHocVanThuyenVien = (thuyenvien_id) => {
 let createHocVan = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Check if a record already exists
             const existingRecord = await db.ThuyenvienHocvan.findOne({
                 where: { id_thuyenvien: data.id_thuyenvien }
             });
 
             if (existingRecord) {
-                // Update existing record
                 await existingRecord.update({
                     truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),
                     hedaotao: data.hedaotao,
@@ -250,7 +244,6 @@ let createHocVan = (data) => {
                 });
                 resolve('Cập nhật thông tin học vấn thành công!');
             } else {
-                // Create new record
                 const result = await db.ThuyenvienHocvan.create({
                     id_thuyenvien: data.id_thuyenvien,
                     truongdaotao: dataUtils.chuanHoaTen(data.truongdaotao),
@@ -348,7 +341,6 @@ let updateNgoaiNgu = (id, data) => {
                 ngayhethan: data.ngayhethan
             };
 
-            // Only update file if a new one is provided
             if (data.file) {
                 updateData.file = data.file;
             }
@@ -409,7 +401,6 @@ let getChungChiThuyenVien = (thuyenvien_id) => {
                         attributes: ['tenchungchi']
                     }
                 ],
-                // Removed include since we no longer need to join with Chungchi table
             });
 
             if (chungchi && chungchi.length > 0) {
@@ -458,7 +449,7 @@ let updateChungChi = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
             let updateData = {
-                id_chungchi: data.id_chungchi, // Changed from chungchi_id
+                id_chungchi: data.id_chungchi, 
                 sohieuchungchi: data.sohieuchungchi,
                 ngaycap: data.ngaycap,
                 ngayhethan: data.ngayhethan,
@@ -466,7 +457,6 @@ let updateChungChi = (id, data) => {
                 xeploai: data.xeploai
             };
 
-            // Only update file if a new one is provided
             if (data.file) {
                 updateData.file = data.file;
             }
@@ -536,17 +526,14 @@ let getTaiLieuThuyenVien = (thuyenvien_id) => {
 let createOrUpdateTaiLieu = (thuyenvien_id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Check if a record already exists
             const existingRecord = await db.ThuyenvienTailieu.findOne({
                 where: { id_thuyenvien: thuyenvien_id }
             });
 
             if (existingRecord) {
-                // Update existing record
                 await existingRecord.update(data);
                 resolve('Cập nhật tài liệu thành công!');
             } else {
-                // Create new record
                 data.id_thuyenvien = thuyenvien_id;
                 await db.ThuyenvienTailieu.create(data);
                 resolve('Thêm tài liệu thành công!');
@@ -591,13 +578,12 @@ let getExpiringCertificates = (days = 30) => {
         try {
             const today = new Date();
             const limitDate = new Date();
-            limitDate.setDate(limitDate.getDate() + days);  // Tính ngày giới hạn
-
+            limitDate.setDate(limitDate.getDate() + days);  
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: {
                     ngayhethan: {
-                        [db.Sequelize.Op.gt]: today,      // Ngày hết hạn lớn hơn hôm nay
-                        [db.Sequelize.Op.lte]: limitDate  // Và nhỏ hơn hoặc bằng ngày giới hạn
+                        [db.Sequelize.Op.gt]: today,      
+                        [db.Sequelize.Op.lte]: limitDate 
                     }
                 },
                 include: [
@@ -626,22 +612,18 @@ let getExpiringCertificates = (days = 30) => {
 let getExpiredCertificates = (certificateType = null) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Calculate today's date for comparison
             const today = new Date();
 
-            // Build where clause
             let whereClause = {
                 ngayhethan: {
                     [db.Sequelize.Op.lt]: today
                 }
             };
 
-            // Add certificate type filter if provided
             if (certificateType) {
                 whereClause.id_chungchi = certificateType;
             }
 
-            // Find certificates that have already expired
             let certificates = await db.ThuyenvienChungchi.findAll({
                 where: whereClause,
                 include: [
@@ -671,29 +653,23 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
     let transaction;
 
     try {
-        // Start transaction to ensure data consistency
         transaction = await db.sequelize.transaction();
 
-        // 1. Create the main thuyenvien record
         const newCrewMember = await db.Thuyenvien.create(crewData, { transaction });
         const thuyenvien_id = newCrewMember.id_thuyenvien;
 
-        // 2. Create family info if provided
         if (Object.values(familyData).some(val => val)) {
             familyData.thuyenvien_id = thuyenvien_id;
             await db.Thannhan.create(familyData, { transaction });
         }
 
-        // 3. Create education info if provided
         if (educationData.truongdaotao) {
             educationData.id_thuyenvien = thuyenvien_id;
             await db.ThuyenvienHocvan.create(educationData, { transaction });
         }
 
-        // 4. Create language certificates if provided
         if (languageCertificates && languageCertificates.length > 0) {
             for (const certData of languageCertificates) {
-                // Skip empty certificates
                 if (!certData.ngonngu && !certData.tenchungchi) continue;
 
                 certData.id_thuyenvien = thuyenvien_id;
@@ -701,10 +677,8 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
             }
         }
 
-        // 5. Create crew certificates if provided
         if (crewCertificates && crewCertificates.length > 0) {
             for (const certData of crewCertificates) {
-                // Skip empty certificates
                 if (!certData.id_chungchi) continue;
 
                 certData.id_thuyenvien = thuyenvien_id;
@@ -712,19 +686,16 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
             }
         }
 
-        // 6. Create document attachments if provided
         if (Object.keys(documentData).length > 0) {
             documentData.id_thuyenvien = thuyenvien_id;
             await db.ThuyenvienTailieu.create(documentData, { transaction });
         }
 
-        // 7. Create bank account if provided
         if (bankAccountData && bankAccountData.stk) {
             bankAccountData.thuyenvien_id = thuyenvien_id;
             await db.Taikhoannganhang.create(bankAccountData, { transaction });
         }
 
-        // Commit transaction if all operations succeed
         await transaction.commit();
 
         return {
@@ -733,9 +704,8 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
             thuyenvienId: thuyenvien_id
         };
     } catch (error) {
-        // Rollback transaction if any operation fails
         if (transaction) await transaction.rollback();
-        console.error('Error creating crew member:', error);
+        console.error('Lỗi khi thêm thuyền viên:', error);
         throw error;
     }
 };
@@ -758,8 +728,6 @@ let updateThuyenVienStatus = (id, newStatus) => {
 let getCrewWithCertificates = (certificateIds) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // Find all crew certificates that match the given certificate IDs
-            // Find crew members who have ALL the specified certificates
             const certificates = await db.ThuyenvienChungchi.findAll({
                 attributes: [
                     'id_thuyenvien',
@@ -775,7 +743,6 @@ let getCrewWithCertificates = (certificateIds) => {
                 raw: true
             });
 
-            // Extract unique crew IDs
             const crewIds = [...new Set(certificates.map(cert => cert.id_thuyenvien))];
             resolve(crewIds);
         } catch (e) {
@@ -787,17 +754,12 @@ let getCrewWithCertificates = (certificateIds) => {
 let getEstimatedBoardingTimes = (crewIds) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // For each crew member, get their planned boarding time
             let boardingTimes = {};
 
-            // If no crew IDs provided, return empty object
             if (!crewIds || crewIds.length === 0) {
                 resolve(boardingTimes);
                 return;
             }
-
-            // Get latest boarding records for all the crew members at once
-            // Get the crew records with their boarding times
             const crewMembers = await db.Thuyenvien.findAll({
                 attributes: ['id_thuyenvien', 'thoigian_lenTauDuKien'],
                 where: {
@@ -811,12 +773,10 @@ let getEstimatedBoardingTimes = (crewIds) => {
                 raw: true
             });
 
-            // Convert to the desired format
             crewMembers.forEach(record => {
                 if (record.thoigian_lenTauDuKien) {
                     const date = new Date(record.thoigian_lenTauDuKien);
                     if (!isNaN(date.getTime())) {
-                        // Format: YYYY-MM-DD HH:MM
                         const year = date.getFullYear();
                         const month = String(date.getMonth() + 1).padStart(2, '0');
                         const day = String(date.getDate()).padStart(2, '0');

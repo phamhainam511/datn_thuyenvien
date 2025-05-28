@@ -6,7 +6,6 @@ let handleLogin = (taikhoan, matkhau) => {
         try {
             let userData = {};
 
-            // Check if account exists
             let user = await db.user.findOne({
                 where: { taikhoan: taikhoan },
                 raw: false,
@@ -29,12 +28,11 @@ let handleLogin = (taikhoan, matkhau) => {
                     // Mật khẩu chưa mã hoá
                     isMatch = matkhau === user.matkhau;
                 }
-                // Compare password
+                
                 if (isMatch) {
                     userData.errCode = 0;
                     userData.errMessage = "Đăng nhập thành công";
 
-                    // Don't send password to client
                     const userObj = user.get({ plain: true });
                     delete userObj.matkhau;
                     userData.user = userObj;

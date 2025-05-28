@@ -20,9 +20,9 @@ async function generateSeafarerCV(id, res) {
         include: [{
             model: Chungchi,
             as: 'chungchi',
-            attributes: ['tenchungchi'], // chỉ lấy trường tên chứng chỉ
+            attributes: ['tenchungchi'], 
         }],
-        raw: false // giữ nguyên đối tượng Sequelize để lấy quan hệ
+        raw: false 
     });
 
     const workbook = new ExcelJS.Workbook();
@@ -52,7 +52,6 @@ async function generateSeafarerCV(id, res) {
     worksheet.addRow(['Nhóm máu', seafarer.nhommau || '', 'Size giày', seafarer.sizegiay || '', 'Tình trạng hôn nhân', seafarer.tinhtranghonnhan || '']);
     worksheet.addRow([]);
 
-    // CERTIFICATES
     worksheet.mergeCells('A8:E8');
     worksheet.getCell('A8').value = 'CERTIFICATES';
     worksheet.getCell('A8').font = { bold: true };
@@ -68,7 +67,7 @@ async function generateSeafarerCV(id, res) {
     });
 
     for (const cert of certificates) {
-        console.log(cert.Chungchi?.tenchungchi); // in tên chứng chỉ lấy từ bảng Chungchi
+        console.log(cert.Chungchi?.tenchungchi); 
         worksheet.addRow([
             cert.chungchi?.tenchungchi || '',
             cert.sohieuchungchi || '',

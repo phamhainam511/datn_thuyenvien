@@ -140,7 +140,6 @@ let changePassword = async (taikhoan, currentPassword, newPassword) => {
 
         let isMatch = false;
 
-        // Kiểm tra xem mật khẩu đã được mã hoá hay chưa
         if (user.matkhau.startsWith('$2b$')) {
             isMatch = await bcrypt.compare(currentPassword, user.matkhau);
         } else {
@@ -151,10 +150,8 @@ let changePassword = async (taikhoan, currentPassword, newPassword) => {
             return { errCode: 2, message: 'Mật khẩu hiện tại không đúng!' };
         }
 
-        // Hash mật khẩu mới
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-        // Cập nhật mật khẩu mới
         user.matkhau = hashedPassword;
         await user.save();
 
