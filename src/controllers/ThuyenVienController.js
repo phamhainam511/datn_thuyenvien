@@ -286,6 +286,26 @@ let createLichSuDiTau = async (req, res) => {
     }
 };
 
+let deleteLichSuDiTau = async (req, res) => {
+    try {
+            const { historyId } = req.body;
+
+            if (!historyId) {
+                return res.status(400).json({ message: 'Thiếu ID lịch sử đi tàu' });
+            }
+
+            const result = await ThuyenVienServices.deleteLichsuditau(historyId);
+
+            if (result) {
+                res.json({ message: 'Xoá thành công' });
+            } else {
+                res.status(404).json({ message: 'Không tìm thấy lịch sử đi tàu' });
+            }
+        } catch (error) {
+            console.error('Lỗi khi xoá lịch sử đi tàu:', error);
+            res.status(500).json({ message: 'Lỗi server' });
+        }
+}
 let createHocVan = async (req, res) => {
     try {
         let data = req.body;
@@ -1210,4 +1230,6 @@ module.exports = {
     getAllChungChi: getAllChungChi,
     getCrewWithCertificates: getCrewWithCertificates,
     getNotificationCounts: getNotificationCounts,
+    deleteLichSuDiTau : deleteLichSuDiTau,
+
 }

@@ -83,8 +83,10 @@ const initWebRoutes = (app) => {
     });
 
     //thuyền viên ở đây
+    router.get('/lich-su-di-tau', ChungChiController.getAllLichSuDiTau);
     router.post('/them-lich-su-di-tau', ThuyenVienController.createLichSuDiTau);
     router.post('/cap-nhat-lich-su-di-tau', ThuyenVienController.updateLichSuDiTau);
+    router.post('/xoa-lich-su-di-tau', ThuyenVienController.deleteLichSuDiTau);
     router.get('/danh-sach-thuyen-vien', ThuyenVienController.getAllThuyenVien);
     router.get('/danh-sach-thuyen-vien/:id', ThuyenVienController.getThuyenVienById);
     router.post('/cap-nhat-thuyen-vien/:id', ThuyenVienController.putThuyenVien);
@@ -113,7 +115,7 @@ const initWebRoutes = (app) => {
 
     //chứng chỉ ở đâyđây
     router.get('/danh-sach-chung-chi', ChungChiController.getAllChungChi);
-    router.get('/lich-su-di-tau', ChungChiController.getAllLichSuDiTau);
+    
     router.post('/post-chungchi', ChungChiController.postChungChi);
     router.post('/edit-chungchi', ChungChiController.getEditChungChi);
     router.post('/put-chungchi', ChungChiController.putChungChi);

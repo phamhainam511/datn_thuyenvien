@@ -1728,6 +1728,18 @@
                     $('#editOffboardDate').val(offboardDate);
                     $('#editPort').val(port);
                 });
+
+                $('.delete-btn').click(function () {
+                    const historyId = $(this).data('history-id');
+                    if (confirm('Bạn có chắc chắn muốn xoá?')) {
+                        $.post('/xoa-lich-su-di-tau', { historyId }, function (response) {
+                            alert(response.message);
+                            location.reload(); // reload trang sau khi xoá
+                        }).fail(function (xhr) {
+                            alert(xhr.responseJSON?.message || 'Lỗi khi xoá');
+                        });
+                    }
+                });
                 
             });
 

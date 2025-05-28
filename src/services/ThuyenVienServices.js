@@ -189,6 +189,21 @@ let updateLichSuDiTauData = (historyId, data) => {
     });
 };
 
+
+let deleteLichsuditau = async (id) => {
+    try {
+        const record = await db.Lichsuditau.findByPk(id);
+        if (!record) {
+            return false;
+        }
+        await record.destroy();
+        return true;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
 let getAllTau = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -855,4 +870,5 @@ module.exports = {
     getThuyenvienById: getThuyenvienById,
     getCrewWithCertificates: getCrewWithCertificates,
     getEstimatedBoardingTimes: getEstimatedBoardingTimes,
+    deleteLichsuditau : deleteLichsuditau,
 }
