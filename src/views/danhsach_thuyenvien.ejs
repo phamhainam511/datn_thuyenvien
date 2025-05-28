@@ -32,17 +32,8 @@
                         <%- include('partials/topbar', { baseUrl: '' }) %>
 
                             <div class="container-fluid">
-                                <!-- Page Heading -->
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Danh sách thuyền viên</h1>
-                                    <!-- <div>
-                            <a href="/them-thuyen-vien" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm mr-2">
-                                <i class="fas fa-user-plus fa-sm text-white-50"></i> Thêm thuyền viên
-                            </a>
-                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                <i class="fas fa-file-export fa-sm text-white-50"></i> Xuất danh sách
-                            </a>
-                        </div> -->
                                 </div>
 
                                 <div class="card shadow mb-4">
@@ -81,7 +72,6 @@
                                                 <div class="col-md-6">
                                                     <label for="certificateFilter">Lọc theo chứng chỉ:</label>
                                                     <select id="certificateFilter" class="form-control" multiple>
-                                                        <!-- Certificate options will be loaded via JavaScript -->
                                                     </select>
                                                 </div>
                                             </div>
@@ -177,21 +167,17 @@
                         }
 
                         if (confirm('Bạn có chắc chắn muốn xóa các thuyền viên đã chọn?')) {
-                            // Xử lý xóa dữ liệu (sẽ được thêm sau)
-                            document.getElementById('deleteForm').submit(); // Submit thủ công
+                            document.getElementById('deleteForm').submit(); 
                             alert('Đã xóa ' + checkboxes.length + ' thuyền viên');
 
                         }
                     }
 
-                    // Load certificates and initialize filter
                     $(document).ready(function () {
-                        // First add select2 CSS and JS if not already included
                         if (!$('link[href*="select2.min.css"]').length) {
                             $('head').append('<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />');
                         }
 
-                        // Load Select2 script and initialize after it's loaded
                         if (!$('script[src*="select2.min.js"]').length) {
                             $.getScript('https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', function () {
                                 initializeCertificateFilter();
@@ -203,7 +189,6 @@
 
                     function initializeCertificateFilter() {
                         console.log("Initializing certificate filter");
-                        // Load all certificates from API
                         $.ajax({
                             url: '/api/chung-chi',
                             type: 'GET',
@@ -211,22 +196,19 @@
                             success: function (certificates) {
                                 console.log("Certificates loaded:", certificates);
 
-                                // Populate certificate dropdown
                                 var select = $('#certificateFilter');
-                                select.empty(); // Clear any existing options
+                                select.empty(); 
 
                                 certificates.forEach(function (cert) {
                                     select.append('<option value="' + cert.id_chungchi + '">' + cert.tenchungchi + '</option>');
                                 });
 
-                                // Initialize the multi-select plugin with closeOnSelect: false to keep dropdown open
                                 select.select2({
                                     placeholder: 'Chọn các chứng chỉ...',
                                     width: '100%',
                                     closeOnSelect: false
                                 });
 
-                                // Add change event for certificate filter AFTER select2 initialization
                                 select.on('change', function () {
                                     console.log("Certificate selection changed:", $(this).val());
                                     filterTableByCertificates();
@@ -239,16 +221,13 @@
                         });
                     }
 
-                    // Function to filter table by selected certificates
                     function filterTableByCertificates() {
                         var selectedCertificates = $('#certificateFilter').val();
                         console.log("Selected certificates for filtering:", selectedCertificates);
 
                         if (!selectedCertificates || selectedCertificates.length === 0) {
-                            // If no certificates selected, show all rows
                             console.log("No certificates selected, showing all rows");
 
-                            // Remove any existing custom filters first
                             if ($.fn.dataTable.ext.search.length > 0) {
                                 $.fn.dataTable.ext.search.pop();
                             }
@@ -257,7 +236,6 @@
                             return;
                         }
 
-                        // Get all crew member ids who have the selected certificates
                         $.ajax({
                             url: '/api/crew-with-certificates',
                             type: 'GET',
@@ -266,21 +244,17 @@
                             success: function (crewIds) {
                                 console.log("Received crew IDs with certificates:", crewIds);
 
-                                // Remove any existing custom filters first
                                 if ($.fn.dataTable.ext.search.length > 0) {
                                     $.fn.dataTable.ext.search.pop();
                                 }
 
-                                // Add custom filter for certificate
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        // Crew ID is in column 1 (index 1)
                                         var crewId = parseInt(data[1]);
                                         return crewIds.includes(crewId);
                                     }
                                 );
 
-                                // Apply the filter
                                 $('#dataAllThuyenVienTable').DataTable().draw();
                             },
                             error: function (error) {
@@ -290,14 +264,11 @@
                         });
                     }
 
-                    // Prevent DataTables reinitialization
                     $(document).ready(function () {
-                        // Destroy existing DataTable instance if it exists
                         if ($.fn.DataTable.isDataTable('#dataAllThuyenVienTable')) {
                             $('#dataAllThuyenVienTable').DataTable().destroy();
                         }
 
-                        // Initialize DataTables with Vietnamese localization
                         var table = $('#dataAllThuyenVienTable').DataTable({
                             "paging": true,
                             "lengthChange": true,
@@ -306,7 +277,7 @@
                             "info": true,
                             "autoWidth": false,
                             "responsive": true,
-                            "dom": 'lrtip', // Hide default search box
+                            "dom": 'lrtip', 
                             "language": {
                                 "search": "Tìm kiếm:",
                                 "lengthMenu": "Hiển thị _MENU_ mục",
@@ -321,59 +292,41 @@
                             }
                         });
 
-                        // Custom search functionality
                         $('#searchBox').keyup(function () {
                             let selectedStatus = $(this).val();
 
-                            // Remove any existing custom filters first
                             $.fn.dataTable.ext.search.pop();
 
-                            // Only add filter if a status is selected
                             if (selectedStatus) {
-                                // Custom filtering function for the status column
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        // Status is in column 5 (index 5)
-                                        let rowStatus = data[2]; // Extract text from HTML
+                                        let rowStatus = data[2]; 
 
-
-                                        // Check if the row status contains the selected status
                                         return rowStatus.includes(selectedStatus);
                                     }
                                 );
                             }
 
-                            // Apply the filter
                             table.draw();
                         });
 
-                        // Status filter functionality
                         $('#statusFilter').change(function () {
                             let selectedStatus = $(this).val();
 
-                            // Remove any existing custom filters first
                             $.fn.dataTable.ext.search.pop();
 
-                            // Only add filter if a status is selected
                             if (selectedStatus) {
-                                // Custom filtering function for the status column
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        // Status is in column 5 (index 5)
-                                        let rowStatus = data[5]; // Extract text from HTML
-
-
-                                        // Check if the row status contains the selected status
+                                        let rowStatus = data[5]; 
                                         return rowStatus === selectedStatus;
                                     }
                                 );
                             }
 
-                            // Apply the filter
                             table.draw();
                         });
 
-                        // Set the entries dropdown to control page length
                         $('#entries').on('change', function () {
                             table.page.len($(this).val()).draw();
                         });

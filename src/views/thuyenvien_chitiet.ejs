@@ -18,7 +18,6 @@
 
     <link href="/css/style.css" rel="stylesheet">
 
-    <!-- Include header partial -->
     <%- include('partials/header', { title: 'Thông tin thuyền viên', baseUrl: '/' }) %>
 
 </head>
@@ -27,18 +26,15 @@
 
     <div id="wrapper">
 
-        <!-- Include sidebar partial -->
         <%- include('partials/sidebar', { activeMenu: 'crews', baseUrl: '/' }) %>
 
         <div id="content-wrapper" class="d-flex flex-column">
 
             <div id="content">
 
-                <!-- Include topbar partial -->
                 <%- include('partials/topbar', { baseUrl: '/' }) %>
 
                 <div class="container-fluid">
-                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Thông tin thuyền viên</h1>
                         <div class="d-flex">
@@ -53,7 +49,6 @@
                         </div>
                     </div>
 
-                    <!-- Tabs -->
                     <ul class="nav nav-tabs" id="crewTabs">
                         <li class="nav-item">
                             <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal-info"
@@ -85,9 +80,8 @@
                         </li>
                     </ul>
 
-                    <!-- Nội dung tab sẽ được load vào đây -->
                     <div class="tab-content mt-3">
-                        <!-- Personal Info Tab -->
+                        <!--Tab thông tin cá nhân -->
                         <div class="tab-pane fade show active" id="personal-info" role="tabpanel"
                             aria-labelledby="personal-tab">
                             <div class="card shadow mb-4">
@@ -102,7 +96,7 @@
                                             </h5>
                                             <p class="text-muted mb-2">Chức vụ: test</p>
 
-                                            <!-- Upload photo button -->
+                                            <!-- Nút upload ảnh -->
                                             <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>"
                                                 method="POST" enctype="multipart/form-data" class="mb-2">
 
@@ -120,7 +114,7 @@
                                                 </button>
                                             </form>
 
-                                            <!-- Update this section to show actual status with appropriate styling -->
+                                            <!-- Nút cập nhật trạng thái thui -->
                                             <% let statusClass = ''; %>
                                             <% if(thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
                                             <% statusClass = 'active'; %>
@@ -227,7 +221,7 @@
                             </div>
                         </div>
 
-                        <!-- Family Info Tab -->
+                        <!-- Thông tin gia đình -->
                         <div class="tab-pane fade" id="family-info" role="tabpanel" aria-labelledby="family-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
@@ -268,7 +262,7 @@
                             </div>
                         </div>
 
-                        <!-- Education Info Tab -->
+                        <!-- Thông tin học vấn -->
                         <div class="tab-pane fade" id="education-info" role="tabpanel" aria-labelledby="education-tab">
                             <div class="card shadow mb-4">
                                 <div class="card-body">
@@ -314,7 +308,7 @@
                             </div>
                         </div>
 
-                        <!-- Language Certificates Tab -->
+                        <!-- Thông tin ngoại ngữ -->
                         <div class="tab-pane fade" id="language-certificates" role="tabpanel"
                             aria-labelledby="language-tab">
                             <div class="card shadow mb-4">
@@ -415,7 +409,7 @@
                             </div>
                         </div>
 
-                        <!-- Crew Certificates Tab -->
+                        <!-- Thông tin chứng chỉ -->
                         <div class="tab-pane fade" id="crew-certificates" role="tabpanel"
                             aria-labelledby="certificates-tab">
                             <div class="card shadow mb-4">
@@ -521,7 +515,7 @@
                             </div>
                         </div>
 
-                        <!-- Sailing History Tab -->
+                        <!-- Lịch sử đi tàu -->
                         <div class="tab-pane fade" id="sailing-history" role="tabpanel" aria-labelledby="history-tab">
                             <div id="tab-content" class="card shadow mb-4">
                                 <div class="card-body">
@@ -595,7 +589,7 @@
                             </div>
                         </div>
 
-                        <!-- Attachments Tab -->
+                        <!-- Tệp đính kèm -->
                         <div class="tab-pane fade" id="crew-attachments" role="tabpanel"
                             aria-labelledby="attachments-tab">
                             <div class="card shadow mb-4">
@@ -1573,7 +1567,6 @@
                         </div>
                     </div>
 
-                    <!-- JavaScript to handle crew certificate modals -->
                     <script>
 
 
@@ -1611,29 +1604,25 @@
 
     <script>
         $(document).ready(function () {
-            const rawDate = $('#dob').text().trim(); // '2020-01-01'
+            const rawDate = $('#dob').text().trim(); 
             const formatted = moment(rawDate).format('DD/MM/YYYY');
             $('#dob').text(formatted);
         });
         $(document).ready(function () {
-            const rawDateTime = $('#thoigianLenTau').text().trim(); // ví dụ: "2025-06-10T08:00:00.000Z"
+            const rawDateTime = $('#thoigianLenTau').text().trim(); 
             if (rawDateTime) {
-            const formatted = moment(rawDateTime).format('DD/MM/YYYY HH:mm'); // hoặc chỉ DD/MM/YYYY nếu không cần giờ
+            const formatted = moment(rawDateTime).format('DD/MM/YYYY HH:mm'); 
             $('#thoigianLenTau').text(formatted);
             }
         });
     </script>
 
-    <!-- Make sure this script is at the very end -->
     <script>
-        // Tab functionality
             $(document).ready(function () {
-                // Load certificates via AJAX and then select the correct one
                 $.ajax({
                     url: '/api/chung-chi',
                     type: 'GET',
                     success: function(certificates) {
-                        // Clear and populate the dropdown
                         var select = $('#editCrewCertName');
                         select.empty();
                         
@@ -1648,38 +1637,30 @@
                             select.append('<option value="' + cert.id_chungchi + '">' + cert.tenchungchi + '</option>');
                         });
                         
-                        // // Set the correct certificate
-                        // select.val(chungchiId);
                     },
                     error: function() {
                         console.error('Failed to load certificates');
                     }
                 });
 
-                // Enable Bootstrap tabs
                 $('#crewTabs a').on('click', function (e) {
                     e.preventDefault();
                     $(this).tab('show');
                 });
 
-                // Education Edit Button Click
                 $('.editEducationBtn').on('click', function() {
-                    // Get data from button attributes
                     const id = $(this).data('id');
                     const school = $(this).data('school');
                     const program = $(this).data('program');
                     const year = $(this).data('year');
                     
-                    // Populate form fields with current data
                     $('#editEducationId').val(id);
                     $('#editSchool').val(school);
                     $('#editProgram').val(program);
                     $('#editYear').val(year);
                 });
                 
-                // Language Certificate Edit Button Click
                 $('.editLanguageBtn').on('click', function() {
-                    // Get data from button attributes
                     const id = $(this).data('id');
                     const language = $(this).data('language');
                     const certificate = $(this).data('certificate');
@@ -1688,7 +1669,6 @@
                     const expired = $(this).data('expired');
                     const file = $(this).data('file');
                     
-                    // Populate form fields with current data
                     $('#editLanguageId').val(id);
                     $('#editLanguage').val(language);
                     $('#editCertificate').val(certificate);
@@ -1696,7 +1676,6 @@
                     $('#editIssued').val(issued);
                     $('#editExpired').val(expired);
                     
-                    // Update file info section
                     if (file && file !== '') {
                         $('#currentFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
                     } else {
@@ -1704,11 +1683,9 @@
                     }
                 });
                 
-                // Crew Certificate Edit Button Click
                 $('.editCrewCertBtn').on('click', function() {
-                    // Get data from button attributes
                     const id = $(this).data('id');
-                    const certId = $(this).data('cert-id'); // Changed from cert-name to cert-id
+                    const certId = $(this).data('cert-id'); 
                     const certNumber = $(this).data('cert-number');
                     const issued = $(this).data('issued');
                     const expired = $(this).data('expired');
@@ -1716,16 +1693,13 @@
                     const rank = $(this).data('rank');
                     const file = $(this).data('file');
                     
-                    // Populate form fields with current data
                     $('#editCrewCertId').val(id);
-                    $('#editCrewCertName').val(certId); // This now selects the dropdown option with the correct ID
-                    $('#editCrewCertNumber').val(certNumber);
+                    $('#editCrewCertName').val(certId); 
                     $('#editCrewCertIssued').val(issued);
                     $('#editCrewCertExpired').val(expired);
                     $('#editCrewCertIssuer').val(issuer);
                     $('#editCrewCertRank').val(rank);
                     
-                    // Update file info section
                     if (file && file !== '') {
                         $('#currentCrewCertFileName').html('<a href="' + file + '" target="_blank">View current file</a>');
                     } else {
@@ -1733,43 +1707,36 @@
                     }
                 });
                 
-                // Ship History Edit Button Click
                 $('.editShipHistoryBtn').on('click', function() {
-                    // Get data from button attributes
                     const historyId = $(this).data('history-id');
                     const shipId = $(this).data('ship-id');
                     const positionId = $(this).data('position-id');
                     const thuyenvienId = $(this).data('thuyenvien-id');
                     
-                    // Find the corresponding row to get other data
                     const row = $(this).closest('tr');
-                    const onboardDate = row.find('td:eq(2)').text(); // Date format: YYYY-MM-DD
-                    const onboardTime = row.find('td:eq(3)').text(); // Time format: HH:MM:SS
+                    const onboardDate = row.find('td:eq(2)').text(); 
+                    const onboardTime = row.find('td:eq(3)').text(); 
                     const offboardDate = row.find('td:eq(4)').text();
                     const port = row.find('td:eq(5)').text();
                     
-                    // Populate form fields with current data
                     $('#editHistoryId').val(historyId);
                     $('#editThuyenVienId').val(thuyenvienId);
                     $('#editShipName').val(shipId);
                     $('#editPosition').val(positionId);
                     $('#editOnboardDate').val(onboardDate);
-                    $('#editOnboardTime').val(onboardTime.substring(0, 5)); // Extract HH:MM from HH:MM:SS
+                    $('#editOnboardTime').val(onboardTime.substring(0, 5)); 
                     $('#editOffboardDate').val(offboardDate);
                     $('#editPort').val(port);
                 });
                 
-                // Additional event handlers...
             });
 
 
             document.getElementById("exportContractBtn").addEventListener("click", function(e) {
                 e.preventDefault();
 
-                // Lấy id thuyenvien từ URL hiện tại
                 const pathParts = window.location.pathname.split('/');
-                const idThuyenvien = pathParts[pathParts.length - 1]; // Lấy phần cuối của path
-
+                const idThuyenvien = pathParts[pathParts.length - 1]; 
                 fetch(`/thuyenvien/export-word/${idThuyenvien}`)
                     .then(response => {
                         if (!response.ok) throw new Error('Network response was not ok');
@@ -1788,17 +1755,14 @@
                     .catch(() => alert("Lỗi khi tải hợp đồng!"));
             });
 
-        // Ensure document is ready before executing
         document.addEventListener('DOMContentLoaded', function () {
             console.log("DOM fully loaded");
 
-            // Set up main status button default action based on current status
             const statusButton = document.getElementById('statusButton');
             if (statusButton) {
                 statusButton.addEventListener('click', function () {
                     const currentStatus = '<%= thuyenvieninfo.trangthai %>';
 
-                    // Open the appropriate modal based on current status
                     if (currentStatus === 'Đang trên tàu') {
                         $('#disembarkingStatusModal').modal('show');
                     } else if (currentStatus === 'Đang chờ tàu') {
@@ -1809,23 +1773,19 @@
                 });
             }
 
-            // Handle returning fields visibility in disembarking modal
             const disembarkingTypeSelect = document.getElementById('disembarkingTypeSelect');
             const disembarkingReturningFields = document.getElementById('disembarkingReturningFields');
 
             if (disembarkingTypeSelect && disembarkingReturningFields) {
-                // Initial state
                 disembarkingReturningFields.style.display =
                     disembarkingTypeSelect.value === 'Sẽ quay lại' ? 'block' : 'none';
 
-                // Change handler
                 disembarkingTypeSelect.addEventListener('change', function () {
                     disembarkingReturningFields.style.display =
                         this.value === 'Sẽ quay lại' ? 'block' : 'none';
                 });
             }
 
-            // Link disembarkation status with return type
             const disembarkingStatusSelect = document.getElementById('disembarkingStatusSelect');
 
             if (disembarkingStatusSelect && disembarkingTypeSelect) {
@@ -1848,9 +1808,8 @@
         document.getElementById("exportInfoBtn").addEventListener("click", function (e) {
             e.preventDefault();
 
-            // Lấy id thuyenvien từ URL hiện tại
             const pathParts = window.location.pathname.split('/');
-            const idThuyenvien = pathParts[pathParts.length - 1]; // Lấy phần cuối của path
+            const idThuyenvien = pathParts[pathParts.length - 1]; 
 
             fetch(`/thuyenvien/export-excel/${idThuyenvien}`)
                 .then(response => {
@@ -1858,20 +1817,16 @@
                     return response.blob();
                 })
                 .then(blob => {
-                    // Tạo URL từ blob
                     const url = window.URL.createObjectURL(blob);
-                    // Tạo thẻ <a> ẩn để tải file
                     const a = document.createElement('a');
                     a.href = url;
 
-                    // Đặt tên file (bạn có thể sửa tên file tùy ý)
                     a.download = `thong_tin_thuyenvien_${idThuyenvien}.xlsx`;
 
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
 
-                    // Giải phóng URL
                     window.URL.revokeObjectURL(url);
                 })
                 .catch(() => alert("Lỗi khi tải hợp đồng!"));

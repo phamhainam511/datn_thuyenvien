@@ -40,7 +40,6 @@
                                     <div class="card-header py-3 d-flex justify-content-between align-items-center">
                                         <h6 class="m-0 font-weight-bold text-primary">Tài khoản người dùng</h6>
 
-                                        <!-- Bọc 2 nút trong một div để căn phải -->
                                         <div>
                                             <button class="btn btn-secondary btn-sm me-2" onclick="themTaiKhoan()">Thêm
                                                 Tài
@@ -48,7 +47,6 @@
                                             <button class="btn btn-danger btn-sm" onclick="xoaTatCaThuyenVien()">Xóa
                                                 Tài
                                                 Khoản</button>
-                                            <!-- Modal Thêm user -->
                                             <div class="modal fade" id="modalThemUser" tabindex="-1" role="dialog"
                                                 aria-labelledby="modalLabelThem" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -302,7 +300,6 @@
                     }
 
                     function xoaTatCaThuyenVien() {
-                        // lấy tất cả checkbox đang check
                         const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                         const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
 
@@ -311,19 +308,17 @@
                             return;
                         }
 
-                        // xác nhận
                         if (!confirm('Bạn có chắc muốn xóa các user đã chọn?')) {
                             return;
                         }
 
-                        // gửi danh sách id bằng POST request
                         fetch('/delete-user', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json'
                             },
-                            body: JSON.stringify({ id: ids }) // id là mảng
+                            body: JSON.stringify({ id: ids }) 
                         })
                             .then(res => {
                                 if (res.redirected) {
@@ -370,7 +365,6 @@
                         "info": true,
                         "autoWidth": false,
                         "responsive": true,
-                        // "dom": 'lrtip', // Hide default search box
                         "language": {
                             "search": "Tìm kiếm:",
                             "lengthMenu": "Hiển thị _MENU_ mục",

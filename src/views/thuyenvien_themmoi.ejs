@@ -142,34 +142,28 @@
 
     <div id="wrapper">
 
-        <!-- Include sidebar partial -->
         <%- include('partials/sidebar', { activeMenu: 'crews', baseUrl: '/' }) %>
 
         <div id="content-wrapper" class="d-flex flex-column">
 
             <div id="content">
 
-                <!-- Include topbar partial -->
                 <%- include('partials/topbar', { baseUrl: '/' }) %>
                 
                 <div class="container-fluid">
-                    <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Thêm thuyền viên mới</h1>
                     </div>
 
-                    <!-- Form Navigation -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Nhập thông tin thuyền viên</h6>
                         </div>
                         <div class="card-body">
-                            <!-- Remove step indicator since we're showing all sections -->
                             
-                            <!-- Form Wrapper -->
                             <form id="crewForm" action="/them-thuyen-vien" method="POST" enctype="multipart/form-data">
                                 
-                                <!-- Section 1: Personal Information -->
+                                <!-- Section 1: Thong tin ca nhan thui -->
                                 <div class="form-section" id="section1">
                                     <h5 class="text-primary mb-4 section-heading">1. Thông tin cá nhân</h5>
 
@@ -177,7 +171,6 @@
                                         <div class="col-md-3 text-center">
                                             <img src="/img/crew_default.jpg" alt="Ảnh thuyền viên" class="crew-photo mb-2" id="previewImage" style="width: 150px; height: 180px; object-fit: cover;">
                                             
-                                            <!-- Upload photo button -->
                                             <div class="custom-file mb-2">
                                                 <input type="file" class="custom-file-input" id="crew_photo" name="crew_photo" accept=".jpg,.jpeg,.png">
                                                 <label class="custom-file-label" for="crew_photo">Chọn ảnh...</label>
@@ -291,7 +284,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 2: Family Information -->
+                                <!-- Section 2: Thong tin gia dinh nhe -->
                                 <div class="form-section" id="section2">
                                     <h5 class="text-primary mb-4 section-heading">2. Thông tin gia đình</h5>
                                     
@@ -365,7 +358,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 3: Education -->
+                                <!-- Section 3: Hoc van ne -->
                                 <div class="form-section" id="section3">
                                     <h5 class="text-primary mb-4 section-heading">3. Học vấn</h5>
                                     
@@ -400,7 +393,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 4: Language Certificates -->
+                                <!-- Section 4: o day la ngoai ngu nhe -->
                                 <div class="form-section" id="section4">
                                     <h5 class="text-primary mb-4 section-heading">4. Chứng chỉ ngoại ngữ</h5>
                                     
@@ -465,7 +458,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 5: Crew Certificates -->
+                                <!-- Section 5: them chung chi cho nay nha -->
                                 <div class="form-section" id="section5">
                                     <h5 class="text-primary mb-4 section-heading">5. Chứng chỉ thuyền viên</h5>
                                     
@@ -477,7 +470,6 @@
                                                         <label>Tên chứng chỉ:</label>
                                                         <select class="form-control certificate-select" name="id_chungchi[]">
                                                             <option value="">-- Chọn chứng chỉ --</option>
-                                                            <!-- Options will be populated via AJAX -->
                                                         </select>
                                                     </div>
                                                 </div>
@@ -535,7 +527,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 6: Attachments -->
                                 <div class="form-section" id="section6">
                                     <h5 class="text-primary mb-4 section-heading">6. Tài liệu đính kèm</h5>
                                     
@@ -598,7 +589,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 7: Thêm tài khoản ngân hàng -->
                                 <div class="form-section" id="section2">
                                     <h5 class="text-primary mb-4 section-heading">7. Thông tin tài khoản ngân hàng</h5>
 
@@ -629,7 +619,6 @@
                                 </div>
 
 
-                                <!-- Replace form navigation buttons with a single submit button -->
                                 <div class="text-center mt-5">
                                     <button type="submit" class="btn btn-success btn-lg">
                                         <i class="fas fa-save"></i> Lưu thông tin
@@ -664,18 +653,15 @@
 
     <script>
         $(document).ready(function() {
-            // Simple image preview functionality
             $('#crew_photo').change(function() {
                 const file = this.files[0];
                 if (file) {
-                    // Validate file size (max 5MB)
                     if (file.size > 5 * 1024 * 1024) {
                         alert('Kích thước ảnh quá lớn. Tối đa 5MB.');
                         this.value = '';
                         return;
                     }
                     
-                    // Validate file type
                     const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
                     if (!validTypes.includes(file.type)) {
                         alert('Chỉ chấp nhận định dạng JPG, JPEG hoặc PNG.');
@@ -683,21 +669,17 @@
                         return;
                     }
                     
-                    // Display preview
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         $('#previewImage').attr('src', e.target.result);
                     }
                     reader.readAsDataURL(file);
                     
-                    // Update file input label
                     $(this).next('.custom-file-label').html(file.name);
                 }
             });
             
-            // Remove step navigation code since we're showing all sections at once
             
-            // Add language certificate functionality
             let languageCertCount = 0;
             
             $('#addLanguageCert').click(function() {
@@ -705,11 +687,9 @@
                 const newCert = $('#languageCert0').clone();
                 newCert.attr('id', `languageCert${languageCertCount}`);
                 
-                // Clear input values
                 newCert.find('input[type="text"], input[type="number"], input[type="date"]').val('');
                 newCert.find('input[type="file"]').val('');
                 
-                // Add remove button
                 newCert.append(`
                     <span class="remove-certificate" data-target="languageCert${languageCertCount}">
                         <i class="fas fa-times-circle"></i>
@@ -719,18 +699,15 @@
                 $('#languageCertificates').append(newCert);
             });
             
-            // Load certificates from API
             function loadCertificates() {
                 $.ajax({
                     url: '/api/chung-chi',
                     type: 'GET',
                     success: function(certificates) {
-                        // Populate all certificate dropdowns
                         $('.certificate-select').each(function() {
                             const select = $(this);
-                            const currentValue = select.val(); // Preserve selected value if any
+                            const currentValue = select.val(); 
                             
-                            // Keep the first option and add certificates
                             const firstOption = select.find('option:first');
                             select.empty().append(firstOption);
                             
@@ -738,7 +715,6 @@
                                 select.append(`<option value="${cert.id_chungchi}">${cert.tenchungchi}</option>`);
                             });
                             
-                            // Restore selected value if there was one
                             if (currentValue) {
                                 select.val(currentValue);
                             }
@@ -750,10 +726,8 @@
                 });
             }
             
-            // Load certificates when page loads
             loadCertificates();
             
-            // Modify crew certificate functionality to include certificate dropdown population
             let crewCertCount = 0;
             
             $('#addCrewCert').click(function() {
@@ -761,12 +735,10 @@
                 const newCert = $('#crewCert0').clone();
                 newCert.attr('id', `crewCert${crewCertCount}`);
                 
-                // Clear input values
                 newCert.find('input[type="text"], input[type="number"], input[type="date"]').val('');
                 newCert.find('input[type="file"]').val('');
-                newCert.find('select').val(''); // Reset select dropdowns
+                newCert.find('select').val(''); 
                 
-                // Add remove button
                 newCert.append(`
                     <span class="remove-certificate" data-target="crewCert${crewCertCount}">
                         <i class="fas fa-times-circle"></i>
@@ -775,19 +747,15 @@
                 
                 $('#crewCertificates').append(newCert);
 
-                // Load certificates for the new dropdown
                 loadCertificates();
             });
             
-            // Remove certificate
             $(document).on('click', '.remove-certificate', function() {
                 const targetId = $(this).data('target');
                 $(`#${targetId}`).remove();
             });
             
-            // Form submission with overall validation
             $('#crewForm').on('submit', function(e) {
-                // Check for required fields
                 let isValid = true;
                 $(this).find('[required]').each(function() {
                     if (!$(this).val()) {
@@ -801,7 +769,6 @@
                 if (!isValid) {
                     e.preventDefault();
                     alert('Vui lòng điền đầy đủ các trường bắt buộc!');
-                    // Scroll to the first invalid field
                     $('html, body').animate({
                         scrollTop: $('.is-invalid:first').offset().top - 100
                     }, 500);

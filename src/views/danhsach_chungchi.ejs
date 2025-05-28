@@ -226,7 +226,7 @@
                                     })
                                     .then(data => {
                                         Swal.fire("Thành công", data.message, "success").then(() => {
-                                            window.location.reload(); // load lại trang sau khi nhấn OK
+                                            window.location.reload(); 
                                         });
                                     })
                                     .catch(err => {
@@ -244,7 +244,6 @@
                         "info": true,
                         "autoWidth": false,
                         "responsive": true,
-                        // "dom": 'lrtip', // Hide default search box
                         "language": {
                             "search": "Tìm kiếm:",
                             "lengthMenu": "Hiển thị _MENU_ mục",

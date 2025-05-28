@@ -203,7 +203,6 @@
                                 }
 
                                 function xoaChon() {
-                                    // lấy tất cả checkbox đang check
                                     const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                                     const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
 
@@ -212,19 +211,17 @@
                                         return;
                                     }
 
-                                    // xác nhận
                                     if (!confirm('Bạn có chắc muốn xóa các tàu đã chọn?')) {
                                         return;
                                     }
 
-                                    // gửi danh sách id bằng POST request
                                     fetch('/delete-tau', {
                                         method: 'POST',
                                         headers: {
                                             'Content-Type': 'application/json',
                                             'Accept': 'application/json'
                                         },
-                                        body: JSON.stringify({ id: ids }) // id là mảng
+                                        body: JSON.stringify({ id: ids }) 
                                     })
                                         .then(res => {
                                             if (res.redirected) {
@@ -246,7 +243,6 @@
                                     "info": true,
                                     "autoWidth": false,
                                     "responsive": true,
-                                    // "dom": 'lrtip', // Hide default search box
                                     "language": {
                                         "search": "Tìm kiếm:",
                                         "lengthMenu": "Hiển thị _MENU_ mục",

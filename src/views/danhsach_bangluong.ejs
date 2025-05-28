@@ -34,9 +34,7 @@
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Bảng Lương Thuyền Viên</h1>
                                 </div>
-                                <!-- Bộ lọc tháng -->
                                 <div class="row align-items-end justify-content-between mb-4">
-                                    <!-- Cột chọn tháng -->
                                     <div class="col-md-4 d-flex align-items-center">
                                         <form action="/danh-sach-bang-luong" method="GET"
                                             class="d-flex align-items-center">
@@ -57,7 +55,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Tab nút -->
                                 <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
                                     <li class="nav-item" role="presentation">
                                         <a href="/danh-sach-thuyen-vien-luong" class="nav-link" id="crew-tab"
@@ -82,7 +79,6 @@
                                                 class="card-header py-3 d-flex justify-content-between align-items-center">
                                                 <h6 class="m-0 font-weight-bold text-primary">Danh sách bảng lương</h6>
 
-                                                <!-- Bọc 2 nút trong một div để căn phải -->
                                                 <div class="d-flex">
                                                     <form method="GET" action="/export-bang-luong">
                                                         <input type="hidden" name="time" value="<%= keyword %>">
@@ -184,7 +180,6 @@
             <%- include('partials/scripts', { baseUrl: '' }) %>
                 <script>
                     function xoaBangLuong() {
-                        // lấy tất cả checkbox đang check 
                         const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                         const ids = Array.from(checkboxes).map(cb => cb.getAttribute('data-id'));
 
@@ -193,19 +188,17 @@
                             return;
                         }
 
-                        // xác nhận
                         if (!confirm('Bạn có chắc muốn xóa các bảng lương đã chọn?')) {
                             return;
                         }
 
-                        // gửi danh sách id bằng POST request
                         fetch('/delete-bangluong', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Accept': 'application/json'
                             },
-                            body: JSON.stringify({ id: ids }) // id là mảng
+                            body: JSON.stringify({ id: ids }) 
                         })
                             .then(res => {
                                 if (res.redirected) {
@@ -228,7 +221,6 @@
                         "info": true,
                         "autoWidth": false,
                         "responsive": true,
-                        // "dom": 'lrtip', // Hide default search box
                         "language": {
                             "search": "Tìm kiếm:",
                             "lengthMenu": "Hiển thị _MENU_ mục",

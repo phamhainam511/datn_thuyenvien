@@ -131,9 +131,8 @@
     <%- include('partials/logout-modal') %>
     <%- include('partials/scripts') %>
     <script>
-        // Kích hoạt flatpickr cho cả 2 ô ngày
         flatpickr("#ngayKi", {
-            dateFormat: "d/m/Y", // định dạng dd/MM/yyyy
+            dateFormat: "d/m/Y", 
             allowInput: true
         });
 
@@ -217,7 +216,6 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
-            // "dom": 'lrtip', // Hide default search box
             "language": {
                 "search": "Tìm kiếm:",
                 "lengthMenu": "Hiển thị _MENU_ mục",

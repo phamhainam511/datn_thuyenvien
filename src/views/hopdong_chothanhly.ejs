@@ -206,9 +206,8 @@
     <%- include('partials/scripts') %>
 
     <script>
-        // Kích hoạt flatpickr cho cả 2 ô ngày
         flatpickr("#ngayKi", {
-            dateFormat: "d/m/Y", // định dạng dd/MM/yyyy
+            dateFormat: "d/m/Y", 
             allowInput: true
         });
 
@@ -219,16 +218,14 @@
     </script>
     <script>
         $('#suaHopDongModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Nút được click
+            var button = $(event.relatedTarget); 
 
-            // Lấy dữ liệu từ các data-attribute của nút
             var id = button.data('id');
             var ma = button.data('ma');
             var ngayki = button.data('ngayki');
             var ngayhethan = button.data('ngayhethan');
-            var fileName = button.data('file'); // ví dụ: hopdong_abc.pdf
+            var fileName = button.data('file'); 
 
-            // Gán dữ liệu vào các input trong modal
             var modal = $(this);
             modal.find('#idHopDong').val(id);
             modal.find('#thuyenvien_id').val(ma);
@@ -236,7 +233,6 @@
             modal.find('#ngayHetHan').val(ngayhethan);
             modal.find('input[name="oldHinhanh"]').val(fileName || '');
 
-            // Hiển thị thông tin file hiện tại (nếu có)
             if (fileName) {
                 modal.find('#fileHienTai').html(`
             <a href="${fileName}" target="_blank" class="btn btn-sm btn-outline-info">
@@ -319,7 +315,6 @@
                 button.addEventListener('click', function () {
                     const id = this.getAttribute('data-id');
 
-                    // Hiển thị xác nhận bằng SweetAlert2
                     Swal.fire({
                         title: 'Bạn chắc chắn?',
                         text: 'Hợp đồng này sẽ được thanh lý!',
@@ -384,7 +379,6 @@
             });
         }
 
-        // Xoá query sau khi hiện popup (tránh lặp lại khi reload)
         window.history.replaceState({}, document.title, window.location.pathname);
 
         $('#dataTable1').DataTable({
@@ -395,7 +389,6 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
-            // "dom": 'lrtip', // Hide default search box
             "language": {
                 "search": "Tìm kiếm:",
                 "lengthMenu": "Hiển thị _MENU_ mục",
