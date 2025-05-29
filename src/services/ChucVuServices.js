@@ -7,6 +7,17 @@ let createNewChucVu = async (data) => {
             const result = await db.Chucvu.create({
                 tenchucvu: dataUtils.chuanHoaTen(data.tenchucvu),
             })
+            let chungchi_ids = data.chungchi_id || [];
+            if (!Array.isArray(chungchi_ids)) {
+                chungchi_ids = [chungchi_ids];
+            }
+            for (let i = 0; i < chungchi_ids.length; i++) {
+                await db.chucvuchungchi.create({
+                    chucvu_id: result.id_chucvu,
+                    chungchi_id: chungchi_ids[i]
+                });
+            }
+
             resolve(result);
         } catch (e) {
             reject(e);
