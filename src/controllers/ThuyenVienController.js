@@ -269,7 +269,14 @@ let updateLichSuDiTau = async (req, res) => {
 
         return res.redirect('/danh-sach-thuyen-vien/' + thuyenvien_id);
     } catch (error) {
-        res.send('Lỗi: ' + error.message);
+        const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+        res.send(`
+            <script>
+                alert(${JSON.stringify(message)});
+                window.history.back();
+            </script>
+        `);
     }
 };
 
@@ -282,7 +289,14 @@ let createLichSuDiTau = async (req, res) => {
 
         return res.redirect('/thuyen-vien/' + thuyenvien_id);
     } catch (error) {
-        res.send('Lỗi: ' + error.message);
+        const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+        res.send(`
+            <script>
+                alert(${JSON.stringify(message)});
+                window.history.back();
+            </script>
+        `);
     }
 };
 

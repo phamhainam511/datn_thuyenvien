@@ -140,7 +140,18 @@ let getLichSuDiTau = (thuyenvien_id) => {
 let createLichSuDiTau = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            
+            const xuatCanh = new Date(data.timexuatcanh);
+            const lenTau = new Date(data.timelentau);
+            const roiTau = data.ngayroitau ? new Date(data.ngayroitau) : null;
+
+            if (xuatCanh >= lenTau) {
+                return reject("Thời gian xuất cảnh phải nhỏ hơn thời gian lên tàu.");
+            }
+
+            if (roiTau && lenTau >= roiTau) {
+                return reject("Thời gian lên tàu phải nhỏ hơn ngày rời tàu.");
+            }
+
             const result = await db.Lichsuditau.create({
                 thuyenvien_id: data.thuyenvien_id,
                 tau_id: data.tau_id,
@@ -152,26 +163,37 @@ let createLichSuDiTau = (data) => {
                 quoctich_thuyen: data.quoctich_thuyen || null,
             });
 
-            resolve('Thêm lịch sử đi tàu thành công!');
+            resolve("Thêm lịch sử đi tàu thành công!");
         } catch (e) {
             console.log(e);
-            reject(e);
+            reject("Có lỗi xảy ra khi thêm lịch sử đi tàu.");
         }
     });
 };
 
+
 let updateLichSuDiTauData = (historyId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            
+            const xuatCanh = new Date(data.timexuatcanh);
+            const lenTau = new Date(data.timelentau);
+            const roiTau = data.ngayroitau ? new Date(data.ngayroitau) : null;
+
+            if (xuatCanh >= lenTau) {
+                return reject("Thời gian xuất cảnh phải nhỏ hơn thời gian lên tàu.");
+            }
+
+            if (roiTau && lenTau >= roiTau) {
+                return reject("Thời gian lên tàu phải nhỏ hơn ngày rời tàu.");
+            }
             const updateData = {
                 tau_id: data.tau_id,
                 chucvu_id: data.chucvu_id,
                 timexuatcanh: data.timexuatcanh,
                 timelentau: data.timelentau,
-                ngayroitau: data.ngayroitau,
-                cangroitau: data.cangroitau,
-                quoctich_thuyen: data.quoctich_thuyen,
+                ngayroitau: data.ngayroitau || null,
+                cangroitau: data.cangroitau || null,
+                quoctich_thuyen: data.quoctich_thuyen || null,
             };
 
             await db.Lichsuditau.update(
@@ -184,7 +206,7 @@ let updateLichSuDiTauData = (historyId, data) => {
             resolve('Cập nhật lịch sử đi tàu thành công!');
         } catch (e) {
             console.log(e);
-            reject(e);
+            reject("Có lỗi xảy ra khi thêm lịch sử đi tàu.");
         }
     });
 };

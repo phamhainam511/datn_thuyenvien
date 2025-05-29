@@ -532,7 +532,7 @@
                                                 <th>Ngày giờ tàu</th>
                                                 <th>Ngày rời tàu</th>
                                                 <th>Cảng xuống tàu</th>
-                                                <th>Quốc tịch thuyền</th>
+                                                <th>Quốc tịch thuyền viên</th>
                                                 <th>Thao tác</th>
                                             </tr>
                                         </thead>
@@ -566,7 +566,7 @@
                                                 <td><%= lichsuditauinfo[i].timexuatcanh.toLocaleString() %>
                                                 </td>
                                                 <td><%= lichsuditauinfo[i].timelentau.toLocaleString() %></td>
-                                                <td><%= lichsuditauinfo[i].ngayroitau %></td>
+                                                <td class="ngayroitau"><%= lichsuditauinfo[i].ngayroitau %></td>
                                                 <td><%= lichsuditauinfo[i].cangroitau %></td>
                                                 <td><%= lichsuditauinfo[i].quoctich_thuyen %></td>
                                                 <td class="text-center">
@@ -855,7 +855,7 @@
                                             <label>Ngày lên tàu dự kiến:</label>
                                             <input type="datetime-local" class="form-control" id=""
                                                 name="thoigian_lenTauDuKien"
-                                                 value="<%= formattedDateTime %>">
+                                                value="<%= formattedDateTime %>">
                                         </div>
                                     </form>
                                 </div>
@@ -1197,7 +1197,7 @@
                                             <input type="text" class="form-control" id="editPort" name="cangroitau">
                                         </div>
                                         <div class="form-group">
-                                            <label>Quốc tịch thuyền:</label>
+                                            <label>Quốc tịch thuyền viên:</label>
                                             <input type="text" class="form-control" id="editNationality"
                                                 name="quoctich_thuyen">
                                         </div>
@@ -1601,6 +1601,7 @@
     <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <script src="/js/demo/datatables-demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         $(document).ready(function () {
@@ -1615,6 +1616,14 @@
             $('#thoigianLenTau').text(formatted);
             }
         });
+        $('.ngayroitau').each(function () {
+            const rawDate = $(this).text().trim();
+            if (rawDate) {
+                const formatted = moment(rawDate).format('DD/MM/YYYY');
+                $(this).text(formatted);
+            }
+        });
+
     </script>
 
     <script>
@@ -1706,6 +1715,18 @@
                         $('#currentCrewCertFileName').text('No file attached');
                     }
                 });
+
+                function parseCustomDatetimeToLocal(str) {
+                    // Ví dụ: "00:14:00, 29/5/2025"
+                    const regex = /(\d{2}):(\d{2}):\d{2}, (\d{1,2})\/(\d{1,2})\/(\d{4})/;
+                    const match = str.match(regex);
+                    if (!match) return '';
+
+                    const [_, hh, mm, d, m, y] = match;
+                    const day = d.padStart(2, '0');
+                    const month = m.padStart(2, '0');
+                    return `${y}-${month}-${day}T${hh}:${mm}`;
+                }
                 
                 $('.editShipHistoryBtn').on('click', function() {
                     const historyId = $(this).data('history-id');
@@ -1718,15 +1739,17 @@
                     const onboardTime = row.find('td:eq(3)').text(); 
                     const offboardDate = row.find('td:eq(4)').text();
                     const port = row.find('td:eq(5)').text();
-                    
+                    const nationality = row.find('td:eq(6)').text();
+
                     $('#editHistoryId').val(historyId);
                     $('#editThuyenVienId').val(thuyenvienId);
                     $('#editShipName').val(shipId);
                     $('#editPosition').val(positionId);
-                    $('#editOnboardDate').val(onboardDate);
-                    $('#editOnboardTime').val(onboardTime.substring(0, 5)); 
+                    $('#editOnboardDate').val(parseCustomDatetimeToLocal(onboardDate));
+                    $('#editOnboardTime').val(parseCustomDatetimeToLocal(onboardTime)); 
                     $('#editOffboardDate').val(offboardDate);
                     $('#editPort').val(port);
+                    $('#editNationality').val(nationality);
                 });
 
                 $('.delete-btn').click(function () {
@@ -1734,7 +1757,7 @@
                     if (confirm('Bạn có chắc chắn muốn xoá?')) {
                         $.post('/xoa-lich-su-di-tau', { historyId }, function (response) {
                             alert(response.message);
-                            location.reload(); // reload trang sau khi xoá
+                            location.reload(); 
                         }).fail(function (xhr) {
                             alert(xhr.responseJSON?.message || 'Lỗi khi xoá');
                         });
