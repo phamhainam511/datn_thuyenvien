@@ -351,6 +351,13 @@ let getNgoaiNguThuyenVien = (thuyenvien_id) => {
 let createNgoaiNgu = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const ngaycap = new Date(data.ngaycap);
+            const ngayhethan = new Date(data.ngayhethan);
+
+            if (ngaycap >= ngayhethan) {
+                return reject("Thời gian cấp phải nhỏ hơn thời gian hết hạn.");
+            }
+
             const result = await db.ThuyenvienNgoaingu.create({
                 id_thuyenvien: data.id_thuyenvien,
                 ngonngu: data.ngonngu,
@@ -370,6 +377,12 @@ let createNgoaiNgu = (data) => {
 let updateNgoaiNgu = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const ngaycap = new Date(data.ngaycap);
+            const ngayhethan = new Date(data.ngayhethan);
+
+            if (ngaycap >= ngayhethan) {
+                return reject("Thời gian cấp phải nhỏ hơn thời gian hết hạn.");
+            }
             let updateData = {
                 ngonngu: data.ngonngu,
                 tenchungchi: data.tenchungchi,
@@ -465,6 +478,12 @@ let getAllChungChi = () => {
 let createChungChi = (data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const ngaycap = new Date(data.ngaycap);
+            const ngayhethan = new Date(data.ngayhethan);
+
+            if (ngaycap >= ngayhethan) {
+                return reject("Thời gian cấp phải nhỏ hơn thời gian hết hạn.");
+            }
             const result = await db.ThuyenvienChungchi.create({
                 id_chungchi: data.id_chungchi,
                 id_thuyenvien: data.id_thuyenvien,
@@ -485,6 +504,12 @@ let createChungChi = (data) => {
 let updateChungChi = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const ngaycap = new Date(data.ngaycap);
+            const ngayhethan = new Date(data.ngayhethan);
+
+            if (ngaycap >= ngayhethan) {
+                return reject("Thời gian cấp phải nhỏ hơn thời gian hết hạn.");
+            }
             let updateData = {
                 id_chungchi: data.id_chungchi, 
                 sohieuchungchi: data.sohieuchungchi,

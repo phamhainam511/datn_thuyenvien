@@ -415,7 +415,14 @@ let createNgoaiNgu = async (req, res) => {
             await ThuyenVienServices.createNgoaiNgu(data);
             return res.redirect('/thuyen-vien/' + data.id_thuyenvien);
         } catch (error) {
-            res.send('Lỗi: ' + error.message);
+            const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+            res.send(`
+                <script>
+                    alert(${JSON.stringify(message)});
+                    window.history.back();
+                </script>
+            `);
         }
     });
 };
@@ -447,7 +454,14 @@ let updateNgoaiNgu = async (req, res) => {
 
             return res.redirect('/thuyen-vien/' + thuyenvien_id);
         } catch (error) {
-            res.send('Lỗi: ' + error.message);
+            const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+            res.send(`
+                <script>
+                    alert(${JSON.stringify(message)});
+                    window.history.back();
+                </script>
+            `);
         }
     });
 };
@@ -489,7 +503,14 @@ let createChungChi = async (req, res) => {
             await ThuyenVienServices.createChungChi(data);
             return res.redirect('/thuyen-vien/' + data.id_thuyenvien);
         } catch (error) {
-            res.send('Lỗi: ' + error.message);
+            const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+            res.send(`
+                <script>
+                    alert(${JSON.stringify(message)});
+                    window.history.back();
+                </script>
+            `);
         }
     });
 };
@@ -521,7 +542,14 @@ let updateChungChi = async (req, res) => {
 
             return res.redirect('/thuyen-vien/' + thuyenvien_id);
         } catch (error) {
-            res.send('Lỗi: ' + error.message);
+            const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+            res.send(`
+                <script>
+                    alert(${JSON.stringify(message)});
+                    window.history.back();
+                </script>
+            `);
         }
     });
 };
