@@ -77,10 +77,23 @@ let deleteChucVu = (chucvu_id) => {
         }
     })
 }
+let getComboChungChi = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let chungchis = db.Chungchi.findAll({
+                attributes: ['id_chungchi', 'tenchungchi'],
+            });
+            resolve(chungchis);
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     createNewChucVu: createNewChucVu,
     getAllChucVu: getAllChucVu,
     getChucVuId: getChucVuId,
     updateChucVuData: updateChucVuData,
-    deleteChucVu: deleteChucVu
+    deleteChucVu: deleteChucVu,
+    getComboChungChi: getComboChungChi
 }
