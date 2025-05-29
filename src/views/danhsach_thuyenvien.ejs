@@ -63,7 +63,7 @@
                                                     <label for="statusFilter">Trạng thái:</label>
                                                     <select id="statusFilter" class="form-control">
                                                         <option value="">Tất cả</option>
-                                                        <option value="Đang làm việc trên tàu">Đang trên tàu</option>
+                                                        <option value="Đang trên tàu">Đang trên tàu</option>
                                                         <option value="Đang chờ tàu">Đang chờ tàu</option>
                                                         <option value="Đang trên bờ">Đang trên bờ</option>
                                                     </select>
@@ -160,18 +160,30 @@
                     }
 
                     function xoaTatCaThuyenVien() {
-                        var checkboxes = document.querySelectorAll('.row-checkbox:checked');
+                        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
                         if (checkboxes.length === 0) {
-                            alert('Vui lòng chọn ít nhất một thuyền viên để xóa');
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Chưa chọn thuyền viên',
+                                text: 'Vui lòng chọn ít nhất một thuyền viên để xóa.'
+                            });
                             return;
                         }
 
-                        if (confirm('Bạn có chắc chắn muốn xóa các thuyền viên đã chọn?')) {
-                            document.getElementById('deleteForm').submit(); 
-                            alert('Đã xóa ' + checkboxes.length + ' thuyền viên');
-
-                        }
+                        Swal.fire({
+                            title: 'Bạn có chắc chắn?',
+                            text: `Bạn muốn xóa ${checkboxes.length} thuyền viên đã chọn?`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Xóa',
+                            cancelButtonText: 'Hủy'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('deleteForm').submit();
+                            }
+                        });
                     }
+
 
                     $(document).ready(function () {
                         if (!$('link[href*="select2.min.css"]').length) {
@@ -311,14 +323,15 @@
                         });
 
                         $('#statusFilter').change(function () {
-                            let selectedStatus = $(this).val();
+                            let selectedStatus = $(this).val().trim(); 
 
                             $.fn.dataTable.ext.search.pop();
 
                             if (selectedStatus) {
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        let rowStatus = data[5]; 
+                                        let rowStatus = data[5].trim(); 
+                                        console.log('So sánh:', rowStatus, 'vs', selectedStatus);
                                         return rowStatus === selectedStatus;
                                     }
                                 );
@@ -327,9 +340,55 @@
                             table.draw();
                         });
 
+
                         $('#entries').on('change', function () {
                             table.page.len($(this).val()).draw();
                         });
+                    });
+
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const success = urlParams.get('success');
+                        const error = urlParams.get('error');
+
+                        if (success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thêm thành công!',
+                                text: 'Thuyền viên đã được thêm vào danh sách.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+
+                        if (error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Lỗi!',
+                                text: decodeURIComponent(error),
+                                confirmButtonText: 'OK'
+                            });
+                        }
+
+                        if (success || error) {
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        }
+
+                        const deleted = urlParams.get('deleted');
+
+                        if (deleted && parseInt(deleted) > 0) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Xoá thành công!',
+                                text: `Đã xóa ${deleted} thuyền viên.`,
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        }
+
+                        if (deleted !== null) {
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        }
                     });
                 </script>
 </body>

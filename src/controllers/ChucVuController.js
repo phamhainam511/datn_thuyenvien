@@ -2,8 +2,10 @@ import db from '../models';
 import ChucVuServices from "../services/ChucVuServices";
 let getAllChucVu = async (req, res) => {
     let data = await ChucVuServices.getAllChucVu();
+    let comboChungChi = await ChucVuServices.getComboChungChi();
     return res.render('danhsach_chucvu.ejs', {
-        dataTable: data
+        dataTable: data,
+        dataChungChi: comboChungChi,
     });
 };
 let postChucVu = async (req, res) => {

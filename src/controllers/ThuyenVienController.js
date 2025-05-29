@@ -367,7 +367,7 @@ let deleteThuyenVien = async (req, res) => {
         await ThuyenVienServices.deleteThuyenVien(id);
     }
 
-    return res.redirect('/danh-sach-thuyen-vien');
+    return res.redirect(`/danh-sach-thuyen-vien?deleted=${ids.length}`);
 };
 
 let getThuyenVienById = async (req, res) => {
@@ -858,10 +858,10 @@ let createNewThuyenVien = async (req, res) => {
                 bankAccountData
             );
 
-            return res.redirect('/danh-sach-thuyen-vien');
+            res.redirect('/danh-sach-thuyen-vien?success=1');
         } catch (error) {
             console.error('Error creating crew member:', error);
-            return res.status(500).send('Server error: ' + error.message);
+            res.redirect('/danh-sach-thuyen-vien?error=' + encodeURIComponent(error.message));
         }
     });
 };

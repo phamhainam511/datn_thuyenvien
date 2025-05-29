@@ -61,10 +61,18 @@
                                                             <form id="formThemChucVu" action="/post-chucvu"
                                                                 method="POST">
                                                                 <div class="form-group">
-                                                                    <label for="tenChucVu" class="text-primary">Tên chức
-                                                                        vụ</label>
+                                                                    <label for="tenChucVu" class="text-primary">Tên chức vụ</label>
                                                                     <input type="text" class="form-control"
                                                                         id="tenChucVu" name="tenchucvu" required>
+                                                                    <label for="tenChungChi" class="text-primary">Chọn chứng chỉ</label>
+                                                                    <% for(let i=0; i<dataChungChi.length; i++){ %>
+                                                                        <div>
+                                                                            <label class="ten">
+                                                                                <input type="checkbox" name="chungchi_id[]" value="<%= dataChungChi[i].id_chungchi %>">
+                                                                                <%= dataChungChi[i].tenchungchi %>
+                                                                            </label>
+                                                                        </div>
+                                                                    <% } %>
                                                                 </div>
                                                                 <button type="submit"
                                                                     class="btn btn-primary">Lưu</button>
@@ -125,6 +133,15 @@
                                                                     <label>Tên chức vụ</label>
                                                                     <input type="text" class="form-control"
                                                                         id="editTenChucVu" name="tenchucvu" required>
+                                                                    <label>Chọn chứng chỉ</label>
+                                                                    <% for(let i=0; i<dataChungChi.length; i++){ %>
+                                                                        <div>
+                                                                            <label class="ten">
+                                                                                <input type="checkbox" name="chungchi_id" value="<%= dataChungChi[i].id_chungchi %>">
+                                                                                <%= dataChungChi[i].tenchungchi %>
+                                                                            </label>
+                                                                        </div>
+                                                                    <% } %>
                                                                 </div>
 
                                                             </div>
