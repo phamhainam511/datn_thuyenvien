@@ -246,6 +246,23 @@ let updatethanhLyHopDong = async (idHopDong) => {
     return 'Thanh lý hợp đồng thành công!';
 }
 
+let updateTrangThai = async (idHopDong) => {
+    try {
+        const hopdong = await db.Hopdong.findOne({ where: { id_hopdong: idHopDong } });
+        if (!hopdong) {
+            throw new Error('Hợp đồng không tồn tại');
+        }
+
+        hopdong.trangthaihopdong = "Có hiệu lực";
+        await hopdong.save();
+
+        return true;
+    } catch (error) {
+        console.error('Lỗi updateTrangThai:', error);
+        throw error;
+    }
+};
+
 module.exports = {
     getAllHopDong: getAllHopDong,
     createNewHopDong: createNewHopDong,
@@ -255,4 +272,5 @@ module.exports = {
     getHopDongChoThanhLy: getHopDongChoThanhLy,
     updatethanhLyHopDong: updatethanhLyHopDong,
     getHopDongDaThanhLy: getHopDongDaThanhLy,
+    updateTrangThai : updateTrangThai,
 }

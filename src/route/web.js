@@ -164,6 +164,7 @@ const initWebRoutes = (app) => {
     router.get('/hop-dong-cho-thanh-ly', HopDongController.getHopDongChoThanhLy);
     router.post('/thuc-hien-thanh-ly', HopDongController.postThanhLyHopDong);
     router.get('/hop-dong-da-thanh-ly', HopDongController.getHopDongDaThanhLy);
+    router.post('/hopdong/dat-hieu-luc', HopDongController.datHieuLuc);
 
     //thuyền viên bảng lương ở đây
     router.get('/danh-sach-thuyen-vien-luong', ThuyenVienLuongController.getAllThuyenVienLuong);

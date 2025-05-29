@@ -58,7 +58,7 @@
                                             <th>Ngày hết hạn</th>
                                             <th>Trạng thái hợp đồng</th>
                                             <th>Hình ảnh</th>
-                                            <th style="width: 15%;">Hành động</th>
+                                            <th style="width: 20%;">Hành động</th>
                                         </tr>
 
                                     </thead>
@@ -101,8 +101,8 @@
                                                 Không có file
                                                 <% } %>
                                             </td>
-                                            <td>
-                                                <button class="btn btn-primary btn-sm me-2" data-toggle="modal"
+                                            <td class="d-flex">
+                                                <button class="btn btn-primary btn-sm me-2 mr-2" data-toggle="modal"
                                                     data-target="#suaHopDongModal"
                                                     data-id="<%= dataTable[i].id_hopdong %>"
                                                     data-ma="<%= dataTable[i].thuyenvien ? dataTable[i].thuyenvien.id_thuyenvien : '' %>"
@@ -111,9 +111,13 @@
                                                     data-file="<%= dataTable[i].hinhanh %>">
                                                     Sửa
                                                 </button>
-                                                <button class="btn btn-danger btn-sm me-2 btn-thanh-ly"
+                                                <button class="btn btn-danger btn-sm me-2 btn-thanh-ly mr-2"
                                                     data-id="<%= dataTable[i].id_hopdong %>">
                                                     Thanh lý
+                                                </button>
+                                                <button class="btn btn-secondary btn-sm btn-dat-hieu-luc"
+                                                    data-id="<%= dataTable[i].id_hopdong %>">
+                                                    Đặt lại
                                                 </button>
                                             </td>
                                         </tr>
@@ -207,7 +211,7 @@
 
     <script>
         flatpickr("#ngayKi", {
-            dateFormat: "d/m/Y", 
+            dateFormat: "d/m/Y",
             allowInput: true
         });
 
@@ -218,13 +222,13 @@
     </script>
     <script>
         $('#suaHopDongModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); 
+            var button = $(event.relatedTarget);
 
             var id = button.data('id');
             var ma = button.data('ma');
             var ngayki = button.data('ngayki');
             var ngayhethan = button.data('ngayhethan');
-            var fileName = button.data('file'); 
+            var fileName = button.data('file');
 
             var modal = $(this);
             modal.find('#idHopDong').val(id);
@@ -359,6 +363,59 @@
                 });
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-dat-hieu-luc').forEach(button => {
+                button.addEventListener('click', function () {
+                    const id = this.getAttribute('data-id');
+
+                    Swal.fire({
+                        title: 'Bạn chắc chắn?',
+                        text: 'Hợp đồng này sẽ được đặt lại trạng thái "Có hiệu lực"!',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#28a745',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Đồng ý'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('/hopdong/dat-hieu-luc', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        idHopDong: id
+                                    })
+                                })
+                                .then(res => res.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        title: 'Thành công!',
+                                        text: data.message ||
+                                            'Đã đặt trạng thái "Có hiệu lực".',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        location
+                                    .reload(); 
+                                    });
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    Swal.fire({
+                                        title: 'Lỗi!',
+                                        text: 'Đã xảy ra lỗi khi cập nhật trạng thái hợp đồng.',
+                                        icon: 'error',
+                                        confirmButtonText: 'OK'
+                                    });
+                                });
+                        }
+                    });
+                });
+            });
+        });
+
 
         const query = new URLSearchParams(window.location.search);
         const updated = query.get("updated");

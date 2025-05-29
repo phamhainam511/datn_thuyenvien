@@ -169,6 +169,22 @@ let postThanhLyHopDong = async (req, res) => {
     }
 }
 
+let datHieuLuc = async (req, res) => {
+    try {
+        const { idHopDong } = req.body;
+        if (!idHopDong) {
+            return res.status(400).json({ message: 'Thiếu ID hợp đồng.' });
+        }
+
+        await HopDongServices.updateTrangThai(idHopDong, 'Có hiệu lực');
+
+        return res.json({ message: 'Trạng thái hợp đồng đã được cập nhật thành "Có hiệu lực".' });
+    } catch (error) {
+        console.error('Lỗi datHieuLuc:', error);
+        return res.status(500).json({ message: 'Lỗi server khi cập nhật trạng thái.' });
+    }
+};
+
 module.exports = {
     getAllHopDong: getAllHopDong,
     postHopDong: postHopDong,
@@ -177,5 +193,6 @@ module.exports = {
     getHopDongChoThanhLy : getHopDongChoThanhLy,
     postThanhLyHopDong : postThanhLyHopDong,
     getHopDongDaThanhLy : getHopDongDaThanhLy,
-    getHopDongById : getHopDongById
+    getHopDongById : getHopDongById,
+    datHieuLuc : datHieuLuc,
 }
