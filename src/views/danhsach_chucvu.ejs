@@ -134,16 +134,8 @@
                                                                     <input type="text" class="form-control"
                                                                         id="editTenChucVu" name="tenchucvu" required>
                                                                     <label>Chọn chứng chỉ</label>
-                                                                    <% for(let i=0; i<dataChungChi.length; i++){ %>
-                                                                        <div>
-                                                                            <label class="ten">
-                                                                                <input type="checkbox" name="chungchi_id" value="<%= dataChungChi[i].id_chungchi %>">
-                                                                                <%= dataChungChi[i].tenchungchi %>
-                                                                            </label>
-                                                                        </div>
-                                                                    <% } %>
+                                                                    <div id="checkboxChungChiContainer"></div>
                                                                 </div>
-
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="submit"
@@ -185,6 +177,32 @@
                     function openEditModal(id, ten) {
                         document.getElementById('editId').value = id;
                         document.getElementById('editTenChucVu').value = ten;
+
+                        fetch('/edit-chucvu?id=' + id)
+                        .then(res => res.json())
+                        .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                            return;
+                        }
+                        // Làm mới checkbox
+                        const container = document.getElementById('checkboxChungChiContainer');
+                        container.innerHTML = '';
+
+                        // Đánh dấu checkbox đã có
+                        data.dataChungChi.forEach(chungchi => {
+                            const checked = data.chungChiDaCo.includes(chungchi.id_chungchi) ? 'checked' : '';
+                            const div = document.createElement('div');
+                            div.innerHTML = `
+                            <label>
+                                <input type="checkbox" name="chungchi_id[]" value="${chungchi.id_chungchi}" ${checked}>
+                                ${chungchi.tenchungchi}
+                            </label>
+                            `;
+                            container.appendChild(div);
+                        });
+                        });
+
                         $('#editModal').modal('show');
                     }
 
