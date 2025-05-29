@@ -63,7 +63,7 @@
                                                     <label for="statusFilter">Trạng thái:</label>
                                                     <select id="statusFilter" class="form-control">
                                                         <option value="">Tất cả</option>
-                                                        <option value="Đang làm việc trên tàu">Đang trên tàu</option>
+                                                        <option value="Đang trên tàu">Đang trên tàu</option>
                                                         <option value="Đang chờ tàu">Đang chờ tàu</option>
                                                         <option value="Đang trên bờ">Đang trên bờ</option>
                                                     </select>
@@ -323,14 +323,15 @@
                         });
 
                         $('#statusFilter').change(function () {
-                            let selectedStatus = $(this).val();
+                            let selectedStatus = $(this).val().trim(); 
 
                             $.fn.dataTable.ext.search.pop();
 
                             if (selectedStatus) {
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        let rowStatus = data[5]; 
+                                        let rowStatus = data[5].trim(); 
+                                        console.log('So sánh:', rowStatus, 'vs', selectedStatus);
                                         return rowStatus === selectedStatus;
                                     }
                                 );
@@ -338,6 +339,7 @@
 
                             table.draw();
                         });
+
 
                         $('#entries').on('change', function () {
                             table.page.len($(this).val()).draw();
