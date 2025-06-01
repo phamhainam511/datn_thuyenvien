@@ -131,7 +131,7 @@ let ChangePassword = async (req, res) => {
         return res.render('doimatkhau.ejs', { errors: ['Có lỗi xảy ra, vui lòng thử lại.'], success: null });
     }
 };
-module.exports = {
+const userController = {
     getAllUser: getAllUser,
     postUser: postUser,
     getEditUser: getEditUser,
@@ -139,4 +139,5 @@ module.exports = {
     resetPassword: resetPassword,
     deleteUser: deleteUser,
     ChangePassword: ChangePassword
-}
+};
+export default userController;

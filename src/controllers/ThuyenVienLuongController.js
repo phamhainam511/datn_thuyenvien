@@ -14,7 +14,8 @@ let postBangLuong = async (req, res) => {
     res.redirect('/danh-sach-thuyen-vien-luong');
 }
 
-module.exports = {
+const ThuyenVienLuongController = {
     getAllThuyenVienLuong: getAllThuyenVienLuong,
     postBangLuong: postBangLuong
-}
+};
+export default ThuyenVienLuongController;

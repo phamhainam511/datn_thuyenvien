@@ -10,4 +10,5 @@ const exportCV = async (req, res) => {
   }
 };
 
-module.exports = { exportCV };
+const ExcelController = { exportCV };
+export default ExcelController;

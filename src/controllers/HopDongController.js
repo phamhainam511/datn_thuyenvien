@@ -184,7 +184,7 @@ let datHieuLuc = async (req, res) => {
     }
 };
 
-module.exports = {
+const HopDongController = {
     getAllHopDong: getAllHopDong,
     postHopDong: postHopDong,
     puteditHopDong: puteditHopDong,
@@ -194,4 +194,5 @@ module.exports = {
     getHopDongDaThanhLy : getHopDongDaThanhLy,
     getHopDongById : getHopDongById,
     datHieuLuc : datHieuLuc,
-}
+};
+export default HopDongController;

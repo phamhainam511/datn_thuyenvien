@@ -1241,7 +1241,7 @@ let exportThuyenvienContract = async (req, res) => {
     }
 };
 
-module.exports = {
+const ThuyenVienController = {
     getAllThuyenVien: getAllThuyenVien,
     postThuyenVien: postThuyenVien,
     getEditThuyenVien: getEditThuyenVien,
@@ -1273,5 +1273,5 @@ module.exports = {
     getCrewWithCertificates: getCrewWithCertificates,
     getNotificationCounts: getNotificationCounts,
     deleteLichSuDiTau : deleteLichSuDiTau,
-
-}
+};
+export default ThuyenVienController;

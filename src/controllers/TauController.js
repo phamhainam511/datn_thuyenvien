@@ -61,11 +61,12 @@ let searchTau = async (req, res) => {
     }
 };
 
-module.exports = {
+const TauController = {
     getAllTau: getAllTau,
     postTau: postTau,
     getEditTau: getEditTau,
     putTau: putTau,
     deleteTau: deleteTau,
     searchTau: searchTau
-}
+};
+export default TauController;
