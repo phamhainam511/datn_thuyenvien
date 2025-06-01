@@ -49,10 +49,13 @@ let deleteChucVu = async (req, res) => {
     return res.redirect('/danh-sach-chuc-vu');
 };
 
-module.exports = {
-    getAllChucVu: getAllChucVu,
-    postChucVu: postChucVu,
-    getEditChucVu: getEditChucVu,
-    putChucVu: putChucVu,
-    deleteChucVu: deleteChucVu
+
+const ChucVuController = {
+    getAllChucVu,
+    postChucVu,
+    getEditChucVu,
+    putChucVu,
+    deleteChucVu
 }
+
+export default ChucVuController;

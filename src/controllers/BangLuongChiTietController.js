@@ -51,9 +51,11 @@ let xuLyThanhToan = async (req, res) => {
 }
 
 
-module.exports = {
-    getBangLuongChiTiet: getBangLuongChiTiet,
-    putBangLuong: putBangLuong,
-    putNganHang: putNganHang,
+const BangLuongChiTietController = {
+    getBangLuongChiTiet,
+    putBangLuong,
+    putNganHang,
     xuLyThanhToan
 }
+
+export default BangLuongChiTietController;

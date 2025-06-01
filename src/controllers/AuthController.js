@@ -79,8 +79,9 @@ let getLoginPage = (req, res) => {
     return res.render('dangnhap.ejs', { error: null });
 };
 
-module.exports = {
-    handleLogin: handleLogin,
-    handleLogout: handleLogout,
-    getLoginPage: getLoginPage
-};
+const AuthController = {
+    handleLogin,
+    handleLogout,
+    getLoginPage
+}
+export default AuthController;
