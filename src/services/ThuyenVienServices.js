@@ -1,5 +1,5 @@
 import * as db from '../models/index.js';
-const dataUtils = require('./ChuanHoaServices.js');
+import dataUtils from './ChuanHoaServices.js';
 let createNewThuyenVien = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
