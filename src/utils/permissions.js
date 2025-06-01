@@ -124,7 +124,8 @@ const hasAccess = (role, path) => {
   return false;
 };
 
-module.exports = {
+const permissions = {
   ROLES,
   hasAccess
 };
+export default permissions;
