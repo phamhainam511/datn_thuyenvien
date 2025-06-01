@@ -1,5 +1,5 @@
 const db = require('../models');
-const DashBoardServices = require("../services/DashBoardServices");
+const DashBoardServices = require("../services/DashBoardServices.js");
 
 const getExpiringCertificateCount = async (days = 30) => {
     return await DashBoardServices.getExpiringCertificateCount(days);

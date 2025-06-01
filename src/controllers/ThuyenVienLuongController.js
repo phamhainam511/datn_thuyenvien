@@ -1,6 +1,6 @@
 import db from '../models';
-import ThuyenVienLuongServices from "../services/ThuyenVienLuongServices";
-import BangLuongFunctionServices from '../services/BangLuongFunctionServices';
+import ThuyenVienLuongServices from "../services/ThuyenVienLuongServices.js";
+import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 
 let getAllThuyenVienLuong = async (req, res) => {
     let data = await ThuyenVienLuongServices.getAllThuyenVienLuong();

@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../models/index.js';
 
 let getBangLuongChiTiet = async (bangluong_id) => {
     return new Promise(async (resolve, reject) => {

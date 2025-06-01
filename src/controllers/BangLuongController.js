@@ -1,5 +1,5 @@
-import BangLuongServices from "../services/BangLuongServices";
-import BangLuongFunctionServices from '../services/BangLuongFunctionServices';
+import BangLuongServices from "../services/BangLuongServices.js";
+import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 
 // Lấy danh sách bảng lương theo tháng (hoặc mặc định là tháng mới nhất)
 let getAllBangLuong = async (req, res) => {

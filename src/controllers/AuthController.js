@@ -1,4 +1,4 @@
-import AuthService from '../services/AuthService';
+import AuthService from '../services/AuthService.js';
 /**
  * Xử lý yêu cầu đăng nhập người dùng.
  * 

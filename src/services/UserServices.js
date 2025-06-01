@@ -1,6 +1,6 @@
-import db from '../models/index';
+import db from '../models/index.js';
 import bcrypt from 'bcrypt';
-import ChuanHoaServices from '../services/ChuanHoaServices';
+import ChuanHoaServices from '../services/ChuanHoaServices.js';
 
 let createNewUser = async (data) => {
     try {

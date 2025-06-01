@@ -1,5 +1,5 @@
 import db from '../models';
-import ThuyenVienServices from "../services/ThuyenVienServices";
+import ThuyenVienServices from "../services/ThuyenVienServices.js";
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';

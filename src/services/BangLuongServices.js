@@ -1,5 +1,5 @@
-import db from '../models/index';
-import BangLuongFunctionServices from '../services/BangLuongFunctionServices';
+import db from '../models/index.js';
+import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 const ExcelJS = require('exceljs');
 const { Op } = require('sequelize');
 

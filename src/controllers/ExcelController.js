@@ -1,4 +1,4 @@
-const excelService = require('../services/ExcelService');
+const excelService = require('../services/ExcelService.js');
 
 const exportCV = async (req, res) => {
   try {

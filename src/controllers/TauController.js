@@ -1,5 +1,5 @@
 import db from '../models';
-import TauServices from "../services/TauServices";
+import TauServices from "../services/TauServices.js";
 let getAllTau = async (req, res) => {
     let data = await TauServices.getAllTau();
     let comboLoaiTau = await TauServices.getComboLoaiTau();

@@ -1,5 +1,5 @@
-import BangLuongChiTietServices from "../services/BangLuongChiTietServices";
-import BangLuongFunctionServices from '../services/BangLuongFunctionServices';
+import BangLuongChiTietServices from "../services/BangLuongChiTietServices.js";
+import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 
 let getBangLuongChiTiet = async (req, res) => {
     try {
