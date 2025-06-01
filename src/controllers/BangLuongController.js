@@ -61,9 +61,11 @@ let exportBangLuong = async (req, res) => {
     }
 };
 
-module.exports = {
-    getAllBangLuong: getAllBangLuong,
-    getEditBangLuong: getEditBangLuong,
-    deleteBangLuong: deleteBangLuong,
-    exportBangLuong: exportBangLuong
+const BangLuongController = {
+    getAllBangLuong,
+    getEditBangLuong,
+    deleteBangLuong,
+    exportBangLuong
 }
+
+export default BangLuongController;

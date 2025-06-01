@@ -24,11 +24,13 @@ const getThuyenvienTrangThaiStats = async () => {
     return await DashBoardServices.getThuyenvienTrangThaiStats();
 };
 
-module.exports = {
+const DashBoardController = {
     getExpiringCertificateCount,
     getPendingContractsCount,
     getThuyenvienDangTrenTau,
     getThuyenvienDangChoTau,
     getChucVuStats,
     getThuyenvienTrangThaiStats
-};
+}
+
+export default DashBoardController;

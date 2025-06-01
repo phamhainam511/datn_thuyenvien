@@ -68,11 +68,13 @@ let getAllLichSuDiTau = async (req, res) => {
     return res.render('thuyenvien_lichsu.ejs');
 }
 
-module.exports = {
-    getAllChungChi : getAllChungChi,
-    postChungChi: postChungChi,
-    getEditChungChi: getEditChungChi,
-    putChungChi: putChungChi,
-    deleteChungChi: deleteChungChi,
-    getAllLichSuDiTau: getAllLichSuDiTau
+const ChungChiController = {
+    getAllChungChi,
+    postChungChi,
+    getEditChungChi,
+    putChungChi,
+    deleteChungChi,
+    getAllLichSuDiTau
 }
+
+export default ChungChiController;
