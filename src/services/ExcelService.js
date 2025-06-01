@@ -1,6 +1,6 @@
 import ExcelJS from 'exceljs';
-import { Thuyenvien, ThuyenvienChungchi, Chungchi } from '../models/index.js';
-
+import db from '../models/index.js';
+const { Thuyenvien, ThuyenvienChungchi, Chungchi } = db;
 async function getSeafarerById(id) {
     const seafarer = await Thuyenvien.findOne({
         where: { id_thuyenvien: id }
