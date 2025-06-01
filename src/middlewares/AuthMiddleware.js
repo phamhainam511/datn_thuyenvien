@@ -1,5 +1,4 @@
-import { hasAccess } from '../utils/permissions.js';
-
+import permissions from '../utils/permissions.js';
 /**
  * Middleware kiểm tra người dùng đã đăng nhập hay chưa.
  * Nếu đã đăng nhập, thêm thông tin người dùng vào `res.locals` để dùng trong view.
@@ -30,7 +29,7 @@ const checkPermission = (req, res, next) => {
   const role = req.session.user.phanquyen_id;
   const path = req.path;
   
-  if (hasAccess(role, path)) {
+  if (permissions.hasAccess(role, path)) {
     res.locals.user = req.session.user;
     return next();
   }
