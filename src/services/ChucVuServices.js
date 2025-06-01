@@ -1,4 +1,4 @@
-import db from '../models/index.js';
+import * as db from '../models/index.js';
 const dataUtils = require('./ChuanHoaServices.js'); 
 
 let createNewChucVu = async (data) => {

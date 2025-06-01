@@ -1,4 +1,4 @@
-import db from '../models/index.js';
+import * as db from '../models/index.js';
 import ThuyenVienServices from "../services/ThuyenVienServices.js";
 import multer from 'multer';
 import path from 'path';

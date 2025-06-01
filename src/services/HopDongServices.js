@@ -1,4 +1,4 @@
-import db from '../models/index.js';
+import * as db from '../models/index.js';
 const {
     Op
 } = require('sequelize');

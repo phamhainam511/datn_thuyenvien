@@ -1,4 +1,4 @@
-import db from '../models/index.js';
+import * as db from '../models/index.js';
 const { Sequelize, Op } = require('sequelize');
 const dataUtils = require('./ChuanHoaServices.js'); 
 
