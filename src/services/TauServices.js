@@ -140,7 +140,7 @@ let searchTau = async (keyword = '') => {
 };
 
 
-module.exports = {
+const TauServices = {
     createNewTau: createNewTau,
     getComboLoaiTau: getComboLoaiTau,
     getAllTau: getAllTau,
@@ -149,3 +149,4 @@ module.exports = {
     deleteTau: deleteTau,
     searchTau: searchTau
 };
+export default TauServices;

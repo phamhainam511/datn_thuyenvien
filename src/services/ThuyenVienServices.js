@@ -886,7 +886,7 @@ async function getThuyenvienById(id) {
     }
 }
 
-module.exports = {
+const ThuyenVienServices = {
     createNewThuyenVien: createNewThuyenVien,
     getAllThuyenVien: getAllThuyenVien,
     getThuyenVienId: getThuyenVienId,
@@ -926,4 +926,5 @@ module.exports = {
     getCrewWithCertificates: getCrewWithCertificates,
     getEstimatedBoardingTimes: getEstimatedBoardingTimes,
     deleteLichsuditau : deleteLichsuditau,
-}
+};
+export default ThuyenVienServices;

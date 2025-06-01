@@ -213,7 +213,7 @@ let changePassword = async (taikhoan, currentPassword, newPassword) => {
     }
 };
 
-module.exports = {
+const UserServices = {
     createNewUser: createNewUser,
     getComboPhanQuyen: getComboPhanQuyen,
     getAllUser: getAllUser,
@@ -222,4 +222,5 @@ module.exports = {
     updateUserData: updateUserData,
     deleteUser: deleteUser,
     changePassword: changePassword,
-}
+};
+export default UserServices;

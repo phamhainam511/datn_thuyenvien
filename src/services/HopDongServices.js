@@ -263,7 +263,7 @@ let updateTrangThai = async (idHopDong) => {
     }
 };
 
-module.exports = {
+const HopDongServices = {
     getAllHopDong: getAllHopDong,
     createNewHopDong: createNewHopDong,
     getHopDongById: getHopDongById,
@@ -273,4 +273,5 @@ module.exports = {
     updatethanhLyHopDong: updatethanhLyHopDong,
     getHopDongDaThanhLy: getHopDongDaThanhLy,
     updateTrangThai : updateTrangThai,
-}
+};
+export default HopDongServices;

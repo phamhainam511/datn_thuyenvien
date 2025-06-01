@@ -84,7 +84,8 @@ async function generateSeafarerCV(id, res) {
 
 }
 
-module.exports = {
+const ExcelServices = {
     getSeafarerById,
     generateSeafarerCV,
 };
+export default ExcelServices;

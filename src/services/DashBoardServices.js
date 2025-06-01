@@ -124,7 +124,7 @@ const getThuyenvienTrangThaiStats = async () => {
 
 
 
-module.exports = {
+const DashBoardServices = {
     getExpiringCertificateCount,
     getPendingContractsCount,
     countThuyenvienDangTrenTau,
@@ -132,3 +132,4 @@ module.exports = {
     getChucVuStats,
     getThuyenvienTrangThaiStats
 };
+export default DashBoardServices;

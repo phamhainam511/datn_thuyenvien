@@ -93,7 +93,8 @@ let getAllThuyenVienLuong = async () => {
     });
 };
 
-module.exports = {
+const ThuyenVienLuongServices = {
     getAllThuyenVienLuong: getAllThuyenVienLuong,
     createNewBangLuong: createNewBangLuong
-}
+};
+export default ThuyenVienLuongServices;
