@@ -1,4 +1,4 @@
-import * as db from '../models/index.js';
+import db from '../models/index.js';
 import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 import ExcelJS from 'exceljs';
 import { Op } from 'sequelize';

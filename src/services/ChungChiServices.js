@@ -1,4 +1,4 @@
-import * as db from '../models/index.js';
+import db from '../models/index.js';
 import dataUtils from './ChuanHoaServices.js';
 let createNewChungChi = async(data) => {
     return new Promise(async(resolve, reject) => {

@@ -1,4 +1,4 @@
-import * as db from '../models/index.js';
+import db from '../models/index.js';
 import moment from 'moment';
 import { Op } from 'sequelize';
 
