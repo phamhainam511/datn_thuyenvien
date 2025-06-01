@@ -1,7 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
     class ThuyenvienHocvan extends Model {
         static associate(models) {
             // Define relationship with thuyenvien table as one-to-one

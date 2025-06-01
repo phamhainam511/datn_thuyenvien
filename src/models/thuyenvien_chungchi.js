@@ -1,7 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
     class ThuyenvienChungchi extends Model {
         static associate(models) {
             // Định nghĩa quan hệ với bảng thuyenvien
@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'chungchi'
             });
             
-           
         }
     }
 

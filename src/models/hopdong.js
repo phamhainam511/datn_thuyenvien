@@ -1,7 +1,7 @@
 'use strict';
-const { Model } = require('sequelize');
+import { Model } from 'sequelize';
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
     class Hopdong extends Model {
         static associate(models) {
             // Quan hệ: hợp đồng thuộc về 1 thuyền viên
