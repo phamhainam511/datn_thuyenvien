@@ -1,4 +1,4 @@
-import ThuyenVienController from '../controllers/ThuyenVienController';
+import ThuyenVienController from '../controllers/ThuyenVienController.js';
 
 /**
  * Middleware để chèn dữ liệu thông báo (notifications) vào view.

@@ -1,4 +1,4 @@
-import { hasAccess } from '../utils/permissions';
+import { hasAccess } from '../utils/permissions.js';
 
 /**
  * Middleware kiểm tra người dùng đã đăng nhập hay chưa.
