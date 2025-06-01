@@ -1,5 +1,5 @@
 import * as db from '../models/index.js';
-const dataUtils = require('./ChuanHoaServices.js'); 
+import dataUtils from './ChuanHoaServices.js';
 let createNewChungChi = async(data) => {
     return new Promise(async(resolve, reject) => {
         try {
@@ -94,11 +94,13 @@ let getAllLichSuDiTau = () => {
     
 }
 
-module.exports = {
-    createNewChungChi: createNewChungChi,
-    getAllChungChi : getAllChungChi,
-    getChungChiId : getChungChiId,
-    updateChungChiData: updateChungChiData,
-    deleteChungChi: deleteChungChi,
-    getAllLichSuDiTau: getAllLichSuDiTau
-}
+const ChungChiServices = {
+    createNewChungChi,
+    getAllChungChi,
+    getChungChiId,
+    updateChungChiData,
+    deleteChungChi,
+    getAllLichSuDiTau
+};
+
+export default ChungChiServices;

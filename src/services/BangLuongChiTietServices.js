@@ -101,9 +101,10 @@ let xuLyThanhToan = (bangluong_id) => {
     });
 }
 
-module.exports = {
-    getBangLuongChiTiet: getBangLuongChiTiet,
-    updateBangLuongData: updateBangLuongData,
-    updateNganHangData: updateNganHangData,
-    xuLyThanhToan: xuLyThanhToan
+const BangLuongChiTietServices = {
+    getBangLuongChiTiet,
+    updateBangLuongData,
+    updateNganHangData,
+    xuLyThanhToan
 }
+export default BangLuongChiTietServices;

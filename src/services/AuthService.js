@@ -52,6 +52,7 @@ let handleLogin = (taikhoan, matkhau) => {
     });
 };
 
-module.exports = {
-    handleLogin: handleLogin
-};
+const AuthService = {
+    handleLogin
+}
+export default AuthService;
