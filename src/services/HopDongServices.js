@@ -1,7 +1,5 @@
 import * as db from '../models/index.js';
-const {
-    Op
-} = require('sequelize');
+import { Op } from 'sequelize';
 let getAllHopDong = () => {
     return new Promise(async (resolve, reject) => {
         try {

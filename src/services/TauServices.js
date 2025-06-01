@@ -1,6 +1,6 @@
 import * as db from '../models/index.js';
-const { Sequelize, Op } = require('sequelize');
-const dataUtils = require('./ChuanHoaServices.js'); 
+import { Sequelize, Op } from 'sequelize';
+import dataUtils from './ChuanHoaServices.js';
 
 let createNewTau = async (data) => {
     return new Promise(async (resolve, reject) => {

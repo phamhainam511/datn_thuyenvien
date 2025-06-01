@@ -1,5 +1,5 @@
-const ExcelJS = require('exceljs');
-const { Thuyenvien, ThuyenvienChungchi, Chungchi } = require('../models');
+import ExcelJS from 'exceljs';
+import { Thuyenvien, ThuyenvienChungchi, Chungchi } from '../models/index.js';
 
 async function getSeafarerById(id) {
     const seafarer = await Thuyenvien.findOne({

@@ -1,6 +1,6 @@
 import * as db from '../models/index.js';
-const moment = require('moment');
-const { Op } = require('sequelize');
+import moment from 'moment';
+import { Op } from 'sequelize';
 
 let createNewBangLuong = async (data) => {
     return new Promise(async (resolve, reject) => {

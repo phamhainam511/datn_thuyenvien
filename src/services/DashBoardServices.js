@@ -1,7 +1,5 @@
-const db = require('../models');
-const {
-    Op
-} = require('sequelize');
+import db from '../models/index.js';
+import { Op } from 'sequelize';
 const sequelize = db.sequelize;
 
 const getExpiringCertificateCount = async (days = 30) => {
