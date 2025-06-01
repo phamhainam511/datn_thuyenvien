@@ -1,4 +1,4 @@
-const DashBoardServices = require("../services/DashBoardServices.js");
+import DashBoardServices from "../services/DashBoardServices.js";
 
 const getExpiringCertificateCount = async (days = 30) => {
     return await DashBoardServices.getExpiringCertificateCount(days);
