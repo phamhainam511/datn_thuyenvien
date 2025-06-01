@@ -1,43 +1,50 @@
+// src/models/index.js
 import fs from 'fs';
 import path from 'path';
-import Sequelize from 'sequelize';
 import { fileURLToPath } from 'url';
-import configData from '../config/config.json' assert { type: 'json' };
+import Sequelize from 'sequelize';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = configData[env];
-const db = {};
 
+// Đọc file JSON config thủ công
+const configPath = path.join(__dirname, '../config/config.json');
+const configData = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+const config = configData[env];
+
+const db = {};
 let sequelize;
+
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-async function loadModels() {
-  const files = fs.readdirSync(__dirname)
-    .filter(file => (file !== basename) && file.endsWith('.js'));
+// Load tất cả các model theo kiểu function export default
+const files = fs.readdirSync(__dirname).filter(file =>
+  file !== 'index.js' && file.endsWith('.js')
+);
 
-  for (const file of files) {
-    const modelPath = path.join(__dirname, file);
-    const { default: model } = await import(modelPath);
-    db[model.name] = model(sequelize, Sequelize.DataTypes);
-  }
+import { pathToFileURL } from 'url';
 
-  Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-      db[modelName].associate(db);
-    }
-  });
-
-  db.sequelize = sequelize;
-  db.Sequelize = Sequelize;
+for (const file of files) {
+  const filePath = path.join(__dirname, file);
+  const fileUrl = pathToFileURL(filePath).href;
+  const modelModule = await import(fileUrl);
+  const model = modelModule.default(sequelize, Sequelize.DataTypes);
+  db[model.name] = model;
 }
 
-await loadModels();
+// Gọi associate nếu có
+for (const modelName of Object.keys(db)) {
+  if (typeof db[modelName].associate === 'function') {
+    db[modelName].associate(db);
+  }
+}
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 export default db;
