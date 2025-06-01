@@ -55,8 +55,9 @@ function chuyenSoThanhChu(num) {
     return str.trim() + " Đồng";
 };
 
-module.exports = {
-    formatTime: formatTime,
-    formatDecimal: formatDecimal,
-    chuyenSoThanhChu: chuyenSoThanhChu
+const BangLuongFunctionServices = {
+    formatTime,
+    formatDecimal,
+    chuyenSoThanhChu
 }
+export default BangLuongFunctionServices;

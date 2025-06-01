@@ -1,7 +1,7 @@
 import * as db from '../models/index.js';
 import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
-const ExcelJS = require('exceljs');
-const { Op } = require('sequelize');
+import ExcelJS from 'exceljs';
+import { Op } from 'sequelize';
 
 let getAllBangLuong = async (keyword) => {
     return new Promise(async (resolve, reject) => {
@@ -209,10 +209,12 @@ let exportBangLuong = (dataTable, thang) => {
     })
 };
 
-module.exports = {
-    getAllBangLuong: getAllBangLuong,
-    getComboTime: getComboTime,
-    getBangLuongId: getBangLuongId,
-    deleteBangLuong: deleteBangLuong,
-    exportBangLuong: exportBangLuong
+const BangLuongServices = {
+    getAllBangLuong,
+    getComboTime,
+    getBangLuongId,
+    deleteBangLuong,
+    exportBangLuong
 }
+
+export default BangLuongServices;
