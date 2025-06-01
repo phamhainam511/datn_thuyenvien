@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
                 as: 'chungchi'
             });
             
-            // Removed belongsTo relationship with Chungchi since we're using tenchungchi directly
+           
         }
     }
 

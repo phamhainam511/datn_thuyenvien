@@ -94,7 +94,6 @@
                                             <h5 class="fw-bold mb-1">
                                                 <%= thuyenvieninfo.hoten %>
                                             </h5>
-                                            <p class="text-muted mb-2">Chức vụ: test</p>
 
                                             <!-- Nút upload ảnh -->
                                             <form action="/upload-anh-thuyen-vien/<%= thuyenvieninfo.id_thuyenvien %>"
@@ -210,10 +209,12 @@
                                                         <%= thuyenvieninfo.ghichu %>
                                                     </span></li>
 
-                                                <li class="list-group-item"><strong>Thời gian lên tàu dự kiến: </strong>
+                                                <li class="list-group-item">
+                                                    <strong>Thời gian lên tàu dự kiến: </strong>
                                                     <span id="thoigianLenTau">
                                                         <%= thuyenvieninfo.thoigian_lenTauDuKien %>
-                                                    </span></li>
+                                                    </span>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -847,16 +848,20 @@
                                             <textarea class="form-control" id="ghichu" name="ghichu"
                                                 rows="3"><%= thuyenvieninfo.ghichu || '' %></textarea>
                                         </div>
-                                        <% 
-                                            const rawDateTime = new Date(thuyenvieninfo.thoigian_lenTauDuKien);
-                                            const formattedDateTime = rawDateTime.toISOString().slice(0,16); 
+                                        <%
+                                            let formattedDateTime = "";
+                                            const rawValue = thuyenvieninfo.thoigian_lenTauDuKien;
+                                            const rawDate = new Date(rawValue);
+                                            if (rawValue && !isNaN(rawDate.getTime())) {
+                                                formattedDateTime = rawDate.toISOString().slice(0, 16);
+                                            }
                                         %>
                                         <div class="form-group">
                                             <label>Ngày lên tàu dự kiến:</label>
-                                            <input type="datetime-local" class="form-control" id=""
-                                                name="thoigian_lenTauDuKien"
-                                                value="<%= formattedDateTime %>">
+                                            <input type="datetime-local" class="form-control" name="thoigian_lenTauDuKien" value="<%= formattedDateTime || ''%>">
                                         </div>
+
+
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -1461,7 +1466,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Số hiệu chứng chỉ:</label>
-                                            <input type="text" class="form-control validate-int" name="sohieuchungchi" required>
+                                            <input type="text" class="form-control" name="sohieuchungchi" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Ngày cấp:</label>
@@ -1522,7 +1527,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Số hiệu chứng chỉ:</label>
-                                            <input type="text" class="form-control validate-int" id="editCrewCertNumber"
+                                            <input type="text" class="form-control" id="editCrewCertNumber"
                                                 name="sohieuchungchi" required>
                                         </div>
                                         <div class="form-group">
@@ -1695,7 +1700,7 @@
                 $('.editCrewCertBtn').on('click', function() {
                     const id = $(this).data('id');
                     const certId = $(this).data('cert-id'); 
-                    const certNumber = $(this).data('cert-number');
+                    const certNumber = $(this).data('cert-number')
                     const issued = $(this).data('issued');
                     const expired = $(this).data('expired');
                     const issuer = $(this).data('issuer');
@@ -1704,6 +1709,7 @@
                     
                     $('#editCrewCertId').val(id);
                     $('#editCrewCertName').val(certId); 
+                    $('#editCrewCertNumber').val(certNumber);
                     $('#editCrewCertIssued').val(issued);
                     $('#editCrewCertExpired').val(expired);
                     $('#editCrewCertIssuer').val(issuer);
