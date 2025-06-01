@@ -1,4 +1,3 @@
-import db from '../models';
 import HopDongServices from "../services/HopDongServices.js";
 import multer from 'multer';
 import path from 'path';

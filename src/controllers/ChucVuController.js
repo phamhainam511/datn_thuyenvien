@@ -1,4 +1,3 @@
-import db from '../models';
 import ChucVuServices from "../services/ChucVuServices.js";
 let getAllChucVu = async (req, res) => {
     let data = await ChucVuServices.getAllChucVu();

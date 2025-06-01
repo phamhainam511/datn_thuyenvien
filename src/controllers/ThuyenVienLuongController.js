@@ -1,4 +1,3 @@
-import db from '../models';
 import ThuyenVienLuongServices from "../services/ThuyenVienLuongServices.js";
 import BangLuongFunctionServices from '../services/BangLuongFunctionServices.js';
 

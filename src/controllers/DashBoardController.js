@@ -1,4 +1,3 @@
-const db = require('../models');
 const DashBoardServices = require("../services/DashBoardServices.js");
 
 const getExpiringCertificateCount = async (days = 30) => {

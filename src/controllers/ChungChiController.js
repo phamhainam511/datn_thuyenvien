@@ -1,4 +1,3 @@
-import db from '../models';  
 import ChungChiServices from "../services/ChungChiServices.js";
 let getAllChungChi = async (req, res) => {
     let data = await ChungChiServices.getAllChungChi();

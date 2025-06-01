@@ -1,4 +1,3 @@
-import db from '../models';
 import UserServices from "../services/UserServices.js";
 
 let getAllUser = async (req, res) => {
