@@ -42,7 +42,8 @@ const checkPermission = (req, res, next) => {
   });
 };
 
-module.exports = {
+const AuthMiddleware = {
   isAuthenticated,
   checkPermission
 };
+export default AuthMiddleware;
