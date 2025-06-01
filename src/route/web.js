@@ -185,7 +185,7 @@ const initWebRoutes = (app) => {
     //chức vụ ở đây
     router.get('/danh-sach-chuc-vu', ChucVuController.getAllChucVu);
     router.post('/post-chucvu', ChucVuController.postChucVu);
-    router.post('/edit-chucvu', ChucVuController.getEditChucVu);
+    router.get('/edit-chucvu', ChucVuController.getEditChucVu);
     router.post('/put-chucvu', ChucVuController.putChucVu);
     router.post('/delete-chucvu', ChucVuController.deleteChucVu);
 

@@ -15,9 +15,13 @@ let postChucVu = async (req, res) => {
 let getEditChucVu = async (req, res) => {
     let chucvu_id = req.query.id;
     if (chucvu_id) {
-        let chucvu_data = await ChucVuServices.getChucVuId(chucvu_id);
-        console.log(chucvu_data);
-        return res.send('Tìm thấy chức vụ');
+        let chungChi = await ChucVuServices.getChungChiDaCo(chucvu_id);
+        let chungChiDaCo = chungChi.map(item => item.chungchi_id || item.id_chungchi);
+        let comboChungChi = await ChucVuServices.getComboChungChi();
+        return res.json({
+            chungChiDaCo: chungChiDaCo,
+            dataChungChi: comboChungChi
+        }); 
     } else {
         return res.send('Không tìm thấy chức vụ');
     }
