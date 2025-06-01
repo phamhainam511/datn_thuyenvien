@@ -1,4 +1,4 @@
-import * as db from '../models/index.js';
+import db from '../models/index.js';
 import { Sequelize, Op } from 'sequelize';
 import dataUtils from './ChuanHoaServices.js';
 

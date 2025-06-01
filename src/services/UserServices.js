@@ -1,4 +1,4 @@
-import * as db from '../models/index.js';
+import db from '../models/index.js';
 import bcrypt from 'bcrypt';
 import ChuanHoaServices from '../services/ChuanHoaServices.js';
 
