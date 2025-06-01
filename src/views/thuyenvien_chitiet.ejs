@@ -564,9 +564,9 @@
                                                     %>
                                                     <%= vitri %>
                                                 </td>
-                                                <td><%= lichsuditauinfo[i].timexuatcanh.toLocaleString() %>
+                                                <td><%= lichsuditauinfo[i].timexuatcanh.toLocaleString('vi-VN') %>
                                                 </td>
-                                                <td><%= lichsuditauinfo[i].timelentau.toLocaleString() %></td>
+                                                <td><%= lichsuditauinfo[i].timelentau.toLocaleString('vi-VN') %></td>
                                                 <td class="ngayroitau"><%= lichsuditauinfo[i].ngayroitau %></td>
                                                 <td><%= lichsuditauinfo[i].cangroitau %></td>
                                                 <td><%= lichsuditauinfo[i].quoctich_thuyen %></td>
@@ -1724,14 +1724,17 @@
 
                 function parseCustomDatetimeToLocal(str) {
                     // Ví dụ: "00:14:00, 29/5/2025"
-                    const regex = /(\d{2}):(\d{2}):\d{2}, (\d{1,2})\/(\d{1,2})\/(\d{4})/;
+                    const regex = /(\d{2}):(\d{2}):\d{2} (\d{1,2})\/(\d{1,2})\/(\d{4})/;
                     const match = str.match(regex);
                     if (!match) return '';
 
                     const [_, hh, mm, d, m, y] = match;
                     const day = d.padStart(2, '0');
                     const month = m.padStart(2, '0');
-                    return `${y}-${month}-${day}T${hh}:${mm}`;
+                    const hour = hh.padStart(2, '0');
+                    const minute = mm.padStart(2, '0');
+                    // return `${month}-${day}-${y}T${hour}:${minute}`;
+                    return `${y}-${month}-${day}T${hour}:${minute}`;
                 }
                 
                 $('.editShipHistoryBtn').on('click', function() {
