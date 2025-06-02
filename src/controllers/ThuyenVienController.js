@@ -2,8 +2,12 @@ import db from '../models/index.js';
 import ThuyenVienServices from "../services/ThuyenVienServices.js";
 import multer from 'multer';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { Document, Packer, Paragraph, TextRun, AlignmentType } from 'docx';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

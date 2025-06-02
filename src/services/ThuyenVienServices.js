@@ -53,13 +53,6 @@ let updateThuyenVienData = (id, data) => {
                     where: { id_thuyenvien: id }
                 }
             );
-            await db.Thuyenvien.update({
-                thoigian_lenTauDuKien: null,
-                },
-                {
-                    where: { thoigian_lenTauDuKien: '00:00:00'}
-                }
-            );
 
             resolve('Cập nhật thành công!');
         } catch (e) {
