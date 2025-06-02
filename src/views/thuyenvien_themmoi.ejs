@@ -219,7 +219,7 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="field-required">Nhóm máu:</label>
-                                                        <select class="form-control" name="nhommau">
+                                                        <select class="form-control" name="nhommau" required>
                                                             <option value="">-- Chọn --</option>
                                                             <option value="A">A</option>
                                                             <option value="B">B</option>
@@ -236,8 +236,16 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label class="field-required">Size giày bảo hộ:</label>
-                                                        <input type="text" class="form-control validate-int" name="sizegiaybaoho" data-min="36" data-max="45" required>
+                                                        <label class="field-required">Size bảo hộ:</label>
+                                                        <select class="form-control" name="sizegiaybaoho" required>
+                                                            <option value="">-- Chọn --</option>
+                                                            <option value="S">S</option>
+                                                            <option value="M">M</option>
+                                                            <option value="L">L</option>
+                                                            <option value="XL">XL</option>
+                                                            <option value="XXL">XXL</option>
+                                                            <option value="XXXL">XXXL</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
@@ -404,6 +412,7 @@
                                                     <div class="form-group">
                                                         <label>Ngôn ngữ:</label>
                                                         <select class="form-control" name="ngonngu[]">
+                                                            <option value="">-- Chọn --</option>
                                                             <option value="Tiếng Anh">Tiếng Anh</option>
                                                             <option value="Tiếng Nhật">Tiếng Nhật</option>
                                                             <option value="Tiếng Hàn">Tiếng Hàn</option>

@@ -111,7 +111,7 @@ export default (sequelize, DataTypes) => {
             allowNull: false
         },
         sizegiaybaoho: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(5),
             allowNull: false
         },
         trangthai: {
