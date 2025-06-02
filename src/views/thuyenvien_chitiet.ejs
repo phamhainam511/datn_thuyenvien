@@ -1737,8 +1737,18 @@
                     const month = m.padStart(2, '0');
                     const hour = hh.padStart(2, '0');
                     const minute = mm.padStart(2, '0');
-                    // return `${month}-${day}-${y}T${hour}:${minute}`;
                     return `${y}-${month}-${day}T${hour}:${minute}`;
+                }
+                function parseCustomDate(str) {
+                    // Ví dụ: "29/5/2025"
+                    const regex = /(\d{1,2})\/(\d{1,2})\/(\d{4})/;
+                    const match = str.match(regex);
+                    if (!match) return '';
+
+                    const [_, d, m, y] = match;
+                    const day = d.padStart(2, '0');
+                    const month = m.padStart(2, '0');
+                    return `${y}-${month}-${day}`;
                 }
                 
                 $('.editShipHistoryBtn').on('click', function() {
@@ -1760,7 +1770,7 @@
                     $('#editPosition').val(positionId);
                     $('#editOnboardDate').val(parseCustomDatetimeToLocal(onboardDate));
                     $('#editOnboardTime').val(parseCustomDatetimeToLocal(onboardTime)); 
-                    $('#editOffboardDate').val(offboardDate);
+                    $('#editOffboardDate').val(parseCustomDate(offboardDate));
                     $('#editPort').val(port);
                     $('#editNationality').val(nationality);
                 });
