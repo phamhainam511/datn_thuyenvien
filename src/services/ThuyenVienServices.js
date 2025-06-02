@@ -366,11 +366,19 @@ let createNgoaiNgu = (data) => {
                 return reject("Thời gian cấp phải nhỏ hơn thời gian hết hạn.");
             }
 
+            // Xử lý ép kiểu điểm số: nếu rỗng hoặc không hợp lệ => null
+            let diemso = data.diemso;
+                if (!diemso || isNaN(parseFloat(diemso))) {
+                    diemso = null;
+                } else {
+                    diemso = parseFloat(diemso);
+            }
+
             const result = await db.ThuyenvienNgoaingu.create({
                 id_thuyenvien: data.id_thuyenvien,
                 ngonngu: data.ngonngu,
                 tenchungchi: data.tenchungchi,
-                diemso: data.diemso,
+                diemso: diemso,
                 ngaycap: data.ngaycap,
                 ngayhethan: data.ngayhethan,
                 file: data.file
@@ -381,6 +389,7 @@ let createNgoaiNgu = (data) => {
         }
     });
 };
+
 
 let updateNgoaiNgu = (id, data) => {
     return new Promise(async (resolve, reject) => {

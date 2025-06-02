@@ -22,6 +22,7 @@ export default (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Chucvu',
+	tableName: 'chucvu',
         freezeTableName: true
     });
 
