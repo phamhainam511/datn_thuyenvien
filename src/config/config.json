@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "datnuser",
-    "password": "datnpass",
+    "username": "root",
+    "password": null,
     "database": "db2",
     "host": "localhost",
     "dialect": "mysql"
@@ -14,8 +14,8 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "datnuser",
-    "password": "datnpass",
+    "username": "root",
+    "password": null,
     "database": "db2",
     "host": "localhost",
     "dialect": "mysql"

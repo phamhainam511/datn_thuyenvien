@@ -766,6 +766,14 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
                 if (!certData.ngonngu && !certData.tenchungchi) continue;
 
                 certData.id_thuyenvien = thuyenvien_id;
+                const ngaycap = new Date(certData.ngaycap);
+                const ngayhethan = new Date(certData.ngayhethan);
+                if (isNaN(ngaycap.getTime()) || isNaN(ngayhethan.getTime())) {
+                    throw new Error("Ngày cấp hoặc ngày hết hạn ngoại ngữ không hợp lệ.");
+                }
+                if (ngaycap >= ngayhethan) {
+                    throw new Error("Thời gian cấp của ngoại ngữ phải nhỏ hơn thời gian hết hạn.");
+                }
                 await db.ThuyenvienNgoaingu.create(certData, { transaction });
             }
         }
@@ -775,6 +783,14 @@ let createNewThuyenVienFull = async (crewData, familyData, educationData, langua
                 if (!certData.id_chungchi) continue;
 
                 certData.id_thuyenvien = thuyenvien_id;
+                const ngaycap = new Date(certData.ngaycap);
+                const ngayhethan = new Date(certData.ngayhethan);
+                if (isNaN(ngaycap.getTime()) || isNaN(ngayhethan.getTime())) {
+                    throw new Error("Ngày cấp hoặc ngày hết hạn chứng chỉ không hợp lệ.");
+                }
+                if (ngaycap >= ngayhethan) {
+                    throw new Error("Thời gian cấp của chứng chỉ phải nhỏ hơn thời gian hết hạn.");
+                }
                 await db.ThuyenvienChungchi.create(certData, { transaction });
             }
         }

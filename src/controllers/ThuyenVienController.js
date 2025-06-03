@@ -892,8 +892,16 @@ let createNewThuyenVien = async (req, res) => {
 
             res.redirect('/danh-sach-thuyen-vien?success=1');
         } catch (error) {
-            console.error('Error creating crew member:', error);
-            res.redirect('/danh-sach-thuyen-vien?error=' + encodeURIComponent(error.message));
+            // console.error('Error creating crew member:', error);
+            // res.redirect('/danh-sach-thuyen-vien?error=' + encodeURIComponent(error.message));
+            const message = typeof error === 'string' ? error : (error.message || "Đã xảy ra lỗi không xác định");
+
+            res.send(`
+                <script>
+                    alert(${JSON.stringify(message)});
+                    window.history.back();
+                </script>
+            `);
         }
     });
 };
