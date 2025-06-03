@@ -44,9 +44,30 @@ let getThuyenVienId = (thuyenvien_id) => {
     })
 }
 
+const isValidDate = (value) => {
+    if (!value) return false;
+    const d = new Date(value);
+    return !isNaN(d);
+};
+
+const normalizeDateFields = (data, dateFields) => {
+    for (const key of dateFields) {
+        if (key in data) {
+            const value = data[key];
+            if (!value || value === '' || !isValidDate(value)) {
+                data[key] = null;
+            } else {
+                data[key] = new Date(value);
+            }
+        }
+    }
+};
+
 let updateThuyenVienData = (id, data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            const dateFields = ['thoigian_lenTauDuKien'];
+            normalizeDateFields(data, dateFields);
             await db.Thuyenvien.update(
                 data,
                 {

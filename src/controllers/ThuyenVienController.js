@@ -927,7 +927,7 @@ let updateThuyenVienStatus = async (req, res) => {
             await db.Thuyenvien.update(
                 {
                     trangthai: trangthai,
-                    thoigian_lenTauDuKien: thoigian_lenTauDuKien ? thoigian_lenTauDuKien : null,
+                    thoigian_lenTauDuKien: thoigian_lenTauDuKien,
                 }
                 , { where: { id_thuyenvien: thuyenvien_id } }
             );
