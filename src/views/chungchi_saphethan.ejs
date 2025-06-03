@@ -37,7 +37,7 @@
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered text-center" id="dataTable" width="100%"
+                                        <table class="table table-bordered text-center" id="dataTable1" width="100%"
                                             cellspacing="0">
                                             <thead>
                                                 <tr>
@@ -372,4 +372,64 @@
                     });
 
                 });
+
+                $(document).ready(function() {
+                    var table = $('#dataTable1').DataTable({
+                        "paging": true,
+                        "lengthChange": true,
+                        "searching": true,
+                        "ordering": true,
+                        "info": true,
+                        "autoWidth": false,
+                        "responsive": true,
+                        "language": {
+                        "search": "Tìm kiếm:",
+                        "lengthMenu": "Hiển thị _MENU_ mục",
+                        "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                        "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                        "paginate": {
+                            "first": "Đầu",
+                            "last": "Cuối",
+                            "next": "Sau",
+                            "previous": "Trước"
+                        }
+                        }
+                    });
+                    $('#dataTable1_filter').append(`
+                        <div class="form-group ml-3" style="display: inline-block; min-width: 160px;">
+                        <label for="statusFilter" class="mb-1 font-weight-bold" style="font-size: 0.875rem;">Lọc trạng thái</label>
+                        <select id="statusFilter" class="form-control form-control-sm">
+                            <option value="">Tất cả</option>
+                            <option value="under30">Còn dưới 30 ngày</option>
+                            <option value="over30">Còn trên 30 ngày</option>
+                        </select>
+                        </div>
+                    `);
+                    
+                    $.fn.dataTable.ext.search.push(
+                        function(settings, data, dataIndex) {
+                        var filter = $('#statusFilter').val();
+                        var statusText = data[5]; // cột trạng thái
+                        var match = statusText.match(/Còn\s(\d+)\sngày/);
+                        if (!match) return true;
+                        var days = parseInt(match[1], 10);
+                        
+                        if (filter === "under30" && days < 30) {
+                            return true;
+                        }
+                        if (filter === "over30" && days >= 30) {
+                            return true;
+                        }
+                        if (filter === "") {
+                            return true;
+                        }
+                        return false;
+                        }
+                    );
+                    
+                    $(document).on('change', '#statusFilter', function () {
+                        table.draw();
+                    });
+                });
+
             </script>
