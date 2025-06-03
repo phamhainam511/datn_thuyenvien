@@ -2,7 +2,7 @@ import {
     Sequelize
 } from 'sequelize';
 
-const sequelize = new Sequelize('db2', 'root', null, {
+const sequelize = new Sequelize('db2', 'datnuser', 'datnpass', {
     host: 'localhost',
     dialect: 'mysql',
     logging: false,
