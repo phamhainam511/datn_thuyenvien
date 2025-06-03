@@ -68,8 +68,18 @@
                                                         <option value="Đang trên bờ">Đang trên bờ</option>
                                                     </select>
                                                 </div>
+                                                <!-- Thời gian -->
+                                                <div class="col-md-3">
+                                                    <label for="statusFilterTime">Thời gian chờ tàu:</label>
+                                                    <select id="statusFilterTime" class="form-control">
+                                                        <option value="">Tất cả</option>
+                                                        <option value="Dưới 10 ngày">Dưới 10 ngày</option>
+                                                        <option value="Còn 10 - 30 ngày">Còn 10 - 30 ngày</option>
+                                                        <option value="Trên 30 ngày">Trên 30 ngày</option>
+                                                    </select>
+                                                </div>
                                                 <!-- Chứng chỉ -->
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <label for="certificateFilter">Lọc theo chứng chỉ:</label>
                                                     <select id="certificateFilter" class="form-control" multiple>
                                                     </select>
@@ -110,40 +120,40 @@
                                                             <td><span class="badge badge-primary">
                                                                     <%= allThuyenVien[i].trangthai %>
                                                                 </span></td>
-                                                            <td>
-                                                                <% 
-                                                                    const id = allThuyenVien[i].id_thuyenvien;
-                                                                    if (allThuyenVien[i].trangthai === 'Đang chờ tàu' && estimatedBoardingTimes && estimatedBoardingTimes[id]) {
-                                                                        const now = new Date();
-                                                                        const boardingDate = new Date(estimatedBoardingTimes[id]);
-                                                                        let diffMs = boardingDate - now;
+                                                            <%
+                                                                const id = allThuyenVien[i].id_thuyenvien;
+                                                                let diffDays = null;
+                                                                let diffHours = null;
+                                                                let statusClass = '';
+                                                                let statusContent = '-';
 
-                                                                        if (diffMs > 0) {
-                                                                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                                                                if (allThuyenVien[i].trangthai === 'Đang chờ tàu' && estimatedBoardingTimes && estimatedBoardingTimes[id]) {
+                                                                    const now = new Date();
+                                                                    const boardingDate = new Date(estimatedBoardingTimes[id]);
+                                                                    let diffMs = boardingDate - now;
+
+                                                                    if (diffMs > 0) {
+                                                                        diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
                                                                         diffMs -= diffDays * (1000 * 60 * 60 * 24);
-                                                                        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                                                                        diffHours = Math.floor(diffMs / (1000 * 60 * 60));
 
-                                                                        let statusClass = 'text-success'; // mặc định xanh lá
-                                                                        if (diffDays > 0 && diffDays <= 3) {
-                                                                            statusClass = 'text-warning'; // vàng
-                                                                        } else if (diffDays === 0) {
-                                                                            statusClass = 'text-danger'; // đỏ
+                                                                        if (diffDays >= 10 && diffDays <= 30) {
+                                                                            statusClass = 'text-warning';
+                                                                        } else if (diffDays < 10) {
+                                                                            statusClass = 'text-danger';
+                                                                        } else {
+                                                                            statusClass = 'text-success';
                                                                         }
-                                                                    %>
-                                                                        <span class="<%= statusClass %> font-weight-bold">
-                                                                            Còn <%= diffDays %> ngày <%= diffHours %> giờ
-                                                                        </span>
-                                                                    <% 
-                                                                        } else { 
-                                                                    %>
-                                                                        <span class="text-muted font-italic font-weight-bold">Đã quá hạn lên tàu dự kiến</span>
-                                                                    <% 
-                                                                        }
-                                                                    } else { 
-                                                                    %>
-                                                                    -
-                                                                <% } %>
 
+                                                                        statusContent = `<span class="${statusClass} font-weight-bold">Còn ${diffDays} ngày ${diffHours} giờ</span>`;
+                                                                    } else {
+                                                                        statusContent = '<span class="text-muted font-italic font-weight-bold">Đã quá hạn lên tàu dự kiến</span>';
+                                                                    }
+                                                                }
+                                                            %>
+
+                                                            <td data-ngaycho="<%= diffDays !== null ? diffDays : '' %>">
+                                                                <%- statusContent %>
                                                             </td>
                                                         </tr>
                                                         <% } %>
@@ -369,6 +379,41 @@
                             table.page.len($(this).val()).draw();
                         });
                     });
+
+                    document.getElementById('statusFilterTime').addEventListener('change', function () {
+                        const selected = this.value;
+                        const rows = document.querySelectorAll('table tbody tr');
+
+                        rows.forEach(row => {
+                            // Tìm td có attribute data-ngaycho trong row này
+                            const td = row.querySelector('td[data-ngaycho]');
+                            if (!td) {
+                                // Nếu không có td này, tùy bạn ẩn hay hiện
+                                row.style.display = '';
+                                return;
+                            }
+
+                            const ngayChoAttr = td.getAttribute('data-ngaycho');
+                            const ngayCho = parseInt(ngayChoAttr);
+
+                            let show = true; // mặc định hiện
+
+                            if (selected === 'Dưới 10 ngày') {
+                                show = !isNaN(ngayCho) && ngayCho < 10;
+                            } else if (selected === 'Còn 10 - 30 ngày') {
+                                show = !isNaN(ngayCho) && ngayCho >= 10 && ngayCho <= 30;
+                            } else if (selected === 'Trên 30 ngày') {
+                                show = !isNaN(ngayCho) && ngayCho > 30;
+                            } else if (selected === '') {
+                                show = true;
+                            } else {
+                                show = false;
+                            }
+
+                            row.style.display = show ? '' : 'none';
+                        });
+                    });
+
 
                     document.addEventListener('DOMContentLoaded', function () {
                         const urlParams = new URLSearchParams(window.location.search);
