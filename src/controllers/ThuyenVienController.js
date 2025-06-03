@@ -660,7 +660,7 @@ let deleteTaiLieuFile = async (req, res) => {
 
 let getExpiringCertificates = async (req, res) => {
     try {
-        const days = req.query.days ? parseInt(req.query.days) : 90;
+        const days = req.query.days ? parseInt(req.query.days) : 365;
 
         const expiringCertificates = await ThuyenVienServices.getExpiringCertificates(days);
 
@@ -1051,7 +1051,7 @@ let getNotificationCounts = async () => {
     try {
         const today = new Date();
         const next30Days = new Date();
-        next30Days.setDate(today.getDate() + 30);
+        next30Days.setDate(today.getDate() + 365);
 
         const expiringCertificatesCount = await db.ThuyenvienChungchi.count({
             where: {

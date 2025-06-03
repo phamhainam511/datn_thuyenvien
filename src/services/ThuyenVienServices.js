@@ -645,7 +645,7 @@ let deleteTaiLieu = (id) => {
     });
 };
 
-let getExpiringCertificates = (days = 30) => {
+let getExpiringCertificates = (days = 365) => {
     return new Promise(async (resolve, reject) => {
         try {
             const today = new Date();

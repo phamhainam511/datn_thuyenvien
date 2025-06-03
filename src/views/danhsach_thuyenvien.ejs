@@ -111,15 +111,39 @@
                                                                     <%= allThuyenVien[i].trangthai %>
                                                                 </span></td>
                                                             <td>
-                                                                <% if(allThuyenVien[i].trangthai==='Đang chờ tàu' &&
-                                                                    estimatedBoardingTimes &&
-                                                                    estimatedBoardingTimes[allThuyenVien[i].id_thuyenvien])
-                                                                    { %>
-                                                                    <%= estimatedBoardingTimes[allThuyenVien[i].id_thuyenvien]
-                                                                        %>
-                                                                        <% } else { %>
-                                                                            -
-                                                                            <% } %>
+                                                                <% 
+                                                                    const id = allThuyenVien[i].id_thuyenvien;
+                                                                    if (allThuyenVien[i].trangthai === 'Đang chờ tàu' && estimatedBoardingTimes && estimatedBoardingTimes[id]) {
+                                                                        const now = new Date();
+                                                                        const boardingDate = new Date(estimatedBoardingTimes[id]);
+                                                                        let diffMs = boardingDate - now;
+
+                                                                        if (diffMs > 0) {
+                                                                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                                                                        diffMs -= diffDays * (1000 * 60 * 60 * 24);
+                                                                        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+
+                                                                        let statusClass = 'text-success'; // mặc định xanh lá
+                                                                        if (diffDays > 0 && diffDays <= 3) {
+                                                                            statusClass = 'text-warning'; // vàng
+                                                                        } else if (diffDays === 0) {
+                                                                            statusClass = 'text-danger'; // đỏ
+                                                                        }
+                                                                    %>
+                                                                        <span class="<%= statusClass %> font-weight-bold">
+                                                                            Còn <%= diffDays %> ngày <%= diffHours %> giờ
+                                                                        </span>
+                                                                    <% 
+                                                                        } else { 
+                                                                    %>
+                                                                        <span class="text-muted font-italic font-weight-bold">Đã quá hạn lên tàu dự kiến</span>
+                                                                    <% 
+                                                                        }
+                                                                    } else { 
+                                                                    %>
+                                                                    -
+                                                                <% } %>
+
                                                             </td>
                                                         </tr>
                                                         <% } %>
