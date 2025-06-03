@@ -914,8 +914,16 @@ let updateThuyenVienStatus = async (req, res) => {
             },
             order: [['id_lichsuditau', 'DESC']]
         });
+        if (currentThuyenVien.trangthai === 'Đang chờ tàu' && trangthai === 'Đang trên bờ') {
+            await db.Thuyenvien.update(
+                {   
+                    trangthai: 'Đang trên bờ',
+                    thoigian_lenTauDuKien: null,
+                 },
+                { where: { id_thuyenvien: thuyenvien_id } }
+            );
 
-        if (trangthai === 'Đang chờ tàu') {
+        } else if (trangthai === 'Đang chờ tàu') {
             await db.Thuyenvien.update(
                 {
                     trangthai: trangthai,
@@ -924,6 +932,23 @@ let updateThuyenVienStatus = async (req, res) => {
                 , { where: { id_thuyenvien: thuyenvien_id } }
             );
         } else if (trangthai === 'Đang trên tàu') {
+            const newtimelentau = timelentau.replace('T', ' ');
+            const timeXuatCanhDate = new Date(timexuatcanh.replace('T', ' '));
+            const timeLenTauDate = new Date(newtimelentau);
+            console.log(timeXuatCanhDate);
+            console.log(timeLenTauDate);
+
+            if (timeLenTauDate <= timeXuatCanhDate) {
+                const message = 'Thời gian lên tàu phải lớn hơn thời gian xuất cảnh!';
+
+                return res.send(`
+                    <script>
+                        alert(${JSON.stringify(message)});
+                        window.history.back();
+                    </script>
+                `);
+
+            }
             await db.Thuyenvien.update(
                 {
                     trangthai: trangthai,
@@ -931,7 +956,6 @@ let updateThuyenVienStatus = async (req, res) => {
                 }
                 , { where: { id_thuyenvien: thuyenvien_id } }
             );
-            const newtimelentau = timelentau.replace('T', ' ');
             await db.Lichsuditau.create({
                 thuyenvien_id: thuyenvien_id,
                 tau_id: tau_id,
@@ -939,7 +963,27 @@ let updateThuyenVienStatus = async (req, res) => {
                 timexuatcanh: timexuatcanh,
                 timelentau: newtimelentau,
             });
-        } else {
+        } else if(currentThuyenVien.trangthai === 'Đang trên tàu' && trangthai === 'Đang trên bờ'){
+            if (!last_lichsuditau) {
+                return res.status(400).json({
+                error: 'Không tìm thấy lịch sử tàu để cập nhật ngày rời tàu',
+                });
+            }
+
+            const timeLenTauDate = last_lichsuditau.timelentau;
+            const ngayRoiTauDate = new Date(req.body.ngayroitau);
+
+            if (ngayRoiTauDate <= timeLenTauDate) {
+                const message = 'Ngày rời tàu phải lớn hơn thời gian lên tàu!';
+
+                return res.send(`
+                    <script>
+                        alert(${JSON.stringify(message)});
+                        window.history.back();
+                    </script>
+                `);
+            }
+
             await db.Thuyenvien.update(
                 {
                     trangthai: trangthai,
@@ -947,6 +991,7 @@ let updateThuyenVienStatus = async (req, res) => {
                 }
                 , { where: { id_thuyenvien: thuyenvien_id } }
             );
+            
             await db.Lichsuditau.update(
                 {
                     ngayroitau: req.body.ngayroitau,
@@ -955,6 +1000,8 @@ let updateThuyenVienStatus = async (req, res) => {
                 }
                 , { where: { id_lichsuditau: last_lichsuditau.id_lichsuditau } }
             );
+        } else {
+            console.log("Chưa chọn trạng thái");
         }
 
         if (currentThuyenVien.trangthai === 'Đang trên tàu' && trangthai !== 'Đang trên tàu') {

@@ -145,6 +145,8 @@
                                                         <% if (thuyenvieninfo.trangthai === 'Đang chờ tàu') { %>
                                                         <a class="dropdown-item" href="#" data-toggle="modal"
                                                             data-target="#boardingStatusModal">Đang trên tàu</a>
+                                                        <a class="dropdown-item" href="#" data-toggle="modal"
+                                                            data-target="#disembarkingStatusModal1">Đang trên bờ</a>
                                                         <% } %>
                                                         <% if (thuyenvieninfo.trangthai === 'Đang trên tàu') { %>
                                                         <a class="dropdown-item" href="#" data-toggle="modal"
@@ -1015,6 +1017,33 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- MODAL POPUP CẬP NHẬT TRẠNG THÁI - ĐANG TRÊN BỜ 1 -->
+                    <div class="modal fade" id="disembarkingStatusModal1" tabindex="-1" role="dialog"
+                        aria-labelledby="disembarkingStatusModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form id="disembarkingStatusForm"
+                                    action="/cap-nhat-trang-thai/<%= thuyenvieninfo.id_thuyenvien %>" method="POST">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Cập nhật trạng thái</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Bạn có chắc muốn cập nhật trạng thái thành "Đang trên bờ"?</p>
+                                        <input type="hidden" name="trangthai" value="Đang trên bờ">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Xác nhận</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
 
                     <!-- MODAL POPUP CẬP NHẬT THÔNG TIN GIA ĐÌNH -->
                     <div class="modal fade" id="editFamilyModal" tabindex="-1" role="dialog"
