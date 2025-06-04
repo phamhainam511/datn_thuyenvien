@@ -2,7 +2,7 @@ import db from '../models/index.js';
 import { Op } from 'sequelize';
 const sequelize = db.sequelize;
 
-const getExpiringCertificateCount = async (days = 30) => {
+const getExpiringCertificateCount = async (days = 365) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 

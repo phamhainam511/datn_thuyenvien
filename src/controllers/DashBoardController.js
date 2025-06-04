@@ -1,6 +1,6 @@
 import DashBoardServices from "../services/DashBoardServices.js";
 
-const getExpiringCertificateCount = async (days = 30) => {
+const getExpiringCertificateCount = async (days = 365) => {
     return await DashBoardServices.getExpiringCertificateCount(days);
 };
 

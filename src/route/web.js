@@ -46,7 +46,7 @@ const initWebRoutes = (app) => {
     //Dashboard route
     router.get('/', AuthMiddleware.checkPermission, async (req, res) => {
         try {
-            const expiringCertCount = await DashBoardController.getExpiringCertificateCount(30); // số chứng chỉ hết hạn trong 30 ngày
+            const expiringCertCount = await DashBoardController.getExpiringCertificateCount(365); // số chứng chỉ hết hạn trong 30 ngày
             const pendingContractCount = await DashBoardController.getPendingContractsCount();
             const soThuyenVienDangTrenTau = await DashBoardController.getThuyenvienDangTrenTau();
             const soThuyenVienDangChoTau = await DashBoardController.getThuyenvienDangChoTau();
