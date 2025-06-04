@@ -908,12 +908,12 @@
                                             const rawValue = thuyenvieninfo.thoigian_lenTauDuKien;
                                             const rawDate = new Date(rawValue);
                                             if (rawValue && !isNaN(rawDate.getTime())) {
-                                                formattedDateTime = rawDate.toISOString().slice(0, 16);
+                                                formattedDateTime = rawDate.toISOString().slice(0, 10);
                                             }
                                         %>
                                         <div class="form-group">
                                             <label>Ngày lên tàu dự kiến:</label>
-                                            <input type="datetime-local" class="form-control" name="thoigian_lenTauDuKien" value="<%= formattedDateTime || ''%>">
+                                            <input type="date" class="form-control" name="thoigian_lenTauDuKien" value="<%= formattedDateTime || ''%>">
                                         </div>
 
 
@@ -947,7 +947,7 @@
                                         
                                         <div class="form-group">
                                             <label>Thời gian lên tàu dự kiến:</label>
-                                            <input type="datetime-local" class="form-control"
+                                            <input type="date" class="form-control"
                                                 name="thoigian_lenTauDuKien">
                                         </div>
                                     </form>
@@ -1699,7 +1699,7 @@
         $(document).ready(function () {
             const rawDateTime = $('#thoigianLenTau').text().trim(); 
             if (rawDateTime) {
-            const formatted = moment(rawDateTime).format('DD/MM/YYYY HH:mm'); 
+            const formatted = moment(rawDateTime).format('DD/MM/YYYY'); 
             $('#thoigianLenTau').text(formatted);
             }
         });
