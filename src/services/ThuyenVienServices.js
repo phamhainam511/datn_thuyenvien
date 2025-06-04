@@ -906,6 +906,31 @@ let getEstimatedBoardingTimes = (crewIds) => {
     });
 };
 
+let getLatestChucVu = async (thuyenvien_id) => {
+    try {
+        let latestTrip = await db.Lichsuditau.findOne({
+            where: { thuyenvien_id: thuyenvien_id },
+            order: [['timelentau', 'DESC']], 
+            include: [
+                {
+                    model: db.Chucvu,
+                    as: 'chucvu',
+                    attributes: ['id_chucvu', 'tenchucvu']
+                }
+            ]
+        });
+
+        if (latestTrip && latestTrip.chucvu) {
+            return latestTrip.chucvu.tenchucvu;
+        } else {
+            return null; 
+        }
+    } catch (e) {
+        throw e;
+    }
+};
+
+
 async function getThuyenvienById(id) {
     try {
         const thuyenvien = await db.Thuyenvien.findOne({
@@ -965,5 +990,6 @@ const ThuyenVienServices = {
     getCrewWithCertificates: getCrewWithCertificates,
     getEstimatedBoardingTimes: getEstimatedBoardingTimes,
     deleteLichsuditau : deleteLichsuditau,
+    getLatestChucVu : getLatestChucVu,
 };
 export default ThuyenVienServices;

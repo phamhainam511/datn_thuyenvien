@@ -217,6 +217,11 @@ let getAllThuyenVien = async (req, res) => {
     if (waitingCrewIds.length > 0) {
         estimatedBoardingTimes = await ThuyenVienServices.getEstimatedBoardingTimes(waitingCrewIds);
     }
+
+    for (let tv of data) {
+        tv.latestChucVu = await ThuyenVienServices.getLatestChucVu(tv.id_thuyenvien);
+        console.log(tv.latestChucVu);
+    }
     return res.render('danhsach_thuyenvien.ejs', {
         allThuyenVien: data,
         certificates: certificates,

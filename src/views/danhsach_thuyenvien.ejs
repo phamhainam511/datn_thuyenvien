@@ -94,10 +94,12 @@
                                                                 onclick="chonTatCa(this)"></th>
                                                         <th>Mã TV</th>
                                                         <th>Họ Tên</th>
+                                                        <th>Chức danh</th>
                                                         <th>Số Điện Thoại</th>
                                                         <th>Email</th>
                                                         <th>Trạng thái</th>
                                                         <th>Thời gian lên tàu dự kiến</th>
+                                                        <th>Thời gian còn lại</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -112,6 +114,9 @@
                                                                 <%= allThuyenVien[i].hoten %>
                                                             </td>
                                                             <td>
+                                                                <%= allThuyenVien[i].latestChucVu ? allThuyenVien[i].latestChucVu : 'Chưa có' %>
+                                                            </td>
+                                                            <td>
                                                                 <%= allThuyenVien[i].sodienthoai %>
                                                             </td>
                                                             <td>
@@ -119,7 +124,12 @@
                                                             </td>
                                                             <td><span class="badge badge-primary">
                                                                     <%= allThuyenVien[i].trangthai %>
-                                                                </span></td>
+                                                            </span></td>
+                                                            <td>
+                                                                <%= allThuyenVien[i].thoigian_lenTauDuKien 
+                                                                        ? new Date(allThuyenVien[i].thoigian_lenTauDuKien).toLocaleDateString('vi-VN') 
+                                                                        : '-' %>
+                                                                </td>
                                                             <%
                                                                 const id = allThuyenVien[i].id_thuyenvien;
                                                                 let diffDays = null;
@@ -145,7 +155,7 @@
                                                                             statusClass = 'text-success';
                                                                         }
 
-                                                                        statusContent = `<span class="${statusClass} font-weight-bold">Còn ${diffDays} ngày ${diffHours} giờ</span>`;
+                                                                        statusContent = `<span class="${statusClass} font-weight-bold">Còn ${diffDays} ngày</span>`;
                                                                     } else {
                                                                         statusContent = '<span class="text-muted font-italic font-weight-bold">Đã quá hạn lên tàu dự kiến</span>';
                                                                     }
@@ -364,7 +374,7 @@
                             if (selectedStatus) {
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        let rowStatus = data[5].trim(); 
+                                        let rowStatus = data[6].trim(); 
                                         console.log('So sánh:', rowStatus, 'vs', selectedStatus);
                                         return rowStatus === selectedStatus;
                                     }
