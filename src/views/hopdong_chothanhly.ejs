@@ -56,7 +56,6 @@
                                             <th>Số hợp đồng</th>
                                             <th>Ngày kí</th>
                                             <th>Ngày hết hạn</th>
-                                            <th>Trạng thái hợp đồng</th>
                                             <th>Hình ảnh</th>
                                             <th style="width: 20%;">Hành động</th>
                                         </tr>
@@ -90,7 +89,6 @@
                                             <td><%= dataTable[i].id_hopdong %></td>
                                             <td><%= formatDateDisplay(dataTable[i].ngayky) %></td>
                                             <td><%= formatDateDisplay(dataTable[i].ngayhethan) %></td>
-                                            <td><%= dataTable[i].trangthaihopdong %></td>
                                             <td>
                                                 <% if (dataTable[i].hinhanh) { %>
                                                 <a href="<%= dataTable[i].hinhanh %>" target="_blank"

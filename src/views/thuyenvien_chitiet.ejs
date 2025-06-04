@@ -337,6 +337,7 @@
                                                     <th>Ngày cấp</th>
                                                     <th>Ngày hết hạn</th>
                                                     <th>File đính kèm</th>
+                                                    <th>Trạng thái</th>
                                                     <th>Thao tác</th>
                                                 </tr>
                                             </thead>
@@ -384,6 +385,29 @@
                                                         Không có file
                                                         <% } %>
                                                     </td>
+
+                                                    <% 
+                                                        let now = new Date();
+                                                        let expiryDate = new Date(ngoainguinfo[i].ngayhethan);
+                                                        let diffDays = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
+                                                        let statusClass = '';
+                                                        let statusText = '';
+
+                                                        if (isNaN(expiryDate)) {
+                                                            statusText = 'Không xác định';
+                                                        } else if (diffDays < 0) {
+                                                            statusClass = 'status-expired';
+                                                            statusText = 'Hết hạn';
+                                                        } else if (diffDays <= 30) {
+                                                            statusClass = 'status-soon-expire';
+                                                            statusText = 'Sắp hết hạn';
+                                                        } else {
+                                                            statusClass = 'status-valid';
+                                                            statusText = 'Còn hạn';
+                                                        }
+                                                    %>
+
+                                                    <td><span class="<%= statusClass %>"><%= statusText %></span></td>
                                                     <td class="text-center">
                                                         <button class="btn btn-sm btn-warning editLanguageBtn"
                                                             data-id="<%= ngoainguinfo[i].id %>"
@@ -437,8 +461,9 @@
                                                     <th>Ngày cấp</th>
                                                     <th>Ngày hết hạn</th>
                                                     <th>Nơi cấp</th>
-                                                    <th>Xếp loại</th>
+                                                    <th>Tiêu chuẩn áp dụng</th>
                                                     <th>File đính kèm</th>
+                                                    <th>Trạng thái</th>
                                                     <th>Thao tác</th>
                                                 </tr>
                                             </thead>
@@ -489,6 +514,30 @@
                                                         Không có file
                                                         <% } %>
                                                     </td>
+                                                    <% 
+                                                        let now = new Date();
+                                                        let expiryDate = new Date(chungchiinfo[i].ngayhethan);
+                                                        let diffDays = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
+                                                        let statusClass = '';
+                                                        let statusText = '';
+
+                                                        if (isNaN(expiryDate)) {
+                                                            statusText = 'Không xác định';
+                                                        } else if (diffDays < 0) {
+                                                            statusClass = 'status-expired';
+                                                            statusText = 'Hết hạn';
+                                                        } else if (diffDays <= 30) {
+                                                            statusClass = 'status-soon-expire';
+                                                            statusText = 'Sắp hết hạn';
+                                                        } else {
+                                                            statusClass = 'status-valid';
+                                                            statusText = 'Còn hạn';
+                                                        }
+                                                    %>
+
+                                                    <td><span class="<%= statusClass %>"><%= statusText %></span></td>
+
+
                                                     <td class="text-center">
                                                         <button class="btn btn-sm btn-warning editCrewCertBtn"
                                                             data-id="<%= chungchiinfo[i].id %>"
@@ -1004,7 +1053,7 @@
                                             <input type="date" class="form-control" name="ngayroitau">
                                         </div>
                                         <div class="form-group">
-                                            <label>Quốc tịch thuyền:</label>
+                                            <label>Quốc tịch thuyền viên đi cùng:</label>
                                             <input type="text" class="form-control" name="quoctich_thuyen">
                                         </div>
                                     </form>

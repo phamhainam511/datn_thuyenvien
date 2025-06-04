@@ -5,7 +5,7 @@ let createNewChungChi = async(data) => {
         try {
             const result = await db.Chungchi.create({
                 tenchungchi: dataUtils.chuanHoaTen(data.tenchungchi),
-                tieuchuanapdung: dataUtils.chuanHoaTen(data.tieuchuanapdung)
+                tieuchuanapdung: data.tieuchuanapdung
             })
             resolve(result);
         }catch (e){
@@ -50,7 +50,7 @@ let updateChungChiData = (data) => {
             await db.Chungchi.update(
                 {
                     tenchungchi: dataUtils.chuanHoaTen(data.tenchungchi),
-                    tieuchuanapdung: dataUtils.chuanHoaTen(data.tieuchuanapdung)
+                    tieuchuanapdung: data.tieuchuanapdung
                 },
                 {
                     where: { id_chungchi: data.id_chungchi }

@@ -59,7 +59,6 @@
                                             <th>Ngày kí</th>
                                             <th>Ngày hết hạn</th>
                                             <th>Ngày thanh lý</th>
-                                            <th>Trạng thái hợp đồng</th>
                                             <th>Hình ảnh</th>
                                         </tr>
 
@@ -93,7 +92,6 @@
                                             <td><%= formatDateDisplay(dataTable[i].ngayky) %></td>
                                             <td><%= formatDateDisplay(dataTable[i].ngayhethan) %></td>
                                             <td><%= formatDateDisplay(dataTable[i].ngaythanhly) %></td>
-                                            <td><%= dataTable[i].trangthaihopdong %></td>
                                             <td>
                                                 <% if (dataTable[i].hinhanh) { %>
                                                 <a href="<%= dataTable[i].hinhanh %>" target="_blank"

@@ -11311,3 +11311,30 @@ body.sidebar-toggled footer.sticky-footer {
   color: white;
   font-weight: bold;
 }
+
+.status-expired {
+  color: #842029;
+  font-weight: bold;
+  background-color: #f5c2c7; /* đỏ hồng nhạt nhưng rõ */
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.status-soon-expire {
+  color: #7a5200;
+  font-weight: bold;
+  background-color: #ffe8a1; /* vàng nhạt vừa phải */
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.status-valid {
+  color: #146c43;
+  font-weight: bold;
+  background-color: #d1e7dd; /* xanh lá pastel dịu */
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+}

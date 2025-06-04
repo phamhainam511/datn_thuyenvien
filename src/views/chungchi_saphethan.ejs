@@ -73,10 +73,7 @@
                                                             <td>
                                                                 <%= cert.ngayhethan %>
                                                             </td>
-                                                            <td
-                                                                class="<%= cert.daysRemaining <= 30 ? 'text-danger' : 'text-warning' %> font-weight-bold">
-                                                                Còn <%= cert.daysRemaining %> ngày
-                                                            </td>
+                                                            <td><span class="<%= cert.daysRemaining <= 30 ? 'status-expired' : 'status-soon-expire' %> ">Còn <%= cert.daysRemaining %> ngày</span></td>
                                                             <td>
                                                                 <a href="javascript:void(0)"
                                                                     class="btn btn-primary btn-sm btn-capnhat-chungchi"
