@@ -1129,11 +1129,14 @@ let getNotificationCounts = async () => {
                 }
             },
         });
+        const totalCount = 
+            (expiringCertificatesCount > 0 ? 1 : 0) +
+            (recentBoardingsCount > 0 ? 1 : 0);
 
         return {
             expiringCertificatesCount,
             recentBoardingsCount,
-            totalCount: expiringCertificatesCount + recentBoardingsCount
+            totalCount
         };
     } catch (error) {
         console.error('Error fetching notification counts:', error);
