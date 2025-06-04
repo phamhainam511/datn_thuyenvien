@@ -34,26 +34,25 @@
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Bảng Lương Thuyền Viên</h1>
                                 </div>
-                                <div class="row align-items-end justify-content-between mb-4">
-                                    <div class="col-md-4 d-flex align-items-center">
-                                        <form action="/danh-sach-bang-luong" method="GET"
-                                            class="d-flex align-items-center">
-                                            <label for="filterMonth" class="form-label fw-semibold text-primary">📅 Chọn
-                                                tháng:</label>
+                                <div class="row justify-content-between align-items-center mb-4">
+                                    <div class="col-md-5">
+                                        <form action="/danh-sach-bang-luong" method="GET" class="form-inline">
+                                            <label for="filterMonth" class="mr-2 font-weight-semibold text-primary d-flex align-items-center">
+                                                <span class="mr-2" style="font-size: 1.2rem;">📅</span> Chọn tháng:
+                                            </label>
                                             <select id="filterMonth" name="keyword"
-                                                class="form-select shadow-sm border-primary"
+                                                class="form-control border border-primary shadow-sm rounded px-3 py-1 ml-2"
                                                 onchange="this.form.submit()">
-                                                <% for(let i=0; i<dataTime.length; i++){ %>
-                                                    <option value="<%= dataTime[i] %>" <%=keyword===dataTime[i]
-                                                        ? 'selected' : '' %>
-                                                        >
-                                                        Tháng <%=dataTime[i] %>
+                                                <% for(let i = 0; i < dataTime.length; i++) { %>
+                                                    <option value="<%= dataTime[i] %>" <%= keyword === dataTime[i] ? 'selected' : '' %>>
+                                                        Tháng <%= dataTime[i] %>
                                                     </option>
-                                                    <% } %>
+                                                <% } %>
                                             </select>
                                         </form>
                                     </div>
                                 </div>
+
 
                                 <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
                                     <li class="nav-item" role="presentation">
