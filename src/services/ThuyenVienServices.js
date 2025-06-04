@@ -259,16 +259,15 @@ let getAllTau = () => {
     });
 }
 
-let getAllChucVu = () => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let vitri = await db.Chucvu.findAll();
-            resolve(vitri);
-        } catch (e) {
-            reject(e);
-        }
-    });
-}
+let getAllChucVu = async () => {
+    try {
+        let vitri = await db.Chucvu.findAll();
+        return vitri;
+    } catch (e) {
+        console.error("Lỗi trong getAllChucVu:", e);
+        return [];
+    }
+};
 
 let getHocVanThuyenVien = (thuyenvien_id) => {
     return new Promise(async (resolve, reject) => {

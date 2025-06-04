@@ -208,6 +208,8 @@ const uploadNewCrewFiles = multer({
 let getAllThuyenVien = async (req, res) => {
     let data = await ThuyenVienServices.getAllThuyenVien();
     let certificates = await ThuyenVienServices.getAllChungChi();
+    let chucvus = await ThuyenVienServices.getAllChucVu();
+    console.log("Danh sách chức vụ:", chucvus);
 
     const waitingCrewIds = data
         .filter(crew => crew.trangthai === 'Đang chờ tàu')
@@ -222,10 +224,12 @@ let getAllThuyenVien = async (req, res) => {
         tv.latestChucVu = await ThuyenVienServices.getLatestChucVu(tv.id_thuyenvien);
         console.log(tv.latestChucVu);
     }
+    console.log("Danh sách chức vụ:", chucvus);
     return res.render('danhsach_thuyenvien.ejs', {
         allThuyenVien: data,
         certificates: certificates,
-        estimatedBoardingTimes: estimatedBoardingTimes
+        estimatedBoardingTimes: estimatedBoardingTimes,
+        chucvus: chucvus
     });
 };
 

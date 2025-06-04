@@ -53,13 +53,13 @@
                                         <div class="table-responsive">
                                             <!-- Bộ lọc tìm kiếm -->
                                             <div class="row mb-3">
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="searchBox">Tìm kiếm theo tên:</label>
                                                     <input type="text" id="searchBox" class="form-control"
                                                         placeholder="Nhập từ khóa">
                                                 </div>
                                                 <!-- Trạng thái -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="statusFilter">Trạng thái:</label>
                                                     <select id="statusFilter" class="form-control">
                                                         <option value="">Tất cả</option>
@@ -69,7 +69,7 @@
                                                     </select>
                                                 </div>
                                                 <!-- Thời gian -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label for="statusFilterTime">Thời gian chờ tàu:</label>
                                                     <select id="statusFilterTime" class="form-control">
                                                         <option value="">Tất cả</option>
@@ -78,8 +78,18 @@
                                                         <option value="Trên 30 ngày">Trên 30 ngày</option>
                                                     </select>
                                                 </div>
+                                                <!-- Chức danh -->
+                                                <div class="col-md-2">
+                                                    <label for="positionFilter">Lọc theo chức danh:</label>
+                                                    <select id="positionFilter" class="form-control">
+                                                        <option value="">Tất cả</option>
+                                                        <% chucvus.forEach(function(chucvu) { %>
+                                                            <option value="<%= chucvu.tenchucvu %>"><%= chucvu.tenchucvu %></option>
+                                                        <% }) %>
+                                                    </select>
+                                                </div>
                                                 <!-- Chứng chỉ -->
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <label for="certificateFilter">Lọc theo chứng chỉ:</label>
                                                     <select id="certificateFilter" class="form-control" multiple>
                                                     </select>
@@ -113,7 +123,7 @@
                                                                 style="cursor: pointer;">
                                                                 <%= allThuyenVien[i].hoten %>
                                                             </td>
-                                                            <td>
+                                                            <td class="position-cell">
                                                                 <%= allThuyenVien[i].latestChucVu ? allThuyenVien[i].latestChucVu : 'Chưa có' %>
                                                             </td>
                                                             <td>
@@ -349,14 +359,14 @@
                         });
 
                         $('#searchBox').keyup(function () {
-                            let selectedStatus = $(this).val();
+                            let selectedStatus = $(this).val().toLowerCase().trim();
 
                             $.fn.dataTable.ext.search.pop();
 
                             if (selectedStatus) {
                                 $.fn.dataTable.ext.search.push(
                                     function (settings, data, dataIndex) {
-                                        let rowStatus = data[2]; 
+                                        let rowStatus = data[2].toLowerCase(); 
 
                                         return rowStatus.includes(selectedStatus);
                                     }
@@ -423,7 +433,20 @@
                             row.style.display = show ? '' : 'none';
                         });
                     });
+                    document.getElementById('positionFilter').addEventListener('change', function () {
+                        const selected = this.value.toLowerCase();
+                        const rows = document.querySelectorAll('tbody tr');
 
+                        rows.forEach(row => {
+                            const positionTd = row.querySelector('.position-cell');
+                            const value = positionTd?.textContent.trim().toLowerCase() || '';
+                            if (!selected || value === selected) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
+                    });
 
                     document.addEventListener('DOMContentLoaded', function () {
                         const urlParams = new URLSearchParams(window.location.search);
